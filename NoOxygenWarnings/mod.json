@@ -1,0 +1,10 @@
+{
+  "Id": "NoOxygenWarnings",
+  "DisplayName": "NoOxygenWarnings",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [],
+  "Enable": true,
+  "AssemblyName": "NoOxygenWarnings.dll",
+  "EntryMethod": "MrPurple.Entry.Patch"
+}

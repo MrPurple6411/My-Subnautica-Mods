@@ -1,0 +1,5 @@
+D:\Code\Subnautica\QMods\NoOxygenWarnings\mod.json
+D:\Code\Subnautica\QMods\NoOxygenWarnings\NoOxygenWarnings.dll
+D:\Code\Subnautica\NoOxygenWarnings\obj\Debug\NoOxygenWarnings.csprojAssemblyReference.cache
+D:\Code\Subnautica\NoOxygenWarnings\obj\Debug\NoOxygenWarnings.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\NoOxygenWarnings\obj\Debug\NoOxygenWarnings.dll
