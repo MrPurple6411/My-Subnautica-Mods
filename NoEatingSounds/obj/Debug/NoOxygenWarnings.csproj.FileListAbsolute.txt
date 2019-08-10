@@ -1,0 +1,5 @@
+D:\Code\Subnautica\QMods\NoEatingSounds\mod.json
+D:\Code\Subnautica\QMods\NoEatingSounds\NoEatingSounds.dll
+D:\Code\Subnautica\NoEatingSounds\obj\Debug\NoEatingSounds.csprojAssemblyReference.cache
+D:\Code\Subnautica\NoEatingSounds\obj\Debug\NoEatingSounds.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\NoEatingSounds\obj\Debug\NoEatingSounds.dll
