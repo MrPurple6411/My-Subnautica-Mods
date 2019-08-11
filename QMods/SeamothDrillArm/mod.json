@@ -1,0 +1,11 @@
+{
+  "Id": "SeamothDrillArm",
+  "DisplayName": "SeamothDrillArm",
+  "Author": "AHK1221, MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [ ],
+  "Enable": true,
+  "AssemblyName": "SeamothDrillArm.dll",
+  "EntryMethod": "SeamothDrillArm.Main.Patch",
+  "Config": {}
+}

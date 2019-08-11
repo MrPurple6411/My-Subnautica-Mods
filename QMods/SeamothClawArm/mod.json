@@ -1,0 +1,11 @@
+{
+  "Id": "SeamothClawArm",
+  "DisplayName": "SeamothClawArm",
+  "Author": "AHK1221, MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [ ],
+  "Enable": true,
+  "AssemblyName": "SeamothClawArm.dll",
+  "EntryMethod": "SeamothClawArm.Main.Patch",
+  "Config": {}
+}
