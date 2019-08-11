@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreSeamothDepth", "MoreSeamothDepth\MoreSeamothDepth.csproj", "{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {531BE86B-33BD-4E7D-B436-D09881D1C0A5}
+	EndGlobalSection
+EndGlobal
