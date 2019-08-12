@@ -177,20 +177,20 @@ namespace SeamothDrillArm.MonoBehaviours
             {
                 num += health[i];
             }
-            drillingVehicle = veh;
+            this.drillingVehicle = veh;
             Vector3 zero = Vector3.zero;
             int num2 = FindClosestMesh(position, out zero);
-            hitObject = renderers[num2].gameObject;
-            timeLastDrilled = Time.time;
+            hitObject = this.renderers[num2].gameObject;
+            this.timeLastDrilled = Time.time;
             if (num > 0f)
             {
                 float num3 = health[num2];
-                health[num2] = Mathf.Max(0f, health[num2] - 5f);
+                this.health[num2] = Mathf.Max(0f, this.health[num2] - 5f);
                 num -= num3 - health[num2];
-                if (num3 > 0f && health[num2] <= 0f)
+                if (num3 > 0f && this.health[num2] <= 0f)
                 {
-                    renderers[num2].gameObject.SetActive(false);
-                    SpawnFX(breakFX, zero);
+                    this.renderers[num2].gameObject.SetActive(false);
+                    this.SpawnFX(breakFX, zero);
                     if (UnityEngine.Random.value < kChanceToSpawnResources)
                     {
                         SpawnLoot(zero);
@@ -198,12 +198,13 @@ namespace SeamothDrillArm.MonoBehaviours
                 }
                 if (num <= 0f)
                 {
-                    SpawnFX(breakAllFX, zero);
+                    base.gameObject.SendMessage("OnBreakResource", null, SendMessageOptions.DontRequireReceiver);
+                    this.SpawnFX(this.breakAllFX, zero);
                     onDrilled.Invoke(drillable);
                     if (deleteWhenDrilled)
                     {
                         float time = (!lootPinataOnSpawn) ? 0f : 6f;
-                        Invoke("DestroySelf", time);
+                        this.Invoke("DestroySelf", time);
                     }
                 }
             }
@@ -214,8 +215,8 @@ namespace SeamothDrillArm.MonoBehaviours
         public void DestroySelf()
         {
             // https://github.com/Vlad-00003/SubnauticaMods/blob/master/LargeDepositsFix/Drillable_DestroySelf_Patch.cs
-            base.SendMessage("OnBreakResource",null, SendMessageOptions.DontRequireReceiver);
-            UnityEngine.Object.Destroy(gameObject);
+            base.gameObject.SendMessage("OnBreakResource",null, SendMessageOptions.DontRequireReceiver);
+            Destroy(gameObject);
         }
 
         public void ClipWithTerrain(ref Vector3 position)

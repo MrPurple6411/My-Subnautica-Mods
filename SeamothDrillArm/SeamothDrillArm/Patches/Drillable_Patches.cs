@@ -88,4 +88,19 @@ namespace SeamothDrillArm.Patches
             return false;
         }
     }
+
+    [HarmonyPatch(typeof(Drillable))]
+    [HarmonyPatch("DestroySelf")]
+    public class Drillable_DestroySelf_Patch
+    {
+        static bool Prefix(Drillable __instance)
+        {
+            // Call the BetterDrillable.ManagedUpdate method
+            var betterDrillable = __instance.GetComponent<BetterDrillable>();
+            betterDrillable.DestroySelf();
+
+            // Return out of original method.
+            return false;
+        }
+    }
 }
