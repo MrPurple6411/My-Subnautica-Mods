@@ -1,1 +1,0 @@
-../../../SennaSubnauticaPlugins/BuilderModule/Properties/AssemblyInfo.cs
