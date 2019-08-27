@@ -42,7 +42,7 @@ namespace SeamothThermal.Patches
                 var energyToAdd = Main.ExosuitThermalReactorCharge.Evaluate(temperature);
 
                 // Add the energy by invoking private method using Reflection.
-                AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime });
+                AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime * (count * count)});
             }
         }
     }

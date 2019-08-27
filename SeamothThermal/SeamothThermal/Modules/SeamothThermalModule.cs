@@ -8,7 +8,7 @@ namespace SeamothThermal.Modules
         public SeamothThermalModule() : 
             base("SeamothThermalModule", 
                 "Seamoth thermal reactor", 
-                "Recharges power cells in hot areas. Doesn't stack.", 
+                "Recharges power cells in hot areas. Stacking Modules Multiples Charge Speed", 
                 CraftTree.Type.SeamothUpgrades, 
                 new string[1] { "SeamothModules" }, 
                 TechType.ExosuitThermalReactorModule, 

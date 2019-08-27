@@ -198,7 +198,7 @@ namespace SeamothDrillArm.MonoBehaviours
                 }
                 if (num <= 0f)
                 {
-                    base.gameObject.SendMessage("OnBreakResource", null, SendMessageOptions.DontRequireReceiver);
+                    this.gameObject.SendMessage("OnBreakResource", null, SendMessageOptions.DontRequireReceiver);
                     this.SpawnFX(this.breakAllFX, zero);
                     onDrilled.Invoke(drillable);
                     if (deleteWhenDrilled)
