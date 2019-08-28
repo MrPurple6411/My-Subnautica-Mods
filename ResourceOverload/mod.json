@@ -1,0 +1,10 @@
+{
+  "Id": "ResourceOverload",
+  "DisplayName": "ResourceOverload",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [],
+  "Enable": true,
+  "AssemblyName": "ResourceOverload.dll",
+  "EntryMethod": "ResourceOverload.Entry.Patch"
+}

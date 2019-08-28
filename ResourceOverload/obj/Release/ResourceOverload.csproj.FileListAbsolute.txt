@@ -1,0 +1,5 @@
+D:\Code\Subnautica\Subnautica-Mods\QMods\ResourceOverload\mod.json
+D:\Code\Subnautica\Subnautica-Mods\QMods\ResourceOverload\ResourceOverload.dll
+D:\Code\Subnautica\Subnautica-Mods\ResourceOverload\obj\Release\ResourceOverload.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\Subnautica-Mods\ResourceOverload\obj\Release\ResourceOverload.dll
+D:\Code\Subnautica\Subnautica-Mods\ResourceOverload\obj\Release\ResourceOverload.csprojAssemblyReference.cache
