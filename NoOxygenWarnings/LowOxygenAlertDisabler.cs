@@ -2,7 +2,7 @@
 using Harmony;
 using UnityEngine;
 
-namespace MrPurple
+namespace NoOxygenWarnings
 {
 
 

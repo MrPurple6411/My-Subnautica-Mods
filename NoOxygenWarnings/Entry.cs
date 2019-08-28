@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using Harmony;
 
-namespace MrPurple
+namespace NoOxygenWarnings
 {
 	public class Entry
 	{
         public static void Patch()
         {
-            var harmony = HarmonyInstance.Create("subnautica.mrpurple.mod");
+            var harmony = HarmonyInstance.Create("MrPurple6411.NoOxygenWarnings");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
