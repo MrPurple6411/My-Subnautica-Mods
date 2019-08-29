@@ -6,5 +6,5 @@
   "Requires": [],
   "Enable": true,
   "AssemblyName": "NoOxygenWarnings.dll",
-  "EntryMethod": "MrPurple.Entry.Patch"
+  "EntryMethod": "NoOxygenWarnings.Entry.Patch"
 }
