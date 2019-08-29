@@ -4,7 +4,7 @@ using Harmony;
 namespace ResourceOverload
 {
     [HarmonyPatch(typeof(CellManager))]
-    [HarmonyPatch("GetPrefabForSlot")]
+    [HarmonyPatch("GetPrefabForSlot", new Type[] { typeof(IEntitySlot)})]
     class IncreaseResourceSpawn
     {
 
