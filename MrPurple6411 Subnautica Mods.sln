@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothThermal", "SeamothTh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceOverload", "ResourceOverload\ResourceOverload.csproj", "{443EC630-9124-4B76-91DE-FE7628C46ED2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveTheSunbeam", "SaveTheSunbeam\SaveTheSunbeam.csproj", "{1188256B-FA04-4FC6-8992-8F8D9165D9AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{443EC630-9124-4B76-91DE-FE7628C46ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{443EC630-9124-4B76-91DE-FE7628C46ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{443EC630-9124-4B76-91DE-FE7628C46ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,5323 @@
+CustomFabricators:
+(
+    ItemID:alterraTieredExchange;
+    Ingredients:
+        (ItemID:Kyanite;Required:2;),
+        (ItemID:ComputerChip;Required:1;),
+        (ItemID:lithiumionbattery;Required:1;),
+        (ItemID:Lead;Required:1;);
+    ForceUnlockAtStart:NO;
+    UnlockedBy:rocketbase;
+    PdaGroup:InteriorModules;
+    PdaCategory:InteriorModule;
+    DisplayName:" Alterra Exchange Program";
+    Tooltip:"Please remember all materials gathered are property of Alterra. You will still be expected to reimburse Alterra for any Materials you receive from exchange.";
+    Model:MoonPool;
+    ColorTint: 1, 0, 0, 1;
+    AllowedInBase:YES;
+    AllowedInCyclops:YES;
+    CustomCraftingTabs:
+        
+(
+    TabID: RegExchange;
+    DisplayName: "Exchange";
+    SpriteItemID: titanium;
+    ParentTabPath: alterraTieredExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),        
+(
+    TabID: BulkExchange;
+    DisplayName: "Bulk Exchange";
+    SpriteItemID: titaniumingot;
+    ParentTabPath: alterraTieredExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),        
+(
+    TabID: TIERI;
+    DisplayName: "Tier I Exchange";
+    SpriteItemID: titanium;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: TIERII;
+    DisplayName: "Tier II Exchange";
+    SpriteItemID: copper;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: TIERIII;
+    DisplayName: "Tier III Exchange";
+    SpriteItemID: silver;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),(
+    TabID: TIERIV;
+    DisplayName: "Tier IV Exchange";
+    SpriteItemID: gold;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: TIERV;
+    DisplayName: "Tier V Exchange";
+    SpriteItemID: diamond;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: TIERVI;
+    DisplayName: "Tier VI Exchange";
+    SpriteItemID: uraninitecrystal;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: TIERVII;
+    DisplayName: "Tier VII Exchange";
+    SpriteItemID: kyanite;
+    ParentTabPath: alterraTieredExchange/RegExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERI;
+    DisplayName: "Tier I Exchange";
+    SpriteItemID: titanium;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERII;
+    DisplayName: "Tier II Exchange";
+    SpriteItemID: copper;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERIII;
+    DisplayName: "Tier III Exchange";
+    SpriteItemID: silver;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),(
+    TabID:BULKTIERIV;
+    DisplayName: "Tier IV Exchange";
+    SpriteItemID: gold;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERV;
+    DisplayName: "Tier V Exchange";
+    SpriteItemID: diamond;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERVI;
+    DisplayName: "Tier VI Exchange";
+    SpriteItemID: uraninitecrystal;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID:BULKTIERVII;
+    DisplayName: "Tier VII Exchange";
+    SpriteItemID: kyanite;
+    ParentTabPath: alterraTieredExchange/BulkExchange; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangetitanium;
+    DisplayName: "Titanium";
+    SpriteItemID: titanium;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangelithium;
+    DisplayName: "Lithium";
+    SpriteItemID: lithium;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangediamond;
+    DisplayName: "Diamond";
+    SpriteItemID: diamond;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangesalt;
+    DisplayName: "Salt";
+    SpriteItemID: salt;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangeuraninitecrystal;
+    DisplayName: "Uraninite";
+    SpriteItemID: uraninitecrystal;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangealuminumoxide;
+    DisplayName: "Ruby";
+    SpriteItemID: aluminumoxide;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangequartz;
+    DisplayName: "Quartz";
+    SpriteItemID: quartz;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangecrashpowder;
+    DisplayName: "Cave Sulfer";
+    SpriteItemID: crashpowder;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangekyanite;
+    DisplayName: "Kyanite";
+    SpriteItemID: kyanite;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERVII;
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangesulphur;
+    DisplayName: "Crystalline Sulfur";
+    SpriteItemID: sulphur;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangecoralchunk;
+    DisplayName: "Coral Tube Sample";
+    SpriteItemID: coralchunk;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangejeweleddiskpiece;
+    DisplayName: "Table Coral Sample";
+    SpriteItemID: jeweleddiskpiece;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangeacidmushroom;
+    DisplayName: "Acid Mushroom";
+    SpriteItemID: acidmushroom;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangewhitemushroom;
+    DisplayName: "Deep Shroom";
+    SpriteItemID: whitemushroom;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangebloodoil;
+    DisplayName: "Bloodoil";
+    SpriteItemID: bloodoil;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERIV;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangecreepvineseedcluster;
+    DisplayName: "Creep Vine Seed Cluster";
+    SpriteItemID: creepvineseedcluster;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERII;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangecreepvinepiece;
+    DisplayName: "Creepvine Sample";
+    SpriteItemID: creepvinepiece;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangelead;
+    DisplayName: "Lead";
+    SpriteItemID: lead;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangecopper;
+    DisplayName: "Copper";
+    SpriteItemID: copper;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangegold;
+    DisplayName: "Gold";
+    SpriteItemID: gold;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERIV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangesilver;
+    DisplayName: "Silver";
+    SpriteItemID: silver;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangemagnetite;
+    DisplayName: "Magnetite";
+    SpriteItemID: magnetite;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangejellyplant;
+    DisplayName: "Gel Sack";
+    SpriteItemID: jellyplant;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: exchangenickel;
+    DisplayName: "Nickel Ore";
+    SpriteItemID: nickel;
+    ParentTabPath: alterraTieredExchange/RegExchange/TIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulktitanium;
+    DisplayName: "Titanium";
+    SpriteItemID: titanium;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulklithium;
+    DisplayName: "Lithium";
+    SpriteItemID: lithium;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkdiamond;
+    DisplayName: "Diamond";
+    SpriteItemID: diamond;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulksalt;
+    DisplayName: "Salt";
+    SpriteItemID: salt;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkuraninitecrystal;
+    DisplayName: "Uraninite";
+    SpriteItemID: uraninitecrystal;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkaluminumoxide;
+    DisplayName: "Ruby";
+    SpriteItemID: aluminumoxide;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkquartz;
+    DisplayName: "Quartz";
+    SpriteItemID: quartz;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkcrashpowder;
+    DisplayName: "Cave Sulfer";
+    SpriteItemID: crashpowder;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkkyanite;
+    DisplayName: "Kyanite";
+    SpriteItemID: kyanite;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERVII;
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulksulphur;
+    DisplayName: "Crystalline Sulfur";
+    SpriteItemID: sulphur;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkcoralchunk;
+    DisplayName: "Coral Tube Sample";
+    SpriteItemID: coralchunk;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkjeweleddiskpiece;
+    DisplayName: "Table Coral Sample";
+    SpriteItemID: jeweleddiskpiece;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkacidmushroom;
+    DisplayName: "Acid Mushroom";
+    SpriteItemID: acidmushroom;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkwhitemushroom;
+    DisplayName: "Deep Shroom";
+    SpriteItemID: whitemushroom;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkbloodoil;
+    DisplayName: "Bloodoil";
+    SpriteItemID: bloodoil;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERIV;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkcreepvineseedcluster;
+    DisplayName: "Creep Vine Seed Cluster";
+    SpriteItemID: creepvineseedcluster;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERII;  
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkcreepvinepiece;
+    DisplayName: "Creepvine Sample";
+    SpriteItemID: creepvinepiece;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulklead;
+    DisplayName: "Lead";
+    SpriteItemID: lead;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkcopper;
+    DisplayName: "Copper";
+    SpriteItemID: copper;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkgold;
+    DisplayName: "Gold";
+    SpriteItemID: gold;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERIV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulksilver;
+    DisplayName: "Silver";
+    SpriteItemID: silver;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkmagnetite;
+    DisplayName: "Magnetite";
+    SpriteItemID: magnetite;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERV; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulkjellyplant;
+    DisplayName: "Gel Sack";
+    SpriteItemID: jellyplant;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERIII; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+),
+(
+    TabID: bulknickel;
+    DisplayName: "Nickel Ore";
+    SpriteItemID: nickel;
+    ParentTabPath: alterraTieredExchange/BulkExchange/BULKTIERVI; 
+    # Remember that icons get smaller as the crafting tree goes deeper. #
+);
+        
+  AliasRecipes:
+#######################TIERI#######################
+(
+    ItemID: exchange1;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 1;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangeacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:acidmushroom,titanium,crashpowder,coralchunk,creepvinepiece,salt;
+         Unlocks:bulkexchange1,exchange2,exchange3,exchange4,exchange5,exchange6,exchange7,exchange8,exchange9,exchange10,exchange11,exchange12,exchange13,exchange14,exchange15,exchange16,exchange17,exchange18,exchange19,exchange20,exchange21,exchange22,exchange23,exchange24,exchange25,exchange26,exchange27,exchange28,exchange29,exchange30;
+),
+(
+    ItemID: exchange2;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 1;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangeacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange3;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 1;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangeacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange4;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 1;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangeacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange5;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 1;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangeacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange6;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 1;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange7;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 1;
+    );
+    SpriteItemID:coralchunk;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange8;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 1;
+    );
+    SpriteItemID:salt;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange9;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 1;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange10;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 1;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange11;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 1;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange12;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 1;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange13;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 1;
+    );
+    SpriteItemID:crashpowder;    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange14;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 1;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange15;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 1;
+    );
+    SpriteItemID:salt;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange16;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 1;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange17;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 1;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange18;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 1;
+    );
+    SpriteItemID:coralchunk;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange19;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 1;
+    );
+    SpriteItemID:crashpowder;    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange20;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 1;
+    );
+    SpriteItemID:salt;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangecreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange21;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 1;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangesalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange22;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 1;
+    );
+    SpriteItemID:crashpowder;    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangesalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange23;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 1;
+    );
+    SpriteItemID:coralchunk;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangesalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange24;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 1;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangesalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange25;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 1;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangesalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange26;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 1;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangetitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange27;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 1;
+    );
+    SpriteItemID:salt;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangetitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange28;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 1;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangetitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange29;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 1;
+    );
+    SpriteItemID:coralchunk;
+    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangetitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+(
+    ItemID: exchange30;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 1;
+    );
+    SpriteItemID:crashpowder;    
+    Path: alterraTieredExchange/RegExchange/TIERI/exchangetitanium;
+   ForceUnlockAtStart:NO;     
+         UnlockedBy:exchange1;
+),
+
+#######################TIERII#######################
+
+(
+    ItemID: exchange31;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 2;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:copper,creepvineseedcluster,whitemushroom,quartz,jeweleddiskpiece;
+     Unlocks:bulkexchange31,exchange32,exchange33,exchange34,exchange35,exchange36,exchange37,exchange38,exchange39,exchange40,exchange41,exchange42,exchange43,exchange44,exchange45,exchange46,exchange47,exchange48,exchange49,exchange50,exchange51,exchange52,exchange53,exchange54,exchange55,exchange56,exchange57,exchange58,exchange59,exchange60,exchange61,exchange62,exchange63,exchange64,exchange65,exchange66,exchange67,exchange68,exchange69,exchange70,exchange71,exchange72,exchange73,exchange74,exchange75,exchange76,exchange77,exchange78,exchange79,exchange80;
+),
+(
+    ItemID: exchange32;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 1;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange33;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 2;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange34;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 1;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange35;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 2;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange36;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 1;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange37;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 2;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange38;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 1;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange39;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 2;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange40;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 2;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange41;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 2;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange42;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 1;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange43;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 1;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange44;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 2;
+    );
+    SpriteItemID:acidmushroom;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange45;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 1;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange46;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 2;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange47;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 1;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange48;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 2;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange49;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 2;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange50;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 2;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangecreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange51;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 2;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange52;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 1;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange53;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 2;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange54;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 2;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange55;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 1;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange56;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 2;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange57;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 1;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange58;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 1;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange59;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 2;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange60;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 2;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangewhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange61;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 2;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange62;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 1;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange63;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 2;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange64;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 1;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange65;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 2;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange66;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 2;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange67;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 2;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange68;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 2;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange69;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 1;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange70;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 1;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangequartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange71;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 2;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange72;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 1;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange73;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 2;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange74;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 1;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange75;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 1;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+
+(
+    ItemID: exchange76;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 2;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange77;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 2;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange78;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 2;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange79;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 2;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+(
+    ItemID: exchange80;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 1;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERII/exchangejeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange31;
+),
+
+#######################TIERIII#######################
+
+(
+    ItemID: exchange81;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 2;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:jellyplant,lead,silver;
+     Unlocks:bulkexchange81,exchange82,exchange83,exchange84,exchange85,exchange86,exchange87,exchange88,exchange89,exchange90,exchange91,exchange92,exchange93,exchange94,exchange95,exchange96,exchange97,exchange98,exchange99,exchange100,exchange101;
+),
+(
+    ItemID: exchange82;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 1;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange83;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 2;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange84;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 2;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange85;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 2;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange86;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 2;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange87;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 1;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangejellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange88;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 2;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange89;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 1;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange90;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 2;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange91;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 2;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange92;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 2;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange93;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 2;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange94;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 1;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangelead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange95;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:silver;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 2;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange96;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 1;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange97;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 1;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange98;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 2;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange99;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 2;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange100;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 2;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+(
+    ItemID: exchange101;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 2;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/RegExchange/TIERIII/exchangesilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange81;
+),
+
+#######################TIERIV#######################
+
+(
+    ItemID: exchange102;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 2;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangebloodoil;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bloodoil,gold;
+         Unlocks:bulkexchange102,exchange103,exchange104,exchange105,exchange106,exchange107,exchange108,exchange109;
+),
+(
+    ItemID: exchange103;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 1;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangebloodoil;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange104;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 2;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangebloodoil;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange105;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 2;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangebloodoil;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange106;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 2;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangegold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange107;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 2;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangegold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange108;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 2;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangegold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange102;
+),
+(
+    ItemID: exchange109;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 1;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/RegExchange/TIERIV/exchangegold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange102;
+),
+
+#######################TIERV#######################
+
+(
+    ItemID: exchange110;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 2;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangediamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:diamond,lithium,magnetite;
+     Unlocks:bulkexchange110,exchange111,exchange112,exchange113,exchange114,exchange115,exchange116,exchange117,exchange118,exchange119,exchange120,exchange121;
+),
+(
+    ItemID: exchange111;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 1;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangediamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange112;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 2;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangediamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange113;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 1;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangediamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange114;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 2;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangelithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange115;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 2;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangelithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange116;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 1;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangelithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange117;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 1;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangelithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange118;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 2;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangemagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange119;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 2;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangemagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange120;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 1;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangemagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+(
+    ItemID: exchange121;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 1;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERV/exchangemagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange110;
+),
+
+#######################TIERVI#######################
+
+(
+    ItemID: exchange122;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 1;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:uraninitecrystal,aluminumoxide,nickel,sulphur;
+     Unlocks:bulkexchange122,exchange123,exchange124,exchange125,exchange126,exchange127,exchange128,exchange129,exchange130,exchange131,exchange132,exchange133,exchange134,exchange135,exchange136,exchange137,exchange138,exchange139,exchange140,exchange141,exchange142,exchange143,exchange144,exchange145;
+),
+(
+    ItemID: exchange123;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 1;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange124;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 1;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange125;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 2;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange126;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 2;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange127;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 2;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangesulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange128;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 2;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange129;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 2;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange130;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 2;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange131;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 1;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange132;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 1;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange133;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 1;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangenickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange134;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 2;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange135;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 2;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange136;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 2;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange137;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 1;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange138;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 1;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange139;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 1;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangealuminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange140;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 2;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange141;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 2;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange142;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 2;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange143;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 1;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange144;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 1;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+   ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+(
+    ItemID: exchange145;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 1;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/RegExchange/TIERVI/exchangeuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange122;
+),
+
+#######################TIERVII#######################
+
+(
+    ItemID: exchange146;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 2;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/RegExchange/TIERVII/exchangekyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:kyanite;
+     Unlocks:bulkexchange146,exchange147,exchange148,exchange149;
+),
+(
+    ItemID: exchange147;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 2;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/RegExchange/TIERVII/exchangekyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+),
+(
+    ItemID: exchange148;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 2;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/RegExchange/TIERVII/exchangekyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+),
+(
+    ItemID: exchange149;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 2;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/RegExchange/TIERVII/exchangekyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+),
+#############TIERI#############
+(
+    ItemID: bulkexchange1;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom,acidmushroom,acidmushroom,acidmushroom,acidmushroom;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 5;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange146;
+         Unlocks:bulkexchange2,bulkexchange3,bulkexchange4,bulkexchange5,bulkexchange6,bulkexchange7,bulkexchange8,bulkexchange9,bulkexchange10,bulkexchange11,bulkexchange12,bulkexchange13,bulkexchange14,bulkexchange15,bulkexchange16,bulkexchange17,bulkexchange18,bulkexchange19,bulkexchange20,bulkexchange21,bulkexchange22,bulkexchange23,bulkexchange24,bulkexchange25,bulkexchange26,bulkexchange27,bulkexchange28,bulkexchange29,bulkexchange30;
+),
+(
+    ItemID: bulkexchange2;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom,acidmushroom,acidmushroom,acidmushroom,acidmushroom;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 5;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange3;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom,acidmushroom,acidmushroom,acidmushroom,acidmushroom;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 5;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange4;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom,acidmushroom,acidmushroom,acidmushroom,acidmushroom;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 5;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange5;
+    DisplayName: "Alterra Exchanged Acid Mushroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:acidmushroom,acidmushroom,acidmushroom,acidmushroom,acidmushroom;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 5;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkacidmushroom;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange6;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder,crashpowder,crashpowder,crashpowder,crashpowder;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 5;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange7;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder,crashpowder,crashpowder,crashpowder,crashpowder;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 5;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange8;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder,crashpowder,crashpowder,crashpowder,crashpowder;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 5;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange9;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder,crashpowder,crashpowder,crashpowder,crashpowder;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange10;
+    DisplayName: "Alterra Exchanged Cave Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:crashpowder,crashpowder,crashpowder,crashpowder,crashpowder;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 5;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcrashpowder;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange11;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk,coralchunk,coralchunk,coralchunk,coralchunk;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 5;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange12;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk,coralchunk,coralchunk,coralchunk,coralchunk;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 5;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange13;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk,coralchunk,coralchunk,coralchunk,coralchunk;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 5;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange14;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk,coralchunk,coralchunk,coralchunk,coralchunk;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange15;
+    DisplayName: "Alterra Exchanged Coral Tube Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:coralchunk,coralchunk,coralchunk,coralchunk,coralchunk;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 5;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcoralchunk;
+     ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange16;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 5;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange17;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange18;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 5;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange19;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 5;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange20;
+    DisplayName: "Alterra Exchanged Creepvine Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece,creepvinepiece;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 5;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulkcreepvinepiece;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange21;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt,salt,salt,salt,salt;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulksalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange22;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt,salt,salt,salt,salt;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 5;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulksalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange23;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt,salt,salt,salt,salt;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulksalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange24;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt,salt,salt,salt,salt;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 5;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulksalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange25;
+    DisplayName: "Alterra Exchanged Salt";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:salt,salt,salt,salt,salt;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 5;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulksalt;
+     ForceUnlockAtStart:NO;    
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange26;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium,titanium,titanium,titanium,titanium;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 5;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulktitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange27;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium,titanium,titanium,titanium,titanium;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 5;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulktitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange28;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium,titanium,titanium,titanium,titanium;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 5;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulktitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange29;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium,titanium,titanium,titanium,titanium;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 5;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulktitanium;
+    ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+(
+    ItemID: bulkexchange30;
+    DisplayName: "Alterra Exchanged Titanium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:titanium,titanium,titanium,titanium,titanium;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 5;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERI/bulktitanium;
+   ForceUnlockAtStart:NO;     
+         UnlockedBy:bulkexchange1;
+),
+
+#######################TIERII#######################
+
+(
+    ItemID: bulkexchange31;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 10;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange146;
+     Unlocks:bulkexchange32,bulkexchange33,bulkexchange34,bulkexchange35,bulkexchange36,bulkexchange37,bulkexchange38,bulkexchange39,bulkexchange40,bulkexchange41,bulkexchange42,bulkexchange43,bulkexchange44,bulkexchange45,bulkexchange46,bulkexchange47,bulkexchange48,bulkexchange49,bulkexchange50,bulkexchange51,bulkexchange52,bulkexchange53,bulkexchange54,bulkexchange55,bulkexchange56,bulkexchange57,bulkexchange58,bulkexchange59,bulkexchange60,bulkexchange61,bulkexchange62,bulkexchange63,bulkexchange64,bulkexchange65,bulkexchange66,bulkexchange67,bulkexchange68,bulkexchange69,bulkexchange70,bulkexchange71,bulkexchange72,bulkexchange73,bulkexchange74,bulkexchange75,bulkexchange76,bulkexchange77,bulkexchange78,bulkexchange79,bulkexchange80;
+),
+(
+    ItemID: bulkexchange32;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 5;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange33;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 10;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange34;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 5;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange35;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 10;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange36;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 5;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange37;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 10;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange38;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 5;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange39;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 10;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange40;
+    DisplayName: "Alterra Exchanged Copper";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Copper,Copper,Copper,Copper,Copper;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 10;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcopper;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange41;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 10;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange42;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 5;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange43;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 5;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange44;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 10;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange45;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 5;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange46;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 10;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange47;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 5;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange48;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 10;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange49;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 10;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange50;
+    DisplayName: "Alterra Exchanged Creepvine Seed Cluster";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster,creepvineseedcluster;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 10;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkcreepvineseedcluster;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange51;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 10;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange52;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 5;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange53;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 10;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange54;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 10;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange55;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 5;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange56;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 10;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange57;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 5;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange58;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 5;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange59;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 10;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange60;
+    DisplayName: "Alterra Exchanged Deep Shroom";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:whitemushroom,whitemushroom,whitemushroom,whitemushroom,whitemushroom;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 10;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkwhitemushroom;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange61;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 10;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange62;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 5;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange63;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 10;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange64;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 5;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange65;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 10;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange66;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 10;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange67;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 10;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange68;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 10;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange69;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 5;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange70;
+    DisplayName: "Alterra Exchanged Quartz";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:quartz,quartz,quartz,quartz,quartz;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 5;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkquartz;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange71;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: titanium;
+        Required: 10;
+    );
+    SpriteItemID:titanium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange72;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 5;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange73;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: creepvinepiece;
+        Required: 10;
+    );
+    SpriteItemID:creepvinepiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange74;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 5;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange75;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 5;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+
+(
+    ItemID: bulkexchange76;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: coralchunk;
+        Required: 10;
+    );
+    SpriteItemID:coralchunk;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange77;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: crashpowder;
+        Required: 10;
+    );
+    SpriteItemID:crashpowder;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange78;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: acidmushroom;
+        Required: 10;
+    );
+    SpriteItemID:acidmushroom;
+    
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange79;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: salt;
+        Required: 10;
+    );
+    SpriteItemID:salt;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+(
+    ItemID: bulkexchange80;
+    DisplayName: "Alterra Exchanged Table Coral Sample";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece,jeweleddiskpiece;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 5;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERII/bulkjeweleddiskpiece;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange31;
+),
+
+#######################TIERIII#######################
+
+(
+    ItemID: bulkexchange81;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 10;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+     Unlocks:bulkexchange82,bulkexchange83,bulkexchange84,bulkexchange85,bulkexchange86,bulkexchange87,bulkexchange88,bulkexchange89,bulkexchange90,bulkexchange91,bulkexchange92,bulkexchange93,bulkexchange94,bulkexchange95,bulkexchange96,bulkexchange97,bulkexchange98,bulkexchange99,bulkexchange100,bulkexchange101;
+),
+(
+    ItemID: bulkexchange82;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 5;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange83;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 10;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange84;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 10;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange85;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 10;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange86;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 10;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange87;
+    DisplayName: "Alterra Exchanged Gel Sack";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:jellyplant,jellyplant,jellyplant,jellyplant,jellyplant;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 5;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulkjellyplant;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange88;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 10;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange89;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 5;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange90;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 10;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange91;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 10;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange92;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 10;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange93;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 10;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange94;
+    DisplayName: "Alterra Exchanged Lead";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Lead,Lead,Lead,Lead,Lead;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 5;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulklead;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange95;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: copper;
+        Required: 10;
+    );
+    SpriteItemID:copper;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange96;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 5;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange97;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 5;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange98;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: creepvineseedcluster;
+        Required: 10;
+    );
+    SpriteItemID:creepvineseedcluster;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange99;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: whitemushroom;
+        Required: 10;
+    );
+    SpriteItemID:whitemushroom;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange100;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: jeweleddiskpiece;
+        Required: 10;
+    );
+    SpriteItemID:jeweleddiskpiece;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+(
+    ItemID: bulkexchange101;
+    DisplayName: "Alterra Exchanged Silver";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Silver,silver,silver,silver,silver;
+    Ingredients: 
+    (
+        ItemID: quartz;
+        Required: 10;
+    );
+    SpriteItemID:quartz;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIII/bulksilver;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange81;
+),
+
+#######################TIERIV#######################
+
+(
+    ItemID: bulkexchange102;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil,bloodoil,bloodoil,bloodoil,bloodoil;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 10;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkbloodoil;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:exchange146;
+         Unlocks:bulkexchange103,bulkexchange104,bulkexchange105,bulkexchange106,bulkexchange107,bulkexchange108,bulkexchange109;
+),
+(
+    ItemID: bulkexchange103;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil,bloodoil,bloodoil,bloodoil,bloodoil;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 5;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkbloodoil;
+         ForceUnlockAtStart:NO;
+         UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange104;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil,bloodoil,bloodoil,bloodoil,bloodoil;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 10;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkbloodoil;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange105;
+    DisplayName: "Alterra Exchanged Blood Oil";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:bloodoil,bloodoil,bloodoil,bloodoil,bloodoil;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 10;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkbloodoil;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange106;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold,Gold,Gold,Gold,Gold;
+    Ingredients: 
+    (
+        ItemID: lead;
+        Required: 10;
+    );
+    SpriteItemID:lead;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkgold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange107;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold,Gold,Gold,Gold,Gold;
+    Ingredients: 
+    (
+        ItemID: silver;
+        Required: 10;
+    );
+    SpriteItemID:silver;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkgold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange108;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold,Gold,Gold,Gold,Gold;
+    Ingredients: 
+    (
+        ItemID: jellyplant;
+        Required: 10;
+    );
+    SpriteItemID:jellyplant;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkgold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange102;
+),
+(
+    ItemID: bulkexchange109;
+    DisplayName: "Alterra Exchanged Gold";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Gold,Gold,Gold,Gold,Gold;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 5;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERIV/bulkgold;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange102;
+),
+
+#######################TIERV#######################
+
+(
+    ItemID: bulkexchange110;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond,diamond,diamond,diamond,diamond;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 10;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkdiamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+     Unlocks:bulkexchange111,bulkexchange112,bulkexchange113,bulkexchange114,bulkexchange115,bulkexchange116,bulkexchange117,bulkexchange118,bulkexchange119,bulkexchange120,bulkexchange121;
+),
+(
+    ItemID: bulkexchange111;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond,diamond,diamond,diamond,diamond;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 5;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkdiamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange112;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond,diamond,diamond,diamond,diamond;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 10;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkdiamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange113;
+    DisplayName: "Alterra Exchanged Diamond";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:diamond,diamond,diamond,diamond,diamond;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 5;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkdiamond;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange114;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium,lithium,lithium,lithium,lithium;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 10;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulklithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange115;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium,lithium,lithium,lithium,lithium;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 10;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulklithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange116;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium,lithium,lithium,lithium,lithium;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 5;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulklithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange117;
+    DisplayName: "Alterra Exchanged Lithium";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:lithium,lithium,lithium,lithium,lithium;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 5;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulklithium;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange118;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite,Magnetite,Magnetite,Magnetite,Magnetite;
+    Ingredients: 
+    (
+        ItemID: gold;
+        Required: 10;
+    );
+    SpriteItemID:gold;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkmagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange119;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite,Magnetite,Magnetite,Magnetite,Magnetite;
+    Ingredients: 
+    (
+        ItemID: bloodoil;
+        Required: 10;
+    );
+    SpriteItemID:bloodoil;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkmagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange120;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite,Magnetite,Magnetite,Magnetite,Magnetite;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 5;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkmagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+(
+    ItemID: bulkexchange121;
+    DisplayName: "Alterra Exchanged Magnetite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:Magnetite,Magnetite,Magnetite,Magnetite,Magnetite;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 5;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERV/bulkmagnetite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange110;
+),
+
+#######################TIERVI#######################
+
+(
+    ItemID: bulkexchange122;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 5;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:exchange146;
+     Unlocks:bulkexchange123,bulkexchange124,bulkexchange125,bulkexchange126,bulkexchange127,bulkexchange128,bulkexchange129,bulkexchange130,bulkexchange131,bulkexchange132,bulkexchange133,bulkexchange134,bulkexchange135,bulkexchange136,bulkexchange137,bulkexchange138,bulkexchange139,bulkexchange140,bulkexchange141,bulkexchange142,bulkexchange143,bulkexchange144,bulkexchange145;
+),
+(
+    ItemID: bulkexchange123;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 5;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange124;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 5;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange125;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 10;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange126;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 10;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange127;
+    DisplayName: "Alterra Exchanged Crystalline Sulfur";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:sulphur,sulphur,sulphur,sulphur,sulphur;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 10;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulksulphur;
+     ForceUnlockAtStart:NO;    
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange128;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 10;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange129;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 10;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange130;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 10;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange131;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 5;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange132;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 5;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange133;
+    DisplayName: "Alterra Exchanged Nickel Ore";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:nickel,nickel,nickel,nickel,nickel;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 5;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulknickel;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange134;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 10;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange135;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 10;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange136;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 10;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange137;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 5;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange138;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 5;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange139;
+    DisplayName: "Alterra Exchanged Ruby";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide,aluminumoxide;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 5;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkaluminumoxide;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange140;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: diamond;
+        Required: 10;
+    );
+    SpriteItemID:diamond;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange141;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: lithium;
+        Required: 10;
+    );
+    SpriteItemID:lithium;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange142;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: magnetite;
+        Required: 10;
+    );
+    SpriteItemID:magnetite;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange143;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 5;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange144;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 5;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+   ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+(
+    ItemID: bulkexchange145;
+    DisplayName: "Alterra Exchanged Uraninite Crystal";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal,uraninitecrystal;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 5;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVI/bulkuraninitecrystal;
+    ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange122;
+),
+
+#######################TIERVII#######################
+
+(
+    ItemID: bulkexchange146;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite,kyanite,kyanite,kyanite,kyanite;
+    Ingredients: 
+    (
+        ItemID: nickel;
+        Required: 10;
+    );
+    SpriteItemID:nickel;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVII/bulkkyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:exchange146;
+     Unlocks:bulkexchange147,bulkexchange148,bulkexchange149;
+),
+(
+    ItemID: bulkexchange147;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite,kyanite,kyanite,kyanite,kyanite;
+    Ingredients: 
+    (
+        ItemID: sulphur;
+        Required: 10;
+    );
+    SpriteItemID:sulphur;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVII/bulkkyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange146;
+),
+(
+    ItemID: bulkexchange148;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite,kyanite,kyanite,kyanite,kyanite;
+    Ingredients: 
+    (
+        ItemID: uraninitecrystal;
+        Required: 10;
+    );
+    SpriteItemID:uraninitecrystal;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVII/bulkkyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange146;
+),
+(
+    ItemID: bulkexchange149;
+    DisplayName: "Alterra Exchanged Kyanite";
+    Tooltip: "sent resources to exchange for others";
+    AmountCrafted: 0;
+    LinkedItemIDs:kyanite,kyanite,kyanite,kyanite,kyanite;
+    Ingredients: 
+    (
+        ItemID: aluminumoxide;
+        Required: 10;
+    );
+    SpriteItemID:aluminumoxide;
+    Path: alterraTieredExchange/BulkExchange/BULKTIERVII/bulkkyanite;
+     ForceUnlockAtStart:NO;     
+     UnlockedBy:bulkexchange146;
+);
+
+#######################END OF FILE#######################
+
+);
+
