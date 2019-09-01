@@ -22,7 +22,6 @@ namespace SaveTheSunbeam
                 {
                     __instance.sunbeamEvent1.Trigger();
                     key = "nope";
-                    Console.WriteLine("MrPurple6411");
                 }
             }
             if (string.Equals(key, "SunbeamCheckPlayerRange", StringComparison.OrdinalIgnoreCase))
@@ -41,7 +40,6 @@ namespace SaveTheSunbeam
                         UWE.Utils.LogReport("VFXSunbeam.main can not be found", null);
                     }
                     key = "nope";
-                    Console.WriteLine("MrPurple6411");
                 }
             }
         }
