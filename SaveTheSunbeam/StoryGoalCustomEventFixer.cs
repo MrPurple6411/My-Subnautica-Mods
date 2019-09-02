@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using Gendarme;
-using mset;
-using Story;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Harmony;
@@ -30,10 +26,11 @@ namespace SaveTheSunbeam
                 {
                     MonoBehaviour main = __instance;
                     __instance.countdownActive = false;
-                    main.Invoke("StartSunbeamShootdownFX", 12f);
+                    main.Invoke("StartSunbeamShootdownFX", 26f);
                     if (VFXSunbeam.main != null)
                     {
                         VFXSunbeam.main.PlaySFX();
+                        VFXSunbeam.main.PlaySequence();
                     }
                     else
                     {

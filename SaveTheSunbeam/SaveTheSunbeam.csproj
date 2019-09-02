@@ -56,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrecursorGunStoryEventsFixer.cs" />
+    <Compile Include="VFXSunbeamFixer.cs" />
     <Compile Include="StoryGoalCustomEventFixer.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

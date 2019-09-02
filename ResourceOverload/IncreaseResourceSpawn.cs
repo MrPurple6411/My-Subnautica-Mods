@@ -18,7 +18,7 @@ namespace ResourceOverload
                 __result = default(EntitySlot.Filler);
                 result = false;
             }
-            else if (slot.IsCreatureSlot() && Player.main.GetDepth() <= 500)
+            else if (slot.IsCreatureSlot() && (Player.main.GetDepth() <= 500 || Player.main.GetDepth() >= 1000))
             {
 
 
@@ -27,10 +27,10 @@ namespace ResourceOverload
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
                 }
-                while (string.IsNullOrEmpty(__result.classId) && num < 100);
+                while (string.IsNullOrEmpty(__result.classId) && num < 10);
                 result = false;
             }
-            else if (slot.IsCreatureSlot() && Player.main.GetDepth() > 500 && Player.main.GetDepth() <= 1000)
+            else if (slot.IsCreatureSlot() && Player.main.GetDepth() > 500 && Player.main.GetDepth() < 1000)
             {
 
 
@@ -42,16 +42,6 @@ namespace ResourceOverload
                 while (string.IsNullOrEmpty(__result.classId) && num < 2);
                 result = false;
             }
-            else if (slot.IsCreatureSlot() && Player.main.GetDepth() > 1000)
-            {
-                do
-                {
-                    num++;
-                    __result = __instance.spawner.GetPrefabForSlot(slot, true);
-                }
-                while (string.IsNullOrEmpty(__result.classId) && num < 10);
-                result = false;
-            }
             else
             {
                 do
@@ -59,7 +49,7 @@ namespace ResourceOverload
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
                 }
-                while (string.IsNullOrEmpty(__result.classId) && num < 100);
+                while (string.IsNullOrEmpty(__result.classId) && num < 1000);
                 result = false;
             }
             return result;
