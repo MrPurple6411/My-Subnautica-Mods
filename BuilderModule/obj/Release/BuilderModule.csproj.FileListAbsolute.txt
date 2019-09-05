@@ -1,0 +1,12 @@
+C:\Games\SteamLibrary\steamapps\common\Subnautica\QMods\BuilderModule\Assets\BuilderModule.png
+C:\Games\SteamLibrary\steamapps\common\Subnautica\QMods\BuilderModule\mod.json
+C:\Games\SteamLibrary\steamapps\common\Subnautica\QMods\BuilderModule\BuilderModule.dll
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Release\BuilderModule.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Release\BuilderModule.dll
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Release\BuilderModule.csprojAssemblyReference.cache
+D:\Code\Subnautica\Subnautica-Mods\QMods\BuilderModule\Assets\BuilderModule.png
+D:\Code\Subnautica\Subnautica-Mods\QMods\BuilderModule\mod.json
+D:\Code\Subnautica\Subnautica-Mods\QMods\BuilderModule\BuilderModule.dll
+D:\Code\Subnautica\Subnautica-Mods\BuilderModule\obj\Release\BuilderModule.csprojAssemblyReference.cache
+D:\Code\Subnautica\Subnautica-Mods\BuilderModule\obj\Release\BuilderModule.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\Subnautica-Mods\BuilderModule\obj\Release\BuilderModule.dll

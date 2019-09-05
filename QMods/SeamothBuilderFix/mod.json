@@ -1,0 +1,10 @@
+{
+  "Id": "SeamothBuilderFix",
+  "DisplayName": "SeamothBuilderFix",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [],
+  "Enable": true,
+  "AssemblyName": "SeamothBuilderFix.dll",
+  "EntryMethod": "SeamothBuilderFix.Entry.Patch"
+}

@@ -1,0 +1,7 @@
+D:\Code\Subnautica\QMods\BuilderModule\Assets\BuilderModule.png
+D:\Code\Subnautica\QMods\BuilderModule\mod.json
+D:\Code\Subnautica\QMods\BuilderModule\BuilderModule.dll
+D:\Code\Subnautica\QMods\BuilderModule\BuilderModule.pdb
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Debug\BuilderModule.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Debug\BuilderModule.dll
+D:\Code\Subnautica\SennaSubnauticaPlugins\BuilderModule\obj\Debug\BuilderModule.pdb

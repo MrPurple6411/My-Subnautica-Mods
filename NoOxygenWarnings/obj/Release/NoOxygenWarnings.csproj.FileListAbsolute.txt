@@ -2,3 +2,4 @@ D:\Code\Subnautica\Subnautica-Mods\QMods\NoOxygenWarnings\mod.json
 D:\Code\Subnautica\Subnautica-Mods\QMods\NoOxygenWarnings\NoOxygenWarnings.dll
 D:\Code\Subnautica\Subnautica-Mods\NoOxygenWarnings\obj\Release\NoOxygenWarnings.csproj.CoreCompileInputs.cache
 D:\Code\Subnautica\Subnautica-Mods\NoOxygenWarnings\obj\Release\NoOxygenWarnings.dll
+D:\Code\Subnautica\Subnautica-Mods\NoOxygenWarnings\obj\Release\NoOxygenWarnings.csprojAssemblyReference.cache

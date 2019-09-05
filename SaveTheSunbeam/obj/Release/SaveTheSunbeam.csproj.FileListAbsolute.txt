@@ -5,3 +5,4 @@ D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.csp
 D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.dll
 D:\Code\Subnautica\Subnautica-Mods\QMods\SaveTheSunbeam\mod.json
 D:\Code\Subnautica\Subnautica-Mods\QMods\SaveTheSunbeam\SaveTheSunbeam.dll
+D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.csproj.CopyComplete
