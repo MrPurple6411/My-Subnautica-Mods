@@ -1,8 +1,0 @@
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\bin\Release\mod.json
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\bin\Release\SaveTheSunbeam.dll
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.csprojAssemblyReference.cache
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.csproj.CoreCompileInputs.cache
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.dll
-D:\Code\Subnautica\Subnautica-Mods\QMods\SaveTheSunbeam\mod.json
-D:\Code\Subnautica\Subnautica-Mods\QMods\SaveTheSunbeam\SaveTheSunbeam.dll
-D:\Code\Subnautica\Subnautica-Mods\SaveTheSunbeam\obj\Release\SaveTheSunbeam.csproj.CopyComplete

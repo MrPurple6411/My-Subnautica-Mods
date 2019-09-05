@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreSeamothDepth", "MoreSeamothDepth\MoreSeamothDepth\MoreSeamothDepth.csproj", "{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreSeamothDepth", "MoreSeamothDepth\MoreSeamothDepth.csproj", "{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoEatingSounds", "NoEatingSounds\NoEatingSounds.csproj", "{633C5177-57F7-4746-81D6-EF920939D3F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoOxygenWarnings", "NoOxygenWarnings\NoOxygenWarnings.csproj", "{4C936D3D-10EA-4015-B7BA-E0727CBA8B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothClawArm", "SeamothClawArm\SeamothClawArm\SeamothClawArm.csproj", "{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothClawArm", "SeamothClawArm\SeamothClawArm.csproj", "{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothDrillArm", "SeamothDrillArm\SeamothDrillArm\SeamothDrillArm.csproj", "{2D190C16-0A81-4C90-9782-997206AC397B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothDrillArm", "SeamothDrillArm\SeamothDrillArm.csproj", "{2D190C16-0A81-4C90-9782-997206AC397B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothThermal", "SeamothThermal\SeamothThermal\SeamothThermal.csproj", "{3576A6BF-559A-4099-A156-561D2C6FCA25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothThermal", "SeamothThermal\SeamothThermal.csproj", "{3576A6BF-559A-4099-A156-561D2C6FCA25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceOverload", "ResourceOverload\ResourceOverload.csproj", "{443EC630-9124-4B76-91DE-FE7628C46ED2}"
 EndProject

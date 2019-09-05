@@ -1,0 +1,8 @@
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\QMods\SeamothThermal\mod.json
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\QMods\SeamothThermal\SeamothThermal.dll
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\SeamothThermal\obj\Release\SeamothThermal.csproj.CoreCompileInputs.cache
+D:\Code\Subnautica\Subnautica-Mods\QMods\SeamothThermal\mod.json
+D:\Code\Subnautica\Subnautica-Mods\QMods\SeamothThermal\SeamothThermal.dll
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\SeamothThermal\obj\Release\SeamothThermal.dll
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\SeamothThermal\obj\Release\SeamothThermal.csprojAssemblyReference.cache
+D:\Code\Subnautica\Subnautica-Mods\SeamothThermal\SeamothThermal\obj\Release\SeamothThermal.csproj.CopyComplete
