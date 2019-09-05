@@ -1,6 +1,0 @@
-D:\Code\Subnautica\Subnautica-Mods\SeamothDrillArm\SeamothDrillArm\obj\Release\SeamothDrillArm.csproj.CoreCompileInputs.cache
-D:\Code\Subnautica\Subnautica-Mods\QMods\SeamothDrillArm\mod.json
-D:\Code\Subnautica\Subnautica-Mods\QMods\SeamothDrillArm\Assets\SeamothDrillModule.png
-D:\Code\Subnautica\Subnautica-Mods\QMods\SeamothDrillArm\SeamothDrillArm.dll
-D:\Code\Subnautica\Subnautica-Mods\SeamothDrillArm\SeamothDrillArm\obj\Release\SeamothDrillArm.dll
-D:\Code\Subnautica\Subnautica-Mods\SeamothDrillArm\SeamothDrillArm\obj\Release\SeamothDrillArm.csprojAssemblyReference.cache
