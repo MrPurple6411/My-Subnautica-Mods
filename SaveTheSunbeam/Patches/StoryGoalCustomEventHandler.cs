@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Harmony;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Harmony;
 
-namespace SaveTheSunbeam
+namespace SaveTheSunbeam.Patches
 {
     [HarmonyPatch(typeof(StoryGoalCustomEventHandler))]
     [HarmonyPatch("NotifyGoalComplete")]
-    internal class DisableGunFixer
+    static class StoryGoalCustomEventHandler_NotifyGoalComplete
     {
         [HarmonyPrefix]
-        public static void Prefix(StoryGoalCustomEventHandler __instance, ref string key)
+        static void Prefix(StoryGoalCustomEventHandler __instance, ref string key)
         {
             if (string.Equals(key, "RadioSunbeamStart", StringComparison.OrdinalIgnoreCase))
             {
@@ -42,13 +42,12 @@ namespace SaveTheSunbeam
         }
     }
 
-
     [HarmonyPatch(typeof(StoryGoalCustomEventHandler))]
     [HarmonyPatch("StartSunbeamShootdownFX")]
-    internal class NotifyGoalCompleteFixer 
+    static class StoryGoalCustomEventHandler_StartSunbeamShootdownFX
     {
         [HarmonyPrefix]
-        public static bool Prefix(StoryGoalCustomEventHandler __instance)
+        static bool Prefix(StoryGoalCustomEventHandler __instance)
         {
             if (StoryGoalCustomEventHandler.main.gunDisabled && __instance != null)
             {
@@ -57,9 +56,5 @@ namespace SaveTheSunbeam
             }
             return true;
         }
-
     }
-
-
-
 }

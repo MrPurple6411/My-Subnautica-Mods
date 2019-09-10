@@ -60,10 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PrecursorGunStoryEventsFixer.cs" />
-    <Compile Include="VFXSunbeamFixer.cs" />
-    <Compile Include="StoryGoalCustomEventFixer.cs" />
-    <Compile Include="Entry.cs" />
+    <Compile Include="Patches\PrecursorGunAim.cs" />
+    <Compile Include="Patches\uGUI_SceneConfirmation.cs" />
+    <Compile Include="Patches\uGUI_SunbeamCountdown.cs" />
+    <Compile Include="Patches\VFXSunbeam.cs" />
+    <Compile Include="Patches\StoryGoalCustomEventHandler.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

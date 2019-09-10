@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Harmony;
+﻿using Harmony;
+using System.Reflection;
 
 namespace SaveTheSunbeam
 {
-    public class Entry
+    public static class Mod
     {
         public static void Patch()
         {

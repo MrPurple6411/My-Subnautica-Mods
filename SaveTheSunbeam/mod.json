@@ -1,10 +1,10 @@
 {
   "Id": "SaveTheSunbeam",
-  "DisplayName": "SaveTheSunbeam",
-  "Author": "MrPurple6411",
-  "Version": "1.0.0",
+  "DisplayName": "Alternate Sunbeam Event",
+  "Author": "MrPurple6411 & AlexejheroYTB",
+  "Version": "2.0.0",
   "Requires": [],
   "Enable": true,
   "AssemblyName": "SaveTheSunbeam.dll",
-  "EntryMethod": "SaveTheSunbeam.Entry.Patch"
+  "EntryMethod": "SaveTheSunbeam.Mod.Patch"
 }
