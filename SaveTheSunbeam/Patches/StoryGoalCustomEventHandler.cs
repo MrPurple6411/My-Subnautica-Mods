@@ -24,16 +24,6 @@ namespace SaveTheSunbeam.Patches
                 {
                     ErrorMessage.AddDebug("SUNBEAM EVENT TRIGGERED!");
                     __instance.countdownActive = false;
-                    __instance.Invoke("StartSunbeamShootdownFX", 26f);
-                    if (VFXSunbeam.main != null)
-                    {
-                        VFXSunbeam.main.PlaySFX();
-                        VFXSunbeam.main.PlaySequence();
-                    }
-                    else
-                    {
-                        UWE.Utils.LogReport("VFXSunbeam.main can not be found", null);
-                    }
                     // Prevent the default Sunbeam animation from being played
                     key = "nope"; 
                 }

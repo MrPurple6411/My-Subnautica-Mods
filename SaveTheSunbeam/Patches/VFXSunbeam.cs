@@ -14,8 +14,8 @@ namespace SaveTheSunbeam
             if (StoryGoalCustomEventHandler.main.gunDisabled)
             {
                 GameObject prefab = __instance.shipPrefab;
-                Transform parent = __instance.transform;
-                Mod.ship = Utils.SpawnZeroedAt(prefab, parent, false);
+                Mod.ship = GameObject.Instantiate<GameObject>(prefab, prefab.transform.position, prefab.transform.rotation);
+
                 ParticleSystem component = Mod.ship.GetComponent<ParticleSystem>();
                 component.Play();
                 return false;
