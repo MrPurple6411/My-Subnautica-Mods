@@ -12,11 +12,11 @@ namespace SaveTheSunbeam.Patches
         {
             if (!StoryGoalCustomEventHandler.main.gunDisabled)
             {
-                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = uGUI_SceneConfirmation_Start.redSprite);
+                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.redSprite);
             }
             else
             {
-                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = uGUI_SceneConfirmation_Start.blueSprite);
+                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.blueSprite);
             }
         }
     }

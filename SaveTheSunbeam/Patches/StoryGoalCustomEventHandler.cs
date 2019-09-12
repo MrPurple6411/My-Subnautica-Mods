@@ -1,7 +1,5 @@
 ﻿using Harmony;
 using System;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace SaveTheSunbeam.Patches
 {
@@ -16,7 +14,7 @@ namespace SaveTheSunbeam.Patches
             {
                 if (__instance.gunDisabled)
                 {
-                    __instance.sunbeamEvent1.Trigger();
+                    //__instance.sunbeamEvent1.Trigger();
                     key = "nope";
                 }
             }
@@ -24,9 +22,8 @@ namespace SaveTheSunbeam.Patches
             {
                 if (__instance.gunDisabled)
                 {
-                    MonoBehaviour main = __instance;
                     __instance.countdownActive = false;
-                    main.Invoke("StartSunbeamShootdownFX", 26f);
+                    __instance.Invoke("StartSunbeamShootdownFX", 26f);
                     if (VFXSunbeam.main != null)
                     {
                         VFXSunbeam.main.PlaySFX();
@@ -51,7 +48,7 @@ namespace SaveTheSunbeam.Patches
         {
             if (StoryGoalCustomEventHandler.main.gunDisabled && __instance != null)
             {
-                SceneManager.LoadSceneAsync("EndCreditsSceneCleaner", LoadSceneMode.Single);
+                //SceneManager.LoadSceneAsync("EndCreditsSceneCleaner", LoadSceneMode.Single);
                 return false;
             }
             return true;
