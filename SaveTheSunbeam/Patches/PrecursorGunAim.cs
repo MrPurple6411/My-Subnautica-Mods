@@ -9,7 +9,7 @@ namespace SaveTheSunbeam.Patches
         [HarmonyPrefix]
         static bool Prefix(PrecursorGunAim __instance)
         {
-            return !StoryGoalCustomEventHandler.main.gunDisabled;
+            return !StoryGoalCustomEventHandler.main.gunDisabled; // Prevent the gun from aiming at the sunbeam if the gun is disabled
         }
     }
 }

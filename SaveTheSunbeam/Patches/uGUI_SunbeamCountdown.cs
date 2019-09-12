@@ -12,11 +12,13 @@ namespace SaveTheSunbeam.Patches
         {
             if (!StoryGoalCustomEventHandler.main.gunDisabled)
             {
-                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.redSprite);
+                // Make the default sunbeam countdown red
+                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.redSprite); 
             }
             else
             {
-                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.blueSprite);
+                // Make the countdown blue if the gun is disabled
+                __instance.countdownHolder.GetComponentsInChildren<Image>().ForEach(i => i.sprite = Mod.blueSprite); 
             }
         }
     }

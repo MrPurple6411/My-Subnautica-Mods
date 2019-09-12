@@ -9,6 +9,8 @@ namespace SaveTheSunbeam
         public static Sprite redSprite;
         public static Sprite blueSprite;
 
+        public static GameObject ship;
+
         public static void Patch()
         {
             var harmony = HarmonyInstance.Create("MrPurple6411.SaveTheSunbeam");

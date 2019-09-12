@@ -14,14 +14,15 @@ namespace SaveTheSunbeam.Patches
             {
                 if (__instance.gunDisabled)
                 {
-                    //__instance.sunbeamEvent1.Trigger();
-                    key = "nope";
+                    // Prevent the default Sunbeam subtitles from showing
+                    key = "nope"; 
                 }
             }
             if (string.Equals(key, "SunbeamCheckPlayerRange", StringComparison.OrdinalIgnoreCase))
             {
                 if (__instance.gunDisabled)
                 {
+                    ErrorMessage.AddDebug("SUNBEAM EVENT TRIGGERED!");
                     __instance.countdownActive = false;
                     __instance.Invoke("StartSunbeamShootdownFX", 26f);
                     if (VFXSunbeam.main != null)
@@ -33,7 +34,8 @@ namespace SaveTheSunbeam.Patches
                     {
                         UWE.Utils.LogReport("VFXSunbeam.main can not be found", null);
                     }
-                    key = "nope";
+                    // Prevent the default Sunbeam animation from being played
+                    key = "nope"; 
                 }
             }
         }

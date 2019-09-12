@@ -10,6 +10,7 @@ namespace SaveTheSunbeam
         [HarmonyPrefix]
         static void Prefix(uGUI_SceneConfirmation __instance)
         {
+            // Load the blue and red sprites from the default scene confirmation gui
             Mod.redSprite = __instance.gameObject.GetComponentInChildren<Image>().sprite;
             Mod.blueSprite = __instance.gameObject.GetComponentsInChildren<Image>()[1].sprite;
         }
