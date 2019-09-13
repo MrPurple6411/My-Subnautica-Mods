@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SaveTheSunbeam
 {
@@ -23,6 +24,8 @@ namespace SaveTheSunbeam
         {
             StoryGoalCustomEventHandler.main.countdownActive = false;
             disableSaving = true;
+            GameObject.Instantiate<GameObject>(VFXSunbeam.main.shipPrefab, VFXSunbeam.main.shipPrefab.transform.position, VFXSunbeam.main.shipPrefab.transform.rotation);
+            SceneManager.LoadSceneAsync("EndCreditsSceneCleaner", LoadSceneMode.Single);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace SaveTheSunbeam.Patches
     [HarmonyPatch("GetAllowSaving")]
     static class IngameMenu_GetAllowSaving
     {
-        static void Postfix(IngameMenu __instance, ref bool __result)
+        static void Postfix(ref bool __result)
         {
-            __result = __result || Mod.disableSaving;
+            __result = __result && !Mod.disableSaving;
         }
     }
 }

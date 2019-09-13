@@ -35,12 +35,7 @@ namespace SaveTheSunbeam.Patches
             if (text == "00:00:00" && StoryGoalCustomEventHandler.main.IsPlayerAtLandingSite())
             {
                 AccessTools.Method(typeof(uGUI_SunbeamCountdown), "HideInterface").Invoke(__instance, new object[0]);
-                //Mod.TriggerSunbeamLanding();
-                Mod.disableSaving = true;
-            }
-            else
-            {
-                Mod.disableSaving = false;
+                Mod.TriggerSunbeamLanding();
             }
 
             return false;
