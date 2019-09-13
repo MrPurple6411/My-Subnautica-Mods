@@ -58,9 +58,13 @@
       <HintPath>C:\Games\SteamLibrary\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patches\PrecursorGunAim.cs" />
+    <Compile Include="Patches\StoryGoal.cs" />
     <Compile Include="Patches\uGUI_SceneConfirmation.cs" />
     <Compile Include="Patches\uGUI_SunbeamCountdown.cs" />
     <Compile Include="Patches\VFXSunbeam.cs" />

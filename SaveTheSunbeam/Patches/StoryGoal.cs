@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Story;
-using System;
 
 namespace SaveTheSunbeam.Patches
 {
@@ -11,9 +10,7 @@ namespace SaveTheSunbeam.Patches
         [HarmonyPrefix]
         static bool Prefix(StoryGoal __instance, string key, GoalType goalType)
         {
-            if (key == "PrecursorGunAim") return false;
-            ErrorMessage.AddDebug("GOAL COMPLETED: " + key + " (TYPE: " + goalType.ToString() + ")");
-            Console.WriteLine("GOAL COMPLETED: " + key + " (TYPE: " + goalType.ToString() + ")");
+            if (key.ToLower() == "precursorgunaim") return false;
             return true;
         }
     }
