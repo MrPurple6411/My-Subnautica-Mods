@@ -44,10 +44,6 @@
       <HintPath>C:\Games\SteamLibrary\steamapps\common\Subnautica\Subnautica_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SMLHelper">
-      <HintPath>C:\Games\SteamLibrary\steamapps\common\Subnautica\QMods\Modding Helper\SMLHelper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,7 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patches\PrecursorGunAim.cs" />
     <Compile Include="Patches\StoryGoal.cs" />
     <Compile Include="Patches\uGUI_SceneConfirmation.cs" />
     <Compile Include="Patches\uGUI_SunbeamCountdown.cs" />
