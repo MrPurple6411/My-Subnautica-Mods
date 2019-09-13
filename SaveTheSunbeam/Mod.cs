@@ -11,10 +11,18 @@ namespace SaveTheSunbeam
 
         public static GameObject ship;
 
+        public static bool disableSaving = false;
+
         public static void Patch()
         {
             var harmony = HarmonyInstance.Create("MrPurple6411.SaveTheSunbeam");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public static void TriggerSunbeamLanding()
+        {
+            StoryGoalCustomEventHandler.main.countdownActive = false;
+            disableSaving = true;
         }
     }
 }
