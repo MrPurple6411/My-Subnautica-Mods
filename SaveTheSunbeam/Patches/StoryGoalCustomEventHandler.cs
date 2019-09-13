@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using Story;
 using System;
 
 namespace SaveTheSunbeam.Patches
@@ -15,6 +16,7 @@ namespace SaveTheSunbeam.Patches
                 if (__instance.gunDisabled)
                 {
                     // Prevent the default Sunbeam subtitles from showing
+                    __instance.sunbeamEvent1.Trigger();
                     key = "nope"; 
                 }
             }
