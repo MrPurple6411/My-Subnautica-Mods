@@ -12,12 +12,15 @@ namespace SaveTheSunbeam
         [HarmonyPrefix]
         public static void Prefix(StoryGoalCustomEventHandler __instance, ref string key)
         {
-            if (string.Equals(key, "RadioSunbeamStart", StringComparison.OrdinalIgnoreCase))
+            foreach (StoryGoalCustomEventHandler.SunbeamGoal sunbeamGoal in __instance.sunbeamGoals)
             {
-                if (__instance.gunDisabled)
+                if (string.Equals(key, sunbeamGoal.trigger, StringComparison.OrdinalIgnoreCase))
                 {
-                    __instance.sunbeamEvent1.Trigger();
-                    key = "nope";
+                    if (__instance.gunDisabled)
+                    {
+                        sunbeamGoal.Trigger();
+                        key = "nope";
+                    }
                 }
             }
             if (string.Equals(key, "SunbeamCheckPlayerRange", StringComparison.OrdinalIgnoreCase))
@@ -34,7 +37,7 @@ namespace SaveTheSunbeam
                     }
                     else
                     {
-                        UWE.Utils.LogReport("VFXSunbeam.main can not be found", null);
+                        Debug.LogError("VFXSunbeam.main can not be found", null);
                     }
                     key = "nope";
                 }

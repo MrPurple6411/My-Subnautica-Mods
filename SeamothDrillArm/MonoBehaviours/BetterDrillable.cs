@@ -130,11 +130,6 @@ namespace SeamothDrillArm.MonoBehaviours
                     hand = HandReticle.Hand.Left;
                 }
             }
-
-            Console.WriteLine("CanDrill: " + canDrill);
-            Console.WriteLine("Hand: " + hand);
-            Console.WriteLine("Vehicle: " + vehicle?.ToString());
-
             if (canDrill)
             {
                 HandReticle.main.SetInteractText(Language.main.GetFormat<string>("DrillResource", Language.main.Get(primaryTooltip)), secondaryTooltip, false, true, hand);
@@ -208,7 +203,7 @@ namespace SeamothDrillArm.MonoBehaviours
                     }
                 }
             }
-
+            BehaviourUpdateUtils.Register(drillable);
             drillable.health = health;
         }
 
@@ -222,17 +217,12 @@ namespace SeamothDrillArm.MonoBehaviours
         public void ClipWithTerrain(ref Vector3 position)
         {
             Vector3 origin = position;
-            origin.y = transform.position.y + 5f;
+            origin.y = base.transform.position.y + 5f;
             Ray ray = new Ray(origin, Vector3.down);
-            int num = UWE.Utils.RaycastIntoSharedBuffer(ray, 10f, -5, QueryTriggerInteraction.UseGlobal);
-            for (int i = 0; i < num; i++)
+            RaycastHit raycastHit;
+            if (Physics.Raycast(ray, out raycastHit, 10f, Voxeland.GetTerrainLayerMask(), QueryTriggerInteraction.Ignore))
             {
-                RaycastHit raycastHit = UWE.Utils.sharedHitBuffer[i];
-                if (raycastHit.collider.gameObject.GetComponentInParent<VoxelandChunk>() != null)
-                {
-                    position.y = Mathf.Max(position.y, raycastHit.point.y + 0.3f);
-                    break;
-                }
+                position.y = Mathf.Max(position.y, raycastHit.point.y + 0.3f);
             }
         }
 
@@ -321,7 +311,6 @@ namespace SeamothDrillArm.MonoBehaviours
                     break;
                 }
                 PlayerEntropy component = Player.main.gameObject.GetComponent<PlayerEntropy>();
-                global::Utils.Assert(component != null, "see log", null);
                 if (component.CheckChance(resourceType.techType, resourceType.chance))
                 {
                     result = CraftData.GetPrefabForTechType(resourceType.techType, true);
@@ -357,8 +346,6 @@ namespace SeamothDrillArm.MonoBehaviours
                         Vector3 b = drillingVehicle.transform.position + new Vector3(0f, 0.8f, 0f);
                         gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, b, Time.deltaTime * 5f);
                         float num = Vector3.Distance(gameObject.transform.position, b);
-                        if (num < 3f)
-                        {
                             Pickupable pickupable = gameObject.GetComponentInChildren<Pickupable>();
                             if (pickupable)
                             {
@@ -378,12 +365,10 @@ namespace SeamothDrillArm.MonoBehaviours
 
                                     var item = new InventoryItem(pickupable);
                                     storage.UnsafeAdd(item);
-
                                     pickupable.PlayPickupSound();
                                 }
                                 list.Add(gameObject);
                             }
-                        }
                     }
                 }
                 if (list.Count > 0)

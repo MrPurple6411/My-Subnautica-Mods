@@ -12,7 +12,7 @@ namespace ResourceOverload
         {
             int num = 0;
             bool flag = __instance.spawner == null;
-            bool result;
+            bool result = true;
             if (flag)
             {
                 __result = default(EntitySlot.Filler);
@@ -20,20 +20,16 @@ namespace ResourceOverload
             }
             else if (slot.IsCreatureSlot() && (Player.main.GetDepth() <= 500 || Player.main.GetDepth() >= 1000))
             {
-
-
                 do
                 {
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
                 }
-                while (string.IsNullOrEmpty(__result.classId) && num < 10);
+                while (string.IsNullOrEmpty(__result.classId) && num < 2);
                 result = false;
             }
             else if (slot.IsCreatureSlot() && Player.main.GetDepth() > 500 && Player.main.GetDepth() < 1000)
             {
-
-
                 do
                 {
                     num++;
@@ -49,7 +45,7 @@ namespace ResourceOverload
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
                 }
-                while (string.IsNullOrEmpty(__result.classId) && num < 1000);
+                while (string.IsNullOrEmpty(__result.classId) && num < 10);
                 result = false;
             }
             return result;
