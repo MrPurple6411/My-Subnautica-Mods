@@ -3,7 +3,7 @@
   "DisplayName": "BuilderModule",
   "Author": "MrPurple6411",
   "Version": "1.0",
-  "Dependencies": ["SMLHelper"],
+  "Dependencies": [ "SMLHelper", "BuilderModuleInputFix" ],
   "LoadBefore": [],
   "LoadAfter": [],
   "Enable": true,

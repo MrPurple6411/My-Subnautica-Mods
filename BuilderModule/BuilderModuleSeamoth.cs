@@ -145,7 +145,7 @@ namespace BuilderModule
                     isConstructing = false;
                 }
 
-                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Builder.isPlacing)
+                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Builder.isPlacing && !Player.main.GetPDA().isOpen)
                 {
                     if (energyMixin.charge > 0f)
                     {
@@ -154,6 +154,13 @@ namespace BuilderModule
                 }
                 this.UpdateText();
                 this.HandleInput();
+            }
+            else
+            {
+                if (Builder.isPlacing && isPlayerInThisSeamoth)
+                {
+                    Builder.End();
+                }
             }
         }
 
@@ -164,7 +171,33 @@ namespace BuilderModule
                 return;
             }
             this.handleInputFrame = Time.frameCount;
-            if (Builder.isPlacing || !AvatarInputHandler.main.IsEnabled())
+            if (Builder.isPlacing)
+            {
+                FPSInputModule.current.EscapeMenu();
+                UWE.Utils.lockCursor = true;
+                if (GameInput.GetButtonHeld(Builder.buttonRotateCW))
+                {
+                    Builder.additiveRotation = MathExtensions.RepeatAngle(Builder.additiveRotation - Time.deltaTime * Builder.additiveRotationSpeed);
+                }
+                else if (GameInput.GetButtonHeld(Builder.buttonRotateCCW))
+                {
+                    Builder.additiveRotation = MathExtensions.RepeatAngle(Builder.additiveRotation + Time.deltaTime * Builder.additiveRotationSpeed);
+                }
+                if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+                {
+                    if (Builder.TryPlace())
+                    {
+                        Builder.End();
+                    }
+                }
+                else if (GameInput.GetButtonDown(GameInput.Button.RightHand))
+                {
+                    Builder.End();
+                }
+                Builder.Update();
+                return;
+            }
+            if (!AvatarInputHandler.main.IsEnabled())
             {
                 return;
             }
@@ -176,7 +209,7 @@ namespace BuilderModule
             Targeting.AddToIgnoreList(Player.main.gameObject);
             GameObject gameObject;
             float num;
-            Targeting.GetTarget(30f, out gameObject, out num, null);
+            Targeting.GetTarget(60f, out gameObject, out num, null);
             if (gameObject == null)
             {
                 return;
@@ -185,7 +218,7 @@ namespace BuilderModule
             bool buttonDown = GameInput.GetButtonDown(GameInput.Button.Deconstruct);
             bool buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
             Constructable constructable = gameObject.GetComponentInParent<Constructable>();
-            if (constructable != null && num > constructable.placeMaxDistance)
+            if (constructable != null && num > constructable.placeMaxDistance*2)
             {
                 constructable = null;
             }
@@ -227,7 +260,7 @@ namespace BuilderModule
                         baseDeconstructable = componentInParent.parent;
                     }
                 }
-                if (baseDeconstructable != null)
+                else
                 {
                     string text;
                     if (baseDeconstructable.DeconstructionAllowed(out text))
@@ -332,11 +365,11 @@ namespace BuilderModule
 
         private void OnDestroy()
         {
+            OnDisable();
             playerMain.playerModeChanged.RemoveHandler(gameObject, OnPlayerModeChanged);
             thisSeamoth.onToggle -= OnToggle;
             thisSeamoth.modules.onAddItem -= OnAddItem;
             thisSeamoth.modules.onRemoveItem -= OnRemoveItem;
-            OnDisable();
         } 
     }
 }

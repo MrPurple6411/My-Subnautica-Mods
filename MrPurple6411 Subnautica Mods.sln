@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveTheSunbeam", "SaveTheSu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderModule", "BuilderModule\BuilderModule.csproj", "{99ED7304-8603-4A34-9CBA-A38557A64D00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderModuleInputFix", "BuilderModuleInputFix\BuilderModuleInputFix.csproj", "{B7142774-ABD2-4615-979E-4E31F183314D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7142774-ABD2-4615-979E-4E31F183314D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7142774-ABD2-4615-979E-4E31F183314D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7142774-ABD2-4615-979E-4E31F183314D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7142774-ABD2-4615-979E-4E31F183314D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

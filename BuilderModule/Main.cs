@@ -13,8 +13,7 @@ namespace BuilderModule
             {
                 var buildermodule = new BuilderModulePrefab();
                 buildermodule.Patch();
-
-                HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());                
+                HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
             }
             catch (Exception ex)
             {
@@ -24,9 +23,10 @@ namespace BuilderModule
     }
 
     [HarmonyPatch(typeof(Vehicle))]
-    [HarmonyPatch("OnUpgradeModuleChange")]    
-    public class Vehicle_OnUpgradeModuleChange_Patch
+    [HarmonyPatch("OnUpgradeModuleChange")]
+    internal class Vehicle_OnUpgradeModuleChange_Patch
     {
+        [HarmonyPostfix]
         static void Postfix(Vehicle __instance, int slotID, TechType techType, bool added)
         {
             if (techType == BuilderModulePrefab.TechTypeID && added)
@@ -43,5 +43,5 @@ namespace BuilderModule
                 }
             }
         }
-    }    
+    }
 }
