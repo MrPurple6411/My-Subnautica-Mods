@@ -19,7 +19,6 @@ namespace BuilderModuleInputFix
             }
         }
     }
-
     [HarmonyPatch(typeof(Builder))]
     [HarmonyPatch("Update")]
     internal class Builder_Update_Patch
@@ -35,9 +34,9 @@ namespace BuilderModuleInputFix
                 {
                     return true;
                 }
-                if (Builder.CreateGhost())
+                if (!Builder.CreateGhost())
                 {
-
+                    Builder.inputHandler.canHandleInput = false;
                 }
                 Builder.canPlace = Builder.UpdateAllowed();
                 Transform transform = Builder.ghostModel.transform;

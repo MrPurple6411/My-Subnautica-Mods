@@ -19,7 +19,7 @@ namespace BuilderModule
                   groupForPDA: TechGroup.VehicleUpgrades,
                   categoryForPDA: TechCategory.VehicleUpgrades,
                   equipmentType: EquipmentType.VehicleModule,
-                  quickSlotType: QuickSlotType.Selectable,
+                  quickSlotType: QuickSlotType.Toggleable,
                   itemSize: new Vector2int(1, 1),
                   gamerResourceFileName: null
                   )

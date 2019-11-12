@@ -5,23 +5,21 @@ using System.Collections.Generic;
 
 namespace BuilderModule
 {
-    public class BuilderModuleSeamoth : MonoBehaviour
+    public class BuilderModule : MonoBehaviour
     {
-        public BuilderModuleSeamoth Instance { get; private set; }
+        public BuilderModule Instance { get; private set; }
         public int moduleSlotID { get; set; }
-        private SeaMoth thisSeamoth { get; set; }
+        private Vehicle thisVehicle { get; set; }
         private Player playerMain { get; set; }
         private EnergyMixin energyMixin { get; set; }
 
         private bool isToggle;
         private bool isActive;
-        private bool isPlayerInThisSeamoth;
 
         public float powerConsumptionConstruct = 0.5f;
         public float powerConsumptionDeconstruct = 0.5f;
         public FMOD_CustomLoopingEmitter buildSound;
         private FMODAsset completeSound;
-        private bool isConstructing;
         private Constructable constructable;
         private int handleInputFrame = -1;
         private string deconstructText;
@@ -34,11 +32,9 @@ namespace BuilderModule
         public void Awake()
         {
             Instance = this;
-            thisSeamoth = Instance.GetComponent<SeaMoth>();
-            energyMixin = thisSeamoth.GetComponent<EnergyMixin>();
+            thisVehicle = Instance.GetComponent<Vehicle>();
+            energyMixin = thisVehicle.GetComponent<EnergyMixin>();
             playerMain = Player.main;
-            isPlayerInThisSeamoth = playerMain.GetVehicle() == thisSeamoth ? true : false;
-            OnPlayerModeChanged(Player.main.GetMode());
             var builderPrefab = Resources.Load<GameObject>("WorldEntities/Tools/Builder").GetComponent<BuilderTool>();
             completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
         }
@@ -46,11 +42,9 @@ namespace BuilderModule
 
         private void Start()
         {
-            thisSeamoth.onToggle += OnToggle;
-            thisSeamoth.modules.onAddItem += OnAddItem;
-            thisSeamoth.modules.onRemoveItem += OnRemoveItem;
-            playerMain.playerModeChanged.AddHandler(gameObject, new Event<Player.Mode>.HandleFunction(OnPlayerModeChanged));
-            OnPlayerModeChanged(Player.main.GetMode());
+            thisVehicle.onToggle += OnToggle;
+            thisVehicle.modules.onAddItem += OnAddItem;
+            thisVehicle.modules.onRemoveItem += OnRemoveItem;
         }
 
         private void OnRemoveItem(InventoryItem item)
@@ -66,39 +60,14 @@ namespace BuilderModule
         {
             if (item.item.GetTechType() == BuilderModulePrefab.TechTypeID)
             {
-                moduleSlotID = thisSeamoth.GetSlotByItem(item);
+                moduleSlotID = thisVehicle.GetSlotByItem(item);
                 Instance.enabled = true;
             }
         }
 
-        private void OnPlayerModeChanged(Player.Mode playerMode)
-        {
-            if (playerMode == Player.Mode.LockedPiloting)
-            {
-                if (playerMain.GetVehicle() == thisSeamoth)
-                {
-                    isPlayerInThisSeamoth = true;
-                    OnEnable();
-                    return;
-                }
-                else
-                {
-                    isPlayerInThisSeamoth = false;
-                    OnDisable();
-                    return;
-                }
-            }
-            else
-            {
-                isPlayerInThisSeamoth = false;
-                OnDisable();
-            }
-        }
-
-
         private void OnToggle(int slotID, bool state)
         {
-            if (thisSeamoth.GetSlotBinding(slotID) == BuilderModulePrefab.TechTypeID)
+            if (thisVehicle.GetSlotBinding(slotID) == BuilderModulePrefab.TechTypeID)
             {
                 isToggle = state;
 
@@ -115,13 +84,14 @@ namespace BuilderModule
 
         public void OnEnable()
         {
-            isActive = isPlayerInThisSeamoth && playerMain.isPiloting && isToggle && moduleSlotID > -1;
+            isActive = playerMain.isPiloting && isToggle && moduleSlotID > -1;
         }
 
         public void OnDisable()
         {
             isActive = false;
-            isConstructing = false;
+            uGUI_BuilderMenu.Hide();
+            Builder.End();
         }
 
 
@@ -129,37 +99,42 @@ namespace BuilderModule
         {
             if (isActive)
             {
-                if (GameInput.GetButtonDown(GameInput.Button.LeftHand) && !isConstructing && !GameInput.GetButtonHeld(GameInput.Button.RightHand))
+                if (thisVehicle.GetActiveSlotID() != moduleSlotID)
                 {
-                    isConstructing = true;
+                    thisVehicle.SlotKeyDown(thisVehicle.GetActiveSlotID());
+                    thisVehicle.SlotKeyUp(thisVehicle.GetActiveSlotID());
                 }
-
-                if (GameInput.GetButtonHeld(GameInput.Button.LeftHand) && !GameInput.GetButtonHeld(GameInput.Button.RightHand))
-                {
-                    isConstructing = true;
-                }
-
-
-                if (GameInput.GetButtonUp(GameInput.Button.LeftHand))
-                {
-                    isConstructing = false;
-                }
-
-                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Builder.isPlacing && !Player.main.GetPDA().isOpen)
+                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
                 {
                     if (energyMixin.charge > 0f)
                     {
                         uGUI_BuilderMenu.Show();
                     }
                 }
-                this.UpdateText();
-                this.HandleInput();
-            }
-            else
-            {
-                if (Builder.isPlacing && isPlayerInThisSeamoth)
+                if (Builder.isPlacing)
                 {
-                    Builder.End();
+                    if (Player.main.GetLeftHandDown())
+                    {
+                        UWE.Utils.lockCursor = true;
+                    }
+                    if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+                    {
+                        if (Builder.TryPlace())
+                        {
+                            Builder.End();
+                        }
+                    }
+                    else if (this.handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.RightHand))
+                    {
+                        Builder.End();
+                    }
+                    FPSInputModule.current.EscapeMenu();
+                    Builder.Update();
+                }
+                if (!uGUI_BuilderMenu.IsOpen() && !Builder.isPlacing)
+                {
+                    this.UpdateText();
+                    this.HandleInput();
                 }
             }
         }
@@ -171,32 +146,6 @@ namespace BuilderModule
                 return;
             }
             this.handleInputFrame = Time.frameCount;
-            if (Builder.isPlacing)
-            {
-                FPSInputModule.current.EscapeMenu();
-                UWE.Utils.lockCursor = true;
-                if (GameInput.GetButtonHeld(Builder.buttonRotateCW))
-                {
-                    Builder.additiveRotation = MathExtensions.RepeatAngle(Builder.additiveRotation - Time.deltaTime * Builder.additiveRotationSpeed);
-                }
-                else if (GameInput.GetButtonHeld(Builder.buttonRotateCCW))
-                {
-                    Builder.additiveRotation = MathExtensions.RepeatAngle(Builder.additiveRotation + Time.deltaTime * Builder.additiveRotationSpeed);
-                }
-                if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.LeftHand))
-                {
-                    if (Builder.TryPlace())
-                    {
-                        Builder.End();
-                    }
-                }
-                else if (GameInput.GetButtonDown(GameInput.Button.RightHand))
-                {
-                    Builder.End();
-                }
-                Builder.Update();
-                return;
-            }
             if (!AvatarInputHandler.main.IsEnabled())
             {
                 return;
@@ -366,10 +315,9 @@ namespace BuilderModule
         private void OnDestroy()
         {
             OnDisable();
-            playerMain.playerModeChanged.RemoveHandler(gameObject, OnPlayerModeChanged);
-            thisSeamoth.onToggle -= OnToggle;
-            thisSeamoth.modules.onAddItem -= OnAddItem;
-            thisSeamoth.modules.onRemoveItem -= OnRemoveItem;
+            thisVehicle.onToggle -= OnToggle;
+            thisVehicle.modules.onAddItem -= OnAddItem;
+            thisVehicle.modules.onRemoveItem -= OnRemoveItem;
         } 
     }
 }

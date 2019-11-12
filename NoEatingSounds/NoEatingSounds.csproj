@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\QMods\$(AssemblyName)\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\Subnautica\QMods\NoEatingSounds\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>

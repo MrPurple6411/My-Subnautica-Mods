@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\QMods\ResourceOverload\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\Subnautica\QMods\ResourceOverload\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
