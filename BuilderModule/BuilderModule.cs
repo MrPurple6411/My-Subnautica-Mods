@@ -104,11 +104,13 @@ namespace BuilderModule
                     thisVehicle.SlotKeyDown(thisVehicle.GetActiveSlotID());
                     thisVehicle.SlotKeyUp(thisVehicle.GetActiveSlotID());
                 }
-                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
+                if (GameInput.GetButtonDown(GameInput.Button.PDA) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
                 {
                     if (energyMixin.charge > 0f)
                     {
+                        Player.main.GetPDA().Close();
                         uGUI_BuilderMenu.Show();
+                        handleInputFrame = Time.frameCount;
                     }
                 }
                 if (Builder.isPlacing)
@@ -117,15 +119,15 @@ namespace BuilderModule
                     {
                         UWE.Utils.lockCursor = true;
                     }
-                    if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+                    if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.AltTool))
                     {
                         if (Builder.TryPlace())
                         {
                             Builder.End();
                         }
                     }
-                    else if (this.handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.RightHand))
-                    {
+                    else if (this.handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.Deconstruct))
+                    {   
                         Builder.End();
                     }
                     FPSInputModule.current.EscapeMenu();
@@ -163,7 +165,7 @@ namespace BuilderModule
             {
                 return;
             }
-            bool buttonHeld = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
+            bool buttonHeld = GameInput.GetButtonHeld(GameInput.Button.AltTool);
             bool buttonDown = GameInput.GetButtonDown(GameInput.Button.Deconstruct);
             bool buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
             Constructable constructable = gameObject.GetComponentInParent<Constructable>();

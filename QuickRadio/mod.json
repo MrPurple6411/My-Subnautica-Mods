@@ -1,0 +1,11 @@
+﻿{
+  "Id": "QuickRadio",
+  "DisplayName": "QuickRadio",
+  "Author": "MrPurple6411",
+  "Version": "1.0",
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "QuickRadio.dll",
+  "EntryMethod": "QuickRadio.Main.Load"
+}
