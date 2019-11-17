@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using UnityEngine;
+using Story;
 
 namespace QuickRadio
 {
@@ -20,22 +21,22 @@ namespace QuickRadio
         }
     }
 
-    [HarmonyPatch(typeof(Story.StoryGoalScheduler))]
+    [HarmonyPatch(typeof(StoryGoalScheduler))]
     [HarmonyPatch("Update")]
     internal class StoryGoalScheduler_Update_Patch
     {
         [HarmonyPrefix]
-        static bool Prefix(Story.StoryGoalScheduler __instance)
+        static bool Prefix(StoryGoalScheduler __instance)
         {
-            Story.StoryGoalManager.main.PulsePendingMessages();
+            StoryGoalManager.main.PulsePendingMessages();
             for (int i = __instance.schedule.Count - 1; i >= 0; i--)
             {
-                Story.ScheduledGoal scheduledGoal = __instance.schedule[i];
+                ScheduledGoal scheduledGoal = __instance.schedule[i];
                 if (scheduledGoal.goalType == Story.GoalType.Radio)
                 {
                     __instance.schedule[i] = __instance.schedule[__instance.schedule.Count - 1];
                     __instance.schedule.RemoveAt(__instance.schedule.Count - 1);
-                    Story.StoryGoal.Execute(scheduledGoal.goalKey, scheduledGoal.goalType);
+                    StoryGoal.Execute(scheduledGoal.goalKey, scheduledGoal.goalType);
                 }
             }
             return true;
