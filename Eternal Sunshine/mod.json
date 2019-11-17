@@ -1,0 +1,12 @@
+﻿{
+  "Id": "Eternal_Sunshine",
+  "DisplayName": "Eternal Sunshine",
+  "Author": "MrPurple6411",
+  "Version": "1.0",
+  "LoadBefore": [ "" ],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "Eternal Sunshine.dll",
+  "EntryMethod": "Eternal_Sunshine.Main.Load"
+}

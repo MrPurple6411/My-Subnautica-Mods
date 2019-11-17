@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderModuleInputFix", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickRadio", "QuickRadio\QuickRadio.csproj", "{BFF14B6C-F7A6-48DA-92CB-9FDF96539C85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eternal Darkness", "Eternal Darkness\Eternal Darkness.csproj", "{4679572C-701D-47AD-B9B7-0AA58BC11567}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eternal Sunshine", "Eternal Sunshine\Eternal Sunshine.csproj", "{6A8A0B29-3EAD-429D-B5EA-24DA8D763382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{BFF14B6C-F7A6-48DA-92CB-9FDF96539C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFF14B6C-F7A6-48DA-92CB-9FDF96539C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFF14B6C-F7A6-48DA-92CB-9FDF96539C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4679572C-701D-47AD-B9B7-0AA58BC11567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4679572C-701D-47AD-B9B7-0AA58BC11567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4679572C-701D-47AD-B9B7-0AA58BC11567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4679572C-701D-47AD-B9B7-0AA58BC11567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A8A0B29-3EAD-429D-B5EA-24DA8D763382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A8A0B29-3EAD-429D-B5EA-24DA8D763382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A8A0B29-3EAD-429D-B5EA-24DA8D763382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A8A0B29-3EAD-429D-B5EA-24DA8D763382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
