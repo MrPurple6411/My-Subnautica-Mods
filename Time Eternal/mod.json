@@ -1,0 +1,12 @@
+﻿{
+  "Id": "Time_Eternal",
+  "DisplayName": "Time Eternal",
+  "Author": "MrPurple6411",
+  "Version": "1.0",
+  "LoadBefore": [ "" ],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "Time Eternal.dll",
+  "EntryMethod": "Time_Eternal.Main.Load"
+}
