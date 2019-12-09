@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Harmony;
 using UWE;
 
@@ -24,9 +25,38 @@ namespace ResourceOverload
                 {
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
+                    /*if (!string.IsNullOrEmpty(__result.classId))
+                    {
+                        WorldEntityInfo wei;
+                        if (WorldEntityDatabase.TryGetInfo(__result.classId, out wei))
+                        {
+                            if (wei.techType == TechType.TimeCapsule)
+                            {
+                                ErrorMessage.AddWarning("!!!!!Time Capsule Spawned!!!!!");
+                                Console.WriteLine("\n\n\n\n\n\n!!!!!Time Capsule Spawned!!!!!\n\n\n\n\n\n\n");
+                            }
+                        }
+                    }*/
                 };
                 result = false;
-            }
+            }/*
+            else if (slot.IsCreatureSlot() && Config.ToggleValue)
+            {
+                __result = __instance.spawner.GetPrefabForSlot(slot, true);
+                WorldEntityInfo wei;
+                if (!string.IsNullOrEmpty(__result.classId))
+                {
+                    if (WorldEntityDatabase.TryGetInfo(__result.classId, out wei))
+                    {
+                        if (wei.techType == TechType.ReaperLeviathan)
+                        {
+                            ErrorMessage.AddWarning("WARNING !!!!!Reaper Leviathan Spawned!!!!!");
+                            Console.WriteLine("\n\n\n\n\n\n\nWARNING !!!!!Reaper Leviathan Spawned!!!!!\n\n\n\n\n\n\n");
+                        }
+                    }
+                }
+                result = false;
+            }*/
             return result;
         }
     }
