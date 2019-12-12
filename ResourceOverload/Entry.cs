@@ -27,18 +27,16 @@ namespace ResourceOverload
         public static bool RegenSpawns;
         public static bool Randomization;
         public static bool ShowConfig;
+        public static bool resetDefaults;
 
         public static void Load()
         {
-            foreach (string tech0 in techProbability.Keys)
-            {
-                techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
-            }
             SliderValue = PlayerPrefs.GetFloat("ResourceMultiplier", 1f);
-            RegenSpawns = PlayerPrefsExtra.GetBool("RegenSpawnsEnabled", false);
+            RegenSpawns = false;
             ToggleValue = PlayerPrefsExtra.GetBool("ResourceMultiplierEnabled", true);
-            ShowConfig = PlayerPrefsExtra.GetBool("ShowConfig", false);
+            ShowConfig = false;
             Randomization = PlayerPrefsExtra.GetBool("ResourceRandomizerEnabled", true);
+            resetDefaults = false;
         }
     }
 
@@ -58,18 +56,16 @@ namespace ResourceOverload
             {
                 Config.SliderValue = e.Value;
                 PlayerPrefs.SetFloat("ResourceMultiplier", e.Value);
-                Config.RegenSpawns = true;
             }
             else if (e.Id.Contains(":TechProbability"))
             {
-                Config.techProbability[e.Id.Split(':')[0]] = e.Value;
-                PlayerPrefs.SetFloat(e.Id.Split(':')[0] + ":TechProbability", e.Value);
-                Config.RegenSpawns = true;
+                    Config.techProbability[e.Id.Split(':')[0]] = (float)(e.Value);
+                    PlayerPrefs.SetFloat(e.Id.Split(':')[0] + ":TechProbability", (float)(e.Value));
             }
         }
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "ResourceMultiplierEnabled" && e.Id != "RegenSpawnsEnabled" && e.Id != "ResourceRandomizerEnabled" && e.Id != "ShowConfig") return;
+            if (e.Id != "ResourceMultiplierEnabled" && e.Id != "RegenSpawnsEnabled" && e.Id != "ResourceRandomizerEnabled" && e.Id != "ShowConfig" && e.Id != "resetDefaults") return;
             if (e.Id == "ResourceMultiplierEnabled")
             {
                 Config.ToggleValue = e.Value;
@@ -82,6 +78,7 @@ namespace ResourceOverload
                 if (e.Value)
                 {
                     Config.ShowConfig = false;
+                    IngameMenu.main.Close();
                     DevConsole.SendConsoleCommand("entreset");
                 }
             }
@@ -97,21 +94,38 @@ namespace ResourceOverload
             {
                 Config.Randomization = e.Value;
                 PlayerPrefsExtra.SetBool("ResourceRandomizerEnabled", e.Value);
+                Config.ShowConfig = false;
+                Config.RegenSpawns = true;
+                IngameMenu.main.Close();
+                DevConsole.SendConsoleCommand("entreset");
+            }
+            if (e.Id == "resetDefaults")
+            {
+                Config.resetDefaults = e.Value;
+                PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
+                if (Config.resetDefaults)
+                {
+                    Config.ShowConfig = false;
+                    Config.RegenSpawns = true;
+                    IngameMenu.main.Close();
+                    DevConsole.SendConsoleCommand("entreset");
+                }
             }
         }
 
         public override void BuildModOptions()
         {
             AddToggleOption("ResourceMultiplierEnabled", "Resource Multiplier Enabled", Config.ToggleValue);
-            AddToggleOption("RegenSpawnsEnabled", "Apply changes?", Config.RegenSpawns);
+            AddSliderOption("GeneralMultiplier", "Resource Multiplier", 0, 20, Config.SliderValue);
             AddToggleOption("ResourceRandomizerEnabled", "Resource Randomization Enabled", Config.Randomization);
             AddToggleOption("ShowConfig", "Show Fine Tuning Configs", Config.ShowConfig);
-            AddSliderOption("GeneralMultiplier", "Resource Multiplier", 0, 20, Config.SliderValue);
+            AddToggleOption("resetDefaults", "Reset Fine Tuning Configs", Config.resetDefaults);
+            AddToggleOption("RegenSpawnsEnabled", "Apply changes?", Config.RegenSpawns);
             if (Config.ShowConfig)
             {
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    AddSliderOption(tech + ":TechProbability", tech + ": \n", 0.0001f, 1.0000f, Config.techProbability[tech]);
+                    AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
                 }
             }
         }

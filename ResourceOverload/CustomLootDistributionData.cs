@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Harmony;
 using SMLHelper.V2.Options;
+using UnityEngine;
 using UWE;
 
 namespace ResourceOverload
@@ -26,6 +27,18 @@ namespace ResourceOverload
                     techs = new SortedDictionary<TechType, LootDistributionData.PrefabData>();
                     if (__instance.dstDistribution.ContainsKey(bio))
                     {
+                        if (!Config.resetDefaults)
+                        {
+                            foreach (TechType type in Enum.GetValues(typeof(TechType)))
+                            {
+                                string tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
+                                if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
+                                {
+                                    Config.techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
+                                }
+                                
+                            }
+                        }
                         customDSTDistribution[bio] = new LootDistributionData.DstData();
                         customDSTDistribution[bio].prefabs = new List<LootDistributionData.PrefabData>();
 
@@ -38,11 +51,11 @@ namespace ResourceOverload
                                     if (prefabData.classId.ToLower() != "none")
                                     {
                                         WorldEntityInfo wei;
-                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei))
+                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei) && prefabData.probability > 0 && prefabData.probability < 1)
                                         {
                                             if (!bio.AsString().Contains("Fragment") && wei.slotType == EntitySlot.Type.Creature)
                                             {
-                                                if (wei.techType == TechType.ReaperLeviathan || wei.techType == TechType.WarperSpawner)
+                                                if (wei.techType == TechType.ReaperLeviathan)
                                                 {
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
@@ -50,7 +63,8 @@ namespace ResourceOverload
                                                         WorldEntityInfo wei2;
                                                         if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
                                                         {
-                                                            if (wei2.techType == TechType.BoneShark ||
+                                                            if (wei2.techType == TechType.Sandshark ||
+                                                                wei2.techType == TechType.BoneShark ||
                                                                 wei2.techType == TechType.SpineEel ||
                                                                 wei2.techType == TechType.Shocker ||
                                                                 wei2.techType == TechType.CrabSquid ||
@@ -65,11 +79,10 @@ namespace ResourceOverload
                                                     {
                                                         if (!techs.ContainsKey(wei.techType))
                                                         {
-                                                            if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                             {
-                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]]/1000;
                                                                 techs[wei.techType] = prefabData;
-                                                                prefabData.count = 1;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
                                                             }
@@ -77,23 +90,14 @@ namespace ResourceOverload
                                                             {
                                                                 techs[wei.techType] = prefabData;
                                                                 prefabData.probability = 0.0025f;
-                                                                prefabData.count = 1;
-
-                                                                if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                                {
-                                                                    Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                                }
-                                                                if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                                {
-                                                                    Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                                }
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability*1000;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
                                                             }
                                                         }
                                                     }
                                                 }
-                                                if (wei.techType == TechType.Shocker || wei.techType == TechType.CrabSquid)
+                                                if (wei.techType == TechType.Shocker || wei.techType == TechType.CrabSquid || wei.techType == TechType.WarperSpawner)
                                                 {
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
@@ -101,7 +105,9 @@ namespace ResourceOverload
                                                         WorldEntityInfo wei2;
                                                         if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
                                                         {
-                                                            if (wei2.techType == TechType.SpineEel ||
+                                                            if (wei2.techType == TechType.Sandshark ||
+                                                                wei2.techType == TechType.BoneShark ||
+                                                                wei2.techType == TechType.SpineEel ||
                                                                 wei2.techType == TechType.Shocker ||
                                                                 wei2.techType == TechType.CrabSquid ||
                                                                 wei2.techType == TechType.Crabsnake ||
@@ -115,24 +121,16 @@ namespace ResourceOverload
                                                     {
                                                         if (!techs.ContainsKey(wei.techType))
                                                         {
-                                                            if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                             {
-                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
                                                             }
                                                             else
                                                             {
-
-                                                                if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                                {
-                                                                    Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                                }
-                                                                if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                                {
-                                                                    Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                                }
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
@@ -140,23 +138,12 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                            if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                        prefabData.probability > 0 &&
                                                                        prefabData.probability < 1 &&
                                                                        prefabData.count > 0)
                                                             {
-                                                                if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                                {
-                                                                    customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                                }
-                                                                if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                                {
-                                                                    Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                                }
-                                                                if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                                {
-                                                                    Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                                }
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
@@ -164,17 +151,7 @@ namespace ResourceOverload
                                                         }
                                                     }
                                                 }
-                                                if (wei.techType != TechType.None && (BehaviourData.GetBehaviourType(wei.techType) == BehaviourType.SmallFish ||
-                                                    BehaviourData.GetBehaviourType(wei.techType) == BehaviourType.Coral ||
-                                                    BehaviourData.GetBehaviourType(wei.techType) == BehaviourType.Poison ||
-                                                    (BehaviourData.GetBehaviourType(wei.techType) == BehaviourType.Coral && wei.techType != TechType.Crabsnake) ||
-                                                    wei.techType == TechType.Mesmer ||
-                                                    wei.techType == TechType.Peeper ||
-                                                    wei.techType == TechType.Oculus ||
-                                                    wei.techType == TechType.Boomerang ||
-                                                    wei.techType == TechType.LavaBoomerang ||
-                                                    wei.techType == TechType.LavaBoomerang)
-                                                    )
+                                                if (wei.techType == TechType.Mesmer)
                                                 {
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
@@ -195,24 +172,16 @@ namespace ResourceOverload
                                                     {
                                                         if (!techs.ContainsKey(wei.techType))
                                                         {
-                                                            if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                             {
-                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
                                                             }
                                                             else
                                                             {
-
-                                                                if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                                {
-                                                                    Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                                }
-                                                                if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                                {
-                                                                    Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                                }
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
@@ -220,24 +189,12 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                            if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                        prefabData.probability > 0 &&
                                                                        prefabData.probability < 1 &&
                                                                        prefabData.count > 0)
                                                             {
-                                                                if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                                {
-                                                                    customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                                }
-
-                                                                if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                                {
-                                                                    Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                                }
-                                                                if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                                {
-                                                                    Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                                }
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
@@ -267,24 +224,16 @@ namespace ResourceOverload
                                                 {
                                                     if (!techs.ContainsKey(wei.techType))
                                                     {
-                                                        if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                         {
-                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
                                                         }
                                                         else
                                                         {
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -292,24 +241,12 @@ namespace ResourceOverload
                                                     }
                                                     else
                                                     {
-                                                        if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                    prefabData.probability > 0 &&
                                                                    prefabData.probability < 1 &&
                                                                    prefabData.count > 0)
                                                         {
-                                                            if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                            {
-                                                                customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                            }
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -357,24 +294,16 @@ namespace ResourceOverload
                                                 {
                                                     if (!techs.ContainsKey(wei.techType))
                                                     {
-                                                        if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                         {
-                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
                                                         }
                                                         else
                                                         {
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -382,24 +311,12 @@ namespace ResourceOverload
                                                     }
                                                     else
                                                     {
-                                                        if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                    prefabData.probability > 0 &&
                                                                    prefabData.probability < 1 &&
                                                                    prefabData.count > 0)
                                                         {
-                                                            if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                            {
-                                                                customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                            }
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -427,24 +344,16 @@ namespace ResourceOverload
                                                 {
                                                     if (!techs.ContainsKey(wei.techType))
                                                     {
-                                                        if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                         {
-                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
                                                         }
                                                         else
                                                         {
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -452,24 +361,12 @@ namespace ResourceOverload
                                                     }
                                                     else
                                                     {
-                                                        if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                    prefabData.probability > 0 &&
                                                                    prefabData.probability < 1 &&
                                                                    prefabData.count > 0)
                                                         {
-                                                            if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                            {
-                                                                customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                            }
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -477,9 +374,9 @@ namespace ResourceOverload
                                                     }
                                                 }
                                             }
-                                            else if (wei.techType != TechType.None && ((!bio.AsString().Contains("Fragment") &&
-                                                !b.AsString().Contains("Fragment")) ||
-                                                bio.AsString().Contains("Fragment")) &&
+                                            else if (((!bio.AsString().Contains("Fragment") &&
+                                                !b.AsString().Contains("Fragment")) || (bio.AsString().Contains("Fragment") &&
+                                                b.AsString().Contains("Fragment"))) &&
                                                 wei.techType.AsString().Contains("Fragment"))
                                             {
                                                 bool check = false;
@@ -500,24 +397,16 @@ namespace ResourceOverload
                                                 {
                                                     if (!techs.ContainsKey(wei.techType))
                                                     {
-                                                        if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                         {
-                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
                                                         }
                                                         else
                                                         {
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -525,24 +414,14 @@ namespace ResourceOverload
                                                     }
                                                     else
                                                     {
-                                                        if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                    prefabData.probability > 0 &&
                                                                    prefabData.probability < 1 &&
-                                                                   prefabData.count > 0)
+                                                                   prefabData.count > 0 && 
+                                                                   !bio.AsString().Contains("Fragment") &&
+                                                                   !b.AsString().Contains("Fragment"))
                                                         {
-                                                            if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                            {
-                                                                customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                            }
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -565,29 +444,20 @@ namespace ResourceOverload
                                                         }
                                                     }
                                                 }
-
                                                 if (check)
                                                 {
                                                     if (!techs.ContainsKey(wei.techType))
                                                     {
-                                                        if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                         {
-                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
+                                                            prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 1000;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
                                                         }
                                                         else
                                                         {
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 1000;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -595,24 +465,12 @@ namespace ResourceOverload
                                                     }
                                                     else
                                                     {
-                                                        if (((techs[wei.techType].probability < prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability <= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
+                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
                                                                    prefabData.probability > 0 &&
                                                                    prefabData.probability < 1 &&
                                                                    prefabData.count > 0)
                                                         {
-                                                            if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                                            {
-                                                                customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                                            }
-
-                                                            if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                                            {
-                                                                Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                                            }
-                                                            if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                                            {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                                            }
+                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 1000;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
                                                             continue;
@@ -628,53 +486,27 @@ namespace ResourceOverload
                         foreach (LootDistributionData.PrefabData prefabData in __instance.dstDistribution[bio].prefabs)
                         {
                             WorldEntityInfo wei;
-                            if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei))
+                            if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei) && prefabData.probability > 0 && prefabData.probability < 1)
                             {
-
-                                if (!techs.ContainsKey(wei.techType))
+                                if (wei.techType != TechType.None)
                                 {
-                                    if (Config.techProbability.ContainsKey(wei.techType.AsString()))
+                                    if (!Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                     {
-                                        prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]];
-                                        techs[wei.techType] = prefabData;
-                                        customDSTDistribution[bio].prefabs.Add(prefabData);
-                                        continue;
-                                    }
-                                    else if (wei.techType != TechType.None)
-                                    {
-                                        if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                        {
-                                            Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                        }
-                                        if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                        {
-                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                        }
+                                        Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                         techs[wei.techType] = prefabData;
                                         customDSTDistribution[bio].prefabs.Add(prefabData);
                                         continue;
                                     }
                                     else
                                     {
+                                        prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 100;
+                                        techs[wei.techType] = prefabData;
                                         customDSTDistribution[bio].prefabs.Add(prefabData);
                                         continue;
                                     }
                                 }
                                 else
                                 {
-                                    if (customDSTDistribution[bio].prefabs.Contains(techs[wei.techType]))
-                                    {
-                                        customDSTDistribution[bio].prefabs.Remove(techs[wei.techType]);
-                                    }
-                                    if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
-                                    {
-                                        Config.techProbability.Remove(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]);
-                                    }
-                                    if (prefabData.probability > 0f && prefabData.probability < 1f)
-                                    {
-                                        Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability;
-                                    }
-                                    techs[wei.techType] = prefabData;
                                     customDSTDistribution[bio].prefabs.Add(prefabData);
                                     continue;
                                 }
@@ -688,8 +520,8 @@ namespace ResourceOverload
                 }
                 if (Config.RegenSpawns)
                 {
+                    Config.resetDefaults = false;
                     Config.RegenSpawns = false;
-                    IngameMenu.main.Close();
                     IngameMenu.main.Open();
                     IngameMenu.main.ChangeSubscreen("Options");
                 }
