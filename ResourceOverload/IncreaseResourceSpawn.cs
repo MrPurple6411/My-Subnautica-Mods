@@ -16,7 +16,7 @@ namespace ResourceOverload
             bool result = true;
             if (flag)
             {
-                __result = default(EntitySlot.Filler);
+                __result = default;
                 result = false;
             }
             else if (!slot.IsCreatureSlot() && Config.ToggleValue)

@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoEatingSounds", "NoEatingS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoOxygenWarnings", "NoOxygenWarnings\NoOxygenWarnings.csproj", "{4C936D3D-10EA-4015-B7BA-E0727CBA8B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothClawArm", "SeamothClawArm\SeamothClawArm.csproj", "{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothDrillArm", "SeamothDrillArm\SeamothDrillArm.csproj", "{2D190C16-0A81-4C90-9782-997206AC397B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothThermal", "SeamothThermal\SeamothThermal.csproj", "{3576A6BF-559A-4099-A156-561D2C6FCA25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceOverload", "ResourceOverload\ResourceOverload.csproj", "{443EC630-9124-4B76-91DE-FE7628C46ED2}"
@@ -45,14 +41,6 @@ Global
 		{4C936D3D-10EA-4015-B7BA-E0727CBA8B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C936D3D-10EA-4015-B7BA-E0727CBA8B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C936D3D-10EA-4015-B7BA-E0727CBA8B36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D190C16-0A81-4C90-9782-997206AC397B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D190C16-0A81-4C90-9782-997206AC397B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3576A6BF-559A-4099-A156-561D2C6FCA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3576A6BF-559A-4099-A156-561D2C6FCA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3576A6BF-559A-4099-A156-561D2C6FCA25}.Release|Any CPU.ActiveCfg = Release|Any CPU

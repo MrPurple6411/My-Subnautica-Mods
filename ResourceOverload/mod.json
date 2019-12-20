@@ -2,7 +2,7 @@
   "Id": "ResourceOverload",
   "DisplayName": "ResourceOverload",
   "Author": "MrPurple6411",
-  "Version": "1.0.5",
+  "Version": "1.0.6",
   "Requires": [],
   "Enable": true,
   "AssemblyName": "ResourceOverload.dll",

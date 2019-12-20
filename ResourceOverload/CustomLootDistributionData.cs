@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Harmony;
-using SMLHelper.V2.Options;
 using UnityEngine;
 using UWE;
 
@@ -36,11 +35,13 @@ namespace ResourceOverload
                                 {
                                     Config.techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
                                 }
-                                
+
                             }
                         }
-                        customDSTDistribution[bio] = new LootDistributionData.DstData();
-                        customDSTDistribution[bio].prefabs = new List<LootDistributionData.PrefabData>();
+                        customDSTDistribution[bio] = new LootDistributionData.DstData
+                        {
+                            prefabs = new List<LootDistributionData.PrefabData>()
+                        };
 
                         foreach (BiomeType b in Enum.GetValues(typeof(BiomeType)))
                         {
@@ -50,8 +51,7 @@ namespace ResourceOverload
                                 {
                                     if (prefabData.classId.ToLower() != "none")
                                     {
-                                        WorldEntityInfo wei;
-                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei) && prefabData.probability > 0 && prefabData.probability < 1)
+                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out WorldEntityInfo wei))
                                         {
                                             if (!bio.AsString().Contains("Fragment") && wei.slotType == EntitySlot.Type.Creature)
                                             {
@@ -60,8 +60,7 @@ namespace ResourceOverload
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                     {
-                                                        WorldEntityInfo wei2;
-                                                        if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                        if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                         {
                                                             if (wei2.techType == TechType.Sandshark ||
                                                                 wei2.techType == TechType.BoneShark ||
@@ -81,7 +80,7 @@ namespace ResourceOverload
                                                         {
                                                             if (Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                                             {
-                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]]/1000;
+                                                                prefabData.probability = Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] / 1000;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
@@ -89,8 +88,8 @@ namespace ResourceOverload
                                                             else
                                                             {
                                                                 techs[wei.techType] = prefabData;
-                                                                prefabData.probability = 0.0025f;
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability*1000;
+                                                                prefabData.probability = 0.001f;
+                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 1000;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
                                                                 continue;
                                                             }
@@ -102,8 +101,7 @@ namespace ResourceOverload
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                     {
-                                                        WorldEntityInfo wei2;
-                                                        if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                        if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                         {
                                                             if (wei2.techType == TechType.Sandshark ||
                                                                 wei2.techType == TechType.BoneShark ||
@@ -130,19 +128,8 @@ namespace ResourceOverload
                                                             }
                                                             else
                                                             {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                                techs[wei.techType] = prefabData;
-                                                                customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                                continue;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                       prefabData.probability > 0 &&
-                                                                       prefabData.probability < 1 &&
-                                                                       prefabData.count > 0)
-                                                            {
+
+                                                                prefabData.probability /= 4;
                                                                 Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -156,8 +143,7 @@ namespace ResourceOverload
                                                     bool check = false;
                                                     foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                     {
-                                                        WorldEntityInfo wei2;
-                                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei2))
+                                                        if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out WorldEntityInfo wei2))
                                                         {
                                                             if (BehaviourData.GetBehaviourType(wei2.techType) == BehaviourType.SmallFish ||
                                                                 wei2.techType == TechType.Peeper ||
@@ -181,19 +167,8 @@ namespace ResourceOverload
                                                             }
                                                             else
                                                             {
-                                                                Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                                techs[wei.techType] = prefabData;
-                                                                customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                                continue;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                       prefabData.probability > 0 &&
-                                                                       prefabData.probability < 1 &&
-                                                                       prefabData.count > 0)
-                                                            {
+
+                                                                prefabData.probability /= 4;
                                                                 Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                                 techs[wei.techType] = prefabData;
                                                                 customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -208,8 +183,7 @@ namespace ResourceOverload
                                                 bool check = false;
                                                 foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                 {
-                                                    WorldEntityInfo wei2;
-                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                     {
                                                         if (wei2.techType == TechType.LimestoneChunk ||
                                                             wei2.techType == TechType.SandstoneChunk ||
@@ -233,19 +207,8 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                            techs[wei.techType] = prefabData;
-                                                            customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                            continue;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                   prefabData.probability > 0 &&
-                                                                   prefabData.probability < 1 &&
-                                                                   prefabData.count > 0)
-                                                        {
+
+                                                            prefabData.probability /= 4;
                                                             Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -269,8 +232,7 @@ namespace ResourceOverload
                                                 bool check = false;
                                                 foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                 {
-                                                    WorldEntityInfo wei2;
-                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                     {
                                                         if (wei2.techType == TechType.AluminumOxide ||
                                                             wei2.techType == TechType.BloodOil ||
@@ -303,19 +265,8 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                            techs[wei.techType] = prefabData;
-                                                            customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                            continue;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                   prefabData.probability > 0 &&
-                                                                   prefabData.probability < 1 &&
-                                                                   prefabData.count > 0)
-                                                        {
+
+                                                            prefabData.probability /= 4;
                                                             Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -329,8 +280,7 @@ namespace ResourceOverload
                                                 bool check = false;
                                                 foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                 {
-                                                    WorldEntityInfo wei2;
-                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                     {
                                                         if (wei2.techType.AsString().Contains("Drillable"))
                                                         {
@@ -353,19 +303,8 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                            techs[wei.techType] = prefabData;
-                                                            customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                            continue;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                   prefabData.probability > 0 &&
-                                                                   prefabData.probability < 1 &&
-                                                                   prefabData.count > 0)
-                                                        {
+
+                                                            prefabData.probability /= 4;
                                                             Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -382,8 +321,7 @@ namespace ResourceOverload
                                                 bool check = false;
                                                 foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[bio].prefabs)
                                                 {
-                                                    WorldEntityInfo wei2;
-                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                     {
                                                         if (wei2.techType.AsString().Contains("Fragment"))
                                                         {
@@ -406,21 +344,8 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
-                                                            techs[wei.techType] = prefabData;
-                                                            customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                            continue;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                   prefabData.probability > 0 &&
-                                                                   prefabData.probability < 1 &&
-                                                                   prefabData.count > 0 && 
-                                                                   !bio.AsString().Contains("Fragment") &&
-                                                                   !b.AsString().Contains("Fragment"))
-                                                        {
+
+                                                            prefabData.probability /= 4;
                                                             Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -434,8 +359,7 @@ namespace ResourceOverload
                                                 bool check = false;
                                                 foreach (LootDistributionData.PrefabData prefab in __instance.dstDistribution[b].prefabs)
                                                 {
-                                                    WorldEntityInfo wei2;
-                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out wei2))
+                                                    if (WorldEntityDatabase.TryGetInfo(prefab.classId, out WorldEntityInfo wei2))
                                                     {
                                                         if (wei2.techType.AsString().Contains("Fragment"))
                                                         {
@@ -457,19 +381,8 @@ namespace ResourceOverload
                                                         }
                                                         else
                                                         {
-                                                            Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 1000;
-                                                            techs[wei.techType] = prefabData;
-                                                            customDSTDistribution[bio].prefabs.Add(prefabData);
-                                                            continue;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (((techs[wei.techType].probability > prefabData.probability && prefabData.count >= techs[wei.techType].count) || (techs[wei.techType].probability >= prefabData.probability && prefabData.count > techs[wei.techType].count)) &&
-                                                                   prefabData.probability > 0 &&
-                                                                   prefabData.probability < 1 &&
-                                                                   prefabData.count > 0)
-                                                        {
+
+                                                            prefabData.probability /= 4;
                                                             Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 1000;
                                                             techs[wei.techType] = prefabData;
                                                             customDSTDistribution[bio].prefabs.Add(prefabData);
@@ -485,13 +398,14 @@ namespace ResourceOverload
                         }
                         foreach (LootDistributionData.PrefabData prefabData in __instance.dstDistribution[bio].prefabs)
                         {
-                            WorldEntityInfo wei;
-                            if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out wei) && prefabData.probability > 0 && prefabData.probability < 1)
+                            if (WorldEntityDatabase.TryGetInfo(prefabData.classId, out WorldEntityInfo wei))
                             {
                                 if (wei.techType != TechType.None)
                                 {
                                     if (!Config.techProbability.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]))
                                     {
+
+                                        prefabData.probability /= 4;
                                         Config.techProbability[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType) + "| " + bio.AsString().Split('_')[0]] = prefabData.probability * 100;
                                         techs[wei.techType] = prefabData;
                                         customDSTDistribution[bio].prefabs.Add(prefabData);
