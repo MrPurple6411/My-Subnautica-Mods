@@ -69,8 +69,8 @@ namespace ResourceOverload
             }
             else if (e.Id.Contains(":TechProbability"))
             {
-                    Config.techProbability[e.Id.Split(':')[0]] = (float)(e.Value);
-                    PlayerPrefs.SetFloat(e.Id.Split(':')[0] + ":TechProbability", (float)(e.Value));
+                    Config.techProbability[e.Id.SplitByChar(':')[0]] = (float)(e.Value);
+                    PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", (float)(e.Value));
             }
         }
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
@@ -86,87 +86,152 @@ namespace ResourceOverload
                 e.Id != "timeConfig" &&
                 e.Id != "otherConfig") return;
 
-            if (e.Id == "ResourceMultiplierEnabled")
+            try
             {
-                Config.ToggleValue = e.Value;
-                PlayerPrefsExtra.SetBool("ResourceMultiplierEnabled", e.Value);
-            }
-            if (e.Id == "RegenSpawnsEnabled")
-            {
-                Config.RegenSpawns = e.Value;
-                PlayerPrefsExtra.SetBool("RegenSpawnsEnabled", e.Value);
-                if (e.Value)
+                if (e.Id == "ResourceMultiplierEnabled")
                 {
-                    IngameMenu.main.Close();
-                    DevConsole.SendConsoleCommand("entreset");
+                    Config.ToggleValue = e.Value;
+                    PlayerPrefsExtra.SetBool("ResourceMultiplierEnabled", e.Value);
                 }
-            }
-            if (e.Id == "ShowConfig")
-            {
-                Config.ShowConfig = e.Value;
-                PlayerPrefsExtra.SetBool("ShowConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
-            }
-            if (e.Id == "ResourceRandomizerEnabled")
-            {
-                Config.Randomization = e.Value;
-                PlayerPrefsExtra.SetBool("ResourceRandomizerEnabled", e.Value);
-                Config.RegenSpawns = true;
-                IngameMenu.main.Close();
-                DevConsole.SendConsoleCommand("entreset");
-            }
-            if (e.Id == "resetDefaults")
-            {
-                Config.resetDefaults = e.Value;
-                PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
-                if (Config.resetDefaults)
+                if (e.Id == "RegenSpawnsEnabled")
                 {
+                    Config.RegenSpawns = e.Value;
+                    PlayerPrefsExtra.SetBool("RegenSpawnsEnabled", e.Value);
+                    if (e.Value)
+                    {
+                        IngameMenu.main.Close();
+                        LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
+                        LargeWorldStreamer.main.ForceUnloadAll();
+                        LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
+                    }
+                }
+                if (e.Id == "ShowConfig")
+                {
+                    Config.ShowConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("ShowConfig", e.Value);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+                }
+                if (e.Id == "ResourceRandomizerEnabled")
+                {
+                    Config.Randomization = e.Value;
+                    PlayerPrefsExtra.SetBool("ResourceRandomizerEnabled", e.Value);
                     Config.RegenSpawns = true;
                     IngameMenu.main.Close();
-                    DevConsole.SendConsoleCommand("entreset");
+                    LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
+                    LargeWorldStreamer.main.ForceUnloadAll();
+                    LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
+                }
+                if (e.Id == "resetDefaults")
+                {
+                    Config.resetDefaults = e.Value;
+                    PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
+                    if (Config.resetDefaults)
+                    {
+                        Config.reaperConfig = false;
+                        PlayerPrefsExtra.SetBool("reaperConfig", false);
+                        Config.chunkConfig = false;
+                        PlayerPrefsExtra.SetBool("chunkConfig", false);
+                        Config.fragmentConfig = false;
+                        PlayerPrefsExtra.SetBool("fragmentConfig", false);
+                        Config.timeConfig = false;
+                        PlayerPrefsExtra.SetBool("timeConfig", false);
+                        Config.otherConfig = false;
+                        PlayerPrefsExtra.SetBool("otherConfig", false);
+                        Config.ShowConfig = false;
+                        PlayerPrefsExtra.SetBool("ShowConfig", false);
+                        Config.RegenSpawns = true;
+                        IngameMenu.main.Close();
+                        LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
+                        LargeWorldStreamer.main.ForceUnloadAll();
+                    }
+                }
+                if (e.Id == "reaperConfig")
+                {
+                    Config.chunkConfig = false;
+                    PlayerPrefsExtra.SetBool("chunkConfig", false);
+                    Config.fragmentConfig = false;
+                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
+                    Config.timeConfig = false;
+                    PlayerPrefsExtra.SetBool("timeConfig", false);
+                    Config.otherConfig = false;
+                    PlayerPrefsExtra.SetBool("otherConfig", false);
+                    Config.reaperConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("reaperConfig", e.Value);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+                }
+                if (e.Id == "chunkConfig")
+                {
+                    Config.reaperConfig = false;
+                    PlayerPrefsExtra.SetBool("reaperConfig", false);
+                    Config.fragmentConfig = false;
+                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
+                    Config.timeConfig = false;
+                    PlayerPrefsExtra.SetBool("timeConfig", false);
+                    Config.otherConfig = false;
+                    PlayerPrefsExtra.SetBool("otherConfig", false);
+                    Config.chunkConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("chunkConfig", e.Value);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+                }
+                if (e.Id == "fragmentConfig")
+                {
+                    Config.reaperConfig = false;
+                    PlayerPrefsExtra.SetBool("reaperConfig", false);
+                    Config.chunkConfig = false;
+                    PlayerPrefsExtra.SetBool("chunkConfig", false);
+                    Config.timeConfig = false;
+                    PlayerPrefsExtra.SetBool("timeConfig", false);
+                    Config.otherConfig = false;
+                    PlayerPrefsExtra.SetBool("otherConfig", false);
+                    Config.fragmentConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("fragmentConfig", e.Value);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+                }
+                if (e.Id == "timeConfig")
+                {
+                    Config.reaperConfig = false;
+                    PlayerPrefsExtra.SetBool("reaperConfig", false);
+                    Config.chunkConfig = false;
+                    PlayerPrefsExtra.SetBool("chunkConfig", false);
+                    Config.fragmentConfig = false;
+                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
+                    Config.otherConfig = false;
+                    PlayerPrefsExtra.SetBool("otherConfig", false);
+                    Config.timeConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("timeConfig", e.Value);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+                }
+                if (e.Id == "otherConfig")
+                {
+                    Config.otherConfig = e.Value;
+                    PlayerPrefsExtra.SetBool("otherConfig", e.Value);
+                    Config.reaperConfig = false;
+                    PlayerPrefsExtra.SetBool("reaperConfig", false);
+                    Config.chunkConfig = false;
+                    PlayerPrefsExtra.SetBool("chunkConfig", false);
+                    Config.fragmentConfig = false;
+                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
+                    Config.timeConfig = false;
+                    PlayerPrefsExtra.SetBool("timeConfig", false);
+                    IngameMenu.main.Close();
+                    IngameMenu.main.Open();
+                    IngameMenu.main.ChangeSubscreen("Options");
+
                 }
             }
-            if (e.Id == "reaperConfig")
+            catch (Exception)
             {
-                Config.reaperConfig = e.Value;
-                PlayerPrefsExtra.SetBool("reaperConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
-            }
-            if (e.Id == "chunkConfig")
-            {
-                Config.chunkConfig = e.Value;
-                PlayerPrefsExtra.SetBool("chunkConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
-            }
-            if (e.Id == "fragmentConfig")
-            {
-                Config.fragmentConfig = e.Value;
-                PlayerPrefsExtra.SetBool("fragmentConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
-            }
-            if (e.Id == "timeConfig")
-            {
-                Config.timeConfig = e.Value;
-                PlayerPrefsExtra.SetBool("timeConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
-            }
-            if (e.Id == "otherConfig")
-            {
-                Config.otherConfig = e.Value;
-                PlayerPrefsExtra.SetBool("otherConfig", e.Value);
-                IngameMenu.main.Close();
-                IngameMenu.main.Open();
-                IngameMenu.main.ChangeSubscreen("Options");
+                return;
             }
         }
 
@@ -184,41 +249,36 @@ namespace ResourceOverload
                 AddToggleOption("reaperConfig", "Reaper Configs", Config.reaperConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (tech.Split('|')[0].Trim().ToLower().Contains("reaper") && Config.reaperConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
+                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("reaper") && Config.reaperConfig)
+                        AddSliderOption(tech + ":TechProbability",tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
 
                 AddToggleOption("chunkConfig", "Chunk Configs", Config.chunkConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (tech.Split('|')[0].Trim().ToLower().Contains("chunk") && Config.chunkConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
+                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("chunk") && Config.chunkConfig)
+                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0].SplitByChar(' ')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
 
                 AddToggleOption("fragmentConfig", "Fragment Configs", Config.fragmentConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (tech.Split('|')[0].Trim().ToLower().Contains("fragment") && !tech.Split('|')[1].Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
-                }
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.Split('|')[0].Trim().ToLower().Contains("fragment") && tech.Split('|')[1].Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
+                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("fragment") && !tech.SplitByChar('|')[1].Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
+                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
 
                 AddToggleOption("timeConfig", "Time Configs", Config.timeConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (tech.Split('|')[0].Trim().ToLower().Contains("time") && Config.timeConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
+                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("time") && Config.timeConfig)
+                        AddSliderOption(tech + ":TechProbability",tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
 
                 AddToggleOption("otherConfig", "Other Configs", Config.otherConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (Config.otherConfig && !tech.Split('|')[0].Trim().ToLower().Contains("reaper") && !tech.Split('|')[0].Trim().ToLower().Contains("chunk") && !tech.Split('|')[0].Trim().ToLower().Contains("fragment") && !tech.Split('|')[0].Trim().ToLower().Contains("time"))
-                        AddSliderOption(tech + ":TechProbability", tech.Split('|')[0].Trim() + ":" + tech.Split('|')[1].Trim(), 0, 100, Config.techProbability[tech]);
+                    if (Config.otherConfig && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("reaper") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("chunk") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("fragment") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("time"))
+                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
             }
         }
