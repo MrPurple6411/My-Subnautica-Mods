@@ -1,0 +1,13 @@
+﻿{
+  "Id": "LeviathansNeverFlee",
+  "DisplayName": "LeviathansNeverFlee",
+  "Author": "MrPurple6411",
+  "Version": "1.0",
+  "Dependencies": [],
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "LeviathansNeverFlee.dll",
+  "EntryMethod": "LeviathansNeverFlee.Main.Load"
+}
