@@ -1,0 +1,11 @@
+{
+  "Id": "All_Items_1x1",
+  "DisplayName": "All Items 1x1",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Requires": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "All-Items-1x1.dll",
+  "EntryMethod": "All_Items_1x1.Entry.Patch"
+}

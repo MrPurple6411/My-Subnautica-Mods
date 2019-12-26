@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeviathansNeverFlee", "Levi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frigidpenguin", "frigidpenguin\frigidpenguin.csproj", "{C1232033-9EBF-4B30-90A4-FF50A7415C44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-1x1\All-Items-1x1.csproj", "{42843B35-B64F-4A46-B314-B76066C2ECB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
