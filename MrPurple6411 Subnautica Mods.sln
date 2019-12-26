@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time Eternal", "Time Eterna
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeviathansNeverFlee", "LeviathansNeverFlee\LeviathansNeverFlee.csproj", "{B36386D8-531A-4FFA-A42B-7C44F74227DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frigidpenguin", "frigidpenguin\frigidpenguin.csproj", "{C1232033-9EBF-4B30-90A4-FF50A7415C44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
