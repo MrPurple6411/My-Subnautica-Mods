@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frigidpenguin", "frigidpeng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-1x1\All-Items-1x1.csproj", "{42843B35-B64F-4A46-B314-B76066C2ECB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearTheWater", "ClearTheWater\ClearTheWater.csproj", "{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
