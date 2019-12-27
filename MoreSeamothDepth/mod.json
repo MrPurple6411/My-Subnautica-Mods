@@ -3,7 +3,7 @@
   "DisplayName": "MoreSeamothDepth",
   "Author": "AHK1221, MrPurple6411",
   "Version": "1.0.0",
-  "Requires": [ ],
+  "Requires": [ "SMLHelper" ],
   "Enable": true,
   "AssemblyName": "MoreSeamothDepth.dll",
   "EntryMethod": "MoreSeamothDepth.Main.Patch",

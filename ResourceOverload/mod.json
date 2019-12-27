@@ -3,7 +3,7 @@
   "DisplayName": "ResourceOverload",
   "Author": "MrPurple6411",
   "Version": "1.0.7",
-  "Requires": [],
+  "Requires": [ "SMLHelper" ],
   "Enable": true,
   "AssemblyName": "ResourceOverload.dll",
   "EntryMethod": "ResourceOverload.Entry.Patch"

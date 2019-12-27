@@ -102,14 +102,21 @@ namespace BuilderModuleInputFix
                     {
                         var seamoth = (SeaMoth)thisVehicle;
                         bool storageCheck = false;
-                        for (int i = 0; i < 8; i++)
+                        for (int i = 0; i < 12; i++)
                         {
-                            var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                            if (storage != null && storage.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
+                            try
                             {
-                                storage.DestroyItem(destroyTechType);
-                                storageCheck = true;
-                                break;
+                                var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
+                                if (storage != null && storage.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
+                                {
+                                    storage.DestroyItem(destroyTechType);
+                                    storageCheck = true;
+                                    break;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                continue;
                             }
                         }
                         if (!storageCheck)
@@ -186,23 +193,30 @@ namespace BuilderModuleInputFix
                     {
                         var seamoth = (SeaMoth)thisVehicle;
                         bool storageCheck = false;
-                        for (int i = 0; i < 8; i++)
+                        for (int i = 0; i < 12; i++)
                         {
-                            var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                            if (storage != null && storage.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
+                            try
                             {
-                                var name = Language.main.Get(component.GetTechName());
-                                ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
+                                var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
+                                if (storage != null && storage.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
+                                {
+                                    var name = Language.main.Get(component.GetTechName());
+                                    ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
 
-                                uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
+                                    uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
 
-                                component = component.Initialize();
+                                    component = component.Initialize();
 
-                                var item = new InventoryItem(component);
-                                storage.UnsafeAdd(item);
-                                component.PlayPickupSound();
-                                storageCheck = true;
-                                break;
+                                    var item = new InventoryItem(component);
+                                    storage.UnsafeAdd(item);
+                                    component.PlayPickupSound();
+                                    storageCheck = true;
+                                    break;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                continue;
                             }
                         }
                         if (!storageCheck)
