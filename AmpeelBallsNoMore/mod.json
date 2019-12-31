@@ -1,0 +1,13 @@
+{
+  "Id": "AmpeelBallsNoMore",
+  "DisplayName": "Ampeel Balls No More",
+  "Author": "MrPurple6411",
+  "Version": "0.1",
+  "Dependencies": [],
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "AmpeelBallsNoMore.dll",
+  "EntryMethod": "AmpeelBallsNoMore.Entry.Patch"
+}
