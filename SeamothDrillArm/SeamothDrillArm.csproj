@@ -10,8 +10,9 @@
     <RootNamespace>SeamothDrillArm</RootNamespace>
     <AssemblyName>SeamothDrillArm</AssemblyName>
     <OutputPath>..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
