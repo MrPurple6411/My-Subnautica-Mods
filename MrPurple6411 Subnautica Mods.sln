@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreSeamothDepth", "MoreSeamothDepth\MoreSeamothDepth.csproj", "{D159BCDE-6F5B-4B9B-8074-DA78E0C1B122}"
 EndProject
@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time Eternal", "Time Eterna
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeviathansNeverFlee", "LeviathansNeverFlee\LeviathansNeverFlee.csproj", "{B36386D8-531A-4FFA-A42B-7C44F74227DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frigidpenguin", "frigidpenguin\frigidpenguin.csproj", "{C1232033-9EBF-4B30-90A4-FF50A7415C44}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-1x1\All-Items-1x1.csproj", "{42843B35-B64F-4A46-B314-B76066C2ECB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearTheWater", "ClearTheWater\ClearTheWater.csproj", "{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}"
@@ -34,6 +32,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncreasedWorldLoad", "IncreasedWorldLoad\IncreasedWorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpeelBallsNoMore", "AmpeelBallsNoMore\AmpeelBallsNoMore.csproj", "{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothClawArm", "SeamothClawArm\SeamothClawArm.csproj", "{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothDrillArm", "SeamothDrillArm\SeamothDrillArm.csproj", "{2D190C16-0A81-4C90-9782-997206AC397B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +87,6 @@ Global
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B36386D8-531A-4FFA-A42B-7C44F74227DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1232033-9EBF-4B30-90A4-FF50A7415C44}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,6 +103,14 @@ Global
 		{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D190C16-0A81-4C90-9782-997206AC397B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D190C16-0A81-4C90-9782-997206AC397B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
