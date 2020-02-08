@@ -1,6 +1,6 @@
 {
-  "Id": "IncreasedWorldLoad",
-  "DisplayName": "Increased World Load",
+  "Id": "WorldLoad",
+  "DisplayName": "World Load Settings",
   "Author": "MrPurple6411",
   "Version": "0.1",
   "Dependencies": [],
@@ -8,6 +8,6 @@
   "LoadAfter": [],
   "Enable": true,
   "Game": "Both",
-  "AssemblyName": "IncreasedWorldLoad.dll",
-  "EntryMethod": "IncreasedWorldLoad.Entry.Patch"
+  "AssemblyName": "WorldLoad.dll",
+  "EntryMethod": "WorldLoad.Entry.Patch"
 }
