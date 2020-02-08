@@ -29,13 +29,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearTheWater", "ClearTheWater\ClearTheWater.csproj", "{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncreasedWorldLoad", "IncreasedWorldLoad\IncreasedWorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldLoad", "IncreasedWorldLoad\WorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpeelBallsNoMore", "AmpeelBallsNoMore\AmpeelBallsNoMore.csproj", "{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothClawArm", "SeamothClawArm\SeamothClawArm.csproj", "{29231316-5EC5-4777-BC33-1F0B6FFB5DB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothDrillArm", "SeamothDrillArm\SeamothDrillArm.csproj", "{2D190C16-0A81-4C90-9782-997206AC397B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingTweaks", "BuildingTweaks\BuildingTweaks.csproj", "{B6A7966B-78AF-440C-A262-76AF9929E158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{2D190C16-0A81-4C90-9782-997206AC397B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D190C16-0A81-4C90-9782-997206AC397B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A7966B-78AF-440C-A262-76AF9929E158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A7966B-78AF-440C-A262-76AF9929E158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A7966B-78AF-440C-A262-76AF9929E158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A7966B-78AF-440C-A262-76AF9929E158}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
