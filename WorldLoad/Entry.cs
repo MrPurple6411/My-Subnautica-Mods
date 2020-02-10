@@ -43,7 +43,7 @@ namespace WorldLoad
 
         public override void BuildModOptions()
         {
-            AddSliderOption("WorldLoad", "Load Distance", 1, 20, Config.IncreasedWorldLoad);
+            AddSliderOption("WorldLoad", "Load Distance", 4, 20, Config.IncreasedWorldLoad);
         }
     }
 
@@ -61,11 +61,14 @@ namespace WorldLoad
             for (int i = 1; i < __result.levels.Length; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
-                levelSettings.chunksPerSide = Config.IncreasedWorldLoad/i;
-                levelSettings.chunksVertically = Config.IncreasedWorldLoad/i;
-                levelSettings.grassSettings.reduction = 0;
-                levelSettings.grass = true;
+                levelSettings.chunksPerSide = Config.IncreasedWorldLoad;
+                levelSettings.chunksVertically = Config.IncreasedWorldLoad;
                 levelSettings.entities = true;
+                if(i < __result.levels.Length / 2)
+                {
+                    levelSettings.grass = true;
+                    levelSettings.grassSettings.reduction = 0;
+                }
             }
         }
     }

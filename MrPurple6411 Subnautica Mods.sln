@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearTheWater", "ClearTheWater\ClearTheWater.csproj", "{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldLoad", "IncreasedWorldLoad\WorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldLoad", "WorldLoad\WorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpeelBallsNoMore", "AmpeelBallsNoMore\AmpeelBallsNoMore.csproj", "{92D29E33-BBA9-49E9-BD9C-AE322A27ACCB}"
 EndProject
