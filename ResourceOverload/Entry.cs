@@ -26,9 +26,7 @@ namespace ResourceOverload
         public static SortedList<string, float> techProbability = new SortedList<string, float>();
         public static bool RegenSpawns;
         public static bool Randomization;
-        public static bool ShowConfig;
         public static bool resetDefaults;
-        public static bool reaperConfig;
         public static bool chunkConfig;
         public static bool fragmentConfig;
         public static bool timeConfig;
@@ -39,10 +37,8 @@ namespace ResourceOverload
             SliderValue = PlayerPrefs.GetFloat("ResourceMultiplier", 1f);
             RegenSpawns = false;
             ToggleValue = PlayerPrefsExtra.GetBool("ResourceMultiplierEnabled", true);
-            ShowConfig = false;
             Randomization = PlayerPrefsExtra.GetBool("ResourceRandomizerEnabled", true);
             resetDefaults = false;
-            reaperConfig = PlayerPrefsExtra.GetBool("reaperConfig", false);
             chunkConfig = PlayerPrefsExtra.GetBool("chunkConfig", false);
             fragmentConfig = PlayerPrefsExtra.GetBool("fragmentConfig", false);
             timeConfig = PlayerPrefsExtra.GetBool("timeConfig", false);
@@ -78,9 +74,7 @@ namespace ResourceOverload
             if (e.Id != "ResourceMultiplierEnabled" && 
                 e.Id != "RegenSpawnsEnabled" && 
                 e.Id != "ResourceRandomizerEnabled" && 
-                e.Id != "ShowConfig" &&
                 e.Id != "resetDefaults" &&
-                e.Id != "reaperConfig" &&
                 e.Id != "chunkConfig" &&
                 e.Id != "fragmentConfig" &&
                 e.Id != "timeConfig" &&
@@ -105,14 +99,6 @@ namespace ResourceOverload
                         LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
                     }
                 }
-                if (e.Id == "ShowConfig")
-                {
-                    Config.ShowConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("ShowConfig", e.Value);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-                }
                 if (e.Id == "ResourceRandomizerEnabled")
                 {
                     Config.Randomization = e.Value;
@@ -129,8 +115,6 @@ namespace ResourceOverload
                     PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
                     if (Config.resetDefaults)
                     {
-                        Config.reaperConfig = false;
-                        PlayerPrefsExtra.SetBool("reaperConfig", false);
                         Config.chunkConfig = false;
                         PlayerPrefsExtra.SetBool("chunkConfig", false);
                         Config.fragmentConfig = false;
@@ -139,34 +123,14 @@ namespace ResourceOverload
                         PlayerPrefsExtra.SetBool("timeConfig", false);
                         Config.otherConfig = false;
                         PlayerPrefsExtra.SetBool("otherConfig", false);
-                        Config.ShowConfig = false;
-                        PlayerPrefsExtra.SetBool("ShowConfig", false);
                         Config.RegenSpawns = true;
                         IngameMenu.main.Close();
                         LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
                         LargeWorldStreamer.main.ForceUnloadAll();
                     }
                 }
-                if (e.Id == "reaperConfig")
-                {
-                    Config.chunkConfig = false;
-                    PlayerPrefsExtra.SetBool("chunkConfig", false);
-                    Config.fragmentConfig = false;
-                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
-                    Config.timeConfig = false;
-                    PlayerPrefsExtra.SetBool("timeConfig", false);
-                    Config.otherConfig = false;
-                    PlayerPrefsExtra.SetBool("otherConfig", false);
-                    Config.reaperConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("reaperConfig", e.Value);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-                }
                 if (e.Id == "chunkConfig")
                 {
-                    Config.reaperConfig = false;
-                    PlayerPrefsExtra.SetBool("reaperConfig", false);
                     Config.fragmentConfig = false;
                     PlayerPrefsExtra.SetBool("fragmentConfig", false);
                     Config.timeConfig = false;
@@ -181,8 +145,6 @@ namespace ResourceOverload
                 }
                 if (e.Id == "fragmentConfig")
                 {
-                    Config.reaperConfig = false;
-                    PlayerPrefsExtra.SetBool("reaperConfig", false);
                     Config.chunkConfig = false;
                     PlayerPrefsExtra.SetBool("chunkConfig", false);
                     Config.timeConfig = false;
@@ -197,8 +159,6 @@ namespace ResourceOverload
                 }
                 if (e.Id == "timeConfig")
                 {
-                    Config.reaperConfig = false;
-                    PlayerPrefsExtra.SetBool("reaperConfig", false);
                     Config.chunkConfig = false;
                     PlayerPrefsExtra.SetBool("chunkConfig", false);
                     Config.fragmentConfig = false;
@@ -215,8 +175,6 @@ namespace ResourceOverload
                 {
                     Config.otherConfig = e.Value;
                     PlayerPrefsExtra.SetBool("otherConfig", e.Value);
-                    Config.reaperConfig = false;
-                    PlayerPrefsExtra.SetBool("reaperConfig", false);
                     Config.chunkConfig = false;
                     PlayerPrefsExtra.SetBool("chunkConfig", false);
                     Config.fragmentConfig = false;
@@ -240,19 +198,41 @@ namespace ResourceOverload
             AddToggleOption("ResourceMultiplierEnabled", "Resource Multiplier Enabled", Config.ToggleValue);
             AddSliderOption("GeneralMultiplier", "Resource Multiplier", 0, 20, Config.SliderValue);
             AddToggleOption("ResourceRandomizerEnabled", "Resource Randomization Enabled", Config.Randomization);
-            AddToggleOption("ShowConfig", "Show Fine Tuning Configs", Config.ShowConfig);
             AddToggleOption("resetDefaults", "Reset Fine Tuning Configs", Config.resetDefaults);
             AddToggleOption("RegenSpawnsEnabled", "Apply changes?", Config.RegenSpawns);
 
-            if (Config.ShowConfig)
+            if (Config.Randomization)
             {
-                AddToggleOption("reaperConfig", "Reaper Configs", Config.reaperConfig);
+                AddToggleOption("chunkConfig", "Chunk Configs", Config.chunkConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
-                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("reaper") && Config.reaperConfig)
-                        AddSliderOption(tech + ":TechProbability",tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
+                    if (tech.Trim().ToLower().Contains("chunk") && Config.chunkConfig)
+                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar(' ')[0], 0, 100, Config.techProbability[tech]);
                 }
 
+                AddToggleOption("fragmentConfig", "Fragment Configs", Config.fragmentConfig);
+                foreach (string tech in Config.techProbability.Keys)
+                {
+                    if (tech.Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
+                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
+                }
+
+                AddToggleOption("timeConfig", "Time Configs", Config.timeConfig);
+                foreach (string tech in Config.techProbability.Keys)
+                {
+                    if (tech.Trim().ToLower().Contains("time") && Config.timeConfig)
+                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
+                }
+
+                AddToggleOption("otherConfig", "Other Configs", Config.otherConfig);
+                foreach (string tech in Config.techProbability.Keys)
+                {
+                    if (Config.otherConfig && !tech.Trim().ToLower().Contains("reaper") && !tech.Trim().ToLower().Contains("chunk") && !tech.Trim().ToLower().Contains("fragment") && !tech.Trim().ToLower().Contains("time"))
+                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
+                }
+            }
+            else
+            {
                 AddToggleOption("chunkConfig", "Chunk Configs", Config.chunkConfig);
                 foreach (string tech in Config.techProbability.Keys)
                 {
@@ -271,7 +251,7 @@ namespace ResourceOverload
                 foreach (string tech in Config.techProbability.Keys)
                 {
                     if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("time") && Config.timeConfig)
-                        AddSliderOption(tech + ":TechProbability",tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
+                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
                 }
 
                 AddToggleOption("otherConfig", "Other Configs", Config.otherConfig);
