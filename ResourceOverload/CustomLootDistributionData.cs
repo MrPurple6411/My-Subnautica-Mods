@@ -67,22 +67,32 @@ namespace ResourceOverload
             }
         }
 
+        #region Settings
         private static void CheckSettings(BiomeType bio)
         {
-            if (!Config.resetDefaults)
-            {
-                LoadSettings(bio);
-            }
-            else
+            if (Config.resetDefaults)
             {
                 ResetSettings(bio);
             }
+            else
+            {
+                LoadSettings(bio);
+            }
         }
+
         private static void LoadSettings(BiomeType bio)
         {
             foreach (TechType type in Enum.GetValues(typeof(TechType)))
             {
-                string tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
+                string tech0;
+                if (Config.Randomization)
+                {
+                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type);
+                }
+                else
+                {
+                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
+                }
                 if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
                 {
                     Config.techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
@@ -94,13 +104,49 @@ namespace ResourceOverload
         {
             foreach (TechType type in Enum.GetValues(typeof(TechType)))
             {
-                string tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
+                string tech0;
+                tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type);
+                if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
+                {
+                    PlayerPrefs.DeleteKey(tech0 + ":TechProbability");
+                }
+
+                tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
                 if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
                 {
                     PlayerPrefs.DeleteKey(tech0 + ":TechProbability");
                 }
             }
         }
+
+        private static void GenerateMissingConfiguration(BiomeType biomeType)
+        {
+            foreach (TechType type in techs.Keys)
+            {
+                string tech0;
+                if (Config.Randomization)
+                {
+                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type);
+                }
+                else
+                {
+                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + biomeType.AsString().Split('_')[0];
+                }
+                if (!Config.techProbability.ContainsKey(tech0))
+                {
+                    if (type == TechType.TimeCapsule)
+                    {
+                        Config.techProbability[tech0] = techs[type].probability * 1000;
+                    }
+                    else
+                    {
+                        Config.techProbability[tech0] = techs[type].probability * 100;
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         private static void Randomizer(LootDistributionData __instance, BiomeType bio)
         {
@@ -236,33 +282,6 @@ namespace ResourceOverload
                 else
                 {
                     customDSTDistribution[biomeType].prefabs.Add(prefabData);
-                }
-            }
-        }
-
-        private static void GenerateMissingConfiguration(BiomeType biomeType)
-        {
-            foreach (TechType type in techs.Keys)
-            {
-                string tech0;
-                if (Config.Randomization)
-                {
-                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type);
-                }
-                else
-                {
-                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + biomeType.AsString().Split('_')[0];
-                }
-                if (!Config.techProbability.ContainsKey(tech0))
-                {
-                    if (type == TechType.TimeCapsule)
-                    {
-                        Config.techProbability[tech0] = techs[type].probability * 1000;
-                    }
-                    else
-                    {
-                        Config.techProbability[tech0] = techs[type].probability * 100;
-                    }
                 }
             }
         }
