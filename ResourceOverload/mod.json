@@ -2,7 +2,7 @@
   "Id": "ResourceOverload",
   "DisplayName": "ResourceOverload",
   "Author": "MrPurple6411",
-  "Version": "1.0.7",
+  "Version": "1.1.0",
   "Requires": [ "SMLHelper" ],
   "Enable": true,
   "AssemblyName": "ResourceOverload.dll",
