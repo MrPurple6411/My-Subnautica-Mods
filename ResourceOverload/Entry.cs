@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Harmony;
+using Oculus.Newtonsoft.Json;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
 using SMLHelper.V2.Utility;
@@ -43,6 +45,29 @@ namespace ResourceOverload
             fragmentConfig = PlayerPrefsExtra.GetBool("fragmentConfig", false);
             timeConfig = PlayerPrefsExtra.GetBool("timeConfig", false);
             otherConfig = PlayerPrefsExtra.GetBool("otherConfig", false);
+
+            LoadCache();
+        }
+
+        private static void LoadCache()
+        {
+            string path;
+            if (Randomization)
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
+            }
+            else
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
+            }
+
+            if (File.Exists(path))
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    CustomLootDistributionData.customDSTDistribution = JsonConvert.DeserializeObject<SortedDictionary<BiomeType, LootDistributionData.DstData>>(reader.ReadToEnd());
+                }
+            }
         }
     }
 
@@ -65,8 +90,9 @@ namespace ResourceOverload
             }
             else if (e.Id.Contains(":TechProbability"))
             {
-                    Config.techProbability[e.Id.SplitByChar(':')[0]] = (float)(e.Value);
-                    PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", (float)(e.Value));
+                Config.techProbability[e.Id.SplitByChar(':')[0]] = (float)(e.Value);
+                PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", (float)(e.Value));
+                CustomLootDistributionData.changed = true;
             }
         }
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
