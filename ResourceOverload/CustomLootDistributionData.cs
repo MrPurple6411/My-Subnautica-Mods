@@ -36,7 +36,7 @@ namespace ResourceOverload
         public static List<TechType> randomizedFragments = new List<TechType>();
         public static bool changed = false;
 
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         public static void Postfix(LootDistributionData __instance, BiomeType biome, ref bool __result, ref LootDistributionData.DstData data)
         {
             string path;
