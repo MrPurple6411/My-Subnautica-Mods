@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingTweaks", "BuildingT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterACU", "BetterACU\BetterACU.csproj", "{F5703E25-99EC-4420-8F60-9C5AB7139602}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoCrosshair", "NoCrosshair\NoCrosshair.csproj", "{0427286B-5896-4759-A2D5-267CA9D788B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{F5703E25-99EC-4420-8F60-9C5AB7139602}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{F5703E25-99EC-4420-8F60-9C5AB7139602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5703E25-99EC-4420-8F60-9C5AB7139602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0427286B-5896-4759-A2D5-267CA9D788B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0427286B-5896-4759-A2D5-267CA9D788B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0427286B-5896-4759-A2D5-267CA9D788B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0427286B-5896-4759-A2D5-267CA9D788B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

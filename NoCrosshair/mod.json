@@ -1,0 +1,9 @@
+{
+  "Id": "frigidpenguin_NoCrosshair",
+  "DisplayName": "NoCrosshair",
+  "Author": "frigidpenguin",
+  "Version": "5",
+  "Enable": true,
+  "Game": "Both",
+  "AssemblyName": "NoCrosshair.dll"
+}
