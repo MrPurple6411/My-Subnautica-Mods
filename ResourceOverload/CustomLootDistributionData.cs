@@ -67,19 +67,19 @@ namespace ResourceOverload
         {
             Config.techProbability = new SortedList<string, float>();
             customDSTDistribution = new SortedDictionary<BiomeType, LootDistributionData.DstData>();
+            CheckSettings();
             foreach (BiomeType bio in Enum.GetValues(typeof(BiomeType)))
             {
                 if (__instance.dstDistribution.ContainsKey(bio))
                 {
                     customDSTDistribution[bio] = new LootDistributionData.DstData() { prefabs = new List<LootDistributionData.PrefabData>() };
 
-                    CheckSettings(bio);
                     if (Config.Randomization)
                         Randomizer(__instance, bio);
                     LoadOriginalDistribution(__instance, bio);
-                    GenerateMissingConfiguration(bio);
                 }
             }
+            GenerateConfiguration();
 
             string path;
             if (Config.Randomization)
@@ -90,14 +90,11 @@ namespace ResourceOverload
             {
                 path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Config.json";
             }
-            if (!string.IsNullOrEmpty(path))
+            if (Config.resetDefaults || !File.Exists(path) || changed)
             {
-                if (Config.resetDefaults || !File.Exists(path) || changed)
+                using (StreamWriter writer = new StreamWriter(path))
                 {
-                    using (StreamWriter writer = new StreamWriter(path))
-                    {
-                        writer.Write(JsonConvert.SerializeObject(techs, Formatting.Indented));
-                    }
+                    writer.Write(JsonConvert.SerializeObject(techs, Formatting.Indented));
                 }
             }
             if (Config.RegenSpawns || Config.resetDefaults)
@@ -108,19 +105,19 @@ namespace ResourceOverload
         }
 
         #region Settings
-        private static void CheckSettings(BiomeType bio)
+        private static void CheckSettings()
         {
             if (Config.resetDefaults)
             {
-                ResetSettings(bio);
+                ResetSettings();
             }
             else
             {
-                LoadSettings(bio);
+                LoadSettings();
             }
         }
 
-        private static void LoadSettings(BiomeType bio)
+        public static void LoadSettings()
         {
             string path;
             if (Config.Randomization)
@@ -131,71 +128,35 @@ namespace ResourceOverload
             {
                 path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Config.json";
             }
-            if (!string.IsNullOrEmpty(path))
+            if (File.Exists(path))
             {
-                if (File.Exists(path))
+                using (StreamReader reader = new StreamReader(path))
                 {
-                    using (StreamReader reader = new StreamReader(path))
-                    {
-                        techs = JsonConvert.DeserializeObject<SortedDictionary<string, SortedDictionary<string, float>>>(reader.ReadToEnd());
-                    }
+                    techs = JsonConvert.DeserializeObject<SortedDictionary<string, SortedDictionary<string, float>>>(reader.ReadToEnd());
                 }
-            }
-            if(techs.Count == 0)
-            {
-                foreach (TechType type in Enum.GetValues(typeof(TechType)))
-                {
-                    string tech0;
-                    if (Config.Randomization)
-                    {
-                        tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type);
-                    }
-                    else
-                    {
-                        tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
-                    }
-                    if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
-                    {
-                        Config.techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
-                    }
-                }
-            }
-            else
-            {
                 foreach (string type in techs.Keys)
                 {
-                    string tech0;
-                    if (Config.Randomization)
+                    foreach(string bio in techs[type].Keys)
                     {
-                        tech0 = type;
-                    }
-                    else
-                    {
-                        tech0 = type + "| " + bio.AsString().Split('_')[0];
-                    }
-                    if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
-                    {
-                        techs[type].TryGetValue(bio.AsString().Split('_')[0], out float probability);
-                        if (PlayerPrefs.GetFloat(tech0 + ":TechProbability") == probability)
+                        string tech0;
+                        if (Config.Randomization)
                         {
-                            Config.techProbability[tech0] = probability;
+                            tech0 = type;
                         }
-                        else if(!Config.RegenSpawns)
+                        else
                         {
-                            Config.techProbability[tech0] = probability;
-                            PlayerPrefs.SetFloat(tech0 + ":TechProbability", probability);
+                            tech0 = type + "| " + bio;
                         }
-                        else if (Config.RegenSpawns)
+                        if (techs[type].TryGetValue(bio, out float probability) && !Config.techProbability.ContainsKey(tech0))
                         {
-                            changed = true;
-                            Config.techProbability[tech0] = PlayerPrefs.GetFloat(tech0 + ":TechProbability");
+                            Config.techProbability[tech0] = techs[type][bio];
                         }
                     }
                 }
             }
         }
 
-        private static void ResetSettings(BiomeType bio)
+        private static void ResetSettings()
         {
             foreach (TechType type in Enum.GetValues(typeof(TechType)))
             {
@@ -205,20 +166,35 @@ namespace ResourceOverload
                 {
                     PlayerPrefs.DeleteKey(tech0 + ":TechProbability");
                 }
-
-                tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
-                if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
+                foreach (BiomeType bio in Enum.GetValues(typeof(BiomeType)))
                 {
-                    PlayerPrefs.DeleteKey(tech0 + ":TechProbability");
+                    tech0 = TechTypeExtensions.GetOrFallback(Language.main, type, type) + "| " + bio.AsString().Split('_')[0];
+                    if (PlayerPrefs.HasKey(tech0 + ":TechProbability"))
+                    {
+                        PlayerPrefs.DeleteKey(tech0 + ":TechProbability");
+                    }
                 }
             }
+            string path, path2;
+            if (Config.Randomization)
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerConfig.json";
+                path2 = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
+            }
+            else
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Config.json";
+                path2 = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
+            }
+            if (File.Exists(path)) File.Delete(path);
+            if (File.Exists(path2)) File.Delete(path2);
         }
 
-        private static void GenerateMissingConfiguration(BiomeType biomeType)
+        private static void GenerateConfiguration()
         {
-            try
+            foreach (string type in techs.Keys)
             {
-                foreach (string type in techs.Keys)
+                foreach(string bio in techs[type].Keys)
                 {
                     string tech0;
                     if (Config.Randomization)
@@ -227,24 +203,13 @@ namespace ResourceOverload
                     }
                     else
                     {
-                        tech0 = type + "| " + biomeType.AsString().Split('_')[0];
+                        tech0 = type + "| " + bio;
                     }
                     if (!Config.techProbability.ContainsKey(tech0) && techs.ContainsKey(type))
                     {
-                        if (type == TechType.TimeCapsule.AsString())
-                        {
-                            Config.techProbability[tech0] = techs[type][biomeType.AsString().Split('_')[0]] * 1000;
-                        }
-                        else
-                        {
-                            Config.techProbability[tech0] = techs[type][biomeType.AsString().Split('_')[0]] * 100;
-                        }
+                        Config.techProbability[tech0] = techs[type][bio];
                     }
                 }
-            }
-            catch(Exception)
-            {
-
             }
         }
 
@@ -318,16 +283,8 @@ namespace ResourceOverload
                 {
                     if (Config.techProbability.ContainsKey(tech0))
                     {
-                        if (wei.techType == TechType.TimeCapsule)
-                        {
-                            prefabData.probability = Config.techProbability[tech0] / 1000;
-                            techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][bio.AsString().Split('_')[0]] = prefabData.probability;
-                        }
-                        else
-                        {
-                            prefabData.probability = Config.techProbability[tech0] / 100;
-                            techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][bio.AsString().Split('_')[0]] = prefabData.probability;
-                        }
+                        prefabData.probability = Config.techProbability[tech0];
+                        techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][bio.AsString().Split('_')[0]] = prefabData.probability;
                         customDSTDistribution[bio].prefabs.Add(prefabData);
                     }
                     else
@@ -392,7 +349,7 @@ namespace ResourceOverload
                             if (!techs.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)))
                                 techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)] = new SortedDictionary<string, float>();
 
-                            prefabData.probability = Config.techProbability[tech0] / 100;
+                            prefabData.probability = Config.techProbability[tech0];
                             techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][biomeType.AsString().Split('_')[0]] = prefabData.probability;
                             customDSTDistribution[biomeType].prefabs.Add(prefabData);
                             continue;

@@ -6,22 +6,23 @@ using UWE;
 namespace ResourceOverload
 {
     [HarmonyPatch(typeof(CellManager))]
-    [HarmonyPatch("GetPrefabForSlot", new Type[] { typeof(IEntitySlot)})]
+    [HarmonyPatch(nameof(CellManager.GetPrefabForSlot), new Type[] { typeof(IEntitySlot)})]
     class IncreaseResourceSpawn
     {
-        public static bool Prefix(CellManager __instance, IEntitySlot slot, ref EntitySlot.Filler __result)
+        [HarmonyPostfix]
+        public static void Postfix(CellManager __instance, IEntitySlot slot, ref EntitySlot.Filler __result)
         {
+            if(!string.IsNullOrEmpty(__result.classId))
+                return;
             int num = 0;
             bool flag = __instance.spawner == null;
-            bool result = true;
             if (flag)
             {
                 __result = default;
-                result = false;
             }
-            else if (!slot.IsCreatureSlot() && Config.ToggleValue)
+            else if (!slot.IsCreatureSlot())
             {
-                while (string.IsNullOrEmpty(__result.classId) && num < Config.SliderValue)
+                while (string.IsNullOrEmpty(__result.classId) && num < Config.ResourceMultiplier)
                 {
                     num++;
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
@@ -37,25 +38,7 @@ namespace ResourceOverload
                         }
                     }
                 };
-                result = false;
             }
-            else if (slot.IsCreatureSlot() && Config.ToggleValue)
-            {
-                __result = __instance.spawner.GetPrefabForSlot(slot, true);
-                WorldEntityInfo wei;
-                if (!string.IsNullOrEmpty(__result.classId))
-                {
-                    if (WorldEntityDatabase.TryGetInfo(__result.classId, out wei))
-                    {
-                        if (wei.techType == TechType.ReaperLeviathan)
-                        {
-                            ErrorMessage.AddWarning("!!!!!WARNING Reaper Leviathan WARNING!!!!!");
-                        }
-                    }
-                }
-                result = false;
-            }
-            return result;
         }
     }
 }

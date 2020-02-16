@@ -23,33 +23,27 @@ namespace ResourceOverload
     }
     public static class Config
     {
-        public static float SliderValue;
-        public static bool ToggleValue;
+        public static float ResourceMultiplier;
+        public static bool LoadExternalChanges;
         public static SortedList<string, float> techProbability = new SortedList<string, float>();
         public static bool RegenSpawns;
         public static bool Randomization;
         public static bool resetDefaults;
-        public static bool chunkConfig;
-        public static bool fragmentConfig;
-        public static bool timeConfig;
-        public static bool otherConfig;
 
         public static void Load()
         {
-            SliderValue = PlayerPrefs.GetFloat("ResourceMultiplier", 1f);
+            ResourceMultiplier = PlayerPrefs.GetFloat("ResourceMultiplier", 1f);
             RegenSpawns = false;
-            ToggleValue = PlayerPrefsExtra.GetBool("ResourceMultiplierEnabled", true);
+            LoadExternalChanges = PlayerPrefsExtra.GetBool("LoadExternalChanges", false);
             Randomization = PlayerPrefsExtra.GetBool("ResourceRandomizerEnabled", true);
             resetDefaults = false;
-            chunkConfig = PlayerPrefsExtra.GetBool("chunkConfig", false);
-            fragmentConfig = PlayerPrefsExtra.GetBool("fragmentConfig", false);
-            timeConfig = PlayerPrefsExtra.GetBool("timeConfig", false);
-            otherConfig = PlayerPrefsExtra.GetBool("otherConfig", false);
 
             LoadCache();
+            CustomLootDistributionData.LoadSettings();
         }
 
-        private static void LoadCache()
+
+        public static void LoadCache()
         {
             string path;
             if (Randomization)
@@ -69,6 +63,21 @@ namespace ResourceOverload
                 }
             }
         }
+        public static void DeleteCache()
+        {
+            string path;
+            if (Randomization)
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
+            }
+            else
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
+            }
+
+            if (File.Exists(path))
+                File.Delete(path);
+        }
     }
 
     public class Options : ModOptions
@@ -81,11 +90,11 @@ namespace ResourceOverload
 
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if (e.Id != "GeneralMultiplier" &&
+            if (e.Id != "ResourceMultiplier" &&
                 !e.Id.Contains("TechProbability")) return;
-            if (e.Id == "GeneralMultiplier")
+            if (e.Id == "ResourceMultiplier")
             {
-                Config.SliderValue = e.Value;
+                Config.ResourceMultiplier = e.Value;
                 PlayerPrefs.SetFloat("ResourceMultiplier", e.Value);
             }
             else if (e.Id.Contains(":TechProbability"))
@@ -97,21 +106,23 @@ namespace ResourceOverload
         }
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "ResourceMultiplierEnabled" && 
+            if (e.Id != "LoadExternalChanges" && 
                 e.Id != "RegenSpawnsEnabled" && 
                 e.Id != "ResourceRandomizerEnabled" && 
-                e.Id != "resetDefaults" &&
-                e.Id != "chunkConfig" &&
-                e.Id != "fragmentConfig" &&
-                e.Id != "timeConfig" &&
-                e.Id != "otherConfig") return;
+                e.Id != "resetDefaults") return;
 
             try
             {
-                if (e.Id == "ResourceMultiplierEnabled")
+                if (e.Id == "LoadExternalChanges")
                 {
-                    Config.ToggleValue = e.Value;
-                    PlayerPrefsExtra.SetBool("ResourceMultiplierEnabled", e.Value);
+                    Config.DeleteCache();
+                    Config.techProbability = new SortedList<string, float>();
+                    CustomLootDistributionData.customDSTDistribution = new SortedDictionary<BiomeType, LootDistributionData.DstData>();
+                    Config.RegenSpawns = e.Value;
+                    IngameMenu.main.Close();
+                    LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
+                    LargeWorldStreamer.main.ForceUnloadAll();
+                    LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
                 }
                 if (e.Id == "RegenSpawnsEnabled")
                 {
@@ -130,6 +141,9 @@ namespace ResourceOverload
                     Config.Randomization = e.Value;
                     PlayerPrefsExtra.SetBool("ResourceRandomizerEnabled", e.Value);
                     Config.RegenSpawns = true;
+                    Config.techProbability = new SortedList<string, float>();
+                    CustomLootDistributionData.customDSTDistribution = new SortedDictionary<BiomeType, LootDistributionData.DstData>();
+                    Config.LoadCache();
                     IngameMenu.main.Close();
                     LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
                     LargeWorldStreamer.main.ForceUnloadAll();
@@ -141,76 +155,11 @@ namespace ResourceOverload
                     PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
                     if (Config.resetDefaults)
                     {
-                        Config.chunkConfig = false;
-                        PlayerPrefsExtra.SetBool("chunkConfig", false);
-                        Config.fragmentConfig = false;
-                        PlayerPrefsExtra.SetBool("fragmentConfig", false);
-                        Config.timeConfig = false;
-                        PlayerPrefsExtra.SetBool("timeConfig", false);
-                        Config.otherConfig = false;
-                        PlayerPrefsExtra.SetBool("otherConfig", false);
                         Config.RegenSpawns = true;
                         IngameMenu.main.Close();
                         LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
                         LargeWorldStreamer.main.ForceUnloadAll();
                     }
-                }
-                if (e.Id == "chunkConfig")
-                {
-                    Config.fragmentConfig = false;
-                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
-                    Config.timeConfig = false;
-                    PlayerPrefsExtra.SetBool("timeConfig", false);
-                    Config.otherConfig = false;
-                    PlayerPrefsExtra.SetBool("otherConfig", false);
-                    Config.chunkConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("chunkConfig", e.Value);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-                }
-                if (e.Id == "fragmentConfig")
-                {
-                    Config.chunkConfig = false;
-                    PlayerPrefsExtra.SetBool("chunkConfig", false);
-                    Config.timeConfig = false;
-                    PlayerPrefsExtra.SetBool("timeConfig", false);
-                    Config.otherConfig = false;
-                    PlayerPrefsExtra.SetBool("otherConfig", false);
-                    Config.fragmentConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("fragmentConfig", e.Value);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-                }
-                if (e.Id == "timeConfig")
-                {
-                    Config.chunkConfig = false;
-                    PlayerPrefsExtra.SetBool("chunkConfig", false);
-                    Config.fragmentConfig = false;
-                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
-                    Config.otherConfig = false;
-                    PlayerPrefsExtra.SetBool("otherConfig", false);
-                    Config.timeConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("timeConfig", e.Value);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-                }
-                if (e.Id == "otherConfig")
-                {
-                    Config.otherConfig = e.Value;
-                    PlayerPrefsExtra.SetBool("otherConfig", e.Value);
-                    Config.chunkConfig = false;
-                    PlayerPrefsExtra.SetBool("chunkConfig", false);
-                    Config.fragmentConfig = false;
-                    PlayerPrefsExtra.SetBool("fragmentConfig", false);
-                    Config.timeConfig = false;
-                    PlayerPrefsExtra.SetBool("timeConfig", false);
-                    IngameMenu.main.Close();
-                    IngameMenu.main.Open();
-                    IngameMenu.main.ChangeSubscreen("Options");
-
                 }
             }
             catch (Exception)
@@ -221,72 +170,11 @@ namespace ResourceOverload
 
         public override void BuildModOptions()
         {
-            AddToggleOption("ResourceMultiplierEnabled", "Resource Multiplier Enabled", Config.ToggleValue);
-            AddSliderOption("GeneralMultiplier", "Resource Multiplier", 0, 20, Config.SliderValue);
+            AddToggleOption("LoadExternalChanges", "Load External Changes", Config.LoadExternalChanges);
+            AddSliderOption("ResourceMultiplier", "Resource Multiplier", 1, 20, Config.ResourceMultiplier);
+            AddToggleOption("RegenSpawnsEnabled", "Apply Multiplier Changes", Config.RegenSpawns);
             AddToggleOption("ResourceRandomizerEnabled", "Resource Randomization Enabled", Config.Randomization);
-            AddToggleOption("resetDefaults", "Reset Fine Tuning Configs", Config.resetDefaults);
-            AddToggleOption("RegenSpawnsEnabled", "Apply changes?", Config.RegenSpawns);
-
-            if (Config.Randomization)
-            {
-                AddToggleOption("chunkConfig", "Chunk Configs", Config.chunkConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.Trim().ToLower().Contains("chunk") && Config.chunkConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar(' ')[0], 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("fragmentConfig", "Fragment Configs", Config.fragmentConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
-                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("timeConfig", "Time Configs", Config.timeConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.Trim().ToLower().Contains("time") && Config.timeConfig)
-                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("otherConfig", "Other Configs", Config.otherConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (Config.otherConfig && !tech.Trim().ToLower().Contains("reaper") && !tech.Trim().ToLower().Contains("chunk") && !tech.Trim().ToLower().Contains("fragment") && !tech.Trim().ToLower().Contains("time"))
-                        AddSliderOption(tech + ":TechProbability", tech, 0, 100, Config.techProbability[tech]);
-                }
-            }
-            else
-            {
-                AddToggleOption("chunkConfig", "Chunk Configs", Config.chunkConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("chunk") && Config.chunkConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0].SplitByChar(' ')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("fragmentConfig", "Fragment Configs", Config.fragmentConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("fragment") && !tech.SplitByChar('|')[1].Trim().ToLower().Contains("fragment") && Config.fragmentConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("timeConfig", "Time Configs", Config.timeConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (tech.SplitByChar('|')[0].Trim().ToLower().Contains("time") && Config.timeConfig)
-                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
-                }
-
-                AddToggleOption("otherConfig", "Other Configs", Config.otherConfig);
-                foreach (string tech in Config.techProbability.Keys)
-                {
-                    if (Config.otherConfig && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("reaper") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("chunk") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("fragment") && !tech.SplitByChar('|')[0].Trim().ToLower().Contains("time"))
-                        AddSliderOption(tech + ":TechProbability", tech.SplitByChar('|')[0] + ":" + tech.SplitByChar('|')[1], 0, 100, Config.techProbability[tech]);
-                }
-            }
+            AddToggleOption("resetDefaults", "Reset Current Config", Config.resetDefaults);
         }
     }
 }
