@@ -2,10 +2,7 @@
 using QModManager.API.ModLoading;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 using UnityEngine;
 
 namespace BuildingTweaks
@@ -26,53 +23,15 @@ namespace BuildingTweaks
             }
         }
     }
-    
-    [HarmonyPatch(typeof(Constructable))]
-    [HarmonyPatch(nameof(Constructable.CheckFlags))]
-    class Constructable_CheckFlags_Patch
-    {
-        public static void Postfix(ref bool __result)
-        {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                __result = true;
-            }
-        }
-    }
-    
+
     [HarmonyPatch(typeof(Builder))]
     [HarmonyPatch(nameof(Builder.ValidateOutdoor))]
     class Builder_ValidateOutdoor_Patch
     {
+        [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                __result = true;
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(Builder))]
-    [HarmonyPatch(nameof(Builder.Update))]
-    class Builder_Update_Patch
-    {
-        public static void Postfix()
-        {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                Builder.placeMinDistance = 0f;
-                Builder.allowedOnConstructables = true;
-                Builder.allowedInBase = true;
-                Builder.allowedInSub = true;
-                Builder.allowedOutside = true;
-            }
-            Constructable component = Builder.prefab.GetComponent<Constructable>();
-            Builder.placeMinDistance = component.placeMinDistance;
-            Builder.allowedInSub = component.allowedInSub;
-            Builder.allowedInBase = component.allowedInBase;
-            Builder.allowedOutside = component.allowedOutside;
-            Builder.allowedOnConstructables = component.allowedOnConstructables;
+            __result = true;
         }
     }
 
@@ -80,31 +39,55 @@ namespace BuildingTweaks
     [HarmonyPatch(nameof(Builder.UpdateAllowed))]
     class Builder_UpdateAllowed_Patch
     {
+        [HarmonyPrefix]
+        public static void Prefix()
+        {
+            Builder.allowedOnConstructables = true;
+            Builder.allowedInBase = true;
+            Builder.allowedInSub = true;
+            Builder.allowedOutside = true;
+            if (Builder.allowedSurfaceTypes.Contains(SurfaceType.Wall) && !Builder.allowedSurfaceTypes.Contains(SurfaceType.Ceiling))
+                Builder.allowedSurfaceTypes.Add(SurfaceType.Ceiling);
+        }
+
+        [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            List<string> pieces = new List<string>() {
+            List<string> pieces = new List<string>() 
+            {
                 "BaseFoundation", "BaseRoom",
                 "BaseMoonpool", "BaseCorridorI",
                 "BaseCorridorL", "BaseCorridorT",
                 "BaseCorridorX"
             };
-            bool baseCheck = pieces.Contains(Builder.prefab.name);
+            bool baseCheck = false;
+            foreach (string piece in pieces)
+                if (Builder.prefab.name.Contains(piece)) baseCheck = true;
 
-            List<GameObject> list = new List<GameObject>();
-            Builder.GetObstacles(Builder.placePosition, Builder.placeRotation, Builder.bounds, list);
-            if (Input.GetKey(KeyCode.LeftControl) && baseCheck && list.Count == 0)
+            List<Collider> list = new List<Collider>();
+            foreach(OrientedBounds orientedBounds in Builder.bounds)
+            {
+                Builder.GetOverlappedColliders(Builder.placePosition, Builder.placeRotation, orientedBounds.extents, list);
+                if (list.Count > 0)
+                    break;
+            }
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
+            {
+                __result = true;
+            }
+            else if (baseCheck && list.Count == 0)
             {
                 __result = true;
             }
             list.Clear();
         }
     }
-    
+
     [HarmonyPatch(typeof(Builder))]
     [HarmonyPatch(nameof(Builder.GetSurfaceType))]
     class Builder_GetSurfaceType_Patch
     {
-        public static void Postfix(Vector3 hitNormal, ref SurfaceType __result)
+        public static void Postfix(ref SurfaceType __result)
         {
             if (Input.GetKey(KeyCode.LeftControl) && __result == SurfaceType.Ceiling)
             {
