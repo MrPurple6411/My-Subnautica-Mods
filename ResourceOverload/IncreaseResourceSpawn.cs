@@ -14,7 +14,7 @@ namespace ResourceOverload
         {
             if(!string.IsNullOrEmpty(__result.classId))
                 return;
-            int num = 0;
+            int num = 1;
             bool flag = __instance.spawner == null;
             if (flag)
             {
