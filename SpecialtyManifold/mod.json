@@ -1,0 +1,12 @@
+﻿{
+  "Id": "SpecialtyManifold",
+  "DisplayName": "Specialty Manifold",
+  "Author": "MrPurple6411",
+  "Version": "1.0.1",
+  "Dependencies": ["NitrogenMod", "ScubaManifold" ],
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "SpecialtyManifold.dll"
+}
