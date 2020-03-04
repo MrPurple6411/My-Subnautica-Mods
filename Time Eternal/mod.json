@@ -3,7 +3,7 @@
   "DisplayName": "Time Eternal",
   "Author": "MrPurple6411",
   "Version": "1.0",
-  "Requires": [ "SMLHelper" ],
+  "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "Time Eternal.dll",
