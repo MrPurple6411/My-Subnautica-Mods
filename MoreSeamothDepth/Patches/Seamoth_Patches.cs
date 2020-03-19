@@ -7,7 +7,7 @@ namespace MoreSeamothDepth.Patches
     [HarmonyPatch(typeof(SeaMoth))]
     [HarmonyPatch("OnUpgradeModuleChange")]
     public class Seamoth_OnUpgradeModuleChange_Patch
-    { 
+    {
         static void Postfix(SeaMoth __instance, TechType techType)
         {
             // Dictionary of TechTypes and their depth additions.
@@ -51,9 +51,9 @@ namespace MoreSeamothDepth.Patches
                 int count = __instance.modules.GetCount(depthTechType);
 
                 // If you have at least 1 such depth module
-                if(count > 0)
+                if (count > 0)
                 {
-                    if(depthAddition > depthUpgrade)
+                    if (depthAddition > depthUpgrade)
                     {
                         depthUpgrade = depthAddition;
                     }

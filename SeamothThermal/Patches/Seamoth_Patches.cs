@@ -28,7 +28,7 @@ namespace SeamothThermal.Patches
     public class Seamoth_Update_Patch
     {
         // Reflection Method: AddEnergy
-        static MethodInfo AddEnergyMethod = 
+        static MethodInfo AddEnergyMethod =
             typeof(Vehicle).GetMethod("AddEnergy", BindingFlags.NonPublic | BindingFlags.Instance);
 
         static void Prefix(SeaMoth __instance)
@@ -42,7 +42,7 @@ namespace SeamothThermal.Patches
                 var energyToAdd = Main.ExosuitThermalReactorCharge.Evaluate(temperature);
 
                 // Add the energy by invoking private method using Reflection.
-                AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime * (count * count)});
+                AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime * (count * count) });
             }
         }
     }

@@ -1,11 +1,9 @@
 ﻿using Harmony;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
-using SMLHelper.V2.Utility;
 using System;
 using System.Reflection;
 using UnityEngine;
-using Story;
 
 namespace Time_Eternal
 {
@@ -48,7 +46,7 @@ namespace Time_Eternal
                 return true;
             }
             else
-            { 
+            {
                 //9pm to 3am game default
                 __instance.sunRiseTime = 0.125f;
                 __instance.sunSetTime = 0.875f;
@@ -76,7 +74,11 @@ namespace Time_Eternal
 
         public void Options_DayToggleChanged(object sender, ChoiceChangedEventArgs e)
         {
-            if (e.Id != "DayNightToggle") return;
+            if (e.Id != "DayNightToggle")
+            {
+                return;
+            }
+
             Config.freezeTimeChoice = e.Index;
             PlayerPrefs.SetInt("DayNightToggle", e.Index);
         }

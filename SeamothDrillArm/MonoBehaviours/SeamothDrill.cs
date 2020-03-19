@@ -27,18 +27,32 @@ namespace SeamothDrillArm.MonoBehaviours
         void Update()
         {
             // If its not selected, we don't want to run the rest of the function
-            if (!toggle) return;
+            if (!toggle)
+            {
+                return;
+            }
 
             // Some checks to see if we can drill or not.
-            if (seamoth.modules.GetCount(SeamothModule.SeamothDrillModule) <= 0) return;
-            if (!seamoth.GetPilotingMode()) return;
-            if (Player.main.GetPDA().isOpen) return;
+            if (seamoth.modules.GetCount(SeamothModule.SeamothDrillModule) <= 0)
+            {
+                return;
+            }
+
+            if (!seamoth.GetPilotingMode())
+            {
+                return;
+            }
+
+            if (Player.main.GetPDA().isOpen)
+            {
+                return;
+            }
 
             // Update hovering.
             UpdateActiveTarget(seamoth);
 
             // If we're pressing the Left Mouse Button and we're not drilling
-            if(GameInput.GetButtonDown(GameInput.Button.LeftHand) && !isDrilling)
+            if (GameInput.GetButtonDown(GameInput.Button.LeftHand) && !isDrilling)
             {
                 // We're now set to drilling, and the drill will start 0.5 seconds from now
                 isDrilling = true;
@@ -47,9 +61,9 @@ namespace SeamothDrillArm.MonoBehaviours
                 // Start the sound.
                 Main.DrillLoop.Play();
             }
-            
+
             // If we let up the Left Mouse Button
-            if(GameInput.GetButtonUp(GameInput.Button.LeftHand))
+            if (GameInput.GetButtonUp(GameInput.Button.LeftHand))
             {
                 // We're no longer drilling and sounds have stopped.
                 isDrilling = false;
@@ -57,7 +71,7 @@ namespace SeamothDrillArm.MonoBehaviours
             }
 
             // If we can drill
-            if(Time.time > timeNextDrill && isDrilling)
+            if (Time.time > timeNextDrill && isDrilling)
             {
                 // Drill!
                 Drill(seamoth);
@@ -77,9 +91,13 @@ namespace SeamothDrillArm.MonoBehaviours
                 // Get the root object, or the hit object if root is null
                 var root = UWE.Utils.GetEntityRoot(activeTarget) ?? activeTarget;
                 if (root.GetComponentProfiled<Drillable>())
+                {
                     activeTarget = root;
+                }
                 else
+                {
                     root = null;
+                }
             }
 
             // Get the GUIHand component

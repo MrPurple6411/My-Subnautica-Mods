@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -110,18 +109,20 @@ namespace SeamothDrillArm.MonoBehaviours
             var hand = HandReticle.Hand.Left;
 
             if (!vehicle)
+            {
                 canDrill = false;
+            }
             else if (vehicle.GetType().Equals(typeof(Exosuit)))
             {
                 var exosuit = (Exosuit)vehicle;
 
-                if(exosuit.HasDrill())
+                if (exosuit.HasDrill())
                 {
                     canDrill = true;
                     hand = (exosuit.leftArmType == TechType.ExosuitDrillArmModule) ? HandReticle.Hand.Left : HandReticle.Hand.Right;
                 }
             }
-            else if(vehicle.GetType().Equals(typeof(SeaMoth)))
+            else if (vehicle.GetType().Equals(typeof(SeaMoth)))
             {
                 var seamoth = (SeaMoth)vehicle;
                 if (seamoth.modules.GetCount(SeamothModule.SeamothDrillModule) > 0)
@@ -210,7 +211,7 @@ namespace SeamothDrillArm.MonoBehaviours
         public void DestroySelf()
         {
             // https://github.com/Vlad-00003/SubnauticaMods/blob/master/LargeDepositsFix/Drillable_DestroySelf_Patch.cs
-            base.gameObject.SendMessage("OnBreakResource",null, SendMessageOptions.DontRequireReceiver);
+            base.gameObject.SendMessage("OnBreakResource", null, SendMessageOptions.DontRequireReceiver);
             Destroy(gameObject);
         }
 
@@ -346,29 +347,29 @@ namespace SeamothDrillArm.MonoBehaviours
                         Vector3 b = drillingVehicle.transform.position + new Vector3(0f, 0.8f, 0f);
                         gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, b, Time.deltaTime * 5f);
                         float num = Vector3.Distance(gameObject.transform.position, b);
-                            Pickupable pickupable = gameObject.GetComponentInChildren<Pickupable>();
-                            if (pickupable)
+                        Pickupable pickupable = gameObject.GetComponentInChildren<Pickupable>();
+                        if (pickupable)
+                        {
+                            var storage = GetStorageContainer(drillingVehicle, pickupable);
+                            if (storage == null)
                             {
-                                var storage = GetStorageContainer(drillingVehicle, pickupable);
-                                if(storage == null)
-                                {
-                                    ErrorMessage.AddMessage(Language.main.Get("ContainerCantFit"));
-                                }
-                                else
-                                {
-                                    var name = Language.main.Get(pickupable.GetTechName());
-                                    ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
-
-                                    uGUI_IconNotifier.main.Play(pickupable.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
-
-                                    pickupable = pickupable.Initialize();
-
-                                    var item = new InventoryItem(pickupable);
-                                    storage.UnsafeAdd(item);
-                                    pickupable.PlayPickupSound();
-                                }
-                                list.Add(gameObject);
+                                ErrorMessage.AddMessage(Language.main.Get("ContainerCantFit"));
                             }
+                            else
+                            {
+                                var name = Language.main.Get(pickupable.GetTechName());
+                                ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
+
+                                uGUI_IconNotifier.main.Play(pickupable.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
+
+                                pickupable = pickupable.Initialize();
+
+                                var item = new InventoryItem(pickupable);
+                                storage.UnsafeAdd(item);
+                                pickupable.PlayPickupSound();
+                            }
+                            list.Add(gameObject);
+                        }
                     }
                 }
                 if (list.Count > 0)
@@ -383,22 +384,26 @@ namespace SeamothDrillArm.MonoBehaviours
 
         public ItemsContainer GetStorageContainer(Vehicle veh, Pickupable pickupable)
         {
-            if(veh.GetType().Equals(typeof(Exosuit)))
+            if (veh.GetType().Equals(typeof(Exosuit)))
             {
                 var storageContainer = ((Exosuit)veh).storageContainer;
 
                 if (storageContainer.container.HasRoomFor(pickupable))
+                {
                     return storageContainer.container;
+                }
             }
             else
             {
                 var seamoth = (SeaMoth)veh;
 
-                for(int i = 0; i < 8; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
                     if (storage != null && storage.HasRoomFor(pickupable))
+                    {
                         return storage;
+                    }
                 }
             }
 

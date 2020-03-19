@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using SMLHelper.V2.Crafting;
+﻿using SMLHelper.V2.Crafting;
+using System.Collections.Generic;
 
 namespace BuilderModule
 {
     internal class BuilderModulePrefab : Craftable
     {
-        public static TechType TechTypeID { get; private set; }        
+        public static TechType TechTypeID { get; private set; }
 
         internal BuilderModulePrefab()
             : base(nameID: "BuilderModule",
@@ -25,13 +25,13 @@ namespace BuilderModule
                   )
         {
         }
-               
+
         public override void Patch()
         {
-            base.Patch();            
-            TechTypeID = TechType;            
+            base.Patch();
+            TechTypeID = TechType;
         }
-        
+
         protected override TechData GetRecipe()
         {
             return new TechData()
@@ -40,7 +40,7 @@ namespace BuilderModule
                 Ingredients = new List<Ingredient>(new Ingredient[2]
                 {
                     new Ingredient(TechType.Builder, 1),
-                    new Ingredient(TechType.AdvancedWiringKit, 1)                    
+                    new Ingredient(TechType.AdvancedWiringKit, 1)
                 })
             };
         }

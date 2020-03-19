@@ -1,12 +1,12 @@
 ﻿using Harmony;
-using UnityEngine;
 using SeamothDrillArm.MonoBehaviours;
+using UnityEngine;
 
 namespace SeamothDrillArm.Patches
 {
     [HarmonyPatch(typeof(Drillable))]
     [HarmonyPatch("Start")]
-    public class Drillable_Start_Patch 
+    public class Drillable_Start_Patch
     {
         static void Prefix(Drillable __instance)
         {

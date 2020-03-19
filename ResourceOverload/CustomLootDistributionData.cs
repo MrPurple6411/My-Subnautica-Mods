@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Harmony;
+using Oculus.Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Harmony;
-using Oculus.Newtonsoft.Json;
 using UnityEngine;
 using UWE;
 
@@ -15,18 +15,18 @@ namespace ResourceOverload
     {
         public static SortedDictionary<string, SortedDictionary<string, float>> techs = new SortedDictionary<string, SortedDictionary<string, float>>();
         public static SortedDictionary<BiomeType, LootDistributionData.DstData> customDSTDistribution = new SortedDictionary<BiomeType, LootDistributionData.DstData>();
-        public static List<TechType> randomizedResources = new List<TechType>() 
-        { 
-            TechType.AluminumOxide, TechType.Sulphur, TechType.Diamond, 
-            TechType.Kyanite, TechType.Lead, TechType.Lithium , TechType.Magnetite, 
-            TechType.Nickel, TechType.Quartz, TechType.Silver, TechType.UraniniteCrystal, 
-            TechType.Salt, TechType.AcidMushroom, TechType.BloodOil, TechType.JellyPlant, 
+        public static List<TechType> randomizedResources = new List<TechType>()
+        {
+            TechType.AluminumOxide, TechType.Sulphur, TechType.Diamond,
+            TechType.Kyanite, TechType.Lead, TechType.Lithium , TechType.Magnetite,
+            TechType.Nickel, TechType.Quartz, TechType.Silver, TechType.UraniniteCrystal,
+            TechType.Salt, TechType.AcidMushroom, TechType.BloodOil, TechType.JellyPlant,
             TechType.DrillableAluminiumOxide, TechType.DrillableCopper, TechType.DrillableDiamond,
             TechType.DrillableGold, TechType.DrillableKyanite, TechType.DrillableLead,
             TechType.DrillableLithium, TechType.DrillableMagnetite, TechType.DrillableMercury,
             TechType.DrillableNickel, TechType.DrillableQuartz, TechType.DrillableSalt,
             TechType.DrillableSilver, TechType.DrillableSulphur, TechType.DrillableTitanium,
-            TechType.DrillableUranium, TechType.TimeCapsule, TechType.Titanium, 
+            TechType.DrillableUranium, TechType.TimeCapsule, TechType.Titanium,
             TechType.Copper, TechType.Gold
         };
         public static List<TechType> randomizedChunks = new List<TechType>()
@@ -60,7 +60,9 @@ namespace ResourceOverload
             }
 
             if (__result)
+            {
                 __result = customDSTDistribution.TryGetValue(biome, out data);
+            }
         }
 
         private static void GenerateCustomData(LootDistributionData __instance)
@@ -75,7 +77,10 @@ namespace ResourceOverload
                     customDSTDistribution[bio] = new LootDistributionData.DstData() { prefabs = new List<LootDistributionData.PrefabData>() };
 
                     if (Config.Randomization)
+                    {
                         Randomizer(__instance, bio);
+                    }
+
                     LoadOriginalDistribution(__instance, bio);
                 }
             }
@@ -136,7 +141,7 @@ namespace ResourceOverload
                 }
                 foreach (string type in techs.Keys)
                 {
-                    foreach(string bio in techs[type].Keys)
+                    foreach (string bio in techs[type].Keys)
                     {
                         string tech0;
                         if (Config.Randomization)
@@ -186,15 +191,22 @@ namespace ResourceOverload
                 path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Config.json";
                 path2 = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
             }
-            if (File.Exists(path)) File.Delete(path);
-            if (File.Exists(path2)) File.Delete(path2);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            if (File.Exists(path2))
+            {
+                File.Delete(path2);
+            }
         }
 
         private static void GenerateConfiguration()
         {
             foreach (string type in techs.Keys)
             {
-                foreach(string bio in techs[type].Keys)
+                foreach (string bio in techs[type].Keys)
                 {
                     string tech0;
                     if (Config.Randomization)
@@ -238,12 +250,14 @@ namespace ResourceOverload
                                     AddPrefabToCustomData(prefabData, bio, wei);
                                     continue;
                                 }
-                                if(randomizedFragments.Count == 0)
+                                if (randomizedFragments.Count == 0)
                                 {
-                                    foreach(TechType techType in Enum.GetValues(typeof(TechType)))
+                                    foreach (TechType techType in Enum.GetValues(typeof(TechType)))
                                     {
                                         if (techType.AsString().Contains("Fragment"))
+                                        {
                                             randomizedFragments.Add(techType);
+                                        }
                                     }
                                 }
                                 if (randomizedFragments.Contains(wei.techType) && CheckBiomeForTechTypes(__instance, bio, randomizedFragments))
@@ -268,7 +282,9 @@ namespace ResourceOverload
             if (!customDSTDistribution[bio].prefabs.Contains(prefabData))
             {
                 if (!techs.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)))
+                {
                     techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)] = new SortedDictionary<string, float>();
+                }
 
                 string tech0;
                 if (Config.Randomization)
@@ -337,17 +353,24 @@ namespace ResourceOverload
                         if (!Config.techProbability.ContainsKey(tech0))
                         {
                             if (!techs.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)))
+                            {
                                 techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)] = new SortedDictionary<string, float>();
+                            }
 
                             if (!techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)].ContainsKey(biomeType.AsString().Split('_')[0]))
+                            {
                                 techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][biomeType.AsString().Split('_')[0]] = prefabData.probability;
+                            }
+
                             customDSTDistribution[biomeType].prefabs.Add(prefabData);
                             continue;
                         }
                         else
                         {
                             if (!techs.ContainsKey(TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)))
+                            {
                                 techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)] = new SortedDictionary<string, float>();
+                            }
 
                             prefabData.probability = Config.techProbability[tech0];
                             techs[TechTypeExtensions.GetOrFallback(Language.main, wei.techType, wei.techType)][biomeType.AsString().Split('_')[0]] = prefabData.probability;

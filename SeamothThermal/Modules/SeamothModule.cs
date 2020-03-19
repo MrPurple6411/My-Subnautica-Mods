@@ -1,5 +1,5 @@
-﻿using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Assets;
+﻿using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 
@@ -37,14 +37,20 @@ namespace SeamothThermal
             TechType = TechTypeHandler.AddTechType(ID, DisplayName, Tooltip, RequiredForUnlock == TechType.None);
 
             if (RequiredForUnlock != TechType.None)
+            {
                 KnownTechHandler.SetAnalysisTechEntry(RequiredForUnlock, new TechType[] { TechType });
+            }
 
             if (Sprite == null)
+            {
                 SpriteHandler.RegisterSprite(TechType, $"./QMods/SeamothThermal/Assets/{ID}.png");
+            }
             else
+            {
                 SpriteHandler.RegisterSprite(TechType, Sprite);
+            }
 
-            switch(Fabricator)
+            switch (Fabricator)
             {
                 case CraftTree.Type.Workbench:
                     CraftDataHandler.AddToGroup(TechGroup.Workbench, TechCategory.Workbench, TechType, AddAfter);

@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using UnityEngine;
-using SMLHelper.V2.Handlers;
-using Harmony;
-using System;
+﻿using Harmony;
 using SeamothClawArm.Modules;
+using SMLHelper.V2.Handlers;
+using System;
+using System.Reflection;
+using UnityEngine;
 
 namespace SeamothClawArm
 {
@@ -22,7 +22,7 @@ namespace SeamothClawArm
 
                 Console.WriteLine("[SeamothClawArm] Succesfully patched!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("[SeamothClawArm] Caught exception! " + e.InnerException.Message);
                 Console.WriteLine(e.InnerException.StackTrace);

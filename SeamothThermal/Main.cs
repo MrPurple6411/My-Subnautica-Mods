@@ -1,11 +1,9 @@
-﻿using System.Reflection;
-using UnityEngine;
-using SMLHelper.V2.Handlers;
-using Harmony;
-using System;
+﻿using Harmony;
 using SeamothThermal.Modules;
-using System.IO;
-using System.Text.RegularExpressions;
+using SMLHelper.V2.Handlers;
+using System;
+using System.Reflection;
+using UnityEngine;
 
 namespace SeamothThermal
 {
@@ -30,7 +28,7 @@ namespace SeamothThermal
 
                 Console.WriteLine("[SeamothThermal] Succesfully patched!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("[SeamothThermal] Caught exception! " + e.InnerException.Message);
                 Console.WriteLine(e.InnerException.StackTrace);

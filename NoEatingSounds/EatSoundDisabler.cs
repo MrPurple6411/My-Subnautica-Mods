@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Harmony;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Harmony;
-using UnityEngine;
 
 namespace MrPurple
 {
@@ -19,9 +17,13 @@ namespace MrPurple
             foreach (CodeInstruction code in instructions)
             {
                 if (code.opcode == OpCodes.Ldstr)
+                {
                     yield return new CodeInstruction(OpCodes.Ldstr, string.Empty);
+                }
                 else
+                {
                     yield return code;
+                }
             }
         }
 

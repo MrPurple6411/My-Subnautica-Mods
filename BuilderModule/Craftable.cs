@@ -28,13 +28,13 @@ namespace BuilderModule
         protected readonly EquipmentType TypeForEquipment;
         protected readonly QuickSlotType TypeForQuickslot;
         protected readonly Vector2int ItemSize;
-        protected readonly string GameResourceFileName;        
+        protected readonly string GameResourceFileName;
 
         protected Craftable(
             string nameID,
             string nameUsingForFiles,
             string friendlyName,
-            string description,            
+            string description,
             TechType template,
             CraftTree.Type fabricatorType,
             string fabricatorTab,
@@ -43,7 +43,7 @@ namespace BuilderModule
             TechCategory categoryForPDA,
             EquipmentType equipmentType,
             QuickSlotType quickSlotType,
-            Vector2int itemSize,            
+            Vector2int itemSize,
             string gamerResourceFileName
             )
             : base(nameID, $"{nameID}Prefab")
@@ -51,7 +51,7 @@ namespace BuilderModule
             NameID = nameID;
             NameUsingForFiles = nameUsingForFiles;
             FriendlyName = friendlyName;
-            Description = description;            
+            Description = description;
             PrefabTemplate = template;
             FabricatorType = fabricatorType;
             FabricatorTab = fabricatorTab;
@@ -60,7 +60,7 @@ namespace BuilderModule
             CategoryForPDA = categoryForPDA;
             TypeForEquipment = equipmentType;
             TypeForQuickslot = quickSlotType;
-            ItemSize = itemSize;            
+            ItemSize = itemSize;
             GameResourceFileName = gamerResourceFileName;
         }
 
@@ -70,7 +70,7 @@ namespace BuilderModule
 
             if (NameUsingForFiles != null)
             {
-               sprite = ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png");
+                sprite = ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png");
             }
             else
             {
@@ -78,8 +78,8 @@ namespace BuilderModule
             }
 
 
-            TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite , false);
-            SpriteHandler.RegisterSprite(TechType, sprite);            
+            TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite, false);
+            SpriteHandler.RegisterSprite(TechType, sprite);
             CraftTreeHandler.AddCraftingNode(FabricatorType, TechType, FabricatorTab);
             CraftDataHandler.SetTechData(TechType, GetRecipe());
             CraftDataHandler.AddToGroup(GroupForPDA, CategoryForPDA, TechType);
@@ -89,27 +89,27 @@ namespace BuilderModule
 
             KnownTechHandler.SetAnalysisTechEntry(RequiredForUnlock, new TechType[1] { TechType }, $"{FriendlyName} blueprint discovered!");
 
-            PrefabHandler.RegisterPrefab(this);            
+            PrefabHandler.RegisterPrefab(this);
         }
 
-        protected abstract TechData GetRecipe();        
+        protected abstract TechData GetRecipe();
 
         public override GameObject GetGameObject()
         {
             if (GameResourceFileName == null)
-            {                
-                _GameObject = Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate));                             
+            {
+                _GameObject = Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate));
             }
             else
             {
                 _GameObject = Object.Instantiate(Resources.Load<GameObject>(GameResourceFileName));
             }
 
-            _GameObject.name = NameID;            
-            
+            _GameObject.name = NameID;
+
             return _GameObject;
         }
-        
+
         public Atlas.Sprite GetResourceIcon(TechType techType)
         {
             return SpriteManager.Get(techType);

@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Reflection;
-using System;
-using SeamothClawArm.Patches;
+﻿using System.Reflection;
+using UnityEngine;
 
 namespace SeamothClawArm.MonoBehaviours
 {
@@ -19,7 +17,7 @@ namespace SeamothClawArm.MonoBehaviours
         public FMODAsset pickupSound;
         public Transform front;
         public VFXController fxControl;
-        
+
         private static MethodInfo GetArmPrefabMethod =
             typeof(Exosuit).GetMethod("GetArmPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -48,12 +46,26 @@ namespace SeamothClawArm.MonoBehaviours
         void Update()
         {
             // If its not selected, we don't want to run the rest of the function
-            if (!toggle) return;
+            if (!toggle)
+            {
+                return;
+            }
 
             // Some checks to see if we can pick up or not.
-            if (seamoth.modules.GetCount(SeamothModule.SeamothClawModule) <= 0) return;
-            if (!seamoth.GetPilotingMode()) return;
-            if (Player.main.GetPDA().isOpen) return;
+            if (seamoth.modules.GetCount(SeamothModule.SeamothClawModule) <= 0)
+            {
+                return;
+            }
+
+            if (!seamoth.GetPilotingMode())
+            {
+                return;
+            }
+
+            if (Player.main.GetPDA().isOpen)
+            {
+                return;
+            }
 
             // Update hovering.
             UpdateActiveTarget(seamoth);
@@ -81,9 +93,13 @@ namespace SeamothClawArm.MonoBehaviours
                 // Get the root object, or the hit object if root is null
                 var root = UWE.Utils.GetEntityRoot(activeTarget) ?? activeTarget;
                 if (root.GetComponentProfiled<Pickupable>())
+                {
                     activeTarget = root;
+                }
                 else
+                {
                     root = null;
+                }
             }
 
             // Get the GUIHand component
@@ -101,7 +117,9 @@ namespace SeamothClawArm.MonoBehaviours
             {
                 var storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
                 if (storage != null && storage.HasRoomFor(pickupable))
+                {
                     return storage;
+                }
             }
 
             return null;
@@ -111,7 +129,7 @@ namespace SeamothClawArm.MonoBehaviours
         {
             Pickupable pickupable = null;
             PickPrefab component = null;
-            
+
             var pos = Vector3.zero;
             var hitObject = default(GameObject);
 

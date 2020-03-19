@@ -1,11 +1,11 @@
-﻿using System.Reflection;
-using UnityEngine;
-using SMLHelper.V2.Handlers;
-using Harmony;
-using System;
+﻿using Harmony;
 using SeamothDrillArm.Modules;
+using SMLHelper.V2.Handlers;
+using System;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace SeamothDrillArm
 {
@@ -71,7 +71,7 @@ namespace SeamothDrillArm
 
                 Console.WriteLine("[SeamothDrillArm] Succesfully patched!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("[SeamothDrillArm] Caught exception! " + e.InnerException.Message);
                 Console.WriteLine(e.InnerException.StackTrace);

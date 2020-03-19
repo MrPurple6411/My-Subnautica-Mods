@@ -47,13 +47,15 @@ namespace BuildingTweaks
             Builder.allowedInSub = true;
             Builder.allowedOutside = true;
             if (Builder.allowedSurfaceTypes.Contains(SurfaceType.Wall) && !Builder.allowedSurfaceTypes.Contains(SurfaceType.Ceiling))
+            {
                 Builder.allowedSurfaceTypes.Add(SurfaceType.Ceiling);
+            }
         }
 
         [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            List<string> pieces = new List<string>() 
+            List<string> pieces = new List<string>()
             {
                 "BaseFoundation", "BaseRoom",
                 "BaseMoonpool", "BaseCorridorI",
@@ -62,14 +64,21 @@ namespace BuildingTweaks
             };
             bool baseCheck = false;
             foreach (string piece in pieces)
-                if (Builder.prefab.name.Contains(piece)) baseCheck = true;
+            {
+                if (Builder.prefab.name.Contains(piece))
+                {
+                    baseCheck = true;
+                }
+            }
 
             List<Collider> list = new List<Collider>();
-            foreach(OrientedBounds orientedBounds in Builder.bounds)
+            foreach (OrientedBounds orientedBounds in Builder.bounds)
             {
                 Builder.GetOverlappedColliders(Builder.placePosition, Builder.placeRotation, orientedBounds.extents, list);
                 if (list.Count > 0)
+                {
                     break;
+                }
             }
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
             {

@@ -1,9 +1,5 @@
 ﻿using Harmony;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace All_Items_1x1
 {
@@ -20,7 +16,7 @@ namespace All_Items_1x1
     internal class Resizer
     {
         [HarmonyPostfix]
-        public static void postfix(TechType techType ,ref Vector2int __result)
+        public static void postfix(TechType techType, ref Vector2int __result)
         {
             __result = new Vector2int(1, 1);
         }

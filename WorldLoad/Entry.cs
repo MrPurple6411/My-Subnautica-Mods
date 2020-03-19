@@ -1,7 +1,7 @@
-﻿using System;
-using Harmony;
+﻿using Harmony;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
+using System;
 using UnityEngine;
 using WorldStreaming;
 
@@ -36,7 +36,11 @@ namespace WorldLoad
 
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if (e.Id != "WorldLoad") return;
+            if (e.Id != "WorldLoad")
+            {
+                return;
+            }
+
             Config.IncreasedWorldLoad = (int)e.Value;
             PlayerPrefs.SetInt("WorldLoad", (int)e.Value);
         }
@@ -55,8 +59,8 @@ namespace WorldLoad
         public static void Postfix(ref ClipMapManager.Settings __result)
         {
             __result.maxThreads = Environment.ProcessorCount;
-            __result.maxWorkspaces *= Config.IncreasedWorldLoad/4;
-            __result.maxMeshQueue *= Config.IncreasedWorldLoad/4;
+            __result.maxWorkspaces *= Config.IncreasedWorldLoad / 4;
+            __result.maxMeshQueue *= Config.IncreasedWorldLoad / 4;
 
             for (int i = 1; i < __result.levels.Length; i++)
             {
@@ -64,7 +68,7 @@ namespace WorldLoad
                 levelSettings.chunksPerSide = Config.IncreasedWorldLoad;
                 levelSettings.chunksVertically = Config.IncreasedWorldLoad;
                 levelSettings.entities = true;
-                if(i < __result.levels.Length / 2)
+                if (i < __result.levels.Length / 2)
                 {
                     levelSettings.grass = true;
                     levelSettings.grassSettings.reduction = 0;

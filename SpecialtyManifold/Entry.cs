@@ -5,9 +5,7 @@ using NitrogenMod.NMBehaviours;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
-using SMLHelper.V2.Utility;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -22,9 +20,9 @@ namespace SpecialtyManifold
             try
             {
                 HarmonyInstance.Create("MrPurple6411.SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
-				Config.Load();
-				OptionsPanelHandler.RegisterModOptions(new Options());
-			}
+                Config.Load();
+                OptionsPanelHandler.RegisterModOptions(new Options());
+            }
             catch (Exception ex)
             {
                 Debug.LogException(ex);
@@ -39,7 +37,7 @@ namespace SpecialtyManifold
 
         public static void Load()
         {
-            multipleTanks = PlayerPrefs.GetInt("multipleTanks", 1)>0;
+            multipleTanks = PlayerPrefs.GetInt("multipleTanks", 1) > 0;
         }
     }
 
@@ -52,9 +50,13 @@ namespace SpecialtyManifold
 
         public void Options_multipleTanksChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "multipleTanks") return;
+            if (e.Id != "multipleTanks")
+            {
+                return;
+            }
+
             Config.multipleTanks = e.Value;
-            PlayerPrefs.SetInt("multipleTanks", e.Value? 1:0);
+            PlayerPrefs.SetInt("multipleTanks", e.Value ? 1 : 0);
         }
 
         public override void BuildModOptions()
@@ -72,9 +74,9 @@ namespace SpecialtyManifold
         {
             TechType tankSlot = Inventory.main.equipment.GetTechTypeInSlot("Tank");
             if (GameModeUtils.RequiresOxygen() && Player.main.IsSwimming() && tankSlot == ScubaManifold.techType)
-			{
-				int photosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisSmallID) + Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisTankID);
-				int chemosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.ChemosynthesisTankID);
+            {
+                int photosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisSmallID) + Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisTankID);
+                int chemosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.ChemosynthesisTankID);
 
                 if (photosynthesisTanks > 0)
                 {

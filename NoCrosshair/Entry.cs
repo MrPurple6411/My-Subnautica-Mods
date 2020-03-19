@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Harmony;
+using QModManager.API.ModLoading;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
-using Harmony;
-using System.Reflection;
-using System.IO;
-using QModManager.API.ModLoading;
 
 /**
  * Sorry, too lazy to do separate builds. Mods are activated based on file name.
@@ -46,7 +46,8 @@ namespace frigidpenguin
             if (name == "dev")
             {
                 harmony.PatchAll(asm);
-            } else
+            }
+            else
             {
                 var type = asm.GetType(typeof(Entry).FullName + "+" + name);
 
@@ -61,9 +62,9 @@ namespace frigidpenguin
                     Log("Applying patch: {0}", t);
                     var merged = HarmonyMethod.Merge(patches);
                     new PatchProcessor(harmony, t, merged).Patch();
-                });                
+                });
             }
-            Log("Harmony patches applied.");            
+            Log("Harmony patches applied.");
         }
 
         private void Debug(GameObject go)
@@ -182,7 +183,7 @@ namespace frigidpenguin
         {
             AccessTools.Field(obj.GetType(), name).SetValue(obj, value);
         }
-        
+
         private static IEnumerator<YieldInstruction> EachFrameUntil(Func<bool> action)
         {
             while (!action())
@@ -214,7 +215,7 @@ namespace frigidpenguin
                     __instance.gameObject.AddComponent<Controller>();
                 }
             }
-            
+
             private class Controller : MonoBehaviour
             {
                 private VehicleInterface_Terrain script;
@@ -271,7 +272,7 @@ namespace frigidpenguin
                     }
                     script.hologramHolder.transform.localScale = Vector3.one * scale;
                     script.hologramHolder.transform.localPosition = position * (1 / scale);
-                    
+
                     material.SetFloat("_FadeRadius", fadeRadius);
 
                     /*if (color == Color.black)
@@ -514,7 +515,7 @@ namespace frigidpenguin
                     {
                         var toggleLights = __instance.GetComponent<ToggleLights>();
                         toggleLights.SetLightsActive(false);
-                    }                    
+                    }
                 }
             }
 
@@ -732,14 +733,15 @@ namespace frigidpenguin
         private static class NoCrosshair
         {
             private static readonly MethodInfo HandReticle_SetIconInternal = AccessTools.Method(typeof(HandReticle), "SetIconInternal");
-            private static uGUI_HandReticleIcon icon;            
+            private static uGUI_HandReticleIcon icon;
 
             private static void Log(String msg, params object[] args)
             {
                 Entry.Log(MethodBase.GetCurrentMethod().DeclaringType, msg, args);
             }
 
-            private static void SetCrosshair(HandReticle instance, bool visible) {
+            private static void SetCrosshair(HandReticle instance, bool visible)
+            {
                 var icons = AccessTools.Field(typeof(HandReticle), "_icons").GetValue(instance)
                         as Dictionary<HandReticle.IconType, uGUI_HandReticleIcon>;
                 if (!visible)
@@ -749,7 +751,8 @@ namespace frigidpenguin
                         icon = icons[HandReticle.IconType.Default];
                     }
                     icons.Remove(HandReticle.IconType.Default);
-                } else if (icon)
+                }
+                else if (icon)
                 {
                     icons[HandReticle.IconType.Default] = icon;
                 }
@@ -804,7 +807,7 @@ namespace frigidpenguin
                 {
                     SetCrosshair(HandReticle.main, false);
                 }
-            }           
+            }
         }
     }
 }

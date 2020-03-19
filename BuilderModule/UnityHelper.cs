@@ -20,17 +20,17 @@ namespace BuilderModule
         {
             if (gameObject.GetComponent<T>().IsNull())
             {
-                gameObject.AddComponent<T>();                
-            }            
+                gameObject.AddComponent<T>();
+            }
         }
 
         public static void AddIfNeedComponent(this GameObject gameObject, Type component)
         {
             if (gameObject.GetComponent(component).IsNull())
             {
-                gameObject.AddComponent(component);                
-            }            
-        }        
+                gameObject.AddComponent(component);
+            }
+        }
 
         public static bool IsRoot(this Transform transform)
         {
@@ -40,7 +40,7 @@ namespace BuilderModule
         public static bool IsRoot(this GameObject gameObject)
         {
             return gameObject.transform.parent == null ? true : false;
-        }        
+        }
 
         public static void CleanObject(this GameObject gameObject)
         {
@@ -49,22 +49,33 @@ namespace BuilderModule
                 Type componentType = component.GetType();
 
                 if (componentType == typeof(Transform))
+                {
                     continue;
+                }
+
                 if (componentType == typeof(Renderer))
+                {
                     continue;
+                }
+
                 if (componentType == typeof(Mesh))
+                {
                     continue;
+                }
+
                 if (componentType == typeof(Shader))
+                {
                     continue;
+                }
 
                 UnityEngine.Object.Destroy(component);
             }
         }
-        
+
         public static bool IsNotNull(this UnityEngine.Object ueObject)
         {
             return ueObject == null ? false : true;
-        }        
+        }
 
         public static bool IsNull(this UnityEngine.Object ueObject)
         {

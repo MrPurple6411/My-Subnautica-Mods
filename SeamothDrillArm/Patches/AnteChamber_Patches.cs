@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Harmony;
 using SeamothDrillArm.MonoBehaviours;
-using Harmony;
 
 namespace SeamothDrillArm.Patches
 {
@@ -17,7 +13,7 @@ namespace SeamothDrillArm.Patches
             __instance.drillable.onDrilled -= __instance.OnDrilled;
 
             var betterDrillable = __instance.drillable.GetComponent<BetterDrillable>();
-            if(betterDrillable == null)
+            if (betterDrillable == null)
             {
                 // Add BetterDrillable component to the Drillable GameObject
                 betterDrillable = __instance.drillable.gameObject.AddComponent<BetterDrillable>();

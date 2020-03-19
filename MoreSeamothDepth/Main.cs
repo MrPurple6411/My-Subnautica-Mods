@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using SMLHelper.V2.Handlers;
-using Harmony;
-using System;
+﻿using Harmony;
 using MoreSeamothDepth.Modules;
+using SMLHelper.V2.Handlers;
+using System;
+using System.Reflection;
 
 namespace MoreSeamothDepth
 {
@@ -22,7 +22,7 @@ namespace MoreSeamothDepth
 
                 Console.WriteLine("[MoreSeamothDepth] Succesfully patched!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("[MoreSeamothDepth] Caught exception! " + e.InnerException.Message);
                 Console.WriteLine(e.InnerException.StackTrace);

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using SMLHelper.V2.Crafting;
+﻿using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
+using System.Collections.Generic;
 
 namespace SeamothClawArm.Modules
 {

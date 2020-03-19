@@ -26,7 +26,7 @@ namespace SeamothClawArm.Patches
                     // Set its toggle!
                     seamothClawModule.toggle = active;
                 }
-            } 
+            }
         }
     }
 

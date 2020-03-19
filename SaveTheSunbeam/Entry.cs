@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Harmony;
+﻿using Harmony;
+using System.Reflection;
 
 namespace SaveTheSunbeam
 {

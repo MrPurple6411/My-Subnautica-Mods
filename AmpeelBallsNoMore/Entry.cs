@@ -1,6 +1,4 @@
-﻿using System;
-using Harmony;
-using WorldStreaming;
+﻿using Harmony;
 
 namespace AmpeelBallsNoMore
 {
@@ -20,7 +18,9 @@ namespace AmpeelBallsNoMore
         static void Prefix(FleeOnDamage __instance, DamageInfo damageInfo)
         {
             if (__instance.creature.name.ToLower().Contains("shocker") && damageInfo.type == DamageType.Electrical)
+            {
                 damageInfo.damage = 0f;
+            }
         }
     }
 }

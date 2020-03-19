@@ -1,6 +1,4 @@
-﻿using System;
-using Harmony;
-using UnityEngine;
+﻿using Harmony;
 
 namespace NoOxygenWarnings
 {
@@ -10,7 +8,7 @@ namespace NoOxygenWarnings
     [HarmonyPatch("Update")]
     internal class AlertBreaker
     {
-        
+
         [HarmonyPrefix]
         public static bool Prefix(Player __instance)
         {

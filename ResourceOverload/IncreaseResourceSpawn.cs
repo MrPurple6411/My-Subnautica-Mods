@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using Harmony;
+﻿using Harmony;
+using System;
 using UWE;
 
 namespace ResourceOverload
 {
     [HarmonyPatch(typeof(CellManager))]
-    [HarmonyPatch(nameof(CellManager.GetPrefabForSlot), new Type[] { typeof(IEntitySlot)})]
+    [HarmonyPatch(nameof(CellManager.GetPrefabForSlot), new Type[] { typeof(IEntitySlot) })]
     class IncreaseResourceSpawn
     {
         [HarmonyPostfix]
         public static void Postfix(CellManager __instance, IEntitySlot slot, ref EntitySlot.Filler __result)
         {
-            if(!string.IsNullOrEmpty(__result.classId))
+            if (!string.IsNullOrEmpty(__result.classId))
+            {
                 return;
+            }
+
             int num = 1;
             bool flag = __instance.spawner == null;
             if (flag)

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Harmony;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Harmony;
 
 namespace SaveTheSunbeam
 {
@@ -48,7 +48,7 @@ namespace SaveTheSunbeam
 
     [HarmonyPatch(typeof(StoryGoalCustomEventHandler))]
     [HarmonyPatch("StartSunbeamShootdownFX")]
-    internal class NotifyGoalCompleteFixer 
+    internal class NotifyGoalCompleteFixer
     {
         [HarmonyPrefix]
         public static bool Prefix(StoryGoalCustomEventHandler __instance)

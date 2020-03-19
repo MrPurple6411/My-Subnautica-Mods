@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Harmony;
+﻿using Harmony;
+using UnityEngine;
 
 namespace SaveTheSunbeam
 {

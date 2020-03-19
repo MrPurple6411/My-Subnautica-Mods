@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using UWE;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace BuilderModule
 {
@@ -50,7 +49,7 @@ namespace BuilderModule
         private void OnRemoveItem(InventoryItem item)
         {
             if (item.item.GetTechType() == BuilderModulePrefab.TechTypeID)
-            {                
+            {
                 moduleSlotID = -1;
                 Instance.enabled = false;
             }
@@ -128,7 +127,7 @@ namespace BuilderModule
                         }
                     }
                     else if (this.handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.Deconstruct))
-                    {   
+                    {
                         Builder.End();
                     }
                     FPSInputModule.current.EscapeMenu();
@@ -170,7 +169,7 @@ namespace BuilderModule
             bool buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
             bool quickbuild = GameInput.GetButtonHeld(GameInput.Button.Sprint);
             Constructable constructable = gameObject.GetComponentInParent<Constructable>();
-            if (constructable != null && num > constructable.placeMaxDistance*2)
+            if (constructable != null && num > constructable.placeMaxDistance * 2)
             {
                 constructable = null;
             }
@@ -333,7 +332,7 @@ namespace BuilderModule
             thisVehicle.onToggle -= OnToggle;
             thisVehicle.modules.onAddItem -= OnAddItem;
             thisVehicle.modules.onRemoveItem -= OnRemoveItem;
-        } 
+        }
     }
 }
 

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Harmony;
+﻿using Harmony;
 using Oculus.Newtonsoft.Json;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
 using SMLHelper.V2.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 namespace ResourceOverload
@@ -76,7 +76,9 @@ namespace ResourceOverload
             }
 
             if (File.Exists(path))
+            {
                 File.Delete(path);
+            }
         }
     }
 
@@ -91,7 +93,11 @@ namespace ResourceOverload
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
             if (e.Id != "ResourceMultiplier" &&
-                !e.Id.Contains("TechProbability")) return;
+                !e.Id.Contains("TechProbability"))
+            {
+                return;
+            }
+
             if (e.Id == "ResourceMultiplier")
             {
                 Config.ResourceMultiplier = e.Value;
@@ -106,10 +112,13 @@ namespace ResourceOverload
         }
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "LoadExternalChanges" && 
-                e.Id != "RegenSpawnsEnabled" && 
-                e.Id != "ResourceRandomizerEnabled" && 
-                e.Id != "resetDefaults") return;
+            if (e.Id != "LoadExternalChanges" &&
+                e.Id != "RegenSpawnsEnabled" &&
+                e.Id != "ResourceRandomizerEnabled" &&
+                e.Id != "resetDefaults")
+            {
+                return;
+            }
 
             try
             {

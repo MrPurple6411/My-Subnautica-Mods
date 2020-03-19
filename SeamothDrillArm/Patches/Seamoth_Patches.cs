@@ -14,7 +14,7 @@ namespace SeamothDrillArm.Patches
             // slotID is 0-based, so an addition of 1 is required.
             var techType = __instance.modules.GetTechTypeInSlot($"SeamothModule{slotID + 1}");
 
-            if (techType == SeamothModule.SeamothDrillModule) 
+            if (techType == SeamothModule.SeamothDrillModule)
             {
                 // Get the SeamothDrill component from the SeaMoth object.
                 var seamothDrillModule = __instance.GetComponent<SeamothDrill>();
