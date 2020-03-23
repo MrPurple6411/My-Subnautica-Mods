@@ -11,9 +11,9 @@ namespace WorldLoad
     {
         public static void Patch()
         {
-            HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
             Config.Load();
             OptionsPanelHandler.RegisterModOptions(new Options());
+            HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
         }
     }
 
