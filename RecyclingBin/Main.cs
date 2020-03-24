@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using QModManager.API;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
@@ -66,25 +67,45 @@ namespace RecyclingBin
 			EnergyMixin energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
 			if (energyMixin != null)
 			{
-				GameObject gameObject = energyMixin.GetBattery();
-				if (gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
+				GameObject gameObject = energyMixin.GetBattery(); 
+				bool defaultCheck = false;
+				if (gameObject != null) defaultCheck = energyMixin.defaultBattery == CraftData.GetTechType(gameObject);
+
+				if (gameObject == null && QModServices.Main.ModPresent("NoBattery"))
+				{
+					return true;
+				}
+				if (gameObject != null && (defaultCheck || QModServices.Main.ModPresent("NoBattery")))
 				{
 					IBattery battery = gameObject.GetComponent<IBattery>();
-					if (battery.capacity == battery.charge)
+
+					TechData techData = GetData(pickupable);
+					bool recipeCheck = techData.Ingredients.FindAll((ingredient) => ingredient.techType == TechType.Battery || ingredient.techType == TechType.PrecursorIonBattery || ingredient.techType == TechType.LithiumIonBattery || ingredient.techType == TechType.PowerCell || ingredient.techType == TechType.PrecursorIonPowerCell).Count == 0;
+					if (battery != null && QModServices.Main.ModPresent("NoBattery") && recipeCheck)
+					{
+						ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} has a battery in it. Cannot Recycle.");
+						return false;
+					}
+					else if (battery != null && defaultCheck && battery.charge > (battery.capacity * 0.99))
 					{
 						return true;
 					}
 					else
 					{
-						ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} is not fully charged and cannot be recycled.");
-						Inventory.main.ForcePickup(pickupable);
+						if (gameObject != null && !defaultCheck)
+							ErrorMessage.AddMessage($"{CraftData.GetTechType(gameObject).ToString()} is not the default battery for {pickupable.GetTechType().ToString()}.");
+						else
+							ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} is not fully charged and cannot be recycled.");
 						return false;
 					}
 				}
 				else
 				{
-					ErrorMessage.AddMessage($"{energyMixin.defaultBattery.ToString()} is missing from {pickupable.GetTechType().ToString()}");
-					Inventory.main.ForcePickup(pickupable);
+					if (gameObject != null)
+						ErrorMessage.AddMessage($"{CraftData.GetTechType(gameObject).ToString()} is not the default battery for {pickupable.GetTechType().ToString()}.");
+					else
+						ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} has no battery.");
+
 					return false;
 				}
 			}
@@ -92,12 +113,11 @@ namespace RecyclingBin
 			IBattery b2 = pickupable.GetComponent<IBattery>();
 			if (b2 != null)
 			{
-				if (b2.capacity == b2.charge)
+				if (b2.charge > (b2.capacity * 0.99))
 					return true;
 				else
 				{
 					ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} is not fully charged and cannot be recycled.");
-					Inventory.main.ForcePickup(pickupable);
 					return false;
 				}
 			}
@@ -120,6 +140,9 @@ namespace RecyclingBin
 	[HarmonyPatch(typeof(Trashcan), nameof(Trashcan.Update))]
 	internal class Trashcan_Update
 	{
+		public static List<InventoryItem> inventoryItems;
+		public static List<Pickupable> forcePickupItems;
+
 		[HarmonyPrefix]
 		public static bool Prefix(Trashcan __instance)
 		{
@@ -127,59 +150,58 @@ namespace RecyclingBin
 			__instance.storageContainer.storageLabel = "Recycling Bin";
 			__instance.storageContainer.container._label = "Recycling Bin";
 
-			try
-			{
-				foreach (Trashcan.Waste waste in __instance.wasteList)
-				{
-					InventoryItem item = waste.inventoryItem;
-					TechData techData = Main.GetData(item.item);
-					if (techData != null)
-					{
-						if (Main.BatteryCheck(item.item) && techData.Ingredients.FindAll((ingredient) => ingredient.techType == TechType.ScrapMetal).Count == 0 && CheckRequirements(__instance, item.item, techData))
-						{
-							foreach (Ingredient ingredient in techData.Ingredients)
-							{
-								for (int i = ingredient.amount; i > 0; i--)
-								{
-									GameObject gameObject = CraftData.InstantiateFromPrefab(ingredient.techType, false);
-									gameObject.SetActive(true);
-									Pickupable pickupable = gameObject.GetComponent<Pickupable>();
-									pickupable.Pickup(false);
-									Inventory.main.ForcePickup(pickupable);
+			inventoryItems = new List<InventoryItem>();
+			forcePickupItems = new List<Pickupable>();
 
-								}
-							}
-							CheckRequirements(__instance, item.item, techData, true);
-						}
-					}
-					else
+			foreach (Trashcan.Waste waste in __instance.wasteList)
+			{
+				InventoryItem item = waste.inventoryItem;
+				TechData techData = Main.GetData(item.item);
+
+				if (item.item.GetTechType() != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
+				{
+					if (CheckRequirements(__instance, item.item, techData))
 					{
-						Inventory.main.ForcePickup(item.item);
+						foreach (Ingredient ingredient in techData.Ingredients)
+						{
+							for (int i = ingredient.amount; i > 0; i--)
+							{
+								GameObject gameObject = CraftData.InstantiateFromPrefab(ingredient.techType, false);
+								gameObject.SetActive(true);
+								Pickupable pickupable = gameObject.GetComponent<Pickupable>();
+								pickupable.Pickup(false);
+								if ((item.item.GetComponent<IBattery>() == null && pickupable.GetComponent<IBattery>() != null && QModServices.Main.ModPresent("NoBattery")) || pickupable.GetComponent<LiveMixin>() != null)
+									UnityEngine.Object.Destroy(pickupable.gameObject);
+								else
+									forcePickupItems.Add(pickupable);
+							}
+						}
 						break;
 					}
 				}
+				else
+				{
+					forcePickupItems.Add(item.item);
+					break;
+				}
 			}
-			catch (InvalidOperationException)
-			{
+			forcePickupItems.ForEach((rejectedItem) => Inventory.main.ForcePickup(rejectedItem));
+			inventoryItems.ForEach((item) => UnityEngine.Object.Destroy(item.item.gameObject));
 
-			}
 			return false;
 		}
 
-		private static bool CheckRequirements(Trashcan __instance, Pickupable item, TechData techData, bool remove = false)
+		private static bool CheckRequirements(Trashcan __instance, Pickupable item, TechData techData)
 		{
 			bool check = true;
 			int craftCountNeeded = techData.craftAmount;
 			IList<InventoryItem> inventoryItems = __instance.storageContainer.container.GetItems(item.GetTechType());
 			if (inventoryItems != null && inventoryItems.Count >= craftCountNeeded)
 			{
-				if (remove)
+				while (craftCountNeeded > 0)
 				{
-					while (craftCountNeeded > 0)
-					{
-						__instance.storageContainer.container.DestroyItem(item.GetTechType());
-						craftCountNeeded--;
-					}
+					Trashcan_Update.inventoryItems.Add(inventoryItems[craftCountNeeded-1]);
+					craftCountNeeded--;
 				}
 
 				foreach (TechType techType in techData.LinkedItems)
@@ -187,24 +209,30 @@ namespace RecyclingBin
 					int linkedCountNeeded = techData.LinkedItems.FindAll((TechType tt) => tt == techType).Count;
 					IList<InventoryItem> inventoryItems2 = __instance.storageContainer.container.GetItems(techType);
 					IList<InventoryItem> inventoryItems3 = Inventory.main.container.GetItems(techType);
-					int count = inventoryItems2?.Count ?? 0 + inventoryItems3?.Count ?? 0;
+					int count = (inventoryItems2?.Count ?? 0) + (inventoryItems3?.Count ?? 0);
 					if (count < linkedCountNeeded)
 					{
 						ErrorMessage.AddMessage($"Missing {linkedCountNeeded - (inventoryItems2?.Count + inventoryItems3?.Count)} {techType.ToString()}");
 						Inventory.main.ForcePickup(item);
-						check = false;
+						Trashcan_Update.inventoryItems.Clear();
+						return false;
 					}
-					if (remove)
-					{
-						while (linkedCountNeeded > 0)
-						{
-							if (__instance.storageContainer.container.Contains(techType))
-								__instance.storageContainer.container.DestroyItem(techType);
-							else
-								Inventory.main.container.DestroyItem(techType);
 
-							linkedCountNeeded--;
+					int count1 = (inventoryItems2?.Count ?? 0);
+					int count2 = (inventoryItems3?.Count ?? 0);
+					while (linkedCountNeeded > 0)
+					{
+						if (count1 > 0)
+						{
+							Trashcan_Update.inventoryItems.Add(inventoryItems2[count1-1]);
+							count1--;
 						}
+						else if(count2 > 0)
+						{
+							Trashcan_Update.inventoryItems.Add(inventoryItems3[count2-1]);
+							count2--;
+						}
+						linkedCountNeeded--;
 					}
 				}
 			}
