@@ -1,0 +1,10 @@
+﻿{
+  "Id": "WarpersNoWarping",
+  "DisplayName": "Warpers No Warping",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "WarpersNoWarping.dll"
+}
