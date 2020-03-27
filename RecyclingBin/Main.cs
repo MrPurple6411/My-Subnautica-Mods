@@ -19,8 +19,6 @@ namespace RecyclingBin
 			try
 			{
 				HarmonyInstance.Create("MrPurple6411.RecyclingBin").PatchAll(Assembly.GetExecutingAssembly());
-
-
 				LanguageHandler.SetTechTypeName(TechType.Trashcans, "Recycling Bin");
 				LanguageHandler.SetTechTypeTooltip(TechType.Trashcans, "Breaks items down to the most basic materials. \nNote: Batteries and Tools must be fully charged to be recycled.");
 			}
@@ -146,6 +144,8 @@ namespace RecyclingBin
 		[HarmonyPrefix]
 		public static bool Prefix(Trashcan __instance)
 		{
+			if (__instance.biohazard) return true;
+
 			__instance.storageContainer.hoverText = "Recycling Bin";
 			__instance.storageContainer.storageLabel = "Recycling Bin";
 			__instance.storageContainer.container._label = "Recycling Bin";
@@ -158,7 +158,7 @@ namespace RecyclingBin
 				InventoryItem item = waste.inventoryItem;
 				TechData techData = Main.GetData(item.item);
 
-				if (item.item.GetTechType() != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
+				if (!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && item.item.GetTechType() != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
 				{
 					if (CheckRequirements(__instance, item.item, techData))
 					{
@@ -181,7 +181,11 @@ namespace RecyclingBin
 				}
 				else
 				{
-					forcePickupItems.Add(item.item);
+					if (GameInput.GetButtonHeld(GameInput.Button.Deconstruct))
+						inventoryItems.Add(item);
+					else
+						forcePickupItems.Add(item.item);
+
 					break;
 				}
 			}
