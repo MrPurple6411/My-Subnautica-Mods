@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnkownName", "UnkownName\Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropUpgradesOnDestroy", "DropUpgradesOnDestroy\DropUpgradesOnDestroy.csproj", "{B8542DD2-03F9-47AB-BBF9-CF099724776B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderPlaceOnComplete", "BuilderPlaceOnComplete\BuilderPlaceOnComplete.csproj", "{5BF590C1-91DD-440D-83FD-51D71FB308A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{B8542DD2-03F9-47AB-BBF9-CF099724776B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8542DD2-03F9-47AB-BBF9-CF099724776B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8542DD2-03F9-47AB-BBF9-CF099724776B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BF590C1-91DD-440D-83FD-51D71FB308A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BF590C1-91DD-440D-83FD-51D71FB308A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BF590C1-91DD-440D-83FD-51D71FB308A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BF590C1-91DD-440D-83FD-51D71FB308A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

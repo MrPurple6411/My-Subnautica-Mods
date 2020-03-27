@@ -1,0 +1,10 @@
+﻿{
+  "Id": "BuilderPlaceOnComplete",
+  "DisplayName": "Builder Place On Complete",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "BuilderPlaceOnComplete.dll"
+}
