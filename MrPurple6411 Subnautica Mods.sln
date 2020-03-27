@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargeRequired", "ChargeReq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpersNoWarping", "WarpersNoWarping\WarpersNoWarping.csproj", "{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnkownName", "UnkownName\UnkownName.csproj", "{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
