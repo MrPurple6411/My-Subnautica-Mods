@@ -7,10 +7,10 @@ namespace BuilderModule
     public class BuilderModule : MonoBehaviour
     {
         public BuilderModule Instance { get; private set; }
-        public int moduleSlotID { get; set; }
-        private Vehicle thisVehicle { get; set; }
-        private Player playerMain { get; set; }
-        private EnergyMixin energyMixin { get; set; }
+        public int ModuleSlotID { get; set; }
+        private Vehicle ThisVehicle { get; set; }
+        private Player PlayerMain { get; set; }
+        private EnergyMixin EnergyMixin { get; set; }
 
         private bool isToggle;
         private bool isActive;
@@ -19,7 +19,6 @@ namespace BuilderModule
         public float powerConsumptionDeconstruct = 0.5f;
         public FMOD_CustomLoopingEmitter buildSound;
         private FMODAsset completeSound;
-        private Constructable constructable;
         private int handleInputFrame = -1;
         private string deconstructText;
         private string constructText;
@@ -31,9 +30,9 @@ namespace BuilderModule
         public void Awake()
         {
             Instance = this;
-            thisVehicle = Instance.GetComponent<Vehicle>();
-            energyMixin = thisVehicle.GetComponent<EnergyMixin>();
-            playerMain = Player.main;
+            ThisVehicle = Instance.GetComponent<Vehicle>();
+            EnergyMixin = ThisVehicle.GetComponent<EnergyMixin>();
+            PlayerMain = Player.main;
             var builderPrefab = Resources.Load<GameObject>("WorldEntities/Tools/Builder").GetComponent<BuilderTool>();
             completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
         }
@@ -41,16 +40,16 @@ namespace BuilderModule
 
         private void Start()
         {
-            thisVehicle.onToggle += OnToggle;
-            thisVehicle.modules.onAddItem += OnAddItem;
-            thisVehicle.modules.onRemoveItem += OnRemoveItem;
+            ThisVehicle.onToggle += OnToggle;
+            ThisVehicle.modules.onAddItem += OnAddItem;
+            ThisVehicle.modules.onRemoveItem += OnRemoveItem;
         }
 
         private void OnRemoveItem(InventoryItem item)
         {
             if (item.item.GetTechType() == BuilderModulePrefab.TechTypeID)
             {
-                moduleSlotID = -1;
+                ModuleSlotID = -1;
                 Instance.enabled = false;
             }
         }
@@ -59,14 +58,14 @@ namespace BuilderModule
         {
             if (item.item.GetTechType() == BuilderModulePrefab.TechTypeID)
             {
-                moduleSlotID = thisVehicle.GetSlotByItem(item);
+                ModuleSlotID = ThisVehicle.GetSlotByItem(item);
                 Instance.enabled = true;
             }
         }
 
         private void OnToggle(int slotID, bool state)
         {
-            if (thisVehicle.GetSlotBinding(slotID) == BuilderModulePrefab.TechTypeID)
+            if (ThisVehicle.GetSlotBinding(slotID) == BuilderModulePrefab.TechTypeID)
             {
                 isToggle = state;
 
@@ -83,7 +82,7 @@ namespace BuilderModule
 
         public void OnEnable()
         {
-            isActive = playerMain.isPiloting && isToggle && moduleSlotID > -1;
+            isActive = PlayerMain.isPiloting && isToggle && ModuleSlotID > -1;
         }
 
         public void OnDisable()
@@ -99,14 +98,14 @@ namespace BuilderModule
             this.UpdateText();
             if (isActive)
             {
-                if (thisVehicle.GetActiveSlotID() != moduleSlotID)
+                if (ThisVehicle.GetActiveSlotID() != ModuleSlotID)
                 {
-                    thisVehicle.SlotKeyDown(thisVehicle.GetActiveSlotID());
-                    thisVehicle.SlotKeyUp(thisVehicle.GetActiveSlotID());
+                    ThisVehicle.SlotKeyDown(ThisVehicle.GetActiveSlotID());
+                    ThisVehicle.SlotKeyUp(ThisVehicle.GetActiveSlotID());
                 }
                 if (GameInput.GetButtonDown(GameInput.Button.PDA) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
                 {
-                    if (energyMixin.charge > 0f)
+                    if (EnergyMixin.charge > 0f)
                     {
                         Player.main.GetPDA().Close();
                         uGUI_BuilderMenu.Show();
@@ -157,9 +156,7 @@ namespace BuilderModule
                 return;
             }
             Targeting.AddToIgnoreList(Player.main.gameObject);
-            GameObject gameObject;
-            float num;
-            Targeting.GetTarget(60f, out gameObject, out num, null);
+            Targeting.GetTarget(60f, out GameObject gameObject, out float num, null);
             if (gameObject == null)
             {
                 return;
@@ -176,7 +173,6 @@ namespace BuilderModule
             if (constructable != null)
             {
                 this.OnHover(constructable);
-                string text;
                 if (buttonHeld)
                 {
                     this.Construct(constructable, true);
@@ -187,7 +183,7 @@ namespace BuilderModule
                         this.Construct(constructable, true);
                     }
                 }
-                else if (constructable.DeconstructionAllowed(out text))
+                else if (constructable.DeconstructionAllowed(out string text))
                 {
                     if (buttonHeld2)
                     {
@@ -225,8 +221,7 @@ namespace BuilderModule
                 }
                 else
                 {
-                    string text;
-                    if (baseDeconstructable.DeconstructionAllowed(out text))
+                    if (baseDeconstructable.DeconstructionAllowed(out string text))
                     {
                         this.OnHover(baseDeconstructable);
                         if (buttonDown)
@@ -244,7 +239,7 @@ namespace BuilderModule
 
         private bool TryDisplayNoPowerTooltip()
         {
-            if (this.energyMixin.charge <= 0f)
+            if (this.EnergyMixin.charge <= 0f)
             {
                 HandReticle main = HandReticle.main;
                 main.SetInteractText(this.noPowerText, false, HandReticle.Hand.None);
@@ -264,17 +259,13 @@ namespace BuilderModule
         }
         private bool Construct(Constructable c, bool state)
         {
-            if (c != null && !c.constructed && this.energyMixin.charge > 0f)
+            if (c != null && !c.constructed && this.EnergyMixin.charge > 0f)
             {
                 float amount = ((!state) ? this.powerConsumptionDeconstruct : this.powerConsumptionConstruct) * Time.deltaTime;
-                this.energyMixin.ConsumeEnergy(amount);
+                this.EnergyMixin.ConsumeEnergy(amount);
                 bool constructed = c.constructed;
-                bool flag = (!state) ? c.Deconstruct() : c.Construct();
-                if (flag)
-                {
-                    this.constructable = c;
-                }
-                else if (state && !constructed)
+                _ = (!state) ? c.Deconstruct() : c.Construct();
+                if (state && !constructed)
                 {
                     global::Utils.PlayFMODAsset(this.completeSound, c.transform, 20f);
                 }
@@ -329,9 +320,9 @@ namespace BuilderModule
         private void OnDestroy()
         {
             OnDisable();
-            thisVehicle.onToggle -= OnToggle;
-            thisVehicle.modules.onAddItem -= OnAddItem;
-            thisVehicle.modules.onRemoveItem -= OnRemoveItem;
+            ThisVehicle.onToggle -= OnToggle;
+            ThisVehicle.modules.onAddItem -= OnAddItem;
+            ThisVehicle.modules.onRemoveItem -= OnRemoveItem;
         }
     }
 }

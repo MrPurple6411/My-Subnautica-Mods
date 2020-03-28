@@ -8,16 +8,6 @@ using UnityEngine;
 
 namespace BuilderPlaceOnComplete
 {
-	[QModCore]
-	public class Main
-	{
-
-		[QModPatch]
-		public void Load()
-		{
-			HarmonyInstance.Create("MrPurple6411.BuilderPlaceOnComplete").PatchAll(Assembly.GetExecutingAssembly());
-		}
-	}
 
 	[HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
 	public class Builder_TryPlace

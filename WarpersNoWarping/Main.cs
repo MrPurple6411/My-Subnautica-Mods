@@ -4,17 +4,6 @@ using System.Reflection;
 
 namespace WarpersNoWarping
 {
-	[QModCore]
-	public class Main
-    {
-
-		[QModPatch]
-		public void Load()
-		{
-			HarmonyInstance.Create("MrPurple6411.WarpersNoWarping").PatchAll(Assembly.GetExecutingAssembly());
-		}
-	}
-
 	[HarmonyPatch(typeof(WarpOut), nameof(WarpOut.Evaluate))]
 	public class WarpOut_Evaluate
 	{

@@ -19,9 +19,8 @@ namespace SpecialtyManifold
         {
             try
             {
-                HarmonyInstance.Create("MrPurple6411.SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
+                HarmonyInstance.Create("MrPurple6411_SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
                 Config.Load();
-                OptionsPanelHandler.RegisterModOptions(new Options());
             }
             catch (Exception ex)
             {
@@ -38,6 +37,7 @@ namespace SpecialtyManifold
         public static void Load()
         {
             multipleTanks = PlayerPrefs.GetInt("multipleTanks", 1) > 0;
+            OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
 

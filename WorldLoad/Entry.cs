@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
 using System;
@@ -7,12 +8,13 @@ using WorldStreaming;
 
 namespace WorldLoad
 {
-    public static class Entry
+    [QModCore]
+    public static class Entry 
     {
+        [QModPatch]
         public static void Patch()
         {
             Config.Load();
-            OptionsPanelHandler.RegisterModOptions(new Options());
             HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
         }
     }
@@ -24,6 +26,7 @@ namespace WorldLoad
         public static void Load()
         {
             IncreasedWorldLoad = PlayerPrefs.GetInt("WorldLoad", 8);
+            OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
 

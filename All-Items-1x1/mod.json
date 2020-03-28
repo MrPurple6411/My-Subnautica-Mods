@@ -3,9 +3,8 @@
   "DisplayName": "All Items 1x1",
   "Author": "MrPurple6411",
   "Version": "1.0.0",
-  "Requires": [],
+  "Dependencies": [],
   "Enable": true,
   "Game": "Subnautica",
-  "AssemblyName": "All-Items-1x1.dll",
-  "EntryMethod": "All_Items_1x1.Entry.Patch"
+  "AssemblyName": "All-Items-1x1.dll"
 }

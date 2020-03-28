@@ -207,7 +207,7 @@ namespace BetterACU
         {
             if (__instance.pickupable.GetTechType() == TechType.Shocker && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
             {
-                __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out float stored);
+                __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out _);
             }
         }
     }

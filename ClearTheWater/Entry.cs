@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace ClearTheWater
 {
-    public class Entry
-    {
-        public static void Patch()
-        {
-            HarmonyInstance.Create("MrPurple6411.ClearTheWater").PatchAll(Assembly.GetExecutingAssembly());
-        }
-    }
 
     [HarmonyPatch(typeof(WaterscapeVolume.Settings))]
     [HarmonyPatch(nameof(WaterscapeVolume.Settings.GetExtinctionAndScatteringCoefficients))]

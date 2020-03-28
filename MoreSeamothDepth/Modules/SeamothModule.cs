@@ -30,7 +30,6 @@ namespace MoreSeamothDepth
             Sprite = sprite;
             AddAfter = addAfter;
 
-            Patch();
         }
 
         public void Patch()

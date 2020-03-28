@@ -5,6 +5,5 @@
   "Version": "1.0.0",
   "Requires": [],
   "Enable": true,
-  "AssemblyName": "NoEatingSounds.dll",
-  "EntryMethod": "MrPurple.Entry.Patch"
+  "AssemblyName": "NoEatingSounds.dll"
 }

@@ -14,6 +14,7 @@
     <LangVersion>7.1</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +30,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony-1.2.0.1">
@@ -42,10 +42,6 @@
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\..\AssemblyPublicizer\Assembly-CSharp_publicized.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EasyCraft_publicized">
-      <HintPath>..\..\AssemblyPublicizer\EasyCraft_publicized.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">

@@ -5,21 +5,6 @@ using UnityEngine;
 
 namespace BuilderModuleInputFix
 {
-    public class Main
-    {
-        public static void Load()
-        {
-            try
-            {
-                HarmonyInstance.Create("MrPurple6411.BuilderModuleInputFix").PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(Builder))]
     [HarmonyPatch("Update")]
     internal class Builder_Update_Patch

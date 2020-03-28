@@ -152,7 +152,8 @@ namespace ResourceOverload
                         {
                             tech0 = type + "| " + bio;
                         }
-                        if (techs[type].TryGetValue(bio, out float probability) && !Config.techProbability.ContainsKey(tech0))
+
+                        if (techs[type].TryGetValue(bio, out _) && !Config.techProbability.ContainsKey(tech0))
                         {
                             Config.techProbability[tech0] = techs[type][bio];
                         }

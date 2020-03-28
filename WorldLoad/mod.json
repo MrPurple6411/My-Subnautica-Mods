@@ -8,6 +8,5 @@
   "LoadAfter": [],
   "Enable": true,
   "Game": "Both",
-  "AssemblyName": "WorldLoad.dll",
-  "EntryMethod": "WorldLoad.Entry.Patch"
+  "AssemblyName": "WorldLoad.dll"
 }

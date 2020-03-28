@@ -7,22 +7,6 @@ using UnityEngine;
 
 namespace BuildingTweaks
 {
-    [QModCore]
-    public class Entry
-    {
-        [QModPatch]
-        public static void Patch()
-        {
-            try
-            {
-                HarmonyInstance.Create("MrPurple6411.BuildingTweaks").PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-        }
-    }
 
     [HarmonyPatch(typeof(Builder))]
     [HarmonyPatch(nameof(Builder.ValidateOutdoor))]

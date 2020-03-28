@@ -6,6 +6,5 @@
   "Requires": [],
   "Enable": true,
   "Game": "Subnautica",
-  "AssemblyName": "ClearTheWater.dll",
-  "EntryMethod": "ClearTheWater.Entry.Patch"
+  "AssemblyName": "ClearTheWater.dll"
 }

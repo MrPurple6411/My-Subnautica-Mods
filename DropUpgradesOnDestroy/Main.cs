@@ -8,16 +8,6 @@ using UnityEngine;
 
 namespace DropUpgradesOnDestroy
 {
-	[QModCore]
-	public class Main
-	{
-
-		[QModPatch]
-		public void Load()
-		{
-			HarmonyInstance.Create("MrPurple6411.DropUpgradesOnDestroy").PatchAll(Assembly.GetExecutingAssembly());
-		}
-	}
 
 	[HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnKill))]
 	public class Vehicle_OnKill

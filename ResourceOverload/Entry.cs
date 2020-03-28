@@ -13,14 +13,15 @@ namespace ResourceOverload
 {
     public class Entry
     {
-        public static void Patch()
+        public static void Load()
         {
+            Config.Load();
             var harmony = HarmonyInstance.Create("MrPurple6411.ResourceOverload");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Config.Load();
-            OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
+
+
     public static class Config
     {
         public static float ResourceMultiplier;
@@ -40,6 +41,7 @@ namespace ResourceOverload
 
             LoadCache();
             CustomLootDistributionData.LoadSettings();
+            OptionsPanelHandler.RegisterModOptions(new Options());
         }
 
 

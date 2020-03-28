@@ -9,17 +9,6 @@ using UnityEngine.UI;
 
 namespace UnkownName
 {
-	[QModCore]
-	public class Main
-	{
-
-		[QModPatch]
-		public void Load()
-		{
-			HarmonyInstance.Create("MrPurple6411.UnkownName").PatchAll(Assembly.GetExecutingAssembly());
-		}
-	}
-
 	[HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
 	public class TooltipFactory_WriteIngredients
 	{
@@ -101,7 +90,7 @@ namespace UnkownName
 	public class GUIHand_Send
 	{
 		[HarmonyPostfix]
-		public static void Postfix(GUIHand __instance)
+		public static void Postfix()
 		{
 			PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
 			if (scanTarget.isValid && PDAScanner.CanScan() == PDAScanner.Result.Scan && !PDAScanner.scanTarget.isPlayer && GameModeUtils.RequiresBlueprints())

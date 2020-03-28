@@ -8,22 +8,8 @@ using UnityEngine;
 
 namespace ChargeRequired
 {
-	[QModCore]
-    public class Entry
+    public class Main
     {
-        [QModPatch]
-        public static void Load()
-        {
-
-            try
-            {
-                HarmonyInstance.Create("MrPurple6411.ChargeRequired").PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-		}
 		public static bool BatteryCheck(Pickupable pickupable)
 		{
 			EnergyMixin energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
@@ -80,7 +66,7 @@ namespace ChargeRequired
 						{
 							foreach (InventoryItem inventoryItem in inventoryItems)
 							{
-								if (Entry.BatteryCheck(inventoryItem.item))
+								if (Main.BatteryCheck(inventoryItem.item))
 								{
 									count++;
 								}
@@ -115,7 +101,7 @@ namespace ChargeRequired
 				itemsContainer.GetItems(techType, items);
 				foreach (InventoryItem item in items)
 				{
-					if (Entry.BatteryCheck(item.item)) 
+					if (Main.BatteryCheck(item.item)) 
 						if (itemsContainer.RemoveItem(item.item)) 
 							num++;
 
@@ -152,7 +138,7 @@ namespace ChargeRequired
 				itemsContainer.GetItems(techType, items);
 				foreach (InventoryItem item in items)
 				{
-					if (Entry.BatteryCheck(item.item))
+					if (Main.BatteryCheck(item.item))
 					{
 						num++;
 					}

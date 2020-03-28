@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
 using System;
@@ -7,14 +8,15 @@ using UnityEngine;
 
 namespace Time_Eternal
 {
+    [QModCore]
     public static class Main
     {
+        [QModPatch]
         public static void Load()
         {
-            Config.Load();
-            OptionsPanelHandler.RegisterModOptions(new Options());
             try
             {
+                Config.Load();
                 HarmonyInstance.Create("MrPurple6411.Eternal_Sunshine").PatchAll(Assembly.GetExecutingAssembly());
             }
             catch (Exception ex)
@@ -62,6 +64,7 @@ namespace Time_Eternal
         public static void Load()
         {
             freezeTimeChoice = PlayerPrefs.GetInt("DayNightToggle", 0);
+            OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
 

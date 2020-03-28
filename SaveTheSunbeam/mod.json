@@ -5,6 +5,5 @@
   "Version": "1.0.0",
   "Requires": [],
   "Enable": true,
-  "AssemblyName": "SaveTheSunbeam.dll",
-  "EntryMethod": "SaveTheSunbeam.Entry.Patch"
+  "AssemblyName": "SaveTheSunbeam.dll"
 }

@@ -34,13 +34,13 @@ namespace BuilderModule
                 if (__instance.GetType() == typeof(SeaMoth))
                 {
                     var seamoth_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
-                    seamoth_control.moduleSlotID = slotID;
+                    seamoth_control.ModuleSlotID = slotID;
                     return;
                 }
                 else if (__instance.GetType() == typeof(Exosuit))
                 {
                     var exosuit_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
-                    exosuit_control.moduleSlotID = slotID;
+                    exosuit_control.ModuleSlotID = slotID;
                     return;
                 }
                 else

@@ -6,6 +6,5 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
-  "AssemblyName": "Time Eternal.dll",
-  "EntryMethod": "Time_Eternal.Main.Load"
+  "AssemblyName": "Time Eternal.dll"
 }
