@@ -12,6 +12,7 @@ namespace UnkownName
 	[HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
 	public class TooltipFactory_WriteIngredients
 	{
+#if SUBNAUTICA
 		[HarmonyPrefix]
 		public static bool Prefix(ITechData data)
 		{
@@ -25,6 +26,19 @@ namespace UnkownName
 
 			return true;
 		}
+#elif BELOWZERO
+		[HarmonyPrefix]
+		public static bool Prefix(IList<Ingredient> ingredients)
+		{
+			int ingredientCount = ingredients.Count;
+			for (int i = 0; i < ingredientCount; i++)
+			{
+				if (!KnownTech.Contains(ingredients[i].techType) && GameModeUtils.RequiresBlueprints()) return false;
+			}
+
+			return true;
+		}
+#endif
 	}
 
 	[HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.Recipe))]
@@ -60,6 +74,7 @@ namespace UnkownName
 	[HarmonyPatch(typeof(ScannerTool), nameof(ScannerTool.OnHover))]
 	public class ScannerTool_OnHover
 	{
+#if SUBNAUTICA
 		[HarmonyPostfix]
 		public static void Postfix(ScannerTool __instance)
 		{
@@ -71,6 +86,19 @@ namespace UnkownName
 			main.SetIcon(HandReticle.IconType.Scan, 1.5f);
 			__instance.UpdateScreen(ScannerTool.ScreenState.Ready, 0f);
 		}
+#elif BELOWZERO
+		[HarmonyPostfix]
+		public static void Postfix(ScannerTool __instance)
+		{
+			PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
+			if (__instance.energyMixin.charge <= 0f || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints()) return;
+
+			HandReticle main = HandReticle.main;
+			main.SetText(HandReticle.TextType.Hand, "???????", true, GameInput.Button.RightHand);
+			main.SetIcon(HandReticle.IconType.Scan, 1.5f);
+			__instance.UpdateScreen(ScannerTool.ScreenState.Ready, 0f);
+		}
+#endif
 	}
 
 	[HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
@@ -89,6 +117,7 @@ namespace UnkownName
 	[HarmonyPatch(typeof(GUIHand), nameof(GUIHand.OnUpdate))]
 	public class GUIHand_Send
 	{
+#if SUBNAUTICA
 		[HarmonyPostfix]
 		public static void Postfix()
 		{
@@ -98,6 +127,17 @@ namespace UnkownName
 				HandReticle.main.SetInteractText("???????", false, HandReticle.Hand.None);
 			}
 		}
+#elif BELOWZERO
+		[HarmonyPostfix]
+		public static void Postfix()
+		{
+			PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
+			if (scanTarget.isValid && PDAScanner.CanScan() == PDAScanner.Result.Scan && GameModeUtils.RequiresBlueprints())
+			{
+				HandReticle.main.SetText(HandReticle.TextType.Hand, "???????", true, GameInput.Button.None);
+			}
+		}
+#endif
 	}
 
 	[HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Scan), new Type[] {})]

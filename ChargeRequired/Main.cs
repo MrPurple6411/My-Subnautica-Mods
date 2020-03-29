@@ -52,6 +52,7 @@ namespace ChargeRequired
 			if (__result && GameModeUtils.RequiresIngredients())
 			{
 				Inventory main = Inventory.main;
+#if SUBNAUTICA
 				ITechData techData = CraftData.Get(techType, true);
 				if (techData != null)
 				{
@@ -60,6 +61,16 @@ namespace ChargeRequired
 					while (i < ingredientCount)
 					{
 						IIngredient ingredient = techData.GetIngredient(i);
+#elif BELOWZERO
+				IList<Ingredient> ingredients = TechData.GetIngredients(techType);
+				if (ingredients != null)
+				{
+					int i = 0;
+					int ingredientCount = ingredients.Count;
+					while (i < ingredientCount)
+					{
+						Ingredient ingredient = ingredients[i];
+#endif
 						int count = 0;
 						IList<InventoryItem> inventoryItems = main.container.GetItems(ingredient.techType);
 						if (inventoryItems != null)

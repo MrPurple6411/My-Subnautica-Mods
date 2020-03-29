@@ -28,38 +28,6 @@ namespace RecyclingBin
 			}
 		}
 
-		public static TechData GetData(Pickupable item)
-		{
-			try
-			{
-				return CraftDataHandler.GetTechData(item.GetTechType());
-			}
-			catch (Exception)
-			{
-				try
-				{
-					ITechData td = CraftData.Get(item.GetTechType());
-					TechData techData = new TechData() { craftAmount = td.craftAmount };
-					for (int i = 0; i < td.ingredientCount; i++)
-					{
-						IIngredient ingredient = td.GetIngredient(i);
-						Ingredient smlingredient = new Ingredient(ingredient.techType, ingredient.amount);
-						techData.Ingredients.Add(smlingredient);
-					}
-					for (int i = 0; i < td.linkedItemCount; i++)
-					{
-						techData.LinkedItems.Add(td.GetLinkedItem(i));
-					}
-					return techData;
-
-				}
-				catch (Exception)
-				{
-					return null;
-				}
-			}
-		}
-
 		public static bool BatteryCheck(Pickupable pickupable)
 		{
 			EnergyMixin energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
@@ -76,8 +44,11 @@ namespace RecyclingBin
 				if (gameObject != null && (defaultCheck || QModServices.Main.ModPresent("NoBattery")))
 				{
 					IBattery battery = gameObject.GetComponent<IBattery>();
-
-					TechData techData = GetData(pickupable);
+#if SUBNAUTICA
+					TechData techData = CraftDataHandler.GetTechData(pickupable.GetTechType());
+#elif BELOWZERO
+					RecipeData techData = CraftDataHandler.GetRecipeData(pickupable.GetTechType());
+#endif
 					bool recipeCheck = techData.Ingredients.FindAll((ingredient) => ingredient.techType == TechType.Battery || ingredient.techType == TechType.PrecursorIonBattery || ingredient.techType == TechType.LithiumIonBattery || ingredient.techType == TechType.PowerCell || ingredient.techType == TechType.PrecursorIonPowerCell).Count == 0;
 					if (battery != null && QModServices.Main.ModPresent("NoBattery") && recipeCheck)
 					{
@@ -121,7 +92,7 @@ namespace RecyclingBin
 			}
 			return true;
 		}
-
+		
 	}
 
 	[HarmonyPatch(typeof(Trashcan), nameof(Trashcan.IsAllowedToAdd))]
@@ -156,7 +127,11 @@ namespace RecyclingBin
 			foreach (Trashcan.Waste waste in __instance.wasteList)
 			{
 				InventoryItem item = waste.inventoryItem;
-				TechData techData = Main.GetData(item.item);
+#if SUBNAUTICA
+					TechData techData = CraftDataHandler.GetTechData(item.item.GetTechType());
+#elif BELOWZERO
+				RecipeData techData = CraftDataHandler.GetRecipeData(item.item.GetTechType());
+#endif
 
 				if (!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && item.item.GetTechType() != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
 				{
@@ -195,7 +170,11 @@ namespace RecyclingBin
 			return false;
 		}
 
+#if SUBNAUTICA
 		private static bool CheckRequirements(Trashcan __instance, Pickupable item, TechData techData)
+#elif BELOWZERO
+		private static bool CheckRequirements(Trashcan __instance, Pickupable item, RecipeData techData)
+#endif
 		{
 			bool check = true;
 			int craftCountNeeded = techData.craftAmount;

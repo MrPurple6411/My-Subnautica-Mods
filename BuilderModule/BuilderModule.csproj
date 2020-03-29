@@ -10,46 +10,47 @@
     <RootNamespace>BuilderModule</RootNamespace>
     <AssemblyName>BuilderModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <OutputPath>..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <OutputPath>..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <LangVersion>7.1</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BelowZero|AnyCPU'">
+    <DefineConstants>TRACE;BELOWZERO</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Subnautica|AnyCPU'">
+    <DefineConstants>TRACE;SUBNAUTICA</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony-1.2.0.1">
-      <HintPath>..\..\AssemblyPublicizer\0Harmony-1.2.0.1.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\0Harmony-1.2.0.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\AssemblyPublicizer\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\AssemblyPublicizer\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
-      <HintPath>..\..\AssemblyPublicizer\QModInstaller.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\QModInstaller.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SMLHelper">
-      <HintPath>..\..\AssemblyPublicizer\SMLHelper.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\SMLHelper.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,11 +61,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\AssemblyPublicizer\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\AssemblyPublicizer\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

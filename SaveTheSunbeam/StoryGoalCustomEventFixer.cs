@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿#if SUBNAUTICA
+using Harmony;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -66,3 +67,4 @@ namespace SaveTheSunbeam
 
 
 }
+#endif

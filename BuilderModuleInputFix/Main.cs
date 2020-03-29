@@ -161,9 +161,11 @@ namespace BuilderModuleInputFix
                             ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
 
                             uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
-
+#if SUBNAUTICA
                             component = component.Initialize();
-
+#elif BELOWZERO
+                            component.Initialize();
+#endif
                             var item = new InventoryItem(component);
                             storageContainer.container.UnsafeAdd(item);
                             component.PlayPickupSound();
@@ -190,8 +192,11 @@ namespace BuilderModuleInputFix
 
                                     uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
 
+#if SUBNAUTICA
                                     component = component.Initialize();
-
+#elif BELOWZERO
+                                    component.Initialize();
+#endif
                                     var item = new InventoryItem(component);
                                     storage.UnsafeAdd(item);
                                     component.PlayPickupSound();

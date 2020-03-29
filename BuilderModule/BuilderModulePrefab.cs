@@ -31,10 +31,15 @@ namespace BuilderModule
             base.Patch();
             TechTypeID = TechType;
         }
-
+#if SUBNAUTICA
         protected override TechData GetRecipe()
         {
             return new TechData()
+#elif BELOWZERO
+        protected override RecipeData GetRecipe()
+        {
+            return new RecipeData()
+#endif
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[2]

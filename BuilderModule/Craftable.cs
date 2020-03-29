@@ -66,8 +66,11 @@ namespace BuilderModule
 
         public virtual void Patch()
         {
+#if SUBNAUTICA
             Atlas.Sprite sprite;
-
+#elif BELOWZERO
+            Sprite sprite;
+#endif
             if (NameUsingForFiles != null)
             {
                 sprite = ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png");
@@ -91,8 +94,11 @@ namespace BuilderModule
 
             PrefabHandler.RegisterPrefab(this);
         }
-
+#if SUBNAUTICA
         protected abstract TechData GetRecipe();
+#elif BELOWZERO
+        protected abstract RecipeData GetRecipe();
+#endif
 
         public override GameObject GetGameObject()
         {
@@ -110,7 +116,11 @@ namespace BuilderModule
             return _GameObject;
         }
 
+#if SUBNAUTICA
         public Atlas.Sprite GetResourceIcon(TechType techType)
+#elif BELOWZERO
+        public Sprite GetResourceIcon(TechType techType)
+#endif
         {
             return SpriteManager.Get(techType);
         }

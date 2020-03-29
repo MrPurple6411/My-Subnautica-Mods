@@ -156,7 +156,7 @@ namespace BuilderModule
                 return;
             }
             Targeting.AddToIgnoreList(Player.main.gameObject);
-            Targeting.GetTarget(60f, out GameObject gameObject, out float num, null);
+            Targeting.GetTarget(60f, out GameObject gameObject, out float num);
             if (gameObject == null)
             {
                 return;
@@ -242,7 +242,11 @@ namespace BuilderModule
             if (this.EnergyMixin.charge <= 0f)
             {
                 HandReticle main = HandReticle.main;
+#if SUBNAUTICA
                 main.SetInteractText(this.noPowerText, false, HandReticle.Hand.None);
+#elif BELOWZERO
+                main.SetText(HandReticle.TextType.Hand, this.noPowerText, true);
+#endif
                 main.SetIcon(HandReticle.IconType.Default, 1f);
                 return true;
             }
@@ -281,7 +285,11 @@ namespace BuilderModule
                 HandReticle main = HandReticle.main;
                 if (constructable.constructed)
                 {
+#if SUBNAUTICA
                     main.SetInteractText(Language.main.Get(constructable.techType), this.deconstructText, false, false, HandReticle.Hand.Left);
+#elif BELOWZERO
+                    main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
+#endif
                 }
                 else
                 {
@@ -301,7 +309,11 @@ namespace BuilderModule
                             stringBuilder.AppendLine(text);
                         }
                     }
+#if SUBNAUTICA
                     main.SetInteractText(Language.main.Get(constructable.techType), stringBuilder.ToString(), false, false, HandReticle.Hand.Left);
+#elif BELOWZERO
+                    main.SetText(HandReticle.TextType.Hand, stringBuilder.ToString(), false);
+#endif
                     main.SetProgress(constructable.amount);
                     main.SetIcon(HandReticle.IconType.Progress, 1.5f);
                 }
@@ -313,7 +325,11 @@ namespace BuilderModule
             if (isActive)
             {
                 HandReticle main = HandReticle.main;
+#if SUBNAUTICA
                 main.SetInteractText(deconstructable.Name, this.deconstructText);
+#elif BELOWZERO
+                main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
+#endif
             }
         }
 

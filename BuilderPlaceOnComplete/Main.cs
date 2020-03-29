@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace BuilderPlaceOnComplete
 {
-
 	[HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
 	public class Builder_TryPlace
 	{
