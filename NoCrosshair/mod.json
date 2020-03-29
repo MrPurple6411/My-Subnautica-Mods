@@ -1,8 +1,8 @@
 {
-  "Id": "frigidpenguin_NoCrosshair",
-  "DisplayName": "NoCrosshair",
-  "Author": "frigidpenguin",
-  "Version": "5",
+  "Id": "NoCrosshair",
+  "DisplayName": "No Crosshair (Reborn)",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
   "Enable": true,
   "Game": "Both",
   "AssemblyName": "NoCrosshair.dll"
