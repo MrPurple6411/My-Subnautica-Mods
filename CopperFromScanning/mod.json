@@ -1,0 +1,10 @@
+{
+  "Id": "CopperFromScanning",
+  "DisplayName": "Copper From Scanning",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [],
+  "Enable": true,
+  "Game": "Both",
+  "AssemblyName": "CopperFromScanning.dll"
+}
