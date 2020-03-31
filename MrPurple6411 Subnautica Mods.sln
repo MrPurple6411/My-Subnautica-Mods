@@ -47,6 +47,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimplePatch", "Common\Simpl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoCrosshair", "NoCrosshair\NoCrosshair.csproj", "{0427286B-5896-4759-A2D5-267CA9D788B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRecipeRemoval", "RecipeOverhaul\SimpleRecipeRemoval.csproj", "{4D19E1AD-9BAE-44CB-911C-EEDE6AF839FC}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{01f927b1-7979-4d9b-b242-4a368b71cdf8}*SharedItemsImports = 4
@@ -149,6 +151,9 @@ Global
 		{0427286B-5896-4759-A2D5-267CA9D788B3}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{0427286B-5896-4759-A2D5-267CA9D788B3}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{0427286B-5896-4759-A2D5-267CA9D788B3}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{4D19E1AD-9BAE-44CB-911C-EEDE6AF839FC}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{4D19E1AD-9BAE-44CB-911C-EEDE6AF839FC}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{4D19E1AD-9BAE-44CB-911C-EEDE6AF839FC}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

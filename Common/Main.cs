@@ -14,16 +14,6 @@ namespace Common
             Assembly assembly = Assembly.GetExecutingAssembly();
             HarmonyInstance.Create($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
 
-            Type options = assembly.GetType("Config");
-            if(options != null)
-            {
-                MethodInfo load = options.GetMethod("Load");
-                if(load != null)
-                {
-                    var o = Activator.CreateInstance(options);
-                    load.Invoke(o, null);
-                }
-            }
         }
     }
 }
