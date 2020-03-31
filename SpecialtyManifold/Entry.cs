@@ -6,6 +6,7 @@ using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -19,8 +20,10 @@ namespace SpecialtyManifold
         {
             try
             {
-                HarmonyInstance.Create("MrPurple6411_SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
                 Config.Load();
+                HarmonyInstance.Create("MrPurple6411_SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
+
+                KnownTechHandler.SetAnalysisTechEntry(TechType.Workbench, new List<TechType>() { O2TanksCore.PhotosynthesisSmallID, O2TanksCore.PhotosynthesisTankID, O2TanksCore.ChemosynthesisTankID });
             }
             catch (Exception ex)
             {
