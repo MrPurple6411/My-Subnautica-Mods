@@ -11,25 +11,32 @@ using UnityEngine;
 
 namespace ResourceOverload
 {
-    public class Entry
-    {
-        public static void Load()
-        {
-            Config.Load();
-            var harmony = HarmonyInstance.Create("MrPurple6411.ResourceOverload");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
-    }
-
-
     public static class Config
     {
-        public static float ResourceMultiplier;
         public static bool LoadExternalChanges;
-        public static SortedList<string, float> techProbability = new SortedList<string, float>();
-        public static bool RegenSpawns;
         public static bool Randomization;
+        public static bool RegenSpawns;
         public static bool resetDefaults;
+        public static float ResourceMultiplier;
+        public static SortedList<string, float> techProbability = new SortedList<string, float>();
+
+        public static void DeleteCache()
+        {
+            string path;
+            if(Randomization)
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
+            }
+            else
+            {
+                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
+            }
+
+            if(File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
 
         public static void Load()
         {
@@ -44,11 +51,10 @@ namespace ResourceOverload
             OptionsPanelHandler.RegisterModOptions(new Options());
         }
 
-
         public static void LoadCache()
         {
             string path;
-            if (Randomization)
+            if(Randomization)
             {
                 path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
             }
@@ -57,34 +63,27 @@ namespace ResourceOverload
                 path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
             }
 
-            if (File.Exists(path))
+            if(File.Exists(path))
             {
-                using (StreamReader reader = new StreamReader(path))
+                using(StreamReader reader = new StreamReader(path))
                 {
                     CustomLootDistributionData.customDSTDistribution = JsonConvert.DeserializeObject<SortedDictionary<BiomeType, LootDistributionData.DstData>>(reader.ReadToEnd());
                 }
             }
         }
-        public static void DeleteCache()
-        {
-            string path;
-            if (Randomization)
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
-            }
-            else
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
-            }
+    }
 
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
+    public class Entry
+    {
+        public static void Load()
+        {
+            Config.Load();
+            var harmony = HarmonyInstance.Create("MrPurple6411.ResourceOverload");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 
-    public class Options : ModOptions
+    public class Options: ModOptions
     {
         public Options() : base("******Resource Overload Configuration******")
         {
@@ -92,29 +91,39 @@ namespace ResourceOverload
             ToggleChanged += ResourceOverloadOptions_ToggleChanged;
         }
 
+        public override void BuildModOptions()
+        {
+            AddToggleOption("LoadExternalChanges", "Load External Changes", Config.LoadExternalChanges);
+            AddSliderOption("ResourceMultiplier", "Resource Multiplier", 1, 20, Config.ResourceMultiplier);
+            AddToggleOption("RegenSpawnsEnabled", "Apply Multiplier Changes", Config.RegenSpawns);
+            AddToggleOption("ResourceRandomizerEnabled", "Resource Randomization Enabled", Config.Randomization);
+            AddToggleOption("resetDefaults", "Reset Current Config", Config.resetDefaults);
+        }
+
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if (e.Id != "ResourceMultiplier" &&
+            if(e.Id != "ResourceMultiplier" &&
                 !e.Id.Contains("TechProbability"))
             {
                 return;
             }
 
-            if (e.Id == "ResourceMultiplier")
+            if(e.Id == "ResourceMultiplier")
             {
                 Config.ResourceMultiplier = e.Value;
                 PlayerPrefs.SetFloat("ResourceMultiplier", e.Value);
             }
-            else if (e.Id.Contains(":TechProbability"))
+            else if(e.Id.Contains(":TechProbability"))
             {
                 Config.techProbability[e.Id.SplitByChar(':')[0]] = (float)(e.Value);
                 PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", (float)(e.Value));
                 CustomLootDistributionData.changed = true;
             }
         }
+
         public void ResourceOverloadOptions_ToggleChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "LoadExternalChanges" &&
+            if(e.Id != "LoadExternalChanges" &&
                 e.Id != "RegenSpawnsEnabled" &&
                 e.Id != "ResourceRandomizerEnabled" &&
                 e.Id != "resetDefaults")
@@ -124,7 +133,7 @@ namespace ResourceOverload
 
             try
             {
-                if (e.Id == "LoadExternalChanges")
+                if(e.Id == "LoadExternalChanges")
                 {
                     Config.DeleteCache();
                     Config.techProbability = new SortedList<string, float>();
@@ -135,11 +144,11 @@ namespace ResourceOverload
                     LargeWorldStreamer.main.ForceUnloadAll();
                     LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
                 }
-                if (e.Id == "RegenSpawnsEnabled")
+                if(e.Id == "RegenSpawnsEnabled")
                 {
                     Config.RegenSpawns = e.Value;
                     PlayerPrefsExtra.SetBool("RegenSpawnsEnabled", e.Value);
-                    if (e.Value)
+                    if(e.Value)
                     {
                         IngameMenu.main.Close();
                         LargeWorldStreamer.main.cellManager.ResetEntityDistributions();
@@ -147,7 +156,7 @@ namespace ResourceOverload
                         LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
                     }
                 }
-                if (e.Id == "ResourceRandomizerEnabled")
+                if(e.Id == "ResourceRandomizerEnabled")
                 {
                     Config.Randomization = e.Value;
                     PlayerPrefsExtra.SetBool("ResourceRandomizerEnabled", e.Value);
@@ -160,11 +169,11 @@ namespace ResourceOverload
                     LargeWorldStreamer.main.ForceUnloadAll();
                     LargeWorldStreamer.main.cellManager.spawner.ResetSpawner();
                 }
-                if (e.Id == "resetDefaults")
+                if(e.Id == "resetDefaults")
                 {
                     Config.resetDefaults = e.Value;
                     PlayerPrefsExtra.SetBool("resetDefaults", e.Value);
-                    if (Config.resetDefaults)
+                    if(Config.resetDefaults)
                     {
                         Config.RegenSpawns = true;
                         IngameMenu.main.Close();
@@ -173,19 +182,10 @@ namespace ResourceOverload
                     }
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return;
             }
-        }
-
-        public override void BuildModOptions()
-        {
-            AddToggleOption("LoadExternalChanges", "Load External Changes", Config.LoadExternalChanges);
-            AddSliderOption("ResourceMultiplier", "Resource Multiplier", 1, 20, Config.ResourceMultiplier);
-            AddToggleOption("RegenSpawnsEnabled", "Apply Multiplier Changes", Config.RegenSpawns);
-            AddToggleOption("ResourceRandomizerEnabled", "Resource Randomization Enabled", Config.Randomization);
-            AddToggleOption("resetDefaults", "Reset Current Config", Config.resetDefaults);
         }
     }
 }

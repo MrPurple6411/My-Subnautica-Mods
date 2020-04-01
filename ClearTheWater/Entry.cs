@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace ClearTheWater
 {
-
     [HarmonyPatch(typeof(WaterscapeVolume.Settings))]
     [HarmonyPatch(nameof(WaterscapeVolume.Settings.GetExtinctionAndScatteringCoefficients))]
     internal class ClearTheWater_Patch

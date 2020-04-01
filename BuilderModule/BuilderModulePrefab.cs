@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BuilderModule
 {
-    internal class BuilderModulePrefab : Craftable
+    internal class BuilderModulePrefab: Craftable
     {
         public static TechType TechTypeID { get; private set; }
 
@@ -31,11 +31,14 @@ namespace BuilderModule
             base.Patch();
             TechTypeID = TechType;
         }
+
 #if SUBNAUTICA
+
         protected override TechData GetRecipe()
         {
             return new TechData()
 #elif BELOWZERO
+
         protected override RecipeData GetRecipe()
         {
             return new RecipeData()

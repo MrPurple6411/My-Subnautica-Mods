@@ -5,9 +5,11 @@ using System.Reflection;
 namespace All_Items_1x1
 {
 #if SUBNAUTICA
+
     [HarmonyPatch(typeof(CraftData))]
     [HarmonyPatch(nameof(CraftData.GetItemSize))]
 #elif BELOWZERO
+
     [HarmonyPatch(typeof(TechData))]
     [HarmonyPatch(nameof(TechData.GetItemSize))]
 #endif

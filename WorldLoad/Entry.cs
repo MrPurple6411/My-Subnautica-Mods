@@ -8,17 +8,6 @@ using WorldStreaming;
 
 namespace WorldLoad
 {
-    [QModCore]
-    public static class Entry 
-    {
-        [QModPatch]
-        public static void Patch()
-        {
-            Config.Load();
-            HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
-        }
-    }
-
     public static class Config
     {
         public static int IncreasedWorldLoad;
@@ -30,27 +19,38 @@ namespace WorldLoad
         }
     }
 
-    public class Options : ModOptions
+    [QModCore]
+    public static class Entry
+    {
+        [QModPatch]
+        public static void Patch()
+        {
+            Config.Load();
+            HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
+        }
+    }
+
+    public class Options: ModOptions
     {
         public Options() : base("World Load Settings")
         {
             SliderChanged += ResourceOverloadOptions_SliderChanged;
         }
 
+        public override void BuildModOptions()
+        {
+            AddSliderOption("WorldLoad", "Load Distance", 4, 20, Config.IncreasedWorldLoad);
+        }
+
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if (e.Id != "WorldLoad")
+            if(e.Id != "WorldLoad")
             {
                 return;
             }
 
             Config.IncreasedWorldLoad = (int)e.Value;
             PlayerPrefs.SetInt("WorldLoad", (int)e.Value);
-        }
-
-        public override void BuildModOptions()
-        {
-            AddSliderOption("WorldLoad", "Load Distance", 4, 20, Config.IncreasedWorldLoad);
         }
     }
 
@@ -65,13 +65,13 @@ namespace WorldLoad
             __result.maxWorkspaces *= Config.IncreasedWorldLoad / 4;
             __result.maxMeshQueue *= Config.IncreasedWorldLoad / 4;
 
-            for (int i = 1; i < __result.levels.Length; i++)
+            for(int i = 1; i < __result.levels.Length; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
                 levelSettings.chunksPerSide = Config.IncreasedWorldLoad;
                 levelSettings.chunksVertically = Config.IncreasedWorldLoad;
                 levelSettings.entities = true;
-                if (i < __result.levels.Length / 2)
+                if(i < __result.levels.Length / 2)
                 {
                     levelSettings.grass = true;
                     levelSettings.grassSettings.reduction = 0;

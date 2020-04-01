@@ -9,5 +9,5 @@
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "BuilderModule.dll",
-  "EntryMethod": "BuilderModule.Main.Load"  
+  "EntryMethod": "BuilderModule.Main.Load"
 }

@@ -12,6 +12,17 @@ using UnityEngine;
 
 namespace SpecialtyManifold
 {
+    public static class Config
+    {
+        public static bool multipleTanks;
+
+        public static void Load()
+        {
+            multipleTanks = PlayerPrefs.GetInt("multipleTanks", 1) > 0;
+            OptionsPanelHandler.RegisterModOptions(new Options());
+        }
+    }
+
     [QModCore]
     public class Entry
     {
@@ -25,35 +36,28 @@ namespace SpecialtyManifold
 
                 KnownTechHandler.SetAnalysisTechEntry(TechType.Workbench, new List<TechType>() { O2TanksCore.PhotosynthesisSmallID, O2TanksCore.PhotosynthesisTankID, O2TanksCore.ChemosynthesisTankID });
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Debug.LogException(ex);
             }
         }
     }
 
-
-    public static class Config
-    {
-        public static bool multipleTanks;
-
-        public static void Load()
-        {
-            multipleTanks = PlayerPrefs.GetInt("multipleTanks", 1) > 0;
-            OptionsPanelHandler.RegisterModOptions(new Options());
-        }
-    }
-
-    public class Options : ModOptions
+    public class Options: ModOptions
     {
         public Options() : base("Specialty Manifold")
         {
             ToggleChanged += Options_multipleTanksChanged;
         }
 
+        public override void BuildModOptions()
+        {
+            AddToggleOption("multipleTanks", "Effects of multiple tanks?", Config.multipleTanks);
+        }
+
         public void Options_multipleTanksChanged(object sender, ToggleChangedEventArgs e)
         {
-            if (e.Id != "multipleTanks")
+            if(e.Id != "multipleTanks")
             {
                 return;
             }
@@ -61,27 +65,22 @@ namespace SpecialtyManifold
             Config.multipleTanks = e.Value;
             PlayerPrefs.SetInt("multipleTanks", e.Value ? 1 : 0);
         }
-
-        public override void BuildModOptions()
-        {
-            AddToggleOption("multipleTanks", "Effects of multiple tanks?", Config.multipleTanks);
-        }
     }
 
     [HarmonyPatch(typeof(SpecialtyTanks))]
     [HarmonyPatch(nameof(SpecialtyTanks.Update))]
-    class SpecialtyTanks_Update_Patch
+    internal class SpecialtyTanks_Update_Patch
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
             TechType tankSlot = Inventory.main.equipment.GetTechTypeInSlot("Tank");
-            if (GameModeUtils.RequiresOxygen() && Player.main.IsSwimming() && tankSlot == ScubaManifold.techType)
+            if(GameModeUtils.RequiresOxygen() && Player.main.IsSwimming() && tankSlot == ScubaManifold.techType)
             {
                 int photosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisSmallID) + Inventory.main.container.GetCount(O2TanksCore.PhotosynthesisTankID);
                 int chemosynthesisTanks = Inventory.main.container.GetCount(O2TanksCore.ChemosynthesisTankID);
 
-                if (photosynthesisTanks > 0)
+                if(photosynthesisTanks > 0)
                 {
                     float playerDepth = Ocean.main.GetDepthOf(Player.main.gameObject);
                     float currentLight = DayNightCycle.main.GetLocalLightScalar();
@@ -89,7 +88,7 @@ namespace SpecialtyManifold
                     Player.main.oxygenMgr.AddOxygen(photosynthesisDepthCalc);
                 }
 
-                if (chemosynthesisTanks > 0)
+                if(chemosynthesisTanks > 0)
                 {
                     float waterTemp = WaterTemperatureSimulation.main.GetTemperature(Player.main.transform.position);
                     float chemosynthesisTempCalc = ((waterTemp > 30f ? waterTemp : 0) * Time.deltaTime * 0.01f) * (Config.multipleTanks ? chemosynthesisTanks : 1);

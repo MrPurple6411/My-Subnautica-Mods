@@ -3,7 +3,7 @@
   "DisplayName": "BuilderModuleInputFix",
   "Author": "MrPurple6411",
   "Version": "1.0",
-  "LoadBefore": ["BuilderModule"],
+  "LoadBefore": [ "BuilderModule" ],
   "LoadAfter": [],
   "Enable": true,
   "Game": "Subnautica",

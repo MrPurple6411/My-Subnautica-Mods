@@ -13,7 +13,6 @@ namespace Common
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             HarmonyInstance.Create($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-
         }
     }
 }

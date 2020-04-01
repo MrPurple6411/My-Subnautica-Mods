@@ -1,12 +1,12 @@
 ﻿{
-    "Id": "BuildingTweaks",
-    "DisplayName": "BuildingTweaks",
-    "Author": "MrPurple6411",
-    "Version": "1.0.1",
-    "Dependencies": [ "SMLHelper" ],
-    "LoadBefore": [],
-    "LoadAfter": [],
-    "Enable": true,
-    "Game": "Both",
-    "AssemblyName": "BuildingTweaks.dll"
+  "Id": "BuildingTweaks",
+  "DisplayName": "BuildingTweaks",
+  "Author": "MrPurple6411",
+  "Version": "1.0.1",
+  "Dependencies": [ "SMLHelper" ],
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Both",
+  "AssemblyName": "BuildingTweaks.dll"
 }

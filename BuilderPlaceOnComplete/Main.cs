@@ -8,37 +8,37 @@ using UnityEngine;
 
 namespace BuilderPlaceOnComplete
 {
-	[HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
-	public class Builder_TryPlace
-	{
-		[HarmonyPrefix]
-		public static void Prefix()
-		{
-			Constructable_Construct.prefab = Builder.prefab;
-		}
+    [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
+    public class Builder_TryPlace
+    {
+        [HarmonyPostfix]
+        public static void Postfix(bool __result)
+        {
+            if(!__result)
+            {
+                Constructable_Construct.prefab = null;
+            }
+        }
 
-		[HarmonyPostfix]
-		public static void Postfix(bool __result)
-		{
-			if (!__result)
-			{
-				Constructable_Construct.prefab = null;
-			}
-		}
-	}
+        [HarmonyPrefix]
+        public static void Prefix()
+        {
+            Constructable_Construct.prefab = Builder.prefab;
+        }
+    }
 
-	[HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
-	public class Constructable_Construct
-	{
-		public static GameObject prefab;
+    [HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
+    public class Constructable_Construct
+    {
+        public static GameObject prefab;
 
-		[HarmonyPostfix]
-		public static void Postfix(Constructable __instance)
-		{
-			if(__instance.constructedAmount >= 1f)
-			{
-				Builder.Begin(prefab);
-			}
-		}
-	}
+        [HarmonyPostfix]
+        public static void Postfix(Constructable __instance)
+        {
+            if(__instance.constructedAmount >= 1f)
+            {
+                Builder.Begin(prefab);
+            }
+        }
+    }
 }

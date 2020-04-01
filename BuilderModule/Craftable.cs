@@ -11,7 +11,7 @@ namespace BuilderModule
     ///Original code found on GitHub: https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/blob/master/UpgradedVehicles/Craftables/Craftable.cs
     ///</summary>
 
-    internal abstract class Craftable : ModPrefab
+    internal abstract class Craftable: ModPrefab
     {
         public readonly string NameID;
         public readonly string NameUsingForFiles;
@@ -71,7 +71,7 @@ namespace BuilderModule
 #elif BELOWZERO
             Sprite sprite;
 #endif
-            if (NameUsingForFiles != null)
+            if(NameUsingForFiles != null)
             {
                 sprite = ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png");
             }
@@ -79,7 +79,6 @@ namespace BuilderModule
             {
                 sprite = GetResourceIcon(PrefabTemplate);
             }
-
 
             TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite, false);
             SpriteHandler.RegisterSprite(TechType, sprite);
@@ -94,15 +93,20 @@ namespace BuilderModule
 
             PrefabHandler.RegisterPrefab(this);
         }
+
 #if SUBNAUTICA
+
         protected abstract TechData GetRecipe();
+
 #elif BELOWZERO
+
         protected abstract RecipeData GetRecipe();
+
 #endif
 
         public override GameObject GetGameObject()
         {
-            if (GameResourceFileName == null)
+            if(GameResourceFileName == null)
             {
                 _GameObject = Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate));
             }
@@ -117,8 +121,10 @@ namespace BuilderModule
         }
 
 #if SUBNAUTICA
+
         public Atlas.Sprite GetResourceIcon(TechType techType)
 #elif BELOWZERO
+
         public Sprite GetResourceIcon(TechType techType)
 #endif
         {

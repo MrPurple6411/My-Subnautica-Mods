@@ -40,11 +40,11 @@ namespace BetterACU
             OverFlowIntoOcean = PlayerPrefs.GetInt("OverFlowIntoOcean", 0) < 1;
 
             OptionsPanelHandler.RegisterModOptions(new Options());
-            IngameMenuHandler.RegisterOnSaveEvent(()=> PowerValues.ForEach((KeyValuePair<string, float> keyValuePair) => PlayerPrefs.SetFloat(keyValuePair.Key, keyValuePair.Value)));
+            IngameMenuHandler.RegisterOnSaveEvent(() => PowerValues.ForEach((KeyValuePair<string, float> keyValuePair) => PlayerPrefs.SetFloat(keyValuePair.Key, keyValuePair.Value)));
         }
     }
 
-    public class Options : ModOptions
+    public class Options: ModOptions
     {
         public Options() : base("Better ACU")
         {
@@ -56,16 +56,16 @@ namespace BetterACU
         {
             List<string> ids = new List<string>() { "OverFlowIntoOcean" };
 
-            if (!ids.Contains(e.Id))
+            if(!ids.Contains(e.Id))
             {
                 return;
             }
 
-            switch (e.Id)
+            switch(e.Id)
             {
                 case "OverFlowIntoOcean":
                     Config.OverFlowIntoOcean = e.Value;
-                    PlayerPrefs.SetInt("OverFlowIntoOcean", e.Value? 0 : 1);
+                    PlayerPrefs.SetInt("OverFlowIntoOcean", e.Value ? 0 : 1);
                     break;
 
                 default:
@@ -75,19 +75,19 @@ namespace BetterACU
 
         public void BetterACU_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            List<string> ids = new List<string>() { 
+            List<string> ids = new List<string>() {
                 "WaterParkSize",
 #if BELOWZERO
                 "LargeWaterParkSize"
 #endif
             };
 
-            if (!ids.Contains(e.Id))
+            if(!ids.Contains(e.Id))
             {
                 return;
             }
 
-            switch (e.Id)
+            switch(e.Id)
             {
                 case "WaterParkSize":
                     Config.WaterParkSize = (int)e.Value;
@@ -114,7 +114,6 @@ namespace BetterACU
         }
     }
 
-
     [HarmonyPatch(typeof(WaterPark))]
     [HarmonyPatch(nameof(WaterPark.Update))]
     internal class WaterPark_Update_Postfix
@@ -125,7 +124,7 @@ namespace BetterACU
             PowerSource powerSource = __instance.gameObject.GetComponent<PowerSource>();
             int numberOfShockers = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == TechType.Shocker).Count;
 
-            if (powerSource == null)
+            if(powerSource == null)
             {
                 powerSource = __instance.gameObject.AddComponent<PowerSource>();
                 powerSource.maxPower = (float)(100 * numberOfShockers);
@@ -135,7 +134,7 @@ namespace BetterACU
             {
                 powerSource.maxPower = (float)(100 * numberOfShockers);
             }
-            if (powerSource.GetPower() > powerSource.GetMaxPower())
+            if(powerSource.GetPower() > powerSource.GetMaxPower())
                 powerSource.power = powerSource.maxPower;
 
             Config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.GetPower();
@@ -150,15 +149,16 @@ namespace BetterACU
         public static void Prefix(WaterPark __instance)
         {
 #if BELOWZERO
-            if (__instance is LargeRoomWaterPark)
+            if(__instance is LargeRoomWaterPark)
                 __instance.wpPieceCapacity = Config.LargeWaterParkSize;
             else
 #endif
-                __instance.wpPieceCapacity = Config.WaterParkSize;
+            __instance.wpPieceCapacity = Config.WaterParkSize;
         }
     }
 
 #if SUBNAUTICA
+
     [HarmonyPatch(typeof(WaterPark))]
     [HarmonyPatch(nameof(WaterPark.TryBreed))]
     internal class WaterPark_TryBreed_Prefix
@@ -168,18 +168,19 @@ namespace BetterACU
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            if (!__instance.items.Contains(creature) || __instance.HasFreeSpace()) return;
+            if(!__instance.items.Contains(creature) || __instance.HasFreeSpace())
+                return;
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
-            foreach (WaterParkItem waterParkItem in __instance.items)
+            foreach(WaterParkItem waterParkItem in __instance.items)
             {
                 WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
-                if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
+                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
                 {
-                    foreach (BaseBioReactor baseBioReactor in baseBioReactors)
+                    foreach(BaseBioReactor baseBioReactor in baseBioReactors)
                     {
-                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                        if(baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
                         {
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
@@ -190,14 +191,14 @@ namespace BetterACU
                             break;
                         }
                     }
-                    if (!hasBred && Config.OverFlowIntoOcean && (!WaterParkCreature.waterParkCreatureParameters.ContainsKey(parkCreature.pickupable.GetTechType())|| parkCreature.pickupable.GetTechType() == TechType.Spadefish))
+                    if(!hasBred && Config.OverFlowIntoOcean && (!WaterParkCreature.waterParkCreatureParameters.ContainsKey(parkCreature.pickupable.GetTechType()) || parkCreature.pickupable.GetTechType() == TechType.Spadefish))
                     {
                         creature.ResetBreedTime();
                         parkCreature.ResetBreedTime();
-                        if (count > Config.WaterParkSize)
+                        if(count > Config.WaterParkSize)
                         {
                             GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
-                            gameObject.transform.position = (__instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2,30), Random.Range(-30, 30)));
+                            gameObject.transform.position = (__instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30)));
                             gameObject.SetActive(true);
                             count = 0;
                         }
@@ -219,14 +220,14 @@ namespace BetterACU
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if (__instance.pickupable.GetTechType() == TechType.Shocker && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
+            if(__instance.pickupable.GetTechType() == TechType.Shocker && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
             {
                 __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out _);
             }
         }
     }
-#elif BELOWZERO
 
+#elif BELOWZERO
 
     [HarmonyPatch(typeof(WaterPark))]
     [HarmonyPatch(nameof(WaterPark.GetBreedingPartner))]
@@ -237,18 +238,19 @@ namespace BetterACU
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            if (!__instance.items.Contains(creature) || __instance.HasFreeSpace()) return;
+            if(!__instance.items.Contains(creature) || __instance.HasFreeSpace())
+                return;
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
-            foreach (WaterParkItem waterParkItem in __instance.items)
+            foreach(WaterParkItem waterParkItem in __instance.items)
             {
                 WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
-                if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
+                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
                 {
-                    foreach (BaseBioReactor baseBioReactor in baseBioReactors)
+                    foreach(BaseBioReactor baseBioReactor in baseBioReactors)
                     {
-                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                        if(baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
                         {
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
@@ -259,11 +261,11 @@ namespace BetterACU
                             break;
                         }
                     }
-                    if (!hasBred && Config.OverFlowIntoOcean && parkCreature.data.isPickupableOutside)
+                    if(!hasBred && Config.OverFlowIntoOcean && parkCreature.data.isPickupableOutside)
                     {
                         creature.ResetBreedTime();
                         parkCreature.ResetBreedTime();
-                        if (count > Config.WaterParkSize)
+                        if(count > Config.WaterParkSize)
                         {
                             GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
                             gameObject.transform.position = (__instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30)));
@@ -288,7 +290,7 @@ namespace BetterACU
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if (__instance.pickupable.GetTechType() == TechType.Jellyfish && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
+            if(__instance.pickupable.GetTechType() == TechType.Jellyfish && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
             {
                 __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out float stored);
             }
@@ -296,6 +298,7 @@ namespace BetterACU
     }
 
 #endif
+
     [HarmonyPatch(typeof(WaterParkCreature))]
     [HarmonyPatch(nameof(WaterParkCreature.Born))]
     internal class WaterParkCreature_Born_Prefix

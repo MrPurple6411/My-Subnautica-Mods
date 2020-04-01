@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace SaveTheSunbeam
 {
-    class VFXSunbeamFixer
+    internal class VFXSunbeamFixer
     {
-
         [HarmonyPatch(typeof(VFXSunbeam))]
         [HarmonyPatch("PlaySequence")]
         internal class PlaySequenceFixer
@@ -13,7 +12,7 @@ namespace SaveTheSunbeam
             [HarmonyPrefix]
             public static bool Prefix(VFXSunbeam __instance)
             {
-                if (StoryGoalCustomEventHandler.main.gunDisabled)
+                if(StoryGoalCustomEventHandler.main.gunDisabled)
                 {
                     MonoBehaviour main = __instance;
                     GameObject prefab = __instance.shipPrefab;
