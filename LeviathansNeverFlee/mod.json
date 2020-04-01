@@ -8,6 +8,5 @@
   "LoadAfter": [],
   "Enable": true,
   "Game": "Subnautica",
-  "AssemblyName": "LeviathansNeverFlee.dll",
-  "EntryMethod": "LeviathansNeverFlee.Main.Load"
+  "AssemblyName": "LeviathansNeverFlee.dll"
 }
