@@ -30,7 +30,7 @@ namespace BuilderModule
             ThisVehicle = Instance.GetComponent<Vehicle>();
             EnergyMixin = ThisVehicle.GetComponent<EnergyMixin>();
             PlayerMain = Player.main;
-            var builderPrefab = Resources.Load<GameObject>("WorldEntities/Tools/Builder").GetComponent<BuilderTool>();
+            BuilderTool builderPrefab = Resources.Load<GameObject>("WorldEntities/Tools/Builder").GetComponent<BuilderTool>();
             completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
         }
 

@@ -34,14 +34,20 @@ namespace NoCrosshair
             private static void Postfix(GUIHand __instance)
             {
                 if(GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+                {
                     check = !check;
+                }
 
                 if(HandReticle.main.iconType == HandReticle.IconType.Default)
                 {
                     if((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && check)
+                    {
                         ChangeCrosshair(false);
+                    }
                     else
+                    {
                         ChangeCrosshair(true);
+                    }
                 }
             }
         }

@@ -30,8 +30,7 @@ namespace ResourceOverload
                     __result = __instance.spawner.GetPrefabForSlot(slot, true);
                     if(!string.IsNullOrEmpty(__result.classId))
                     {
-                        WorldEntityInfo wei;
-                        if(WorldEntityDatabase.TryGetInfo(__result.classId, out wei))
+                        if(WorldEntityDatabase.TryGetInfo(__result.classId, out WorldEntityInfo wei))
                         {
                             if(wei.techType == TechType.TimeCapsule)
                             {

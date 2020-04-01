@@ -135,7 +135,9 @@ namespace BetterACU
                 powerSource.maxPower = (float)(100 * numberOfShockers);
             }
             if(powerSource.GetPower() > powerSource.GetMaxPower())
+            {
                 powerSource.power = powerSource.maxPower;
+            }
 
             Config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.GetPower();
         }
@@ -150,7 +152,9 @@ namespace BetterACU
         {
 #if BELOWZERO
             if(__instance is LargeRoomWaterPark)
+            {
                 __instance.wpPieceCapacity = Config.LargeWaterParkSize;
+            }
             else
 #endif
             __instance.wpPieceCapacity = Config.WaterParkSize;
@@ -169,7 +173,9 @@ namespace BetterACU
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
             if(!__instance.items.Contains(creature) || __instance.HasFreeSpace())
+            {
                 return;
+            }
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
@@ -198,7 +204,7 @@ namespace BetterACU
                         if(count > Config.WaterParkSize)
                         {
                             GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
-                            gameObject.transform.position = (__instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30)));
+                            gameObject.transform.position = __instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
                             gameObject.SetActive(true);
                             count = 0;
                         }
@@ -239,7 +245,9 @@ namespace BetterACU
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
             if(!__instance.items.Contains(creature) || __instance.HasFreeSpace())
+            {
                 return;
+            }
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
@@ -268,7 +276,7 @@ namespace BetterACU
                         if(count > Config.WaterParkSize)
                         {
                             GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
-                            gameObject.transform.position = (__instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30)));
+                            gameObject.transform.position = __instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
                             gameObject.SetActive(true);
                             count = 0;
                         }

@@ -62,7 +62,9 @@ namespace SimpleRecipeRemoval
             {
                 Console.WriteLine(msg);
                 if(showOnScreen)
+                {
                     ErrorMessage.AddDebug(msg);
+                }
             }
         }
 
@@ -100,10 +102,7 @@ namespace SimpleRecipeRemoval
             TechTypeHidelist = LoadConfig("TypeHidelist.json");
             TechCategoryHidelist = LoadConfig("CategoryHidelist.json");
 
-            if(RecipeBlacklist != null && TechTypeHidelist != null && TechCategoryHidelist != null)
-                return true;
-            else
-                return false;
+            return RecipeBlacklist != null && TechTypeHidelist != null && TechCategoryHidelist != null;
         }
     }
 
@@ -122,12 +121,19 @@ namespace SimpleRecipeRemoval
                 {
                     defaults[techCategory.ToString()].Add(techType.AsString());
                     if(Core.TechTypeHidelist.Contains(techType.AsString()) || Core.RecipeBlacklist.Contains(techType.AsString()) || Core.TechCategoryHidelist.Contains(techCategory.ToString()))
+                    {
                         dictionary[techCategory].Add(techType);
+                    }
                 }
                 if(defaults[techCategory.ToString()].Count == 0)
+                {
                     defaults.Remove(techCategory.ToString());
+                }
+
                 if(dictionary[techCategory].Count == 0)
+                {
                     dictionary.Remove(techCategory);
+                }
             }
 
             if(path != "")
@@ -149,14 +155,18 @@ namespace SimpleRecipeRemoval
                 Core.BlueprintHideList = GenerateDictionary(instance, path);
             }
             if(Core.BlueprintHideList == null)
+            {
                 Core.BlueprintHideList = GenerateDictionary(instance);
+            }
         }
 
         [HarmonyPostfix]
         private static void Postfix(uGUI_BlueprintsTab __instance)
         {
             if(Core.BlueprintHideList == null)
+            {
                 GenerateList(__instance);
+            }
 
             foreach(KeyValuePair<TechCategory, List<TechType>> keyValuePair in Core.BlueprintHideList)
             {

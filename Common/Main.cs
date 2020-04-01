@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using QModManager.API.ModLoading;
-using System;
 using System.Reflection;
 
 namespace Common

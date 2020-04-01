@@ -45,4 +45,35 @@ namespace DropUpgradesOnDestroy
             }
         }
     }
+
+#if BELOWZERO
+
+    [HarmonyPatch(typeof(SeaTruckSegment), nameof(SeaTruckSegment.OnKill))]
+    public class SeaTruckSegment_OnKill
+    {
+        public static List<InventoryItem> items = new List<InventoryItem>();
+
+        [HarmonyPrefix]
+        public static void Prefix(SeaTruckSegment __instance)
+        {
+            Dictionary<string, InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment;
+            if(equipment != null)
+            {
+                foreach(InventoryItem item in equipment.Values)
+                {
+                    if(items.Contains(item))
+                    {
+                        continue;
+                    }
+
+                    items.Add(item);
+                    GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
+                    gameObject.transform.position = __instance.transform.position + Vector3.up;
+                    gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+#endif
 }

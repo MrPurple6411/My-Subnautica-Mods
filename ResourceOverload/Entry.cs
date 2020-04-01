@@ -22,15 +22,9 @@ namespace ResourceOverload
 
         public static void DeleteCache()
         {
-            string path;
-            if(Randomization)
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
-            }
-            else
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
-            }
+            string path = Randomization
+                ? Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache"
+                : Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
 
             if(File.Exists(path))
             {
@@ -53,15 +47,9 @@ namespace ResourceOverload
 
         public static void LoadCache()
         {
-            string path;
-            if(Randomization)
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache";
-            }
-            else
-            {
-                path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
-            }
+            string path = Randomization
+                ? Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/RandomizerCache"
+                : Path.GetDirectoryName(Assembly.GetAssembly(typeof(Entry)).Location) + "/Cache";
 
             if(File.Exists(path))
             {
@@ -78,7 +66,7 @@ namespace ResourceOverload
         public static void Load()
         {
             Config.Load();
-            var harmony = HarmonyInstance.Create("MrPurple6411.ResourceOverload");
+            HarmonyInstance harmony = HarmonyInstance.Create("MrPurple6411.ResourceOverload");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
@@ -115,8 +103,8 @@ namespace ResourceOverload
             }
             else if(e.Id.Contains(":TechProbability"))
             {
-                Config.techProbability[e.Id.SplitByChar(':')[0]] = (float)(e.Value);
-                PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", (float)(e.Value));
+                Config.techProbability[e.Id.SplitByChar(':')[0]] = e.Value;
+                PlayerPrefs.SetFloat(e.Id.SplitByChar(':')[0] + ":TechProbability", e.Value);
                 CustomLootDistributionData.changed = true;
             }
         }

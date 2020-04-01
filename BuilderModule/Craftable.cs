@@ -67,18 +67,15 @@ namespace BuilderModule
         public virtual void Patch()
         {
 #if SUBNAUTICA
-            Atlas.Sprite sprite;
+            Atlas.Sprite sprite = NameUsingForFiles != null
+                ? ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png")
+                : GetResourceIcon(PrefabTemplate);
+
 #elif BELOWZERO
-            Sprite sprite;
+            Sprite sprite = NameUsingForFiles != null
+                ? ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png")
+                : GetResourceIcon(PrefabTemplate);
 #endif
-            if(NameUsingForFiles != null)
-            {
-                sprite = ImageUtils.LoadSpriteFromFile($"./QMods/{NameUsingForFiles}/Assets/{NameUsingForFiles}.png");
-            }
-            else
-            {
-                sprite = GetResourceIcon(PrefabTemplate);
-            }
 
             TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite, false);
             SpriteHandler.RegisterSprite(TechType, sprite);
@@ -106,14 +103,9 @@ namespace BuilderModule
 
         public override GameObject GetGameObject()
         {
-            if(GameResourceFileName == null)
-            {
-                _GameObject = Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate));
-            }
-            else
-            {
-                _GameObject = Object.Instantiate(Resources.Load<GameObject>(GameResourceFileName));
-            }
+            _GameObject = GameResourceFileName == null
+                ? Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate))
+                : Object.Instantiate(Resources.Load<GameObject>(GameResourceFileName));
 
             _GameObject.name = NameID;
 

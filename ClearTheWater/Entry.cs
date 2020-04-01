@@ -9,9 +9,9 @@ namespace ClearTheWater
     internal class ClearTheWater_Patch
     {
         [HarmonyPrefix]
-        public static bool prefix(WaterscapeVolume.Settings __instance, ref Vector4 __result)
+        public static bool Prefix(WaterscapeVolume.Settings __instance, ref Vector4 __result)
         {
-            Vector3 vector = __instance.absorption + __instance.scattering * Vector3.one;
+            Vector3 vector = __instance.absorption + (__instance.scattering * Vector3.one);
             __result = new Vector4(vector.x, vector.y, vector.z, __instance.scattering) * (__instance.murkiness / 400f);
             return false;
         }
@@ -22,7 +22,7 @@ namespace ClearTheWater
     internal class WaterscapeVolume_Patch
     {
         [HarmonyPostfix]
-        public static void postfix(WaterscapeVolume __instance)
+        public static void Postfix(WaterscapeVolume __instance)
         {
             __instance.aboveWaterDensityScale = 1f;
         }

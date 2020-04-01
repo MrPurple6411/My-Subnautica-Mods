@@ -11,7 +11,7 @@ namespace BuilderModule
         {
             try
             {
-                var buildermodule = new BuilderModulePrefab();
+                BuilderModulePrefab buildermodule = new BuilderModulePrefab();
                 buildermodule.Patch();
                 HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
             }
@@ -27,19 +27,19 @@ namespace BuilderModule
     internal class Vehicle_OnUpgradeModuleChange_Patch
     {
         [HarmonyPostfix]
-        private static void Postfix(Vehicle __instance, int slotID, TechType techType, bool added)
+        public static void Postfix(Vehicle __instance, int slotID, TechType techType, bool added)
         {
             if(techType == BuilderModulePrefab.TechTypeID && added)
             {
                 if(__instance.GetType() == typeof(SeaMoth))
                 {
-                    var seamoth_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
+                    BuilderModule seamoth_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
                     seamoth_control.ModuleSlotID = slotID;
                     return;
                 }
                 else if(__instance.GetType() == typeof(Exosuit))
                 {
-                    var exosuit_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
+                    BuilderModule exosuit_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
                     exosuit_control.ModuleSlotID = slotID;
                     return;
                 }

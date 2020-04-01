@@ -19,27 +19,13 @@ namespace ChargeRequired
                 if(gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
                 {
                     IBattery battery = gameObject.GetComponent<IBattery>();
-                    if(battery.capacity == battery.charge)
-                        return true;
-                    else
-                    {
-                        return false;
-                    }
+                    return battery.capacity == battery.charge;
                 }
                 return false;
             }
 
             IBattery b2 = pickupable.GetComponent<IBattery>();
-            if(b2 != null)
-            {
-                if(b2.capacity == b2.charge)
-                    return true;
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
+            return b2 != null ? b2.capacity == b2.charge : true;
         }
     }
 
@@ -113,15 +99,23 @@ namespace ChargeRequired
                 foreach(InventoryItem item in items)
                 {
                     if(Main.BatteryCheck(item.item))
+                    {
                         if(itemsContainer.RemoveItem(item.item))
+                        {
                             num++;
+                        }
+                    }
 
                     if(num == count)
+                    {
                         break;
+                    }
                 }
 
                 if(num == count)
+                {
                     break;
+                }
             }
             if(num < count)
             {

@@ -7,7 +7,7 @@ namespace NoOxygenWarnings
     internal class WarningsBreaker
     {
         [HarmonyPrefix]
-        public static bool Prefix(Player __instance)
+        public static bool Prefix()
         {
             return false;
         }

@@ -37,7 +37,11 @@ namespace BuilderPlaceOnComplete
         {
             if(__instance.constructedAmount >= 1f)
             {
+#if SUBNATICA
                 Builder.Begin(prefab);
+#elif BELOWZERO
+                Builder.Begin(CraftData.GetTechType(prefab));
+#endif
             }
         }
     }

@@ -23,7 +23,9 @@ namespace UnkownName
                 IIngredient ingredient = data.GetIngredient(i);
                 TechType techType = ingredient.techType;
                 if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
+                {
                     return false;
+                }
             }
 
             return true;
@@ -38,7 +40,9 @@ namespace UnkownName
             for(int i = 0; i < ingredientCount; i++)
             {
                 if(!KnownTech.Contains(ingredients[i].techType) && GameModeUtils.RequiresBlueprints())
+                {
                     return false;
+                }
             }
 
             return true;
@@ -86,7 +90,9 @@ namespace UnkownName
         {
             PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
             if(__instance.energyMixin.charge <= 0f || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || __instance.stateCurrent == ScannerTool.ScanState.SelfScan || !GameModeUtils.RequiresBlueprints())
+            {
                 return;
+            }
 
             HandReticle main = HandReticle.main;
             main.SetInteractText("???????", true, HandReticle.Hand.Right);
@@ -101,7 +107,9 @@ namespace UnkownName
         {
             PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
             if(__instance.energyMixin.charge <= 0f || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            {
                 return;
+            }
 
             HandReticle main = HandReticle.main;
             main.SetText(HandReticle.TextType.Hand, "???????", true, GameInput.Button.RightHand);
@@ -162,7 +170,9 @@ namespace UnkownName
         public static void Postfix(ref PDAScanner.Result __result)
         {
             if((__result == PDAScanner.Result.Done || __result == PDAScanner.Result.Researched) && !KnownTech.Contains(PDAScanner.scanTarget.techType))
+            {
                 KnownTech.Add(PDAScanner.scanTarget.techType);
+            }
         }
     }
 }

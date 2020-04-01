@@ -36,7 +36,9 @@ namespace RecyclingBin
                 GameObject gameObject = energyMixin.GetBattery();
                 bool defaultCheck = false;
                 if(gameObject != null)
+                {
                     defaultCheck = energyMixin.defaultBattery == CraftData.GetTechType(gameObject);
+                }
 
                 if(gameObject == null && QModServices.Main.ModPresent("NoBattery"))
                 {
@@ -63,18 +65,27 @@ namespace RecyclingBin
                     else
                     {
                         if(gameObject != null && !defaultCheck)
+                        {
                             ErrorMessage.AddMessage($"{CraftData.GetTechType(gameObject).ToString()} is not the default battery for {pickupable.GetTechType().ToString()}.");
+                        }
                         else
+                        {
                             ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} is not fully charged and cannot be recycled.");
+                        }
+
                         return false;
                     }
                 }
                 else
                 {
                     if(gameObject != null)
+                    {
                         ErrorMessage.AddMessage($"{CraftData.GetTechType(gameObject).ToString()} is not the default battery for {pickupable.GetTechType().ToString()}.");
+                    }
                     else
+                    {
                         ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} has no battery.");
+                    }
 
                     return false;
                 }
@@ -84,7 +95,9 @@ namespace RecyclingBin
             if(b2 != null)
             {
                 if(b2.charge > (b2.capacity * 0.99))
+                {
                     return true;
+                }
                 else
                 {
                     ErrorMessage.AddMessage($"{pickupable.GetTechType().ToString()} is not fully charged and cannot be recycled.");
@@ -116,7 +129,9 @@ namespace RecyclingBin
         public static bool Prefix(Trashcan __instance)
         {
             if(__instance.biohazard)
+            {
                 return true;
+            }
 
             __instance.storageContainer.hoverText = "Recycling Bin";
             __instance.storageContainer.storageLabel = "Recycling Bin";
@@ -147,9 +162,13 @@ namespace RecyclingBin
                                 Pickupable pickupable = gameObject.GetComponent<Pickupable>();
                                 pickupable.Pickup(false);
                                 if((item.item.GetComponent<IBattery>() == null && pickupable.GetComponent<IBattery>() != null && QModServices.Main.ModPresent("NoBattery")) || pickupable.GetComponent<LiveMixin>() != null)
+                                {
                                     UnityEngine.Object.Destroy(pickupable.gameObject);
+                                }
                                 else
+                                {
                                     forcePickupItems.Add(pickupable);
+                                }
                             }
                         }
                         break;
@@ -158,9 +177,13 @@ namespace RecyclingBin
                 else
                 {
                     if(GameInput.GetButtonHeld(GameInput.Button.Deconstruct))
+                    {
                         inventoryItems.Add(item);
+                    }
                     else
+                    {
                         forcePickupItems.Add(item.item);
+                    }
 
                     break;
                 }
@@ -204,8 +227,8 @@ namespace RecyclingBin
                         return false;
                     }
 
-                    int count1 = (inventoryItems2?.Count ?? 0);
-                    int count2 = (inventoryItems3?.Count ?? 0);
+                    int count1 = inventoryItems2?.Count ?? 0;
+                    int count2 = inventoryItems3?.Count ?? 0;
                     while(linkedCountNeeded > 0)
                     {
                         if(count1 > 0)

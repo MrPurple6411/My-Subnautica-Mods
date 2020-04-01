@@ -13,14 +13,7 @@ namespace MrPurple
         {
             foreach(CodeInstruction code in instructions)
             {
-                if(code.opcode == OpCodes.Ldstr)
-                {
-                    yield return new CodeInstruction(OpCodes.Ldstr, string.Empty);
-                }
-                else
-                {
-                    yield return code;
-                }
+                yield return code.opcode == OpCodes.Ldstr ? new CodeInstruction(OpCodes.Ldstr, string.Empty) : code;
             }
         }
     }

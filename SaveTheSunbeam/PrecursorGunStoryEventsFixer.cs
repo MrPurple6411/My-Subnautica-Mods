@@ -9,13 +9,9 @@ namespace SaveTheSunbeam
         internal class LateUpdateFixer
         {
             [HarmonyPrefix]
-            public static bool Prefix(PrecursorGunAim __instance)
+            public static bool Prefix()
             {
-                if(StoryGoalCustomEventHandler.main.gunDisabled)
-                {
-                    return false;
-                }
-                return true;
+                return !StoryGoalCustomEventHandler.main.gunDisabled;
             }
         }
     }
