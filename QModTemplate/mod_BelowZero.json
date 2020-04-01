@@ -1,0 +1,10 @@
+{
+  "Id": "QModTemplate",
+  "DisplayName": "Your Mods Name",
+  "Author": "YourName",
+  "Version": "1.0.0",
+  "Dependencies": [],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "QModTemplate.dll"
+}
