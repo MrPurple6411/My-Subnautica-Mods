@@ -19,9 +19,17 @@ namespace DropUpgradesOnDestroy
             {
                 foreach(InventoryItem item in equipment.Values)
                 {
-                    GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
-                    gameObject.transform.position = __instance.transform.position + Vector3.up;
-                    gameObject.SetActive(true);
+                    try
+                    {
+                        TechType techType = CraftData.GetTechType(item?.item?.gameObject);
+                        GameObject gameObject = CraftData.InstantiateFromPrefab(techType);
+                        gameObject.SetActive(true);
+                        gameObject.transform.position = __instance.gameObject.transform.position + Vector3.up;
+                    }
+                    catch(Exception)
+                    {
+
+                    }
                 }
             }
         }
