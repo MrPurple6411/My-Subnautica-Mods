@@ -1,7 +1,9 @@
-﻿using Harmony;
+﻿using FMOD;
+using Harmony;
 using QModManager.API.ModLoading;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -14,23 +16,13 @@ namespace DropUpgradesOnDestroy
         [HarmonyPrefix]
         public static void Prefix(SubRoot __instance)
         {
-            Dictionary<string, InventoryItem> equipment = __instance.upgradeConsole?.modules?.equipment;
-            if(equipment != null)
+            List<InventoryItem> equipment = __instance.upgradeConsole?.modules?.equipment?.Values?.Where((e)=>e!=null).ToList() ?? new List<InventoryItem>();
+            foreach(InventoryItem item in equipment)
             {
-                foreach(InventoryItem item in equipment.Values)
-                {
-                    try
-                    {
-                        TechType techType = CraftData.GetTechType(item?.item?.gameObject);
-                        GameObject gameObject = CraftData.InstantiateFromPrefab(techType);
-                        gameObject.SetActive(true);
-                        gameObject.transform.position = __instance.gameObject.transform.position + Vector3.up;
-                    }
-                    catch(Exception)
-                    {
-
-                    }
-                }
+                GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
+                Vector3 position = __instance.gameObject.transform.position;
+                gameObject.transform.position = new Vector3(position.x + UnityEngine.Random.Range(-3, 3), position.y + UnityEngine.Random.Range(5, 8), position.z + UnityEngine.Random.Range(-3, 3));
+                gameObject.SetActive(true);
             }
         }
     }
@@ -41,15 +33,13 @@ namespace DropUpgradesOnDestroy
         [HarmonyPrefix]
         public static void Prefix(Vehicle __instance)
         {
-            Dictionary<string, InventoryItem> equipment = __instance.modules?.equipment;
-            if(equipment != null)
+            List<InventoryItem> equipment = __instance.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            foreach(InventoryItem item in equipment)
             {
-                foreach(InventoryItem item in equipment.Values)
-                {
-                    GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
-                    gameObject.transform.position = __instance.transform.position + Vector3.up;
-                    gameObject.SetActive(true);
-                }
+                GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
+                Vector3 position = __instance.gameObject.transform.position;
+                gameObject.transform.position = new Vector3(position.x + UnityEngine.Random.Range(-3, 3), position.y + UnityEngine.Random.Range(5, 8), position.z + UnityEngine.Random.Range(-3, 3));
+                gameObject.SetActive(true);
             }
         }
     }
@@ -59,24 +49,21 @@ namespace DropUpgradesOnDestroy
     [HarmonyPatch(typeof(SeaTruckSegment), nameof(SeaTruckSegment.OnKill))]
     public class SeaTruckSegment_OnKill
     {
-        public static List<InventoryItem> items = new List<InventoryItem>();
+        public static SeaTruckSegment lastDestroyed;
 
         [HarmonyPrefix]
         public static void Prefix(SeaTruckSegment __instance)
         {
-            Dictionary<string, InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment;
-            if(equipment != null)
+            //ErrorMessage.AddMessage($"{__instance} {__instance.GetInstanceID()}");
+            if(__instance.IsFront() && __instance != lastDestroyed)
             {
-                foreach(InventoryItem item in equipment.Values)
+                lastDestroyed = __instance;
+                List<InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+                foreach(InventoryItem item in equipment)
                 {
-                    if(items.Contains(item))
-                    {
-                        continue;
-                    }
-
-                    items.Add(item);
                     GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
-                    gameObject.transform.position = __instance.transform.position + Vector3.up;
+                    Vector3 position = __instance.gameObject.transform.position;
+                    gameObject.transform.position = new Vector3(position.x + UnityEngine.Random.Range(-3, 3), position.y + UnityEngine.Random.Range(5, 8), position.z + UnityEngine.Random.Range(-3, 3));
                     gameObject.SetActive(true);
                 }
             }

@@ -2,7 +2,7 @@
   "Id": "DropUpgradesOnDestroy",
   "DisplayName": "Drop Upgrades On Destroy",
   "Author": "MrPurple6411",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Dependencies": [],
   "Enable": true,
   "Game": "Subnautica",
