@@ -143,13 +143,18 @@ namespace RecyclingBin
             foreach(Trashcan.Waste waste in __instance.wasteList)
             {
                 InventoryItem item = waste.inventoryItem;
+                
+                if(item is null)
+                    continue;
+
+                TechType techType = item.item.GetTechType();
 #if SUBNAUTICA
-                TechData techData = CraftDataHandler.GetTechData(item.item.GetTechType());
+                TechData techData = CraftDataHandler.GetTechData(techType);
 #elif BELOWZERO
-                RecipeData techData = CraftDataHandler.GetRecipeData(item.item.GetTechType());
+                RecipeData techData = CraftDataHandler.GetRecipeData(techType);
 #endif
 
-                if(!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && item.item.GetTechType() != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
+                if(!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && techType != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
                 {
                     if(CheckRequirements(__instance, item.item, techData))
                     {

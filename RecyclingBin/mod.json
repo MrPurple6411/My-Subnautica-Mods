@@ -2,9 +2,9 @@
   "Id": "RecyclingBin",
   "DisplayName": "Recycling Bin",
   "Author": "MrPurple6411",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "Both",
   "AssemblyName": "RecyclingBin.dll"
 }
