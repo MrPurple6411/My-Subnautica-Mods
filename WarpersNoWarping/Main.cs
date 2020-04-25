@@ -8,9 +8,19 @@ namespace WarpersNoWarping
     public class Warper_OnKill
     {
         [HarmonyPrefix]
-        public static void Postfix(Warper __instance)
+        public static void Prefix(Warper __instance)
         {
             __instance.WarpOut();
+        }
+    }
+
+    [HarmonyPatch(typeof(WarperInspectPlayer), nameof(WarperInspectPlayer.Perform))]
+    public class WarperInspectPlayer_Perform
+    {
+        [HarmonyPrefix]
+        public static void Prefix(WarperInspectPlayer __instance)
+        {
+            __instance.warpOutDistance = 0;
         }
     }
 
