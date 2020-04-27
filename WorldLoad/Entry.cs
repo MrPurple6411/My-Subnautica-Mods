@@ -39,7 +39,7 @@ namespace WorldLoad
 
         public override void BuildModOptions()
         {
-            AddSliderOption("WorldLoad", "Load Distance", 4, 20, Config.IncreasedWorldLoad);
+            AddSliderOption("WorldLoad", "Load Distance", 2, 50, Config.IncreasedWorldLoad);
         }
 
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
@@ -62,20 +62,14 @@ namespace WorldLoad
         public static void Postfix(ref ClipMapManager.Settings __result)
         {
             __result.maxThreads = Environment.ProcessorCount;
-            __result.maxWorkspaces *= Config.IncreasedWorldLoad / 4;
-            __result.maxMeshQueue *= Config.IncreasedWorldLoad / 4;
+            __result.maxWorkspaces *= 4;
+            __result.maxMeshQueue *= 4;
 
             for(int i = 1; i < __result.levels.Length; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
                 levelSettings.chunksPerSide = Config.IncreasedWorldLoad;
                 levelSettings.chunksVertically = Config.IncreasedWorldLoad;
-                levelSettings.entities = true;
-                if(i < __result.levels.Length / 2)
-                {
-                    levelSettings.grass = true;
-                    levelSettings.grassSettings.reduction = 0;
-                }
             }
         }
     }
