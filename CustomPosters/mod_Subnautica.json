@@ -1,0 +1,10 @@
+{
+  "Id": "CustomPosters",
+  "DisplayName": "CustomPosters",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "CustomPosters.dll"
+}
