@@ -60,6 +60,10 @@
       <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs"/>

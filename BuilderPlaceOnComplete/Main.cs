@@ -8,39 +8,39 @@ using UnityEngine;
 
 namespace BuilderPlaceOnComplete
 {
-    [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
-    public class Builder_TryPlace
+    [HarmonyPatch(typeof(BuilderTool), nameof(BuilderTool.HandleInput))]
+    public class BuilderTool_HandleInput
     {
-        [HarmonyPostfix]
-        public static void Postfix(bool __result)
-        {
-            if(!__result)
-            {
-                Constructable_Construct.prefab = null;
-            }
-        }
-
         [HarmonyPrefix]
-        public static void Prefix()
+        public static bool Prefix()
         {
-            Constructable_Construct.prefab = Builder.prefab;
+            TechType techType = PDAScanner.scanTarget.techType;
+            if(Input.GetMouseButtonDown(2) && CrafterLogic.IsCraftRecipeUnlocked(techType))
+            {
+#if SUBNAUTICA
+                GameObject prefab = CraftData.GetPrefabForTechType(techType);
+                Builder.Begin(prefab);
+#elif BELOWZERO
+                Builder.Begin(techType);
+#endif
+                return false;
+            }
+            return true;
         }
     }
 
     [HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
     public class Constructable_Construct
     {
-        public static GameObject prefab;
-
         [HarmonyPostfix]
         public static void Postfix(Constructable __instance)
         {
-            if(__instance.constructedAmount >= 1f)
+            if(__instance.constructed)
             {
 #if SUBNAUTICA
-                Builder.Begin(prefab);
+                Builder.Begin(CraftData.GetPrefabForTechType(CraftData.GetTechType(__instance.gameObject)));
 #elif BELOWZERO
-                Builder.Begin(CraftData.GetTechType(prefab));
+                Builder.Begin(CraftData.GetTechType(__instance.gameObject));
 #endif
             }
         }
