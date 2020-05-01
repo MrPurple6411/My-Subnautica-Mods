@@ -7,8 +7,8 @@
     <ProjectGuid>{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnkownName</RootNamespace>
-    <AssemblyName>UnkownName</AssemblyName>
+    <RootNamespace>UnknownName</RootNamespace>
+    <AssemblyName>UnknownName</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <LangVersion>7.1</LangVersion>

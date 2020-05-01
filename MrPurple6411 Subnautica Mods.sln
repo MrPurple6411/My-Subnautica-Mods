@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargeRequired", "ChargeReq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpersNoWarping", "WarpersNoWarping\WarpersNoWarping.csproj", "{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnkownName", "UnkownName\UnkownName.csproj", "{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnknownName", "UnkownName\UnknownName.csproj", "{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropUpgradesOnDestroy", "DropUpgradesOnDestroy\DropUpgradesOnDestroy.csproj", "{B8542DD2-03F9-47AB-BBF9-CF099724776B}"
 EndProject
@@ -167,9 +167,7 @@ Global
 		{39D89138-712E-4904-AB9A-1F18AE384994}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{39D89138-712E-4904-AB9A-1F18AE384994}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{A5AACEEB-FFC9-4F36-B7D4-9D91F03C1C4C}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
-		{A5AACEEB-FFC9-4F36-B7D4-9D91F03C1C4C}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{A5AACEEB-FFC9-4F36-B7D4-9D91F03C1C4C}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
-		{A5AACEEB-FFC9-4F36-B7D4-9D91F03C1C4C}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{1862AEC1-34F6-48E8-A2E9-5CDCF1B140F3}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{1862AEC1-34F6-48E8-A2E9-5CDCF1B140F3}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{1862AEC1-34F6-48E8-A2E9-5CDCF1B140F3}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
