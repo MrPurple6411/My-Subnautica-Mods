@@ -10,37 +10,38 @@ using System.Text;
 using UnityEngine;
 using UWE;
 
-namespace UnkownName
+namespace UnKnownName
 {
     [HarmonyPatch(typeof(MainMenuRightSide), nameof(MainMenuRightSide.Awake))]
     public class UnknownNameConfig
     {
         public static readonly string config = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
-        public static string UnkownLabel = "";
-        public static string UnkownTitle = "Unanalyzed Item";
-        public static string UnkownDescription = "This item has not been analyzed yet. \nTo discover its usefulness please scan it at your earliest convenience.";
+        public static string UnKnownLabel = "";
+        public static string UnKnownTitle = "Unanalyzed Item";
+        public static string UnKnownDescription = "This item has not been analyzed yet. \nTo discover its usefulness please scan it at your earliest convenience.";
         public static bool ScanOnPickup = false;
         public static bool Hardcore = false;
 
         [HarmonyPostfix]
         public static void Postfix()
         {
+            Inventory_Pickup.newgame = true;
             if(File.Exists(config))
             {
                 using(StreamReader reader = new StreamReader(config))
                 {
                     JObject json = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
-                    if(json["UnkownLabel"] != null)
+                    if(json["UnKnownLabel"] != null)
                     {
-                        UnkownLabel = json["UnkownLabel"].ToString();
+                        UnKnownLabel = json["UnKnownLabel"].ToString();
                     }
-                    if(json["UnkownTitle"] != null)
+                    if(json["UnKnownTitle"] != null)
                     {
-                        UnkownTitle = json["UnkownTitle"].ToString();
+                        UnKnownTitle = json["UnKnownTitle"].ToString();
                     }
-                    if(json["UnkownDescription"] != null)
+                    if(json["UnKnownDescription"] != null)
                     {
-                        UnkownDescription = json["UnkownDescription"].ToString();
+                        UnKnownDescription = json["UnKnownDescription"].ToString();
                     }
                     if(json["ScanOnPickup"] != null)
                     {
@@ -58,9 +59,9 @@ namespace UnkownName
                 {
                     JObject json = new JObject
                     {
-                        ["UnkownLabel"] = UnkownLabel,
-                        ["UnkownTitle"] = UnkownTitle,
-                        ["UnkownDescription"] = UnkownDescription,
+                        ["UnKnownLabel"] = UnKnownLabel,
+                        ["UnKnownTitle"] = UnKnownTitle,
+                        ["UnKnownDescription"] = UnKnownDescription,
                         ["ScanOnPickup"] = ScanOnPickup,
                         ["Hardcore"] = Hardcore
                     };
@@ -106,19 +107,7 @@ namespace UnkownName
                     }
                 }
 #endif
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroVignette), nameof(IntroVignette.ShouldPlayIntro))]
-    public class IntroVignette_ShouldPlayIntro
-    {
-        [HarmonyPostfix]
-        public static void Postfix(ref bool __result)
-        {
-            if(UnknownNameConfig.Hardcore)
-            {
-                __result = false;
+                KnownTech.Add(techType);
             }
         }
     }
@@ -127,24 +116,24 @@ namespace UnkownName
     public class Player_FirstStart
     {
         [HarmonyPrefix]
-        public static void Prefix()
+        public static void Prefix(Player __instance)
         {
             if(File.Exists(UnknownNameConfig.config))
             {
                 using(StreamReader reader = new StreamReader(UnknownNameConfig.config))
                 {
                     JObject json = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
-                    if(json["UnkownLabel"] != null)
+                    if(json["UnKnownLabel"] != null)
                     {
-                        UnknownNameConfig.UnkownLabel = json["UnkownLabel"].ToString();
+                        UnknownNameConfig.UnKnownLabel = json["UnKnownLabel"].ToString();
                     }
-                    if(json["UnkownTitle"] != null)
+                    if(json["UnKnownTitle"] != null)
                     {
-                        UnknownNameConfig.UnkownTitle = json["UnkownTitle"].ToString();
+                        UnknownNameConfig.UnKnownTitle = json["UnKnownTitle"].ToString();
                     }
-                    if(json["UnkownDescription"] != null)
+                    if(json["UnKnownDescription"] != null)
                     {
-                        UnknownNameConfig.UnkownDescription = json["UnkownDescription"].ToString();
+                        UnknownNameConfig.UnKnownDescription = json["UnKnownDescription"].ToString();
                     }
                     if(json["ScanOnPickup"] != null)
                     {
@@ -159,14 +148,6 @@ namespace UnkownName
             if(UnknownNameConfig.Hardcore)
             {
                 GameModeUtils.ActivateCheat(GameModeOption.NoHints);
-            }
-            if(UnknownNameConfig.Hardcore && !Utils.GetContinueMode())
-            {
-                Pickupable pickupable = CraftData.InstantiateFromPrefab(TechType.Scanner).GetComponent<Pickupable>();
-                ScannerTool scannerTool = pickupable.GetComponent<ScannerTool>();
-                Pickupable pickupable1 = CraftData.InstantiateFromPrefab(TechType.Battery).GetComponent<Pickupable>();
-                scannerTool.energyMixin.batterySlot.AddItem(pickupable1);
-                Inventory.main.container.AddItem(pickupable);
             }
         }
     }
@@ -194,7 +175,7 @@ namespace UnkownName
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnkownTitle };
+                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }
@@ -220,7 +201,7 @@ namespace UnkownName
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnkownTitle };
+                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }
@@ -239,8 +220,8 @@ namespace UnkownName
             StringBuilder stringBuilder = new StringBuilder();
             if(locked && GameModeUtils.RequiresBlueprints())
             {
-                TooltipFactory.WriteTitle(stringBuilder, UnknownNameConfig.UnkownTitle);
-                TooltipFactory.WriteDescription(stringBuilder, UnknownNameConfig.UnkownDescription);
+                TooltipFactory.WriteTitle(stringBuilder, UnknownNameConfig.UnKnownTitle);
+                TooltipFactory.WriteDescription(stringBuilder, UnknownNameConfig.UnKnownDescription);
                 tooltipText = stringBuilder.ToString();
             }
         }
@@ -257,8 +238,8 @@ namespace UnkownName
                 return;
             }
             sb.Clear();
-            TooltipFactory.WriteTitle(sb, UnknownNameConfig.UnkownTitle);
-            TooltipFactory.WriteDescription(sb, UnknownNameConfig.UnkownDescription);
+            TooltipFactory.WriteTitle(sb, UnknownNameConfig.UnKnownTitle);
+            TooltipFactory.WriteDescription(sb, UnknownNameConfig.UnKnownDescription);
         }
     }
 
@@ -270,7 +251,7 @@ namespace UnkownName
         {
             if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
             {
-                __result = UnknownNameConfig.UnkownLabel;
+                __result = UnknownNameConfig.UnKnownLabel;
             }
         }
     }
@@ -290,9 +271,9 @@ namespace UnkownName
                 return;
             }
 #if SUBNAUTICA
-            HandReticle.main.SetInteractText(UnknownNameConfig.UnkownLabel, false, HandReticle.Hand.None);
+            HandReticle.main.SetInteractText(UnknownNameConfig.UnKnownLabel, false, HandReticle.Hand.None);
 #elif BELOWZERO
-            HandReticle.main.SetText(HandReticle.TextType.Hand, UnknownNameConfig.UnkownLabel, true, GameInput.Button.None);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, UnknownNameConfig.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }
 
@@ -301,9 +282,23 @@ namespace UnkownName
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
     public class Inventory_Pickup
     {
+        public static bool newgame = true;
+
         [HarmonyPostfix]
-        public static void Postfix(Pickupable pickupable)
+        public static void Postfix(Inventory __instance, Pickupable pickupable)
         {
+            if(newgame && UnknownNameConfig.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() == TechType.FirstAidKit)
+            {
+                Pickupable pickupable1 = CraftData.InstantiateFromPrefab(TechType.Scanner).GetComponent<Pickupable>();
+                ScannerTool scannerTool = pickupable1.GetComponent<ScannerTool>();
+                Pickupable pickupable2 = CraftData.InstantiateFromPrefab(TechType.Battery).GetComponent<Pickupable>();
+                pickupable1.Pickup(false);
+                pickupable2.Pickup(false);
+                scannerTool.energyMixin.batterySlot.AddItem(pickupable2);
+                Inventory.main.container.AddItem(pickupable1);
+                newgame = false;
+            }
+
             TechType techType = pickupable.GetTechType();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
             GameObject gameObject = pickupable.gameObject;
@@ -337,6 +332,7 @@ namespace UnkownName
                     KnownTech.Add(techType, true);
                 }
             }
+
         }
     }
 
@@ -371,9 +367,9 @@ namespace UnkownName
                 return;
             }
 #if SUBNAUTICA
-            HandReticle.main.SetInteractText(UnknownNameConfig.UnkownLabel, false, HandReticle.Hand.None);
+            HandReticle.main.SetInteractText(UnknownNameConfig.UnKnownLabel, false, HandReticle.Hand.None);
 #elif BELOWZERO
-            HandReticle.main.SetText(HandReticle.TextType.Hand, UnknownNameConfig.UnkownLabel, true, GameInput.Button.None);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, UnknownNameConfig.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }
     }
@@ -410,10 +406,17 @@ namespace UnkownName
         }
     }
 
-    [HarmonyPatch(typeof(Builder),nameof(Builder.Begin))]
-    public class Builder_Begin
+    [HarmonyPatch(typeof(Builder),nameof(Builder.UpdateAllowed))]
+    public class Builder_UpdateAllowed
     {
-        [HarmonyPrefix]
-        public static bool Prefix()
+        [HarmonyPostfix]
+        public static void Postfix(ref bool __result)
+        {
+            if(UnknownNameConfig.Hardcore && __result && Builder.prefab != null)
+            {
+                TechType techType = CraftData.GetTechType(Builder.prefab);
+                __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
+            }
+        }
     }
 }
