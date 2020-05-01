@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace CustomHullPlates
 {
-    public class BasicPostersPrefab: Buildable
+    public class BasicPostersPrefab: Equipable
     {
         readonly Texture2D posterIcon;
         readonly Texture2D posterTexture;
@@ -25,16 +25,19 @@ namespace CustomHullPlates
             this.TechType = TechTypeHandler.AddTechType(classId, friendlyName, description);
         }
 
-        public override TechGroup GroupForPDA => TechGroup.Miscellaneous;
+        public override TechGroup GroupForPDA => TechGroup.Personal;
 
-        public override TechCategory CategoryForPDA => TechCategory.MiscHullplates;
+        public override TechCategory CategoryForPDA => TechCategory.Misc;
+
+        public override EquipmentType EquipmentType => EquipmentType.Hand;
+
+        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
 
         public override GameObject GetGameObject()
         {
             GameObject _GameObject;
             if(this.orientation.ToLower() == "landscape")
             {
-
                 _GameObject = CraftData.InstantiateFromPrefab(TechType.PosterAurora);
             }
             else
@@ -44,14 +47,6 @@ namespace CustomHullPlates
 
             _GameObject.name = ClassID;
 
-            Constructable constructable = _GameObject.EnsureComponent<Constructable>();
-            constructable.allowedInBase = true;
-            constructable.allowedInSub = true;
-            constructable.allowedOnConstructables = true;
-            constructable.allowedOnWall = true;
-            constructable.allowedOutside = true;
-            constructable.constructedAmount = 1;
-
             MeshRenderer meshRenderer = _GameObject.GetComponentInChildren<MeshRenderer>();
             foreach (Material material in meshRenderer.materials.Where((m)=> !m.name.Contains("magnet")) ?? new List<Material>())
             {
@@ -60,10 +55,10 @@ namespace CustomHullPlates
                 material.SetTexture("_MainTex", posterTexture);
                 material.SetTexture("_SpecTex", blankTexture);
             }
-
-            constructable.model = _GameObject;
+            
             Pickupable pickupable = _GameObject.GetComponentInChildren<Pickupable>();
-            pickupable.isPickupable = false;
+            pickupable.isPickupable = true;
+            pickupable.overrideTechUsed = true;
             pickupable.overrideTechType = this.TechType;
 
             Main.customPosters.Add(ClassID);
@@ -76,7 +71,7 @@ namespace CustomHullPlates
         /// </summary>
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData(new Ingredient(TechType.Titanium, 1));
+            return new TechData() { craftAmount = 1, Ingredients = new List<Ingredient>(){ new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.FiberMesh, 1) } };
         }
 
         protected override Atlas.Sprite GetItemSprite()
@@ -89,7 +84,7 @@ namespace CustomHullPlates
         /// </summary>
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1));
+            return new RecipeData() { craftAmount = 1, Ingredients = new List<Ingredient>(){ new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.FiberMesh, 1) }  } };;
         }
         
         protected override Sprite GetItemSprite()
