@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,6 @@ namespace CustomHullPlates
     {
         private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
-        internal static readonly List<string> customPosters = new List<string>();
 
         [QModPatch]
         public static void Load()
@@ -23,6 +23,9 @@ namespace CustomHullPlates
             Assembly assembly = Assembly.GetExecutingAssembly();
             HarmonyInstance.Create($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
 
+            CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
+            CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
+            CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
             foreach(string directory in Directory.GetDirectories(HullPlateFolder.FullName))
             {
                 string info = Path.Combine(directory, "info.json");

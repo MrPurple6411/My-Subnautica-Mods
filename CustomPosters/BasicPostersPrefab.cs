@@ -22,46 +22,31 @@ namespace CustomHullPlates
             this.orientation = orientation;
             this.posterIcon = posterIcon;
             this.posterTexture = posterTexture;
-            this.TechType = TechTypeHandler.AddTechType(classId, friendlyName, description);
         }
 
-        public override TechGroup GroupForPDA => TechGroup.Personal;
+        public override TechGroup GroupForPDA => TechGroup.Resources;
 
-        public override TechCategory CategoryForPDA => TechCategory.Misc;
+        public override TechCategory CategoryForPDA => TechCategory.BasicMaterials;
 
         public override EquipmentType EquipmentType => EquipmentType.Hand;
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
 
+        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
+
         public override GameObject GetGameObject()
         {
-            GameObject _GameObject;
-            if(this.orientation.ToLower() == "landscape")
-            {
-                _GameObject = CraftData.InstantiateFromPrefab(TechType.PosterAurora);
-            }
-            else
-            {
-                _GameObject = CraftData.InstantiateFromPrefab(TechType.PosterKitty);
-            }
+            GameObject prefab = this.orientation.ToLower() == "landscape"
+                ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
+                : CraftData.GetPrefabForTechType(TechType.PosterKitty);
 
+            GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
             _GameObject.name = ClassID;
 
-            MeshRenderer meshRenderer = _GameObject.GetComponentInChildren<MeshRenderer>();
-            foreach (Material material in meshRenderer.materials.Where((m)=> !m.name.Contains("magnet")) ?? new List<Material>())
-            {
-                Texture2D blankTexture = new Texture2D(posterTexture.width, posterTexture.height, TextureFormat.ARGB32, false);
+            Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
+            material.SetTexture("_MainTex", posterTexture);
+            material.SetTexture("_SpecTex", posterTexture);
 
-                material.SetTexture("_MainTex", posterTexture);
-                material.SetTexture("_SpecTex", blankTexture);
-            }
-            
-            Pickupable pickupable = _GameObject.GetComponentInChildren<Pickupable>();
-            pickupable.isPickupable = true;
-            pickupable.overrideTechUsed = true;
-            pickupable.overrideTechType = this.TechType;
-
-            Main.customPosters.Add(ClassID);
             return _GameObject;
         }
 
@@ -71,7 +56,13 @@ namespace CustomHullPlates
         /// </summary>
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData() { craftAmount = 1, Ingredients = new List<Ingredient>(){ new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.FiberMesh, 1) } };
+            return new TechData() { 
+                craftAmount = 1, 
+                Ingredients = new List<Ingredient>(){
+                    new Ingredient(TechType.Titanium, 1), 
+                    new Ingredient(TechType.FiberMesh, 1) 
+                } 
+            };
         }
 
         protected override Atlas.Sprite GetItemSprite()
@@ -84,7 +75,13 @@ namespace CustomHullPlates
         /// </summary>
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData() { craftAmount = 1, Ingredients = new List<Ingredient>(){ new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.FiberMesh, 1) }  } };;
+            return new RecipeData(){ 
+                craftAmount = 1, 
+                Ingredients = new List<Ingredient>(){ 
+                    new Ingredient(TechType.Titanium, 1), 
+                    new Ingredient(TechType.FiberMesh, 1) 
+                }
+            };
         }
         
         protected override Sprite GetItemSprite()
