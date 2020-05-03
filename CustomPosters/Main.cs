@@ -9,12 +9,12 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 
-namespace CustomHullPlates
+namespace CustomPosters
 {
     [QModCore]
     public class Main
     {
-        private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Posters"));
+        private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
         [QModPatch]
@@ -26,7 +26,7 @@ namespace CustomHullPlates
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
-            foreach(string directory in Directory.GetDirectories(HullPlateFolder.FullName))
+            foreach(string directory in Directory.GetDirectories(PosterFolder.FullName))
             {
                 string info = Path.Combine(directory, "info.json");
                 string icon = Path.Combine(directory, "icon.png");
@@ -43,11 +43,13 @@ namespace CustomHullPlates
                         }
 
                         Texture2D icontexture = ImageUtils.LoadTextureFromFile(icon);
-                        Texture2D hullPlateTexture = ImageUtils.LoadTextureFromFile(texture);
+                        Texture2D posterTexture = ImageUtils.LoadTextureFromFile(texture);
 
-                        if(poster != null && icontexture != null && hullPlateTexture != null)
+                        if(poster != null && icontexture != null && posterTexture != null)
                         {
-                            new BasicPostersPrefab(poster.InternalName, poster.DisplayName, poster.Description, poster.Orientation, icontexture, hullPlateTexture).Patch();
+                            BasicPostersPrefab prefab = new BasicPostersPrefab(poster.InternalName, poster.DisplayName, poster.Description, poster.Orientation, icontexture, posterTexture);
+                            prefab.Patch();
+                            CraftDataHandler.SetQuickSlotType(prefab.TechType, QuickSlotType.Selectable);
                         }
                         else
                         {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
 
-namespace CustomHullPlates
+namespace CustomPosters
 {
     public class BasicPostersPrefab: Equipable
     {
