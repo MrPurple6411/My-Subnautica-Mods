@@ -72,7 +72,7 @@ namespace UnKnownName
     }
 
     [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.IsCraftRecipeUnlocked))]
-    public class CraftNode_SetVisable
+    public class CrafterLogic_IsCraftRecipeUnlocked
     {
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref bool __result)
@@ -81,7 +81,7 @@ namespace UnKnownName
             {
 #if SUBNAUTICA
                 ITechData data = CraftData.Get(techType, true);
-                if(data != null)
+                if(techType != TechType.Titanium && data != null)
                 {
                     int ingredientCount = data.ingredientCount;
                     for(int i = 0; i < ingredientCount; i++)
@@ -107,13 +107,12 @@ namespace UnKnownName
                     }
                 }
 #endif
-                KnownTech.Add(techType);
             }
         }
     }
 
     [HarmonyPatch(typeof(Player), nameof(Player.Start))]
-    public class Player_FirstStart
+    public class Player_Start
     {
         [HarmonyPrefix]
         public static void Prefix(Player __instance)
@@ -144,10 +143,6 @@ namespace UnKnownName
                         UnknownNameConfig.Hardcore = json["Hardcore"].ToString().ToLower() == "true";
                     }
                 }
-            }
-            if(UnknownNameConfig.Hardcore)
-            {
-                GameModeUtils.ActivateCheat(GameModeOption.NoHints);
             }
         }
     }
@@ -287,7 +282,7 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(Inventory __instance, Pickupable pickupable)
         {
-            if(newgame && UnknownNameConfig.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() == TechType.FirstAidKit)
+            if(newgame && UnknownNameConfig.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() != TechType.FireExtinguisher)
             {
                 Pickupable pickupable1 = CraftData.InstantiateFromPrefab(TechType.Scanner).GetComponent<Pickupable>();
                 ScannerTool scannerTool = pickupable1.GetComponent<ScannerTool>();
