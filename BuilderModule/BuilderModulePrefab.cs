@@ -1,9 +1,9 @@
-﻿using SMLHelper.V2.Crafting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SMLHelper.V2.Crafting;
 
 namespace BuilderModule
 {
-    internal class BuilderModulePrefab: Craftable
+    internal class BuilderModulePrefab : Craftable
     {
         public static TechType TechTypeID { get; private set; }
 
@@ -29,7 +29,7 @@ namespace BuilderModule
         public override void Patch()
         {
             base.Patch();
-            TechTypeID = TechType;
+            TechTypeID = this.TechType;
         }
 
 #if SUBNAUTICA

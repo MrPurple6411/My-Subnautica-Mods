@@ -1,6 +1,5 @@
-﻿using Harmony;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Harmony;
 
 namespace NoCrosshair
 {
@@ -13,15 +12,15 @@ namespace NoCrosshair
 
         private static void ChangeCrosshair(bool show)
         {
-            if(!show)
+            if (!show)
             {
-                if(!icon)
+                if (!icon)
                 {
                     icon = icons[HandReticle.IconType.Default];
                 }
                 icons.Remove(HandReticle.IconType.Default);
             }
-            else if(icon)
+            else if (icon)
             {
                 icons[HandReticle.IconType.Default] = icon;
             }
@@ -33,14 +32,14 @@ namespace NoCrosshair
         {
             private static void Postfix(GUIHand __instance)
             {
-                if(GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+                if (GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
                 {
                     check = !check;
                 }
 
-                if(HandReticle.main.iconType == HandReticle.IconType.Default)
+                if (HandReticle.main.iconType == HandReticle.IconType.Default)
                 {
-                    if((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && check)
+                    if ((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && check)
                     {
                         ChangeCrosshair(false);
                     }
@@ -67,7 +66,7 @@ namespace NoCrosshair
         {
             private static void Postfix()
             {
-                if(check)
+                if (check)
                 {
                     mapCheck = check;
                     check = false;
@@ -80,7 +79,7 @@ namespace NoCrosshair
         {
             private static void Postfix()
             {
-                if(mapCheck)
+                if (mapCheck)
                 {
                     check = mapCheck;
                     mapCheck = false;

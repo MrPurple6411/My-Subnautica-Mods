@@ -1,8 +1,8 @@
-﻿using Harmony;
+﻿using System;
+using Harmony;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
-using System;
 using UnityEngine;
 using WorldStreaming;
 
@@ -30,7 +30,7 @@ namespace WorldLoad
         }
     }
 
-    public class Options: ModOptions
+    public class Options : ModOptions
     {
         public Options() : base("World Load Settings")
         {
@@ -44,7 +44,7 @@ namespace WorldLoad
 
         public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if(e.Id != "WorldLoad")
+            if (e.Id != "WorldLoad")
             {
                 return;
             }
@@ -65,7 +65,7 @@ namespace WorldLoad
             __result.maxWorkspaces *= 4;
             __result.maxMeshQueue *= 4;
 
-            for(int i = 1; i < __result.levels.Length; i++)
+            for (int i = 1; i < __result.levels.Length; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
                 levelSettings.chunksPerSide = Config.IncreasedWorldLoad;

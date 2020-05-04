@@ -1,7 +1,7 @@
 ﻿#if SUBNAUTICA
 
-using Harmony;
 using System;
+using Harmony;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,25 +14,25 @@ namespace SaveTheSunbeam
         [HarmonyPrefix]
         public static void Prefix(StoryGoalCustomEventHandler __instance, ref string key)
         {
-            foreach(StoryGoalCustomEventHandler.SunbeamGoal sunbeamGoal in __instance.sunbeamGoals)
+            foreach (StoryGoalCustomEventHandler.SunbeamGoal sunbeamGoal in __instance.sunbeamGoals)
             {
-                if(string.Equals(key, sunbeamGoal.trigger, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(key, sunbeamGoal.trigger, StringComparison.OrdinalIgnoreCase))
                 {
-                    if(__instance.gunDisabled)
+                    if (__instance.gunDisabled)
                     {
                         sunbeamGoal.Trigger();
                         key = "nope";
                     }
                 }
             }
-            if(string.Equals(key, "SunbeamCheckPlayerRange", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(key, "SunbeamCheckPlayerRange", StringComparison.OrdinalIgnoreCase))
             {
-                if(__instance.gunDisabled)
+                if (__instance.gunDisabled)
                 {
                     MonoBehaviour main = __instance;
                     __instance.countdownActive = false;
                     main.Invoke("StartSunbeamShootdownFX", 26f);
-                    if(VFXSunbeam.main != null)
+                    if (VFXSunbeam.main != null)
                     {
                         VFXSunbeam.main.PlaySFX();
                         VFXSunbeam.main.PlaySequence();
@@ -54,7 +54,7 @@ namespace SaveTheSunbeam
         [HarmonyPrefix]
         public static bool Prefix(StoryGoalCustomEventHandler __instance)
         {
-            if(StoryGoalCustomEventHandler.main.gunDisabled && __instance != null)
+            if (StoryGoalCustomEventHandler.main.gunDisabled && __instance != null)
             {
                 SceneManager.LoadSceneAsync("EndCreditsSceneCleaner", LoadSceneMode.Single);
                 return false;

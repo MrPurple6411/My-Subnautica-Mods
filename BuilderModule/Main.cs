@@ -1,6 +1,6 @@
-﻿using Harmony;
-using System;
+﻿using System;
 using System.Reflection;
+using Harmony;
 using UnityEngine;
 
 namespace BuilderModule
@@ -11,11 +11,11 @@ namespace BuilderModule
         {
             try
             {
-                BuilderModulePrefab buildermodule = new BuilderModulePrefab();
+                var buildermodule = new BuilderModulePrefab();
                 buildermodule.Patch();
                 HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }
@@ -29,15 +29,15 @@ namespace BuilderModule
         [HarmonyPostfix]
         public static void Postfix(Vehicle __instance, int slotID, TechType techType, bool added)
         {
-            if(techType == BuilderModulePrefab.TechTypeID && added)
+            if (techType == BuilderModulePrefab.TechTypeID && added)
             {
-                if(__instance.GetType() == typeof(SeaMoth))
+                if (__instance.GetType() == typeof(SeaMoth))
                 {
                     BuilderModule seamoth_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
                     seamoth_control.ModuleSlotID = slotID;
                     return;
                 }
-                else if(__instance.GetType() == typeof(Exosuit))
+                else if (__instance.GetType() == typeof(Exosuit))
                 {
                     BuilderModule exosuit_control = __instance.gameObject.GetOrAddComponent<BuilderModule>();
                     exosuit_control.ModuleSlotID = slotID;

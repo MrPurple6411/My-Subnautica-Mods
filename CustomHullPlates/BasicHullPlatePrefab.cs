@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace CustomHullPlates
 {
-    public class BasicHullPlatePrefab: Buildable
+    public class BasicHullPlatePrefab : Buildable
     {
-        readonly Texture2D hullPlateIcon;
-        readonly Texture2D hullPlateTexture;
+        private readonly Texture2D hullPlateIcon;
+        private readonly Texture2D hullPlateTexture;
 
         public BasicHullPlatePrefab(string classId, string friendlyName, string description, Texture2D hullPlateIcon, Texture2D hullPlateTexture) : base(classId, friendlyName, description)
         {
@@ -26,7 +26,7 @@ namespace CustomHullPlates
 
             MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
-            _GameObject.name = ClassID;
+            _GameObject.name = this.ClassID;
             return _GameObject;
         }
 

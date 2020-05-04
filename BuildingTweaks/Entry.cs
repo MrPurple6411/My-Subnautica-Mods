@@ -1,8 +1,5 @@
-﻿using Harmony;
-using QModManager.API.ModLoading;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using Harmony;
 using UnityEngine;
 
 namespace BuildingTweaks
@@ -13,7 +10,7 @@ namespace BuildingTweaks
     {
         public static void Postfix(ref SurfaceType __result)
         {
-            if(Input.GetKey(KeyCode.LeftControl) && __result == SurfaceType.Ceiling)
+            if (Input.GetKey(KeyCode.LeftControl) && __result == SurfaceType.Ceiling)
             {
                 __result = SurfaceType.Wall;
             }
@@ -27,7 +24,7 @@ namespace BuildingTweaks
         [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            List<string> pieces = new List<string>()
+            var pieces = new List<string>()
             {
                 "BaseFoundation", "BaseRoom",
                 "BaseMoonpool", "BaseCorridorI",
@@ -35,28 +32,28 @@ namespace BuildingTweaks
                 "BaseCorridorX"
             };
             bool baseCheck = false;
-            foreach(string piece in pieces)
+            foreach (string piece in pieces)
             {
-                if(Builder.prefab.name.Contains(piece))
+                if (Builder.prefab.name.Contains(piece))
                 {
                     baseCheck = true;
                 }
             }
 
-            List<Collider> list = new List<Collider>();
-            foreach(OrientedBounds orientedBounds in Builder.bounds)
+            var list = new List<Collider>();
+            foreach (OrientedBounds orientedBounds in Builder.bounds)
             {
                 Builder.GetOverlappedColliders(Builder.placePosition, Builder.placeRotation, orientedBounds.extents, list);
-                if(list.Count > 0)
+                if (list.Count > 0)
                 {
                     break;
                 }
             }
-            if(Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
             {
                 __result = true;
             }
-            else if(baseCheck && list.Count == 0)
+            else if (baseCheck && list.Count == 0)
             {
                 __result = true;
             }
@@ -70,7 +67,7 @@ namespace BuildingTweaks
             Builder.allowedInBase = true;
             Builder.allowedInSub = true;
             Builder.allowedOutside = true;
-            if(Builder.allowedSurfaceTypes.Contains(SurfaceType.Wall) && !Builder.allowedSurfaceTypes.Contains(SurfaceType.Ceiling))
+            if (Builder.allowedSurfaceTypes.Contains(SurfaceType.Wall) && !Builder.allowedSurfaceTypes.Contains(SurfaceType.Ceiling))
             {
                 Builder.allowedSurfaceTypes.Add(SurfaceType.Ceiling);
             }

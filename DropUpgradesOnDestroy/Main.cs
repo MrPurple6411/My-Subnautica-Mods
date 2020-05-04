@@ -1,11 +1,6 @@
-﻿using FMOD;
-using Harmony;
-using QModManager.API.ModLoading;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
+using Harmony;
 using UnityEngine;
 
 namespace DropUpgradesOnDestroy
@@ -16,8 +11,8 @@ namespace DropUpgradesOnDestroy
         [HarmonyPrefix]
         public static void Prefix(SubRoot __instance)
         {
-            List<InventoryItem> equipment = __instance.upgradeConsole?.modules?.equipment?.Values?.Where((e)=>e!=null).ToList() ?? new List<InventoryItem>();
-            foreach(InventoryItem item in equipment)
+            List<InventoryItem> equipment = __instance.upgradeConsole?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            foreach (InventoryItem item in equipment)
             {
                 GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
                 Vector3 position = __instance.gameObject.transform.position;
@@ -34,7 +29,7 @@ namespace DropUpgradesOnDestroy
         public static void Prefix(Vehicle __instance)
         {
             List<InventoryItem> equipment = __instance.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
-            foreach(InventoryItem item in equipment)
+            foreach (InventoryItem item in equipment)
             {
                 GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
                 Vector3 position = __instance.gameObject.transform.position;

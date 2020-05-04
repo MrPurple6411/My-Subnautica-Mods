@@ -1,6 +1,6 @@
-﻿using Harmony;
+﻿using System.Reflection;
+using Harmony;
 using QModManager.API.ModLoading;
-using System.Reflection;
 
 namespace QModTemplate
 {
@@ -10,7 +10,7 @@ namespace QModTemplate
         [QModPatch]
         public static void Load()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             HarmonyInstance.Create($"YourName_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }

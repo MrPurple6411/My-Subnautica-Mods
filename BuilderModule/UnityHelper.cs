@@ -7,7 +7,7 @@ namespace BuilderModule
     {
         public static void AddIfNeedComponent<T>(this GameObject gameObject) where T : Component
         {
-            if(gameObject.GetComponent<T>().IsNull())
+            if (gameObject.GetComponent<T>().IsNull())
             {
                 gameObject.AddComponent<T>();
             }
@@ -15,7 +15,7 @@ namespace BuilderModule
 
         public static void AddIfNeedComponent(this GameObject gameObject, Type component)
         {
-            if(gameObject.GetComponent(component).IsNull())
+            if (gameObject.GetComponent(component).IsNull())
             {
                 gameObject.AddComponent(component);
             }
@@ -23,26 +23,26 @@ namespace BuilderModule
 
         public static void CleanObject(this GameObject gameObject)
         {
-            foreach(Component component in gameObject.GetComponents<Component>())
+            foreach (Component component in gameObject.GetComponents<Component>())
             {
                 Type componentType = component.GetType();
 
-                if(componentType == typeof(Transform))
+                if (componentType == typeof(Transform))
                 {
                     continue;
                 }
 
-                if(componentType == typeof(Renderer))
+                if (componentType == typeof(Renderer))
                 {
                     continue;
                 }
 
-                if(componentType == typeof(Mesh))
+                if (componentType == typeof(Mesh))
                 {
                     continue;
                 }
 
-                if(componentType == typeof(Shader))
+                if (componentType == typeof(Shader))
                 {
                     continue;
                 }

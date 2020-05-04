@@ -1,11 +1,11 @@
-﻿using Harmony;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using Harmony;
 using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Object = UnityEngine.Object;
-using System.IO;
 
 namespace SimpleRecipeRemoval
 {
@@ -26,17 +26,17 @@ namespace SimpleRecipeRemoval
         {
             string path2 = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Core)).Location) + "/" + path;
 
-            List<string> strings = new List<string>();
-            if(File.Exists(path2))
+            var strings = new List<string>();
+            if (File.Exists(path2))
             {
                 try
                 {
-                    using(StreamReader reader = new StreamReader(path2))
+                    using (var reader = new StreamReader(path2))
                     {
                         strings = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     Log($"[{ModID}] Failed to load file {path}", true);
                     return null;
@@ -45,7 +45,7 @@ namespace SimpleRecipeRemoval
             else
             {
                 Log($"[{ModID}] Unable to find file {path} Creating Empty {path}", true);
-                using(StreamWriter writer = new StreamWriter(path2))
+                using (var writer = new StreamWriter(path2))
                 {
                     writer.WriteLine(JsonConvert.SerializeObject(strings, Formatting.Indented));
                 }
@@ -58,10 +58,10 @@ namespace SimpleRecipeRemoval
 
         public static void Log(string msg, bool showOnScreen = false)
         {
-            if(DebugCheck)
+            if (DebugCheck)
             {
                 Console.WriteLine(msg);
-                if(showOnScreen)
+                if (showOnScreen)
                 {
                     ErrorMessage.AddDebug(msg);
                 }
@@ -73,7 +73,7 @@ namespace SimpleRecipeRemoval
         {
             try
             {
-                if(ConfigLoaded)
+                if (ConfigLoaded)
                 {
                     HarmonyInstance.Create(ModID).PatchAll(assembly);
                     Console.WriteLine($"[{ModID}] Patching Complete");
@@ -83,7 +83,7 @@ namespace SimpleRecipeRemoval
                     Console.WriteLine($"[{ModID}] Failed to load Config files Bypassing Patching");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(Environment.NewLine + $"[{ModID}] Patching Failed with exception");
                 Console.WriteLine(Environment.NewLine + e.ToString() + Environment.NewLine + Environment.NewLine);
@@ -111,34 +111,34 @@ namespace SimpleRecipeRemoval
     {
         private static Dictionary<TechCategory, List<TechType>> GenerateDictionary(uGUI_BlueprintsTab instance, string path = "")
         {
-            Dictionary<string, List<string>> defaults = new Dictionary<string, List<string>>();
-            Dictionary<TechCategory, List<TechType>> dictionary = new Dictionary<TechCategory, List<TechType>>();
-            foreach(TechCategory techCategory in instance.entries.Keys)
+            var defaults = new Dictionary<string, List<string>>();
+            var dictionary = new Dictionary<TechCategory, List<TechType>>();
+            foreach (TechCategory techCategory in instance.entries.Keys)
             {
                 defaults[techCategory.ToString()] = new List<string>();
                 dictionary[techCategory] = new List<TechType>();
-                foreach(TechType techType in instance.entries[techCategory].entries.Keys)
+                foreach (TechType techType in instance.entries[techCategory].entries.Keys)
                 {
                     defaults[techCategory.ToString()].Add(techType.AsString());
-                    if(Core.TechTypeHidelist.Contains(techType.AsString()) || Core.RecipeBlacklist.Contains(techType.AsString()) || Core.TechCategoryHidelist.Contains(techCategory.ToString()))
+                    if (Core.TechTypeHidelist.Contains(techType.AsString()) || Core.RecipeBlacklist.Contains(techType.AsString()) || Core.TechCategoryHidelist.Contains(techCategory.ToString()))
                     {
                         dictionary[techCategory].Add(techType);
                     }
                 }
-                if(defaults[techCategory.ToString()].Count == 0)
+                if (defaults[techCategory.ToString()].Count == 0)
                 {
                     defaults.Remove(techCategory.ToString());
                 }
 
-                if(dictionary[techCategory].Count == 0)
+                if (dictionary[techCategory].Count == 0)
                 {
                     dictionary.Remove(techCategory);
                 }
             }
 
-            if(path != "")
+            if (path != "")
             {
-                using(StreamWriter writer = new StreamWriter(path))
+                using (var writer = new StreamWriter(path))
                 {
                     writer.WriteLine(JsonConvert.SerializeObject(defaults, Formatting.Indented));
                 }
@@ -150,11 +150,11 @@ namespace SimpleRecipeRemoval
         private static void GenerateList(uGUI_BlueprintsTab instance)
         {
             string path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Core)).Location) + "/Defaults.Json";
-            if(!File.Exists(path))
+            if (!File.Exists(path))
             {
                 Core.BlueprintHideList = GenerateDictionary(instance, path);
             }
-            if(Core.BlueprintHideList == null)
+            if (Core.BlueprintHideList == null)
             {
                 Core.BlueprintHideList = GenerateDictionary(instance);
             }
@@ -163,16 +163,16 @@ namespace SimpleRecipeRemoval
         [HarmonyPostfix]
         private static void Postfix(uGUI_BlueprintsTab __instance)
         {
-            if(Core.BlueprintHideList == null)
+            if (Core.BlueprintHideList == null)
             {
                 GenerateList(__instance);
             }
 
-            foreach(KeyValuePair<TechCategory, List<TechType>> keyValuePair in Core.BlueprintHideList)
+            foreach (KeyValuePair<TechCategory, List<TechType>> keyValuePair in Core.BlueprintHideList)
             {
-                foreach(TechType techType in keyValuePair.Value)
+                foreach (TechType techType in keyValuePair.Value)
                 {
-                    if(__instance.entries.ContainsKey(keyValuePair.Key) && __instance.entries[keyValuePair.Key].entries.ContainsKey(techType))
+                    if (__instance.entries.ContainsKey(keyValuePair.Key) && __instance.entries[keyValuePair.Key].entries.ContainsKey(techType))
                     {
                         uGUI_BlueprintsTab.CategoryEntry categoryEntry = __instance.entries[keyValuePair.Key];
                         uGUI_BlueprintEntry entry = __instance.entries[keyValuePair.Key].entries[techType];
@@ -180,7 +180,7 @@ namespace SimpleRecipeRemoval
                         NotificationManager.main.UnregisterTarget(entry);
                         categoryEntry.entries.Remove(techType);
                         Object.Destroy(entry.gameObject);
-                        if(categoryEntry.entries.Count == 0)
+                        if (categoryEntry.entries.Count == 0)
                         {
                             Object.Destroy(categoryEntry.title.gameObject);
                             Object.Destroy(categoryEntry.canvas.gameObject);
@@ -204,13 +204,13 @@ namespace SimpleRecipeRemoval
             List<TechType> techTypesForGroup = __instance.GetTechTypesForGroup(__instance.selected);
             int num = 0;
 
-            for(int i = 0; i < techTypesForGroup.Count; i++)
+            for (int i = 0; i < techTypesForGroup.Count; i++)
             {
                 TechType techType = techTypesForGroup[i];
-                if(!Core.RecipeBlacklist.Contains(techType.AsString()))
+                if (!Core.RecipeBlacklist.Contains(techType.AsString()))
                 {
                     TechUnlockState techUnlockState = KnownTech.GetTechUnlockState(techType);
-                    if(techUnlockState == TechUnlockState.Available || techUnlockState == TechUnlockState.Locked)
+                    if (techUnlockState == TechUnlockState.Available || techUnlockState == TechUnlockState.Locked)
                     {
                         string stringForInt = IntStringCache.GetStringForInt(num);
                         __instance.items.Add(stringForInt, techType);
@@ -230,19 +230,19 @@ namespace SimpleRecipeRemoval
         [HarmonyPrefix]
         private static bool Prefix(CraftTree tree)
         {
-            using(IEnumerator<CraftNode> enumerator = tree.nodes.Traverse(false))
+            using (IEnumerator<CraftNode> enumerator = tree.nodes.Traverse(false))
             {
-                while(enumerator.MoveNext())
+                while (enumerator.MoveNext())
                 {
                     CraftNode craftNode = enumerator.Current;
-                    if(craftNode.action == TreeAction.Craft)
+                    if (craftNode.action == TreeAction.Craft)
                     {
                         TechType techType = craftNode.techType0;
-                        if(techType != TechType.None && !Core.RecipeBlacklist.Contains(techType.AsString()))
+                        if (techType != TechType.None && !Core.RecipeBlacklist.Contains(techType.AsString()))
                         {
                             CraftTree.craftableTech.Add(techType);
                         }
-                        else if(Core.RecipeBlacklist.Contains(techType.AsString()))
+                        else if (Core.RecipeBlacklist.Contains(techType.AsString()))
                         {
                             craftNode.techType0 = TechType.None;
                             Core.Log($"TechType: {techType.AsString()} found in BlackList", true);

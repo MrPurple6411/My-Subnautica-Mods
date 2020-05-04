@@ -1,6 +1,4 @@
 ﻿using Harmony;
-using QModManager.API.ModLoading;
-using System.Reflection;
 
 namespace WarpersNoWarping
 {
@@ -41,7 +39,7 @@ namespace WarpersNoWarping
         [HarmonyPostfix]
         public static void Postfix(Creature creature, ref float __result)
         {
-            if(creature.GetType() == typeof(Warper))
+            if (creature.GetType() == typeof(Warper))
             {
                 __result = 0f;
             }

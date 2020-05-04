@@ -1,6 +1,5 @@
-﻿using Harmony;
-using System;
-using System.Reflection;
+﻿using System;
+using Harmony;
 using UnityEngine;
 
 namespace BuilderModuleInputFix
@@ -12,15 +11,15 @@ namespace BuilderModuleInputFix
         [HarmonyPrefix]
         public static bool Prefix()
         {
-            if(Player.main.GetVehicle() != null)
+            if (Player.main.GetVehicle() != null)
             {
                 Builder.Initialize();
                 Builder.canPlace = false;
-                if(Builder.prefab == null)
+                if (Builder.prefab == null)
                 {
                     return true;
                 }
-                if(!Builder.CreateGhost())
+                if (!Builder.CreateGhost())
                 {
                     Builder.inputHandler.canHandleInput = false;
                 }
@@ -31,7 +30,7 @@ namespace BuilderModuleInputFix
                 transform.localScale = Builder.ghostModelScale;
                 Color value = (!Builder.canPlace) ? Builder.placeColorDeny : Builder.placeColorAllow;
                 IBuilderGhostModel[] components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
-                for(int i = 0; i < components.Length; i++)
+                for (int i = 0; i < components.Length; i++)
                 {
                     components[i].UpdateGhostModelColor(Builder.canPlace, ref value);
                 }
@@ -53,27 +52,27 @@ namespace BuilderModuleInputFix
         [HarmonyPrefix]
         public static bool Prefix(Constructable __instance)
         {
-            if(Player.main.GetVehicle() != null)
+            if (Player.main.GetVehicle() != null)
             {
                 Vehicle thisVehicle = Player.main.GetVehicle();
-                if(__instance._constructed)
+                if (__instance._constructed)
                 {
                     return false;
                 }
                 int count = __instance.resourceMap.Count;
                 int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount += Time.deltaTime / ((float)count * Constructable.GetConstructInterval());
+                __instance.constructedAmount += Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
                 int resourceID2 = __instance.GetResourceID();
-                if(resourceID2 != resourceID)
+                if (resourceID2 != resourceID)
                 {
                     TechType destroyTechType = __instance.resourceMap[resourceID2 - 1];
-                    if(thisVehicle.GetType().Equals(typeof(Exosuit)))
+                    if (thisVehicle.GetType().Equals(typeof(Exosuit)))
                     {
                         StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
 
-                        if(storageContainer.container.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
+                        if (storageContainer.container.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
                         {
                             storageContainer.container.DestroyItem(destroyTechType);
                         }
@@ -85,26 +84,26 @@ namespace BuilderModuleInputFix
                     }
                     else
                     {
-                        SeaMoth seamoth = (SeaMoth)thisVehicle;
+                        var seamoth = (SeaMoth)thisVehicle;
                         bool storageCheck = false;
-                        for(int i = 0; i < 12; i++)
+                        for (int i = 0; i < 12; i++)
                         {
                             try
                             {
                                 ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if(storage != null && storage.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
+                                if (storage != null && storage.Contains(destroyTechType) && GameModeUtils.RequiresIngredients())
                                 {
                                     storage.DestroyItem(destroyTechType);
                                     storageCheck = true;
                                     break;
                                 }
                             }
-                            catch(Exception)
+                            catch (Exception)
                             {
                                 continue;
                             }
                         }
-                        if(!storageCheck)
+                        if (!storageCheck)
                         {
                             __instance.constructedAmount = backupConstructedAmount;
                             return true;
@@ -112,7 +111,7 @@ namespace BuilderModuleInputFix
                     }
                 }
                 __instance.UpdateMaterial();
-                if(__instance.constructedAmount >= 1f)
+                if (__instance.constructedAmount >= 1f)
                 {
                     __instance.SetState(true, true);
                 }
@@ -132,30 +131,30 @@ namespace BuilderModuleInputFix
         [HarmonyPrefix]
         public static bool Prefix(Constructable __instance)
         {
-            if(Player.main.GetVehicle() != null)
+            if (Player.main.GetVehicle() != null)
             {
                 Vehicle thisVehicle = Player.main.GetVehicle();
-                if(__instance._constructed)
+                if (__instance._constructed)
                 {
                     return true;
                 }
                 int count = __instance.resourceMap.Count;
                 int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount -= Time.deltaTime / ((float)count * Constructable.GetConstructInterval());
+                __instance.constructedAmount -= Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
                 int resourceID2 = __instance.GetResourceID();
-                if(resourceID2 != resourceID && GameModeUtils.RequiresIngredients())
+                if (resourceID2 != resourceID && GameModeUtils.RequiresIngredients())
                 {
                     TechType techType = __instance.resourceMap[resourceID2];
                     GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
                     Pickupable component = gameObject.GetComponent<Pickupable>();
 
-                    if(thisVehicle.GetType().Equals(typeof(Exosuit)))
+                    if (thisVehicle.GetType().Equals(typeof(Exosuit)))
                     {
                         StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
 
-                        if(storageContainer.container.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
+                        if (storageContainer.container.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
                         {
                             string name = Language.main.Get(component.GetTechName());
                             ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
@@ -166,7 +165,7 @@ namespace BuilderModuleInputFix
 #elif BELOWZERO
                             component.Initialize();
 #endif
-                            InventoryItem item = new InventoryItem(component);
+                            var item = new InventoryItem(component);
                             storageContainer.container.UnsafeAdd(item);
                             component.PlayPickupSound();
                         }
@@ -178,14 +177,14 @@ namespace BuilderModuleInputFix
                     }
                     else
                     {
-                        SeaMoth seamoth = (SeaMoth)thisVehicle;
+                        var seamoth = (SeaMoth)thisVehicle;
                         bool storageCheck = false;
-                        for(int i = 0; i < 12; i++)
+                        for (int i = 0; i < 12; i++)
                         {
                             try
                             {
                                 ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if(storage != null && storage.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
+                                if (storage != null && storage.HasRoomFor(component) && GameModeUtils.RequiresIngredients())
                                 {
                                     string name = Language.main.Get(component.GetTechName());
                                     ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
@@ -197,19 +196,19 @@ namespace BuilderModuleInputFix
 #elif BELOWZERO
                                     component.Initialize();
 #endif
-                                    InventoryItem item = new InventoryItem(component);
+                                    var item = new InventoryItem(component);
                                     storage.UnsafeAdd(item);
                                     component.PlayPickupSound();
                                     storageCheck = true;
                                     break;
                                 }
                             }
-                            catch(Exception)
+                            catch (Exception)
                             {
                                 continue;
                             }
                         }
-                        if(!storageCheck)
+                        if (!storageCheck)
                         {
                             __instance.constructedAmount = backupConstructedAmount;
                             return true;

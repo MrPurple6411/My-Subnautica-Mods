@@ -12,7 +12,7 @@ namespace SaveTheSunbeam
             [HarmonyPrefix]
             public static bool Prefix(VFXSunbeam __instance)
             {
-                if(StoryGoalCustomEventHandler.main.gunDisabled)
+                if (StoryGoalCustomEventHandler.main.gunDisabled)
                 {
                     MonoBehaviour main = __instance;
                     GameObject prefab = __instance.shipPrefab;

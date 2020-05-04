@@ -1,14 +1,12 @@
-﻿using Harmony;
-using Oculus.Newtonsoft.Json;
-using Oculus.Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
+using Harmony;
+using Oculus.Newtonsoft.Json;
+using Oculus.Newtonsoft.Json.Linq;
 using UnityEngine;
-using UWE;
 
 namespace UnKnownName
 {
@@ -26,28 +24,28 @@ namespace UnKnownName
         public static void Postfix()
         {
             Inventory_Pickup.newgame = true;
-            if(File.Exists(config))
+            if (File.Exists(config))
             {
-                using(StreamReader reader = new StreamReader(config))
+                using (var reader = new StreamReader(config))
                 {
                     JObject json = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
-                    if(json["UnKnownLabel"] != null)
+                    if (json["UnKnownLabel"] != null)
                     {
                         UnKnownLabel = json["UnKnownLabel"].ToString();
                     }
-                    if(json["UnKnownTitle"] != null)
+                    if (json["UnKnownTitle"] != null)
                     {
                         UnKnownTitle = json["UnKnownTitle"].ToString();
                     }
-                    if(json["UnKnownDescription"] != null)
+                    if (json["UnKnownDescription"] != null)
                     {
                         UnKnownDescription = json["UnKnownDescription"].ToString();
                     }
-                    if(json["ScanOnPickup"] != null)
+                    if (json["ScanOnPickup"] != null)
                     {
                         ScanOnPickup = json["ScanOnPickup"].ToString().ToLower() == "true";
                     }
-                    if(json["Hardcore"] != null)
+                    if (json["Hardcore"] != null)
                     {
                         Hardcore = json["Hardcore"].ToString().ToLower() == "true";
                     }
@@ -55,9 +53,9 @@ namespace UnKnownName
             }
             else
             {
-                using(StreamWriter writer = new StreamWriter(config))
+                using (var writer = new StreamWriter(config))
                 {
-                    JObject json = new JObject
+                    var json = new JObject
                     {
                         ["UnKnownLabel"] = UnKnownLabel,
                         ["UnKnownTitle"] = UnKnownTitle,
@@ -77,17 +75,17 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref bool __result)
         {
-            if(UnknownNameConfig.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
+            if (UnknownNameConfig.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
 #if SUBNAUTICA
                 ITechData data = CraftData.Get(techType, true);
-                if(techType != TechType.Titanium && data != null)
+                if (techType != TechType.Titanium && data != null)
                 {
                     int ingredientCount = data.ingredientCount;
-                    for(int i = 0; i < ingredientCount; i++)
+                    for (int i = 0; i < ingredientCount; i++)
                     {
                         IIngredient ingredient = data.GetIngredient(i);
-                        if(!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                        if (!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
                         {
                             __result = false;
                             return;
@@ -120,28 +118,28 @@ namespace UnKnownName
         [HarmonyPrefix]
         public static void Prefix(Player __instance)
         {
-            if(File.Exists(UnknownNameConfig.config))
+            if (File.Exists(UnknownNameConfig.config))
             {
-                using(StreamReader reader = new StreamReader(UnknownNameConfig.config))
+                using (var reader = new StreamReader(UnknownNameConfig.config))
                 {
                     JObject json = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
-                    if(json["UnKnownLabel"] != null)
+                    if (json["UnKnownLabel"] != null)
                     {
                         UnknownNameConfig.UnKnownLabel = json["UnKnownLabel"].ToString();
                     }
-                    if(json["UnKnownTitle"] != null)
+                    if (json["UnKnownTitle"] != null)
                     {
                         UnknownNameConfig.UnKnownTitle = json["UnKnownTitle"].ToString();
                     }
-                    if(json["UnKnownDescription"] != null)
+                    if (json["UnKnownDescription"] != null)
                     {
                         UnknownNameConfig.UnKnownDescription = json["UnKnownDescription"].ToString();
                     }
-                    if(json["ScanOnPickup"] != null)
+                    if (json["ScanOnPickup"] != null)
                     {
                         UnknownNameConfig.ScanOnPickup = json["ScanOnPickup"].ToString().ToLower() == "true";
                     }
-                    if(json["Hardcore"] != null)
+                    if (json["Hardcore"] != null)
                     {
                         UnknownNameConfig.Hardcore = json["Hardcore"].ToString().ToLower() == "true";
                     }
@@ -159,21 +157,21 @@ namespace UnKnownName
         public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
         {
             int ingredientCount = data.ingredientCount;
-            for(int i = 0; i < ingredientCount; i++)
+            for (int i = 0; i < ingredientCount; i++)
             {
                 IIngredient ingredient = data.GetIngredient(i);
                 TechType techType = ingredient.techType;
-                if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
+                if (!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
                     KnownTech.Add(techType);
                 }
-                if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
+                if (!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
                 {
                     TooltipIcon icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
-                    if(icons.Contains(icon))
+                    if (icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnKnownTitle };
+                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = UnknownNameConfig.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }
@@ -215,8 +213,8 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(bool locked, ref string tooltipText)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            if(locked && GameModeUtils.RequiresBlueprints())
+            var stringBuilder = new StringBuilder();
+            if (locked && GameModeUtils.RequiresBlueprints())
             {
                 TooltipFactory.WriteTitle(stringBuilder, UnknownNameConfig.UnKnownTitle);
                 TooltipFactory.WriteDescription(stringBuilder, UnknownNameConfig.UnKnownDescription);
@@ -231,7 +229,7 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(ref StringBuilder sb, TechType techType, GameObject obj)
         {
-            if(!PDAScanner.CanScan(obj) || PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
+            if (!PDAScanner.CanScan(obj) || PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
             {
                 return;
             }
@@ -247,7 +245,7 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(ref string __result, TechType techType)
         {
-            if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
+            if (!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
             {
                 __result = UnknownNameConfig.UnKnownLabel;
             }
@@ -264,7 +262,7 @@ namespace UnKnownName
             PDAScanner.Result result = PDAScanner.CanScan();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
-            if((entryData != null && (KnownTech.Contains(entryData.blueprint) || KnownTech.Contains(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if ((entryData != null && (KnownTech.Contains(entryData.blueprint) || KnownTech.Contains(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
@@ -285,7 +283,7 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(Inventory __instance, Pickupable pickupable)
         {
-            if(newgame && UnknownNameConfig.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() != TechType.FireExtinguisher)
+            if (newgame && UnknownNameConfig.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() != TechType.FireExtinguisher)
             {
                 Pickupable pickupable1 = CraftData.InstantiateFromPrefab(TechType.Scanner).GetComponent<Pickupable>();
                 ScannerTool scannerTool = pickupable1.GetComponent<ScannerTool>();
@@ -300,20 +298,20 @@ namespace UnKnownName
             TechType techType = pickupable.GetTechType();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
             GameObject gameObject = pickupable.gameObject;
-            if(UnknownNameConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+            if (UnknownNameConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
             {
-                if(!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
+                if (!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
                 {
                     entry = PDAScanner.Add(techType, 1);
                 }
-                if(entry != null)
+                if (entry != null)
                 {
                     PDAScanner.partial.Remove(entry);
                     PDAScanner.complete.Add(entry.techType);
                     PDAScanner.NotifyRemove(entry);
                     PDAScanner.Unlock(entryData, true, true, true);
                     KnownTech.Add(techType, false);
-                    if(gameObject != null)
+                    if (gameObject != null)
                     {
                         gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
                     }
@@ -351,7 +349,7 @@ namespace UnKnownName
             TechType key = entryData?.key ?? TechType.None;
             TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if((entryData != null && ((blueprint!= TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if ((entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
@@ -370,7 +368,7 @@ namespace UnKnownName
         [HarmonyPrefix]
         public static void Prefix()
         {
-            if(PDAScanner.scanTarget.techType != TechType.None)
+            if (PDAScanner.scanTarget.techType != TechType.None)
             {
                 techType = PDAScanner.scanTarget.techType;
             }
@@ -379,7 +377,7 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix(ref PDAScanner.Result __result)
         {
-            if(__result != PDAScanner.Result.Scan && !KnownTech.Contains(techType))
+            if (__result != PDAScanner.Result.Scan && !KnownTech.Contains(techType))
             {
                 KnownTech.Add(techType);
 #if SUBNAUTICA
@@ -387,7 +385,7 @@ namespace UnKnownName
 #elif BELOWZERO
                 TechType techType2 = TechData.GetHarvestOutput(techType);
 #endif
-                if(techType2 != TechType.None)
+                if (techType2 != TechType.None)
                 {
                     KnownTech.Add(techType2);
                 }
@@ -395,13 +393,13 @@ namespace UnKnownName
         }
     }
 
-    [HarmonyPatch(typeof(Builder),nameof(Builder.UpdateAllowed))]
+    [HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
     public class Builder_UpdateAllowed
     {
         [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            if(UnknownNameConfig.Hardcore && __result && Builder.prefab != null)
+            if (UnknownNameConfig.Hardcore && __result && Builder.prefab != null)
             {
                 TechType techType = CraftData.GetTechType(Builder.prefab);
                 __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
@@ -415,38 +413,38 @@ namespace UnKnownName
         [HarmonyPrefix]
         public static void Prefix(PDAData pdaData)
         {
-            if(UnknownNameConfig.Hardcore)
+            if (UnknownNameConfig.Hardcore)
             {
                 List<PDAScanner.EntryData> scanner = pdaData.scanner;
-                List<TechType> haveEntries = new List<TechType>();
-                List<TechType> missingEntries = new List<TechType>();
+                var haveEntries = new List<TechType>();
+                var missingEntries = new List<TechType>();
 
-                foreach(PDAScanner.EntryData data in scanner)
+                foreach (PDAScanner.EntryData data in scanner)
                 {
-                    if(!haveEntries.Contains(data.key))
+                    if (!haveEntries.Contains(data.key))
                     {
                         haveEntries.Add(data.key);
                     }
                 }
 
-                foreach(TechType techType in Enum.GetValues(typeof(TechType)))
+                foreach (TechType techType in Enum.GetValues(typeof(TechType)))
                 {
-                    if(!haveEntries.Contains(techType))
+                    if (!haveEntries.Contains(techType))
                     {
                         missingEntries.Add(techType);
                     }
                 }
 
-                foreach(TechType tech in missingEntries)
+                foreach (TechType tech in missingEntries)
                 {
 #if SUBNAUTICA
-                    if(CraftData.Get(tech, true) == null || tech == TechType.Titanium)
+                    if (CraftData.Get(tech, true) == null || tech == TechType.Titanium)
                     {
 #elif BELOWZERO
                     if((TechData.GetIngredients(tech) == null || tech == TechType.Titanium))
                     {
 #endif
-                        PDAScanner.EntryData entryData = new PDAScanner.EntryData()
+                        var entryData = new PDAScanner.EntryData()
                         {
                             key = tech,
                             destroyAfterScan = false,
@@ -469,12 +467,12 @@ namespace UnKnownName
         public static void Prefix(PDAData data)
         {
             List<TechType> types = data.defaultTech;
-            List<TechType> removals = new List<TechType>();
+            var removals = new List<TechType>();
 
-            foreach(TechType techType in types)
+            foreach (TechType techType in types)
             {
 #if SUBNAUTICA
-                if(techType == TechType.Titanium || CraftData.Get(techType, true) == null)
+                if (techType == TechType.Titanium || CraftData.Get(techType, true) == null)
                 {
 #elif BELOWZERO
                 if(techType == TechType.Titanium || TechData.GetIngredients(techType) == null)
@@ -484,7 +482,7 @@ namespace UnKnownName
                 }
             }
 
-            foreach(TechType tech in removals)
+            foreach (TechType tech in removals)
             {
                 data.defaultTech.Remove(tech);
             }

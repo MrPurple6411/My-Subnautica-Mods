@@ -11,7 +11,7 @@ namespace BuilderModule
     ///Original code found on GitHub: https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/blob/master/UpgradedVehicles/Craftables/Craftable.cs
     ///</summary>
 
-    internal abstract class Craftable: ModPrefab
+    internal abstract class Craftable : ModPrefab
     {
         public readonly string NameID;
         public readonly string NameUsingForFiles;
@@ -77,16 +77,16 @@ namespace BuilderModule
                 : GetResourceIcon(PrefabTemplate);
 #endif
 
-            TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite, false);
-            SpriteHandler.RegisterSprite(TechType, sprite);
-            CraftTreeHandler.AddCraftingNode(FabricatorType, TechType, FabricatorTab);
-            CraftDataHandler.SetTechData(TechType, GetRecipe());
-            CraftDataHandler.AddToGroup(GroupForPDA, CategoryForPDA, TechType);
-            CraftDataHandler.SetEquipmentType(TechType, TypeForEquipment);
-            CraftDataHandler.SetQuickSlotType(TechType, TypeForQuickslot);
-            CraftDataHandler.SetItemSize(TechType, ItemSize);
+            this.TechType = TechTypeHandler.AddTechType(NameID, FriendlyName, Description, sprite, false);
+            SpriteHandler.RegisterSprite(this.TechType, sprite);
+            CraftTreeHandler.AddCraftingNode(FabricatorType, this.TechType, FabricatorTab);
+            CraftDataHandler.SetTechData(this.TechType, GetRecipe());
+            CraftDataHandler.AddToGroup(GroupForPDA, CategoryForPDA, this.TechType);
+            CraftDataHandler.SetEquipmentType(this.TechType, TypeForEquipment);
+            CraftDataHandler.SetQuickSlotType(this.TechType, TypeForQuickslot);
+            CraftDataHandler.SetItemSize(this.TechType, ItemSize);
 
-            KnownTechHandler.SetAnalysisTechEntry(RequiredForUnlock, new TechType[1] { TechType }, $"{FriendlyName} blueprint discovered!");
+            KnownTechHandler.SetAnalysisTechEntry(RequiredForUnlock, new TechType[1] { this.TechType }, $"{FriendlyName} blueprint discovered!");
 
             PrefabHandler.RegisterPrefab(this);
         }
@@ -103,13 +103,13 @@ namespace BuilderModule
 
         public override GameObject GetGameObject()
         {
-            _GameObject = GameResourceFileName == null
+            this._GameObject = GameResourceFileName == null
                 ? Object.Instantiate(CraftData.GetPrefabForTechType(PrefabTemplate))
                 : Object.Instantiate(Resources.Load<GameObject>(GameResourceFileName));
 
-            _GameObject.name = NameID;
+            this._GameObject.name = NameID;
 
-            return _GameObject;
+            return this._GameObject;
         }
 
 #if SUBNAUTICA

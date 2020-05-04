@@ -1,6 +1,4 @@
 ﻿using Harmony;
-using QModManager.API.ModLoading;
-using System.Reflection;
 
 namespace All_Items_1x1
 {

@@ -1,9 +1,9 @@
-﻿using Harmony;
+﻿using System;
+using System.Reflection;
+using Harmony;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
-using System;
-using System.Reflection;
 using UnityEngine;
 
 namespace Time_Eternal
@@ -30,14 +30,14 @@ namespace Time_Eternal
                 Config.Load();
                 HarmonyInstance.Create("MrPurple6411.Eternal_Sunshine").PatchAll(Assembly.GetExecutingAssembly());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }
         }
     }
 
-    public class Options: ModOptions
+    public class Options : ModOptions
     {
         public Options() : base("Time Eternal")
         {
@@ -51,7 +51,7 @@ namespace Time_Eternal
 
         public void Options_DayToggleChanged(object sender, ChoiceChangedEventArgs e)
         {
-            if(e.Id != "DayNightToggle")
+            if (e.Id != "DayNightToggle")
             {
                 return;
             }
@@ -68,14 +68,14 @@ namespace Time_Eternal
         [HarmonyPrefix]
         private static bool Prefix(DayNightCycle __instance)
         {
-            if(Time_Eternal.Config.freezeTimeChoice == 1)
+            if (Time_Eternal.Config.freezeTimeChoice == 1)
             {
                 //always day
                 __instance.sunRiseTime = -1000.0f;
                 __instance.sunSetTime = 1000.0f;
                 return true;
             }
-            else if(Time_Eternal.Config.freezeTimeChoice == 2)
+            else if (Time_Eternal.Config.freezeTimeChoice == 2)
             {
                 //always night
                 __instance.sunRiseTime = 1000.0f;

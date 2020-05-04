@@ -1,21 +1,16 @@
-﻿using FMOD;
+﻿using System.Collections.Generic;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace CustomPosters
 {
-    public class BasicPostersPrefab: Equipable
+    public class BasicPostersPrefab : Equipable
     {
-        readonly Texture2D posterIcon;
-        readonly Texture2D posterTexture;
-        readonly string orientation;
+        private readonly Texture2D posterIcon;
+        private readonly Texture2D posterTexture;
+        private readonly string orientation;
 
         public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation, Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description)
         {
@@ -36,12 +31,12 @@ namespace CustomPosters
 
         public override GameObject GetGameObject()
         {
-            GameObject prefab = this.orientation.ToLower() == "landscape"
+            GameObject prefab = orientation.ToLower() == "landscape"
                 ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
                 : CraftData.GetPrefabForTechType(TechType.PosterKitty);
 
             GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
-            _GameObject.name = ClassID;
+            _GameObject.name = this.ClassID;
 
             Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
             material.SetTexture("_MainTex", posterTexture);
@@ -56,12 +51,13 @@ namespace CustomPosters
         /// </summary>
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData() { 
-                craftAmount = 1, 
+            return new TechData()
+            {
+                craftAmount = 1,
                 Ingredients = new List<Ingredient>(){
-                    new Ingredient(TechType.Titanium, 1), 
-                    new Ingredient(TechType.FiberMesh, 1) 
-                } 
+                    new Ingredient(TechType.Titanium, 1),
+                    new Ingredient(TechType.FiberMesh, 1)
+                }
             };
         }
 

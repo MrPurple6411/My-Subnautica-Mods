@@ -1,9 +1,4 @@
 ﻿using Harmony;
-using QModManager.API.ModLoading;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 namespace BuilderPlaceOnComplete
@@ -15,7 +10,7 @@ namespace BuilderPlaceOnComplete
         public static bool Prefix()
         {
             TechType techType = PDAScanner.scanTarget.techType;
-            if(Input.GetMouseButtonDown(2) && CrafterLogic.IsCraftRecipeUnlocked(techType))
+            if (Input.GetMouseButtonDown(2) && CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
 #if SUBNAUTICA
                 GameObject prefab = CraftData.GetPrefabForTechType(techType);
@@ -35,7 +30,7 @@ namespace BuilderPlaceOnComplete
         [HarmonyPostfix]
         public static void Postfix(Constructable __instance)
         {
-            if(__instance.constructed)
+            if (__instance.constructed)
             {
 #if SUBNAUTICA
                 Builder.Begin(CraftData.GetPrefabForTechType(CraftData.GetTechType(__instance.gameObject)));
