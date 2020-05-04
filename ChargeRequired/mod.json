@@ -2,9 +2,9 @@
   "Id": "ChargeRequired",
   "DisplayName": "Charge Required",
   "Author": "MrPurple6411",
-  "Version": "1.0",
+  "Version": "1.0.1",
   "Dependencies": [ "EasyCraft" ],
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "Both",
   "AssemblyName": "ChargeRequired.dll"
 }

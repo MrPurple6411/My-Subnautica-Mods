@@ -102,6 +102,7 @@ namespace ChargeRequired
                     {
                         if(itemsContainer.RemoveItem(item.item))
                         {
+                            UnityEngine.Object.Destroy(item.item.gameObject);
                             num++;
                         }
                     }
