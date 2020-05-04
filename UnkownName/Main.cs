@@ -95,15 +95,18 @@ namespace UnKnownName
                     }
                 }
 #elif BELOWZERO
-                List<Ingredient> data = TechData.GetIngredients(techType)?.ToList() ?? new List<Ingredient>();
-                int ingredientCount = data.Count;
-                for(int i = 0; i < ingredientCount; i++)
+                if(techType != TechType.Titanium)
                 {
-                    Ingredient ingredient = data[i];
-                    if(!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                    List<Ingredient> data = TechData.GetIngredients(techType)?.ToList() ?? new List<Ingredient>();
+                    int ingredientCount = data.Count;
+                    for(int i = 0; i < ingredientCount; i++)
                     {
-                        __result = false;
-                        return;
+                        Ingredient ingredient = data[i];
+                        if(!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                        {
+                            __result = false;
+                            return;
+                        }
                     }
                 }
 #endif
@@ -261,7 +264,7 @@ namespace UnKnownName
             PDAScanner.Result result = PDAScanner.CanScan();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
-            if((entryData != null && KnownTech.Contains(entryData.blueprint)) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if((entryData != null && (KnownTech.Contains(entryData.blueprint) || KnownTech.Contains(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
@@ -297,37 +300,26 @@ namespace UnKnownName
             TechType techType = pickupable.GetTechType();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
             GameObject gameObject = pickupable.gameObject;
-            if(UnknownNameConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner))
+            if(UnknownNameConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
             {
-                bool flag6 = false;
-                bool flag7 = false;
-                if(entryData != null)
+                if(!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
                 {
-                    flag7 = true;
-                    if(!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
-                    {
-                        entry = PDAScanner.Add(techType, 0);
-                    }
-                    if(entry != null)
-                    {
-                        flag6 = true;
-                        PDAScanner.partial.Remove(entry);
-                        PDAScanner.complete.Add(entry.techType);
-                        PDAScanner.NotifyRemove(entry);
-                    }
+                    entry = PDAScanner.Add(techType, 1);
                 }
-                if(gameObject != null)
+                if(entry != null)
                 {
-                    gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
-                }
-                ResourceTracker.UpdateFragments();
-                if(flag6 || flag7)
-                {
-                    PDAScanner.Unlock(entryData, flag6, flag7, true);
-                    KnownTech.Add(techType, true);
+                    PDAScanner.partial.Remove(entry);
+                    PDAScanner.complete.Add(entry.techType);
+                    PDAScanner.NotifyRemove(entry);
+                    PDAScanner.Unlock(entryData, true, true, true);
+                    KnownTech.Add(techType, false);
+                    if(gameObject != null)
+                    {
+                        gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
+                    }
+                    ResourceTracker.UpdateFragments();
                 }
             }
-
         }
     }
 
@@ -356,8 +348,10 @@ namespace UnKnownName
         {
             PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(scanTarget.techType);
+            TechType key = entryData?.key ?? TechType.None;
+            TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if((entryData != null && KnownTech.Contains(entryData.blueprint)) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if((entryData != null && ((blueprint!= TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
@@ -411,6 +405,88 @@ namespace UnKnownName
             {
                 TechType techType = CraftData.GetTechType(Builder.prefab);
                 __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Initialize))]
+    public class PDAScanner_Iniialize
+    {
+        [HarmonyPrefix]
+        public static void Prefix(PDAData pdaData)
+        {
+            if(UnknownNameConfig.Hardcore)
+            {
+                List<PDAScanner.EntryData> scanner = pdaData.scanner;
+                List<TechType> haveEntries = new List<TechType>();
+                List<TechType> missingEntries = new List<TechType>();
+
+                foreach(PDAScanner.EntryData data in scanner)
+                {
+                    if(!haveEntries.Contains(data.key))
+                    {
+                        haveEntries.Add(data.key);
+                    }
+                }
+
+                foreach(TechType techType in Enum.GetValues(typeof(TechType)))
+                {
+                    if(!haveEntries.Contains(techType))
+                    {
+                        missingEntries.Add(techType);
+                    }
+                }
+
+                foreach(TechType tech in missingEntries)
+                {
+#if SUBNAUTICA
+                    if(CraftData.Get(tech, true) == null || tech == TechType.Titanium)
+                    {
+#elif BELOWZERO
+                    if((TechData.GetIngredients(tech) == null || tech == TechType.Titanium))
+                    {
+#endif
+                        PDAScanner.EntryData entryData = new PDAScanner.EntryData()
+                        {
+                            key = tech,
+                            destroyAfterScan = false,
+                            isFragment = false,
+                            locked = true,
+                            scanTime = 2f,
+                            totalFragments = 1
+                        };
+                        pdaData.scanner.Add(entryData);
+                    }
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(KnownTech), nameof(KnownTech.Initialize))]
+    public class KnownTech_Initialize
+    {
+        [HarmonyPrefix]
+        public static void Prefix(PDAData data)
+        {
+            List<TechType> types = data.defaultTech;
+            List<TechType> removals = new List<TechType>();
+
+            foreach(TechType techType in types)
+            {
+#if SUBNAUTICA
+                if(techType == TechType.Titanium || CraftData.Get(techType, true) == null)
+                {
+#elif BELOWZERO
+                if(techType == TechType.Titanium || TechData.GetIngredients(techType) == null)
+                {
+#endif
+                    removals.Add(techType);
+                }
+            }
+
+            foreach(TechType tech in removals)
+            {
+                data.defaultTech.Remove(tech);
             }
         }
     }
