@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomHullPlates", "CustomH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomPosters", "CustomPosters\CustomPosters.csproj", "{E9F3907E-65B6-4C55-99A8-5141E3F48A94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFragmentExample", "CustomFragmentExample\CustomFragmentExample.csproj", "{0BB2E525-2D5B-4E64-8658-B0F47B14CC62}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{01f927b1-7979-4d9b-b242-4a368b71cdf8}*SharedItemsImports = 4
@@ -177,6 +179,10 @@ Global
 		{E9F3907E-65B6-4C55-99A8-5141E3F48A94}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{E9F3907E-65B6-4C55-99A8-5141E3F48A94}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{E9F3907E-65B6-4C55-99A8-5141E3F48A94}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{0BB2E525-2D5B-4E64-8658-B0F47B14CC62}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{0BB2E525-2D5B-4E64-8658-B0F47B14CC62}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{0BB2E525-2D5B-4E64-8658-B0F47B14CC62}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{0BB2E525-2D5B-4E64-8658-B0F47B14CC62}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

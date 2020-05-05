@@ -1,0 +1,10 @@
+{
+  "Id": "CustomFragmentExample",
+  "DisplayName": "CustomFragmentExample",
+  "Author": "YourName",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "CustomFragmentExample.dll"
+}
