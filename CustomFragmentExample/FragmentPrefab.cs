@@ -48,9 +48,9 @@ namespace CustomFragmentExample
             {
                 classId = ClassID,
                 techType = TechType,
-                cellLevel = LargeWorldEntity.CellLevel.Near,
-                localScale = new Vector3(2f, 2f, 2f),
-                prefabZUp = true,
+                cellLevel = LargeWorldEntity.CellLevel.Medium,
+                localScale = new Vector3(1f, 1f, 1f),
+                prefabZUp = false,
                 slotType = EntitySlot.Type.Small
             };
 
@@ -61,6 +61,7 @@ namespace CustomFragmentExample
         {
             if (this.TechToCopy != TechType.None && !BiomeData.Any())
             {
+                // This will load the games distribution data and then return the biome distribution list for the techtype you tried to copy from if it has one.
                 LootDistributionData data = LootDistributionData.Load("Balance/EntityDistributions");
                 if (data.GetPrefabData(CraftData.GetClassIdForTechType(TechToCopy), out SrcData srcData))
                 {
@@ -71,6 +72,10 @@ namespace CustomFragmentExample
             return BiomeData ?? new List<BiomeData>();
         }
 
+        /// <summary>
+        /// Returns your GameObject.  This is where you would add extra components to the prefab or make changes to it.
+        /// </summary>
+        /// <returns></returns>
         public override GameObject GetGameObject()
         {
             GameObject _GameObject = UnityEngine.Object.Instantiate(Prefab);
@@ -80,22 +85,38 @@ namespace CustomFragmentExample
         }
 
 #if SUBNAUTICA
+        /// <summary>
+        /// Use this to set the sprite of your fragment.
+        /// </summary>
+        /// <returns></returns>
         protected override Atlas.Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechToCopy != TechType.None ? TechToCopy : TechType.Fragment);
         }
 
+        /// <summary>
+        /// These really should just be an empty techdata unless you want your fragments to be craftable items.
+        /// </summary>
+        /// <returns></returns>
         protected override TechData GetBlueprintRecipe()
         {
             return new TechData();
         }
 
 #elif BELOWZERO
+        /// <summary>
+        /// Use this to set the sprite of your fragment.
+        /// </summary>
+        /// <returns></returns>
         protected override Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.Seaglide);
         }
-
+        
+        /// <summary>
+        /// These really should just be an empty techdata unless you want your fragments to be craftable items.
+        /// </summary>
+        /// <returns></returns>
         protected override RecipeData GetBlueprintRecipe()
         {
             return new RecipeData;

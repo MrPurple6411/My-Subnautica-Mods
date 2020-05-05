@@ -50,8 +50,6 @@ namespace CustomFragmentExample
             GameObject _GameObject = UnityEngine.Object.Instantiate(Prefab);
             _GameObject.name = ClassID;
 
-            _GameObject.transform.localScale *= 2f;
-
             return _GameObject;
         }
 
