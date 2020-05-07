@@ -2,12 +2,12 @@
   "Id": "BuilderModule",
   "DisplayName": "BuilderModule",
   "Author": "MrPurple6411",
-  "Version": "1.0",
-  "Dependencies": [ "SMLHelper", "BuilderModuleInputFix" ],
+  "Version": "1.0.2",
+  "Dependencies": [ "SMLHelper" ],
   "LoadBefore": [],
   "LoadAfter": [],
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "Both",
   "AssemblyName": "BuilderModule.dll",
   "EntryMethod": "BuilderModule.Main.Load"
 }
