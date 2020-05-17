@@ -145,7 +145,9 @@ namespace RecyclingBin
                 InventoryItem item = waste.inventoryItem;
 
                 if (item is null)
+                {
                     continue;
+                }
 
                 TechType techType = item.item.GetTechType();
 #if SUBNAUTICA
@@ -154,7 +156,7 @@ namespace RecyclingBin
                 RecipeData techData = CraftDataHandler.GetRecipeData(techType);
 #endif
 
-                if (!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && techType != TechType.Titanium && Main.BatteryCheck(item.item) && techData != null)
+                if (!GameInput.GetButtonHeld(GameInput.Button.Deconstruct) && techType != TechType.Titanium && techData != null && techData.ingredientCount > 0 && Main.BatteryCheck(item.item))
                 {
                     if (CheckRequirements(__instance, item.item, techData))
                     {
