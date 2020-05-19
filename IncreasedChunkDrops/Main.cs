@@ -23,10 +23,12 @@ namespace IncreasedChunkDrops
     public static class Config
     {
         public static int ExtraCount;
+        public static int ExtraCountMax;
 
         public static void Load()
         {
             ExtraCount = PlayerPrefs.GetInt("ExtraCount", 0);
+            ExtraCount = PlayerPrefs.GetInt("ExtraCountMax", 0);
             OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
@@ -36,11 +38,13 @@ namespace IncreasedChunkDrops
         public Options() : base("Increased Chunk Drop Settings")
         {
             SliderChanged += ExtraCount_SliderChanged;
+            SliderChanged += ExtraCountMax_SliderChanged;
         }
 
         public override void BuildModOptions()
         {
-            AddSliderOption("ExtraCount", "Extra items", 0, 100, Config.ExtraCount);
+            AddSliderOption("ExtraCount", "Extra items min", 0, 100, Config.ExtraCount);
+            AddSliderOption("ExtraCountMax", "Extra items max", 0, 100, Config.ExtraCountMax);
         }
 
         public void ExtraCount_SliderChanged(object sender, SliderChangedEventArgs e)
@@ -53,6 +57,16 @@ namespace IncreasedChunkDrops
             Config.ExtraCount = (int)e.Value;
             PlayerPrefs.SetInt("ExtraCount", (int)e.Value);
         }
+        public void ExtraCountMax_SliderChanged(object sender, SliderChangedEventArgs e)
+        {
+            if (e.Id != "ExtraCountMax")
+            {
+                return;
+            }
+
+            Config.ExtraCountMax = (int)e.Value;
+            PlayerPrefs.SetInt("ExtraCountMax", (int)e.Value);
+        }
     }
 
 
@@ -62,7 +76,7 @@ namespace IncreasedChunkDrops
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-            int extraSpawns = Config.ExtraCount;
+            int extraSpawns = UnityEngine.Random.Range(Config.ExtraCount, Config.ExtraCountMax);
             while (extraSpawns > 0)
             {
                 bool flag = false;
@@ -86,8 +100,13 @@ namespace IncreasedChunkDrops
 
         private static void SpawnResourceFromPrefab(BreakableResource instance, GameObject breakPrefab)
         {
-            GameObject gameObject = UnityEngine.Object.Instantiate(breakPrefab, instance.transform.position + instance.transform.up * instance.verticalSpawnOffset, Quaternion.identity);
-            Debug.Log("broke, spawned " + breakPrefab.name);
+            Vector3 position = instance.transform.position + instance.transform.up * instance.verticalSpawnOffset;
+
+            position.x += UnityEngine.Random.Range(-1f, 1f);
+            position.y += UnityEngine.Random.Range(-1f, 1f);
+            position.z += UnityEngine.Random.Range(-1f, 1f);
+
+            GameObject gameObject = UnityEngine.Object.Instantiate(breakPrefab, position, Quaternion.identity);
             if (!gameObject.GetComponent<Rigidbody>())
             {
                 gameObject.AddComponent<Rigidbody>();
