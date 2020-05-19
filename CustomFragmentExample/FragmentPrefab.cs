@@ -112,14 +112,14 @@ namespace CustomFragmentExample
         {
             return SpriteManager.Get(TechType.Seaglide);
         }
-        
+
         /// <summary>
         /// These really should just be an empty techdata unless you want your fragments to be craftable items.
         /// </summary>
         /// <returns></returns>
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData;
+            return new RecipeData();
         }
 
 #endif
