@@ -78,23 +78,29 @@ namespace UnKnownName
         {
             if (UnknownNameConfig.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
+                List<TechType> techTypes = new List<TechType> { TechType.Titanium, TechType.Copper, TechType.Quartz, TechType.Silver, TechType.Gold, TechType.Diamond, TechType.Lead, TechType.CreepvineSeedCluster, TechType.JellyPlant, TechType.JeweledDiskPiece, TechType.CreepvinePiece, TechType.AluminumOxide, TechType.Nickel, TechType.Kyanite, TechType.UraniniteCrystal, TechType.MercuryOre };
 #if SUBNAUTICA
                 ITechData data = CraftData.Get(techType, true);
-                if (techType != TechType.Titanium && data != null)
+                if (!techTypes.Contains(techType) && data != null)
                 {
                     int ingredientCount = data.ingredientCount;
                     for (int i = 0; i < ingredientCount; i++)
                     {
                         IIngredient ingredient = data.GetIngredient(i);
-                        if (!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                        if (!CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType) || (PDAScanner.GetEntryData(ingredient.techType)?.locked ?? false) || !KnownTech.Contains(ingredient.techType))
                         {
                             __result = false;
                             return;
                         }
                     }
                 }
+                if ((PDAScanner.GetEntryData(techType)?.locked ?? false) || !KnownTech.Contains(techType))
+                {
+                    __result = false;
+                    return;
+                }
 #elif BELOWZERO
-                if(techType != TechType.Titanium)
+                if(!techTypes.Contains(techType))
                 {
                     List<Ingredient> data = TechData.GetIngredients(techType)?.ToList() ?? new List<Ingredient>();
                     int ingredientCount = data.Count;
@@ -421,6 +427,8 @@ namespace UnKnownName
         [HarmonyPostfix]
         public static void Postfix()
         {
+            List<TechType> techTypes = new List<TechType> { TechType.Titanium, TechType.Copper, TechType.Quartz, TechType.Silver, TechType.Gold, TechType.Diamond, TechType.Lead, TechType.CreepvineSeedCluster, TechType.JellyPlant, TechType.JeweledDiskPiece, TechType.CreepvinePiece, TechType.AluminumOxide, TechType.Nickel, TechType.Kyanite, TechType.UraniniteCrystal, TechType.MercuryOre };
+
             if (UnknownNameConfig.Hardcore)
             {
                 Dictionary<TechType, PDAScanner.EntryData> map = PDAScanner.mapping;
@@ -430,7 +438,7 @@ namespace UnKnownName
                     if (!map.ContainsKey(techType) && !techType.ToString().Contains("Egg"))
                     {
 #if SUBNAUTICA
-                        if (CraftData.Get(techType, true) == null || techType == TechType.Titanium)
+                        if (CraftData.Get(techType, true) == null || techTypes.Contains(techType))
                         {
 #elif BELOWZERO
                         if(TechData.GetIngredients(techType) == null || techType == TechType.Titanium)
