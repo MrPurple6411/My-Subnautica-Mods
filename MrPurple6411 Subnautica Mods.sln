@@ -65,6 +65,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFragmentExample", "Cu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncreasedChunkDrops", "IncreasedChunkDrops\IncreasedChunkDrops.csproj", "{005B56E9-8AD6-4333-8351-378A5210D282}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "More Drillable Resources", "More Dillable Resources\More Drillable Resources.csproj", "{1EF67F4A-AFDA-48A0-832B-BC180E010150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Increased Resource Spawns", "Increased Resource Spawns\Increased Resource Spawns.csproj", "{A934EAB2-DB38-4BBA-A455-12FE900C1C80}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{01f927b1-7979-4d9b-b242-4a368b71cdf8}*SharedItemsImports = 4
@@ -73,7 +77,6 @@ Global
 		Common\Common.projitems*{1188256b-fa04-4fc6-8992-8f8d9165d9ab}*SharedItemsImports = 4
 		Common\Common.projitems*{2c0e7258-8b6e-4d88-9d7c-8c0d83af824e}*SharedItemsImports = 4
 		Common\Common.projitems*{39d89138-712e-4904-ab9a-1f18ae384994}*SharedItemsImports = 4
-		Common\Common.projitems*{42843b35-b64f-4a46-b314-b76066c2ecb0}*SharedItemsImports = 4
 		Common\Common.projitems*{4c936d3d-10ea-4015-b7ba-e0727cba8b36}*SharedItemsImports = 4
 		Common\Common.projitems*{5bf590c1-91dd-440d-83fd-51d71fb308a7}*SharedItemsImports = 4
 		Common\Common.projitems*{633c5177-57f7-4746-81d6-ef920939d3f3}*SharedItemsImports = 4
@@ -189,6 +192,14 @@ Global
 		{005B56E9-8AD6-4333-8351-378A5210D282}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{005B56E9-8AD6-4333-8351-378A5210D282}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{005B56E9-8AD6-4333-8351-378A5210D282}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{1EF67F4A-AFDA-48A0-832B-BC180E010150}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{1EF67F4A-AFDA-48A0-832B-BC180E010150}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{1EF67F4A-AFDA-48A0-832B-BC180E010150}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{1EF67F4A-AFDA-48A0-832B-BC180E010150}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{A934EAB2-DB38-4BBA-A455-12FE900C1C80}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{A934EAB2-DB38-4BBA-A455-12FE900C1C80}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{A934EAB2-DB38-4BBA-A455-12FE900C1C80}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{A934EAB2-DB38-4BBA-A455-12FE900C1C80}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
