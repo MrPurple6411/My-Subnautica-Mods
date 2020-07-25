@@ -17,20 +17,24 @@ namespace More_Drillable_Resources
             LootDistributionData data = LootDistributionData.Load("Balance/EntityDistributions");
             List<TechType> Drillables = Enum.GetValues(typeof(TechType)).OfType<TechType>().Where((tt) => tt.AsString().Contains("Drillable")).ToList();
             data.GetPrefabData(CraftData.GetClassIdForTechType(TechType.DrillableUranium), out SrcData UraniumData);
-            foreach (TechType techType in Drillables)
+
+            if(UraniumData != null)
             {
-                string classId = CraftData.GetClassIdForTechType(techType);
-
-                if (CraftData.GetPrefabForTechType(techType, false) == null)
+                foreach (TechType techType in Drillables)
                 {
-                    continue;
-                }
+                    string classId = CraftData.GetClassIdForTechType(techType);
 
-                if (WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
-                {
-                    if (!data.GetPrefabData(classId, out SrcData srcData))
+                    if (CraftData.GetPrefabForTechType(techType, false) == null)
                     {
-                        SMLHelper.V2.Handler.LootDistributionHandler.AddLootDistributionData(classId, UraniumData);
+                        continue;
+                    }
+
+                    if (WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
+                    {
+                        if (!data.GetPrefabData(classId, out SrcData srcData))
+                        {
+                            SMLHelper.V2.Handler.LootDistributionHandler.AddLootDistributionData(classId, UraniumData);
+                        }
                     }
                 }
             }
