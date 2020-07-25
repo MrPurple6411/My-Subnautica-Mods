@@ -13,7 +13,6 @@ namespace BuilderModule
 {
     public static class Main
     {
-        public static string inputFixFolder = Path.Combine(SNUtils.applicationRootDir, "QMods/BuilderModuleInputFix");
         public static void Load()
         {
             try
@@ -21,11 +20,6 @@ namespace BuilderModule
                 var buildermodule = new BuilderModulePrefab();
                 buildermodule.Patch();
                 HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
-
-                if (Directory.Exists(inputFixFolder))
-                {
-                    QModServices.Main.AddCriticalMessage($"This mod no longer requires the BuilderModuleInputFix and that mod needs to be removed from your Qmods folder.");
-                }
             }
             catch (Exception ex)
             {

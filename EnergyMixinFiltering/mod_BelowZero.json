@@ -1,0 +1,10 @@
+{
+  "Id": "EnergyMixinFiltering",
+  "DisplayName": "EnergyMixinFiltering",
+  "Author": "YourName",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "EnergyMixinFiltering.dll"
+}

@@ -4,6 +4,6 @@
   "Author": "MrPurple6411",
   "Version": "1.0.0",
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "Both",
   "AssemblyName": "BetterACU.dll"
 }

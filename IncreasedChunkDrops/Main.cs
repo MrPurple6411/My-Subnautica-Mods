@@ -28,7 +28,7 @@ namespace IncreasedChunkDrops
         public static void Load()
         {
             ExtraCount = PlayerPrefs.GetInt("ExtraCount", 0);
-            ExtraCount = PlayerPrefs.GetInt("ExtraCountMax", 0);
+            ExtraCountMax = PlayerPrefs.GetInt("ExtraCountMax", 0);
             OptionsPanelHandler.RegisterModOptions(new Options());
         }
     }
@@ -54,8 +54,8 @@ namespace IncreasedChunkDrops
                 return;
             }
 
-            Config.ExtraCount = (int)e.Value;
-            PlayerPrefs.SetInt("ExtraCount", (int)e.Value);
+            Config.ExtraCount = e.IntegerValue;
+            PlayerPrefs.SetInt("ExtraCount", e.IntegerValue);
         }
         public void ExtraCountMax_SliderChanged(object sender, SliderChangedEventArgs e)
         {
@@ -64,8 +64,8 @@ namespace IncreasedChunkDrops
                 return;
             }
 
-            Config.ExtraCountMax = (int)e.Value;
-            PlayerPrefs.SetInt("ExtraCountMax", (int)e.Value);
+            Config.ExtraCountMax = e.IntegerValue;
+            PlayerPrefs.SetInt("ExtraCountMax", e.IntegerValue);
         }
     }
 
@@ -76,7 +76,7 @@ namespace IncreasedChunkDrops
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-            int extraSpawns = UnityEngine.Random.Range(Config.ExtraCount, Config.ExtraCountMax);
+            int extraSpawns = UnityEngine.Random.Range(Config.ExtraCount, Config.ExtraCountMax+1);
             while (extraSpawns > 0)
             {
                 bool flag = false;

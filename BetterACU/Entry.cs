@@ -225,9 +225,9 @@ namespace BetterACU
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if (__instance.pickupable.GetTechType() == TechType.Shocker && __instance.GetCanBreed() && DayNightCycle.main.timePassed > __instance.timeNextBreed)
+            if (__instance?.pickupable?.GetTechType() == TechType.Shocker && (__instance?.GetCanBreed() ?? false) && DayNightCycle.main?.timePassed > __instance?.timeNextBreed)
             {
-                __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out _);
+                __instance?.GetWaterPark()?.gameObject?.GetComponent<PowerSource>()?.AddEnergy(100f, out _);
             }
         }
     }

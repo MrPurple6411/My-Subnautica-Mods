@@ -5,6 +5,6 @@
   "Version": "1.0.2",
   "Dependencies": [],
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "Both",
   "AssemblyName": "DropUpgradesOnDestroy.dll"
 }

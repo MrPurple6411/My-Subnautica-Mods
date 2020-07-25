@@ -2,11 +2,15 @@
 using System.IO;
 using System.Reflection;
 using Harmony;
-using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+#if SUBNAUTICA
+    using Oculus.Newtonsoft.Json;
+#elif BELOWZERO
+using Newtonsoft.Json;
+#endif
 
 namespace CustomPosters
 {

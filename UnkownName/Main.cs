@@ -5,13 +5,18 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Harmony;
+using UnityEngine;
+#if SUBNAUTICA
 using Oculus.Newtonsoft.Json;
 using Oculus.Newtonsoft.Json.Linq;
-using UnityEngine;
+#elif BELOWZERO
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+#endif
 
 namespace UnKnownName
 {
-    [HarmonyPatch(typeof(MainMenuRightSide), nameof(MainMenuRightSide.Awake))]
+    [HarmonyPatch(typeof(uGUI_MainMenu), nameof(uGUI_MainMenu.Awake))]
     public class UnknownNameConfig
     {
         public static readonly string config = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
@@ -54,6 +59,7 @@ namespace UnKnownName
             }
             else
             {
+                Console.WriteLine("Creating Config file");
                 using (StreamWriter writer = new StreamWriter(config))
                 {
                     JObject json = new JObject
@@ -65,6 +71,16 @@ namespace UnKnownName
                         ["Hardcore"] = Hardcore
                     };
                     writer.Write(json.ToString());
+                }
+
+                if (!File.Exists(config))
+                {
+                    Console.WriteLine("Failed to create Config file");
+                }
+                else
+                {
+
+                    Console.WriteLine("Config file created.");
                 }
             }
         }
@@ -267,7 +283,11 @@ namespace UnKnownName
         public static void Postfix(ScannerTool __instance)
         {
             PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
+#if SUBNAUTICA
             PDAScanner.Result result = PDAScanner.CanScan();
+#elif BELOWZERO
+            PDAScanner.Result result = PDAScanner.CanScan(scanTarget);
+#endif
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
             if ((entryData != null && (KnownTech.Contains(entryData.blueprint) || KnownTech.Contains(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
@@ -323,7 +343,9 @@ namespace UnKnownName
                     {
                         gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
                     }
+#if SUBNAUTICA
                     ResourceTracker.UpdateFragments();
+#endif
                 }
             }
 
@@ -363,7 +385,7 @@ namespace UnKnownName
             TechType key = entryData?.key ?? TechType.None;
             TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if (scanTarget.techType != TechType.None && KnownTech.Contains(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if (scanTarget.techType != TechType.None && KnownTech.Contains(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan(scanTarget) != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
