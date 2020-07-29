@@ -19,6 +19,7 @@ namespace WorldLoad
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
                 levelSettings.chunksPerSide = Main.config.IncreasedWorldLoad;
                 levelSettings.chunksVertically = Main.config.IncreasedWorldLoad;
+                levelSettings.entities = true;
                 levelSettings.grass = true;
                 levelSettings.grassSettings.reduction = 0f;
             }
