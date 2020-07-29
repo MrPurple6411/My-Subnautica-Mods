@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
@@ -24,7 +24,7 @@ namespace CustomPosters
         public static void Load()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            HarmonyInstance.Create($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
 
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");

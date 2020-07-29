@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using QModManager.API;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Crafting;
@@ -18,7 +18,7 @@ namespace RecyclingBin
         {
             try
             {
-                HarmonyInstance.Create("MrPurple6411.RecyclingBin").PatchAll(Assembly.GetExecutingAssembly());
+                new Harmony("MrPurple6411.RecyclingBin").PatchAll(Assembly.GetExecutingAssembly());
                 LanguageHandler.SetTechTypeName(TechType.Trashcans, "Recycling Bin");
                 LanguageHandler.SetTechTypeTooltip(TechType.Trashcans, "Breaks items down to the most basic materials. \nNote: Batteries and Tools must be fully charged to be recycled.");
             }

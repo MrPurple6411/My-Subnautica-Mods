@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
@@ -28,7 +28,7 @@ namespace Time_Eternal
             try
             {
                 Config.Load();
-                HarmonyInstance.Create("MrPurple6411.Eternal_Sunshine").PatchAll(Assembly.GetExecutingAssembly());
+                new Harmony("MrPurple6411.Eternal_Sunshine").PatchAll(Assembly.GetExecutingAssembly());
             }
             catch (Exception ex)
             {

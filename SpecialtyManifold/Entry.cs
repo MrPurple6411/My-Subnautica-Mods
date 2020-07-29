@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using MAC.ScubaManifold;
 using NitrogenMod.Items;
 using NitrogenMod.NMBehaviours;
@@ -32,7 +32,7 @@ namespace SpecialtyManifold
             try
             {
                 Config.Load();
-                HarmonyInstance.Create("MrPurple6411_SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
+                new Harmony("MrPurple6411_SpecialtyManifold").PatchAll(Assembly.GetExecutingAssembly());
 
                 KnownTechHandler.SetAnalysisTechEntry(TechType.Workbench, new List<TechType>() { O2TanksCore.PhotosynthesisSmallID, O2TanksCore.PhotosynthesisTankID, O2TanksCore.ChemosynthesisTankID });
             }

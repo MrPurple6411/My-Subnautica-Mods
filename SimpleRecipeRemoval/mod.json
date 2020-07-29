@@ -1,9 +1,0 @@
-﻿{
-  "Id": "SimpleRecipeRemoval",
-  "DisplayName": "MrPurple6411's Simple Recipe Removal",
-  "Author": "MrPurple6411",
-  "Version": "1.0.0",
-  "Enable": true,
-  "Game": "Both",
-  "AssemblyName": "SimpleRecipeRemoval.dll"
-}

@@ -33,8 +33,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropUpgradesOnDestroy", "Dr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderPlaceOnComplete", "BuilderPlaceOnComplete\BuilderPlaceOnComplete.csproj", "{5BF590C1-91DD-440D-83FD-51D71FB308A7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimplePatch", "Common\SimplePatch.shproj", "{102ED509-DBEA-4738-8948-93C60BE4FB0D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoCrosshair", "NoCrosshair\NoCrosshair.csproj", "{0427286B-5896-4759-A2D5-267CA9D788B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopperFromScanning", "CopperFromScanning\CopperFromScanning.csproj", "{39D89138-712E-4904-AB9A-1F18AE384994}"
@@ -42,7 +40,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA062622-A384-47D7-B9EA-87A9E8958E5A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Dependencies.targets = Dependencies.targets
+		GameDir.targets = GameDir.targets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomHullPlates", "CustomHullPlates\CustomHullPlates.csproj", "{1862AEC1-34F6-48E8-A2E9-5CDCF1B140F3}"
@@ -56,19 +54,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Increased Resource Spawns", "Increased Resource Spawns\Increased Resource Spawns.csproj", "{A934EAB2-DB38-4BBA-A455-12FE900C1C80}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\Common.projitems*{0427286b-5896-4759-a2d5-267ca9d788b3}*SharedItemsImports = 4
-		Common\Common.projitems*{102ed509-dbea-4738-8948-93c60be4fb0d}*SharedItemsImports = 13
-		Common\Common.projitems*{1188256b-fa04-4fc6-8992-8f8d9165d9ab}*SharedItemsImports = 4
-		Common\Common.projitems*{2c0e7258-8b6e-4d88-9d7c-8c0d83af824e}*SharedItemsImports = 4
-		Common\Common.projitems*{39d89138-712e-4904-ab9a-1f18ae384994}*SharedItemsImports = 4
-		Common\Common.projitems*{5bf590c1-91dd-440d-83fd-51d71fb308a7}*SharedItemsImports = 4
-		Common\Common.projitems*{633c5177-57f7-4746-81d6-ef920939d3f3}*SharedItemsImports = 4
-		Common\Common.projitems*{b00fa6e4-ddf8-4e30-93ca-226fa30626bb}*SharedItemsImports = 4
-		Common\Common.projitems*{b6a7966b-78af-440c-a262-76af9929e158}*SharedItemsImports = 4
-		Common\Common.projitems*{b8542dd2-03f9-47ab-bbf9-cf099724776b}*SharedItemsImports = 4
-		Common\Common.projitems*{ee814abe-adaf-4272-a614-ede822ed9ebf}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BelowZero|Any CPU = BelowZero|Any CPU
 		Subnautica|Any CPU = Subnautica|Any CPU

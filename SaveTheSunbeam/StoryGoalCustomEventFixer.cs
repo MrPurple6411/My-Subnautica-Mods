@@ -1,7 +1,7 @@
 ﻿#if SUBNAUTICA
 
 using System;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

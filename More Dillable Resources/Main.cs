@@ -14,12 +14,13 @@ namespace More_Drillable_Resources
         [QModPatch]
         public static void Load()
         {
-            LootDistributionData data = LootDistributionData.Load("Balance/EntityDistributions");
-            List<TechType> Drillables = Enum.GetValues(typeof(TechType)).OfType<TechType>().Where((tt) => tt.AsString().Contains("Drillable")).ToList();
-            data.GetPrefabData(CraftData.GetClassIdForTechType(TechType.DrillableUranium), out SrcData UraniumData);
 
-            if(UraniumData != null)
+            LootDistributionData data = LootDistributionData.Load("Balance/EntityDistributions");
+            data.GetPrefabData(CraftData.GetClassIdForTechType(TechType.DrillableUranium), out SrcData srcData);
+
+            if(srcData != null)
             {
+                List<TechType> Drillables = Enum.GetValues(typeof(TechType)).OfType<TechType>().Where((tt) => tt.AsString().Contains("Drillable")).ToList();
                 foreach (TechType techType in Drillables)
                 {
                     string classId = CraftData.GetClassIdForTechType(techType);
@@ -31,9 +32,9 @@ namespace More_Drillable_Resources
 
                     if (WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
                     {
-                        if (!data.GetPrefabData(classId, out SrcData srcData))
+                        if (!data.GetPrefabData(classId, out _))
                         {
-                            SMLHelper.V2.Handler.LootDistributionHandler.AddLootDistributionData(classId, UraniumData);
+                            SMLHelper.V2.Handler.LootDistributionHandler.AddLootDistributionData(classId, srcData);
                         }
                     }
                 }

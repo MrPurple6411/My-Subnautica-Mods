@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 #if SUBNAUTICA
 using Oculus.Newtonsoft.Json;

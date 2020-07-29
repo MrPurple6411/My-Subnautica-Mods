@@ -1,32 +1,31 @@
 ﻿using System;
-using Harmony;
+using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
+using SMLHelper.V2.Json;
 using SMLHelper.V2.Options;
 using UnityEngine;
 using WorldStreaming;
 
 namespace WorldLoad
 {
-    public static class Config
+    public class Config: ConfigFile
     {
-        public static int IncreasedWorldLoad;
+        public int IncreasedWorldLoad;
 
-        public static void Load()
-        {
-            IncreasedWorldLoad = PlayerPrefs.GetInt("WorldLoad", 8);
-            OptionsPanelHandler.RegisterModOptions(new Options());
-        }
     }
 
     [QModCore]
     public static class Entry
     {
+        internal static Config config = new Config();
+
         [QModPatch]
         public static void Patch()
         {
-            Config.Load();
-            HarmonyInstance.Create("MrPurple6411.WorldLoad").PatchAll();
+            config.Load();
+            OptionsPanelHandler.RegisterModOptions(new Options());
+            new Harmony("MrPurple6411.WorldLoad").PatchAll();
         }
     }
 
@@ -34,28 +33,24 @@ namespace WorldLoad
     {
         public Options() : base("World Load Settings")
         {
-            SliderChanged += ResourceOverloadOptions_SliderChanged;
+            SliderChanged += WorldLoadOptions_SliderChanged;
         }
 
         public override void BuildModOptions()
         {
-            AddSliderOption("WorldLoad", "Load Distance", 2, 50, Config.IncreasedWorldLoad);
+            AddSliderOption("WorldLoad", "Load Distance", 2, 50, Entry.config.IncreasedWorldLoad, 8);
         }
 
-        public void ResourceOverloadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
+        public void WorldLoadOptions_SliderChanged(object sender, SliderChangedEventArgs e)
         {
-            if (e.Id != "WorldLoad")
+            if (e.Id == "WorldLoad")
             {
-                return;
+                Entry.config.IncreasedWorldLoad = e.IntegerValue;
             }
-
-            Config.IncreasedWorldLoad = (int)e.Value;
-            PlayerPrefs.SetInt("WorldLoad", (int)e.Value);
         }
     }
 
-    [HarmonyPatch(typeof(WorldStreamer))]
-    [HarmonyPatch(nameof(WorldStreamer.ParseClipmapSettings))]
+    [HarmonyPatch(typeof(WorldStreamer), "ParseClipmapSettings")]
     public class WorldStreamer_ParseClipmapSettings_Patch
     {
         [HarmonyPostfix]
@@ -68,8 +63,10 @@ namespace WorldLoad
             for (int i = 1; i < __result.levels.Length; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
-                levelSettings.chunksPerSide = Config.IncreasedWorldLoad;
-                levelSettings.chunksVertically = Config.IncreasedWorldLoad;
+                levelSettings.chunksPerSide = Entry.config.IncreasedWorldLoad;
+                levelSettings.chunksVertically = Entry.config.IncreasedWorldLoad;
+                levelSettings.grass = true;
+                levelSettings.grassSettings.reduction = 0f;
             }
         }
     }

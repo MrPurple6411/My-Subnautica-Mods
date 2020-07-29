@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
@@ -17,7 +17,7 @@ namespace IncreasedChunkDrops
         {
             Config.Load();
             Assembly assembly = Assembly.GetExecutingAssembly();
-            HarmonyInstance.Create($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
     public static class Config

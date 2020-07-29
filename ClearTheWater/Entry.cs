@@ -1,10 +1,9 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace ClearTheWater
 {
-    [HarmonyPatch(typeof(WaterscapeVolume.Settings))]
-    [HarmonyPatch(nameof(WaterscapeVolume.Settings.GetExtinctionAndScatteringCoefficients))]
+    [HarmonyPatch(typeof(WaterscapeVolume.Settings), nameof(WaterscapeVolume.Settings.GetExtinctionAndScatteringCoefficients))]
     internal class ClearTheWater_Patch
     {
         [HarmonyPrefix]
@@ -16,8 +15,7 @@ namespace ClearTheWater
         }
     }
 
-    [HarmonyPatch(typeof(WaterscapeVolume))]
-    [HarmonyPatch(nameof(WaterscapeVolume.Awake))]
+    [HarmonyPatch(typeof(WaterscapeVolume), "Awake")]
     internal class WaterscapeVolume_Patch
     {
         [HarmonyPostfix]

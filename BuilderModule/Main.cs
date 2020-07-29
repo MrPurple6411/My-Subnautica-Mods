@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Harmony;
+using HarmonyLib;
 using QModManager.API;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -19,7 +19,7 @@ namespace BuilderModule
             {
                 var buildermodule = new BuilderModulePrefab();
                 buildermodule.Patch();
-                HarmonyInstance.Create("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
+                new Harmony("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
             }
             catch (Exception ex)
             {

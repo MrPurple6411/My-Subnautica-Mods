@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="..\GameDir.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +11,7 @@
     <RootNamespace>SaveTheSunbeam</RootNamespace>
     <AssemblyName>SaveTheSunbeam</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <OutputPath>..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <LangVersion>7.1</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,50 +22,89 @@
     <DefineConstants>TRACE;BELOWZERO</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
+    <GameDir>$(BelowZeroDir)</GameDir>
+	<DataFolder>SubnauticaZero_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Subnautica|AnyCPU'">
     <DefineConstants>TRACE;SUBNAUTICA</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
+    <GameDir>$(SubnauticaDir)</GameDir>
+	<DataFolder>Subnautica_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony-1.2.0.1">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\0Harmony-1.2.0.1.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass_publicized">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\Assembly-CSharp-firstpass_publicized.dll</HintPath>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp_publicized">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\Assembly-CSharp_publicized.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\QModInstaller.dll</HintPath>
+      <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SMLHelper">
+      <HintPath Condition="'$(Configuration)' == 'Subnautica'">$(GameDir)\QMods\Modding Helper\SMLHelper.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' == 'BelowZero'">$(GameDir)\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.InputModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>..\..\AssemblyPublicizer$(Configuration)\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -79,6 +119,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Import Project="..\Common\Common.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
