@@ -18,7 +18,7 @@ namespace UnKnownName
             TechType key = entryData?.key ?? TechType.None;
             TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if (scanTarget.techType != TechType.None && KnownTech.Contains(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || PDAScanner.CanScan() != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if (scanTarget.techType != TechType.None && KnownTech.Contains(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }

@@ -1,12 +1,4 @@
-﻿using System.IO;
-using HarmonyLib;
-#if SUBNAUTICA
-using Oculus.Newtonsoft.Json;
-using Oculus.Newtonsoft.Json.Linq;
-#elif BELOWZERO
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-#endif
+﻿using HarmonyLib;
 
 namespace UnKnownName
 {
