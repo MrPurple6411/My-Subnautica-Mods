@@ -11,7 +11,8 @@ namespace DropUpgradesOnDestroy
         [HarmonyPrefix]
         public static void Prefix(SubRoot __instance)
         {
-            List<InventoryItem> equipment = __instance.upgradeConsole?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.upgradeConsole?.modules) as Dictionary<string, InventoryItem>;
+            List<InventoryItem> equipment = eq?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
             foreach (InventoryItem item in equipment)
             {
                 GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
@@ -22,13 +23,14 @@ namespace DropUpgradesOnDestroy
         }
     }
 
-    [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnKill))]
+    [HarmonyPatch(typeof(Vehicle), "OnKill")]
     public class Vehicle_OnKill
     {
         [HarmonyPrefix]
         public static void Prefix(Vehicle __instance)
         {
-            List<InventoryItem> equipment = __instance.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.modules) as Dictionary<string, InventoryItem>;
+            List<InventoryItem> equipment = eq?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
             foreach (InventoryItem item in equipment)
             {
                 GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
@@ -53,7 +55,8 @@ namespace DropUpgradesOnDestroy
             if(__instance.IsFront() && __instance != lastDestroyed)
             {
                 lastDestroyed = __instance;
-                List<InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+                Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.motor?.upgrades?.modules) as Dictionary<string, InventoryItem>;
+                List<InventoryItem> equipment = eq.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
                 foreach(InventoryItem item in equipment)
                 {
                     GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());

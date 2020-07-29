@@ -1,0 +1,10 @@
+﻿{
+  "Id": "BuilderModule",
+  "DisplayName": "BuilderModule",
+  "Author": "MrPurple6411",
+  "Version": "1.0.2",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "BuilderModule.dll"
+}

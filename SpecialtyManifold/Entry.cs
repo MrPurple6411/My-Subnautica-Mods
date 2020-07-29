@@ -67,8 +67,7 @@ namespace SpecialtyManifold
         }
     }
 
-    [HarmonyPatch(typeof(SpecialtyTanks))]
-    [HarmonyPatch(nameof(SpecialtyTanks.Update))]
+    [HarmonyPatch(typeof(SpecialtyTanks), "Update")]
     internal class SpecialtyTanks_Update_Patch
     {
         [HarmonyPostfix]

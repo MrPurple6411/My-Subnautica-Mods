@@ -4,10 +4,7 @@
   "Author": "MrPurple6411",
   "Version": "1.0.2",
   "Dependencies": [ "SMLHelper" ],
-  "LoadBefore": [],
-  "LoadAfter": [],
   "Enable": true,
-  "Game": "Both",
-  "AssemblyName": "BuilderModule.dll",
-  "EntryMethod": "BuilderModule.Main.Load"
+  "Game": "Subnautica",
+  "AssemblyName": "BuilderModule.dll"
 }
