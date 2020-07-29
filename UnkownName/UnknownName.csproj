@@ -128,12 +128,8 @@
     <Compile Include="TooltipFactory_WriteIngredients.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mod_BelowZero.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="mod_Subnautica.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="mod_BelowZero.json" />
+    <None Include="mod_Subnautica.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
