@@ -22,6 +22,7 @@ namespace Time_Eternal
             }
 
             Main.config.freezeTimeChoice = e.Index;
+            Main.config.Save();
         }
     }
 }

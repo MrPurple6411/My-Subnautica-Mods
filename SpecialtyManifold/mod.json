@@ -3,7 +3,7 @@
   "DisplayName": "Specialty Manifold",
   "Author": "MrPurple6411",
   "Version": "1.0.1",
-  "Dependencies": [ "NitrogenMod", "ScubaManifold" ],
+  "Dependencies": [ "NitrogenMod", "ScubaManifold", "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "SpecialtyManifold.dll"

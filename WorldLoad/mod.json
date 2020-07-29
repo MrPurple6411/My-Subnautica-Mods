@@ -3,9 +3,7 @@
   "DisplayName": "World Load Settings",
   "Author": "MrPurple6411",
   "Version": "0.1",
-  "Dependencies": [],
-  "LoadBefore": [],
-  "LoadAfter": [],
+  "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",
   "AssemblyName": "WorldLoad.dll"

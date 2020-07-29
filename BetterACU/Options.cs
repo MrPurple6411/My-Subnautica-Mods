@@ -24,6 +24,7 @@ namespace BetterACU
             {
                 case "OverFlowIntoOcean":
                     Main.config.OverFlowIntoOcean = e.Value;
+                    Main.config.Save();
                     break;
 
                 default:
@@ -50,16 +51,17 @@ namespace BetterACU
             {
                 case "WaterParkSize":
                     Main.config.WaterParkSize = e.IntegerValue;
+                    Main.config.Save();
                     break;
 #if BELOWZERO
                 case "LargeWaterParkSize":
                     Main.config.LargeWaterParkSize = e.IntegerValue;
+                Main.config.Save();
                     break;
 #endif
                 default:
                     break;
             }
-            Main.config.Save();
         }
 
         public override void BuildModOptions()

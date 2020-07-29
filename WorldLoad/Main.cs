@@ -2,11 +2,11 @@
 using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Handlers;
 using UnityEngine;
 
-namespace UnKnownName
+namespace WorldLoad
 {
-
     [QModCore]
     public static class Main
     {
@@ -18,6 +18,8 @@ namespace UnKnownName
             try
             {
                 config.Load();
+                OptionsPanelHandler.RegisterModOptions(new Options());
+
                 var assembly = Assembly.GetExecutingAssembly();
                 new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
             }

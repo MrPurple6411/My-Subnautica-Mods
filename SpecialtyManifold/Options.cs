@@ -22,6 +22,7 @@ namespace SpecialtyManifold
             }
 
             Main.config.multipleTanks = e.Value;
+            Main.config.Save();
         }
     }
 }

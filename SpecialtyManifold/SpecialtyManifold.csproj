@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="NitrogenMod_publicized">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Qmods\NitrogenMod\NitrogenMod_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
       <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
@@ -64,6 +65,7 @@
     </Reference>
     <Reference Include="ScubaManifold">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Qmods\ScubaManifold\ScubaManifold.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SMLHelper">
       <HintPath Condition="'$(Configuration)' == 'Subnautica'">$(GameDir)\QMods\Modding Helper\SMLHelper.dll</HintPath>

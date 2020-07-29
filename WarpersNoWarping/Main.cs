@@ -1,47 +1,25 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
+using QModManager.API.ModLoading;
+using UnityEngine;
 
 namespace WarpersNoWarping
 {
-    [HarmonyPatch(typeof(Warper), nameof(Warper.OnKill))]
-    public class Warper_OnKill
+    [QModCore]
+    public static class Main
     {
-        [HarmonyPrefix]
-        public static void Prefix(Warper __instance)
+        [QModPatch]
+        public static void Load()
         {
-            __instance.WarpOut();
-        }
-    }
-
-    [HarmonyPatch(typeof(WarperInspectPlayer), nameof(WarperInspectPlayer.Perform))]
-    public class WarperInspectPlayer_Perform
-    {
-        [HarmonyPrefix]
-        public static void Prefix(WarperInspectPlayer __instance)
-        {
-            __instance.warpOutDistance = 0;
-        }
-    }
-
-    [HarmonyPatch(typeof(WarpOut), nameof(WarpOut.Evaluate))]
-    public class WarpOut_Evaluate
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(ref float __result)
-        {
-            __result = 0f;
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(FleeOnDamage), nameof(FleeOnDamage.Evaluate))]
-    public class Warper_FleeOnDamage_Evaluate
-    {
-        [HarmonyPostfix]
-        public static void Postfix(Creature creature, ref float __result)
-        {
-            if (creature.GetType() == typeof(Warper))
+            try
             {
-                __result = 0f;
+                var assembly = Assembly.GetExecutingAssembly();
+                new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
             }
         }
     }
