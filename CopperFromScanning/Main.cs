@@ -1,20 +1,17 @@
-﻿using HarmonyLib;
+﻿using System.Reflection;
+using HarmonyLib;
+using QModManager.API.ModLoading;
 
 namespace CopperFromScanning
 {
-    [HarmonyPatch(typeof(CraftData), nameof(CraftData.AddToInventory))]
-    internal class CraftData_AddToInventory
+    [QModCore]
+    public class Main
     {
-        [HarmonyPrefix]
-        private static bool Prefix(TechType techType, int num = 1, bool noMessage = false, bool spawnIfCantAdd = true)
+        [QModPatch]
+        public static void Load()
         {
-            if (techType == TechType.Titanium && num == 2 && noMessage == false && spawnIfCantAdd == true)
-            {
-                CraftData.AddToInventory(TechType.Titanium);
-                CraftData.AddToInventory(TechType.Copper);
-                return false;
-            }
-            return true;
+            var assembly = Assembly.GetExecutingAssembly();
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
 }

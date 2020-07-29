@@ -8,7 +8,7 @@
     <ProjectGuid>{633C5177-57F7-4746-81D6-EF920939D3F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MrPurple</RootNamespace>
+    <RootNamespace>NoEatingSounds</RootNamespace>
     <AssemblyName>NoEatingSounds</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
@@ -23,7 +23,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <GameDir>$(BelowZeroDir)</GameDir>
-	<DataFolder>SubnauticaZero_Data</DataFolder>
+    <DataFolder>SubnauticaZero_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -33,7 +33,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <GameDir>$(SubnauticaDir)</GameDir>
-	<DataFolder>Subnautica_Data</DataFolder>
+    <DataFolder>Subnautica_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -109,7 +109,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EatSoundDisabler.cs" />
+    <Compile Include="CraftData_GetUseEatSound_Patch.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

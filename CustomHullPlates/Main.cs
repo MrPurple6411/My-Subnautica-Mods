@@ -5,7 +5,7 @@ using QModManager.API.ModLoading;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 #if SUBNAUTICA
-    using Oculus.Newtonsoft.Json;
+using Oculus.Newtonsoft.Json;
 #elif BELOWZERO
 using Newtonsoft.Json;
 #endif
@@ -57,11 +57,5 @@ namespace CustomHullPlates
                 }
             }
         }
-    }
-    public class HullPlateInfo
-    {
-        public string InternalName { get; set; }
-        public string DisplayName { get; set; }
-        public string Description { get; set; }
     }
 }

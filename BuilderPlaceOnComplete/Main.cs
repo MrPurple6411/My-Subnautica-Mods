@@ -1,43 +1,17 @@
-﻿using HarmonyLib;
-using UnityEngine;
+﻿using System.Reflection;
+using HarmonyLib;
+using QModManager.API.ModLoading;
 
 namespace BuilderPlaceOnComplete
 {
-    [HarmonyPatch(typeof(BuilderTool), nameof(BuilderTool.HandleInput))]
-    public class BuilderTool_HandleInput
+    [QModCore]
+    public static class Main
     {
-        [HarmonyPrefix]
-        public static bool Prefix()
+        [QModPatch]
+        public static void Load()
         {
-            TechType techType = PDAScanner.scanTarget.techType;
-            if (Input.GetMouseButtonDown(2) && CrafterLogic.IsCraftRecipeUnlocked(techType))
-            {
-#if SUBNAUTICA
-                GameObject prefab = CraftData.GetPrefabForTechType(techType);
-                Builder.Begin(prefab);
-#elif BELOWZERO
-                Builder.Begin(techType);
-#endif
-                return false;
-            }
-            return true;
-        }
-    }
-
-    [HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
-    public class Constructable_Construct
-    {
-        [HarmonyPostfix]
-        public static void Postfix(Constructable __instance)
-        {
-            if (__instance.constructed)
-            {
-#if SUBNAUTICA
-                Builder.Begin(CraftData.GetPrefabForTechType(CraftData.GetTechType(__instance.gameObject)));
-#elif BELOWZERO
-                Builder.Begin(CraftData.GetTechType(__instance.gameObject));
-#endif
-            }
+            var assembly = Assembly.GetExecutingAssembly();
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
 }

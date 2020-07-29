@@ -23,7 +23,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <GameDir>$(BelowZeroDir)</GameDir>
-	<DataFolder>SubnauticaZero_Data</DataFolder>
+    <DataFolder>SubnauticaZero_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -33,7 +33,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <GameDir>$(SubnauticaDir)</GameDir>
-	<DataFolder>Subnautica_Data</DataFolder>
+    <DataFolder>Subnautica_Data</DataFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -109,7 +109,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entry.cs" />
+    <Compile Include="GUIHand_OnUpdate_Patch.cs" />
+    <Compile Include="HandReticle_Awake_Patch.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="MapRoomScanner_OnTriggerEnter_Patch.cs" />
+    <Compile Include="MapRoomScanner_OnTriggerExit_Patch.cs" />
+    <Compile Include="NoCrosshair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

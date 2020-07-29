@@ -1,0 +1,19 @@
+﻿using SMLHelper.V2.Json;
+#if SUBNAUTICA
+#elif BELOWZERO
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+#endif
+
+namespace UnKnownName
+{
+    public class Config : ConfigFile
+    {
+        public string UnKnownLabel = "";
+        public string UnKnownTitle = "Unanalyzed Item";
+        public string UnKnownDescription = "This item has not been analyzed yet. \nTo discover its usefulness please scan it at your earliest convenience.";
+        public bool ScanOnPickup = false;
+        public bool Hardcore = false;
+    }
+
+}

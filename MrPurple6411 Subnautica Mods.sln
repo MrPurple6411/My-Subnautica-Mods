@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoEatingSounds", "NoEatingSounds\NoEatingSounds.csproj", "{633C5177-57F7-4746-81D6-EF920939D3F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveTheSunbeam", "SaveTheSunbeam\SaveTheSunbeam.csproj", "{1188256B-FA04-4FC6-8992-8F8D9165D9AB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderModule", "BuilderModule\BuilderModule.csproj", "{99ED7304-8603-4A34-9CBA-A38557A64D00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time Eternal", "Time Eternal\Time Eternal.csproj", "{4F991FD3-1A83-4057-91E2-B7E67097D612}"
@@ -62,9 +60,6 @@ Global
 		{633C5177-57F7-4746-81D6-EF920939D3F3}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{633C5177-57F7-4746-81D6-EF920939D3F3}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{633C5177-57F7-4746-81D6-EF920939D3F3}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
-		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
-		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
-		{1188256B-FA04-4FC6-8992-8F8D9165D9AB}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{99ED7304-8603-4A34-9CBA-A38557A64D00}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU

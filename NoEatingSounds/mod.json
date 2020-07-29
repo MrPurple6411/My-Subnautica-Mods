@@ -3,7 +3,7 @@
   "DisplayName": "No Eating Sounds",
   "Author": "MrPurple6411",
   "Version": "1.0.0",
-  "Requires": [],
+  "Game": "Subnautica",
   "Enable": true,
   "AssemblyName": "NoEatingSounds.dll"
 }

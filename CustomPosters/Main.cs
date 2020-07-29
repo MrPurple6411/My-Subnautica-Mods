@@ -7,7 +7,7 @@ using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 #if SUBNAUTICA
-    using Oculus.Newtonsoft.Json;
+using Oculus.Newtonsoft.Json;
 #elif BELOWZERO
 using Newtonsoft.Json;
 #endif
@@ -67,13 +67,5 @@ namespace CustomPosters
                 }
             }
         }
-    }
-
-    public class PosterInfo
-    {
-        public string InternalName { get; set; }
-        public string DisplayName { get; set; }
-        public string Description { get; set; }
-        public string Orientation { get; set; }
     }
 }
