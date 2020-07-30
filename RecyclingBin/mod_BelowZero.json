@@ -2,7 +2,7 @@
   "Id": "RecyclingBin",
   "DisplayName": "Recycling Bin",
   "Author": "MrPurple6411",
-  "Version": "1.0.5",
+  "Version": "1.1.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",

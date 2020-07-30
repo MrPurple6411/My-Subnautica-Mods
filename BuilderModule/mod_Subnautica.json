@@ -2,7 +2,7 @@
   "Id": "BuilderModule",
   "DisplayName": "BuilderModule",
   "Author": "MrPurple6411",
-  "Version": "1.0.2",
+  "Version": "1.1.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

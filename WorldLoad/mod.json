@@ -2,7 +2,7 @@
   "Id": "WorldLoad",
   "DisplayName": "World Load Settings",
   "Author": "MrPurple6411",
-  "Version": "0.1",
+  "Version": "1.1.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",
