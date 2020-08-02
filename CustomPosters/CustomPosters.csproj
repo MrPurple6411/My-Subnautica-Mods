@@ -51,10 +51,6 @@
       <HintPath>$(GameDir)\$(DataFolder)\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="QModInstaller">
       <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
       <Private>False</Private>

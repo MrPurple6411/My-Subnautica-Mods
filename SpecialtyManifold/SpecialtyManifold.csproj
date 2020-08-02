@@ -51,10 +51,6 @@
       <HintPath>$(GameDir)\$(DataFolder)\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="NitrogenMod_publicized">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Qmods\NitrogenMod\NitrogenMod_publicized.dll</HintPath>
       <Private>False</Private>
