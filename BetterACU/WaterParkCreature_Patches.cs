@@ -18,7 +18,7 @@ namespace BetterACU
         }
     }
 
-    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Born))]
+    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.BornAsync))]
     internal class WaterParkCreature_Born_Prefix
     {
         [HarmonyPrefix]
