@@ -1,9 +1,4 @@
 ﻿using SMLHelper.V2.Json;
-#if SUBNAUTICA
-#elif BELOWZERO
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-#endif
 
 namespace UnKnownName
 {

@@ -1,9 +1,4 @@
 ﻿using HarmonyLib;
-#if SUBNAUTICA
-#elif BELOWZERO
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-#endif
 
 namespace UnKnownName
 {
@@ -17,7 +12,7 @@ namespace UnKnownName
 #if SUBNAUTICA
             PDAScanner.Result result = PDAScanner.CanScan();
 #elif BELOWZERO
-            PDAScanner.Result result = PDAScanner.CanScan(scanTarget);
+            PDAScanner.Result result = PDAScanner.CanScan();
 #endif
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 

@@ -1,10 +1,5 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
-#if SUBNAUTICA
-#elif BELOWZERO
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-#endif
 
 namespace UnKnownName
 {

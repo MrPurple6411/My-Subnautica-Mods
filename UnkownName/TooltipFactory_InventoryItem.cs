@@ -1,11 +1,6 @@
 ﻿using System.Text;
 using HarmonyLib;
 using UnityEngine;
-#if SUBNAUTICA
-#elif BELOWZERO
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-#endif
 
 namespace UnKnownName
 {

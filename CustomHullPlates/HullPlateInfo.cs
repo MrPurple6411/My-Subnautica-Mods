@@ -1,8 +1,4 @@
-﻿#if SUBNAUTICA
-#elif BELOWZERO
-using Newtonsoft.Json;
-#endif
-
+﻿
 namespace CustomHullPlates
 {
     public class HullPlateInfo
