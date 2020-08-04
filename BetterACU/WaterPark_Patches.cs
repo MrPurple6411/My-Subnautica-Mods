@@ -21,7 +21,7 @@ namespace BetterACU
             {
                 powerSource = __instance.gameObject.AddComponent<PowerSource>();
                 powerSource.maxPower = 100 * numberOfShockers;
-                powerSource.power = PlayerPrefs.GetFloat($"PowerSource:{__instance.GetInstanceID()}", 0f);
+                powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
             }
             else
             {
