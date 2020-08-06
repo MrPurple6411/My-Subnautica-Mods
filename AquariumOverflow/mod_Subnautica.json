@@ -1,0 +1,10 @@
+{
+  "Id": "AquariumOverflow",
+  "DisplayName": "AquariumOverflow",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "AquariumBreeding", "CyclopsBioReactor" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "AquariumOverflow.dll"
+}
