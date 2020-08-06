@@ -353,3 +353,7 @@ MigrationBackup/
 
 # Custom ignores
 QMods/
+SpecialtyManifold/ScubaManifold.dll
+SpecialtyManifold/NitrogenMod_publicized.dll
+AquariumOverflow/CyclopsBioReactor_publicized.dll
+AquariumOverflow/AquariumBreeding_publicized.dll
