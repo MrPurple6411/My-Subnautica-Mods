@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquariumOverflow", "Aquariu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomizeYourSpawns", "CustomizeYourSpawns\CustomizeYourSpawns.csproj", "{5F6292BB-185C-4276-A8B7-74C6151DA96D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunkDebugging", "JunkDebugging\JunkDebugging.csproj", "{1E07B791-2768-4E89-823D-69436EDC3D24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BelowZero|Any CPU = BelowZero|Any CPU
@@ -146,6 +148,10 @@ Global
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{1E07B791-2768-4E89-823D-69436EDC3D24}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{1E07B791-2768-4E89-823D-69436EDC3D24}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
