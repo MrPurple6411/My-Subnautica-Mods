@@ -44,22 +44,25 @@ namespace CustomizeYourSpawns
                 {
                     if (!file.Name.ToLower().Contains("disabled"))
                     {
-                        SortedDictionary<TechType, List<BiomeData>> pairs;
+                        SortedDictionary<string, List<BiomeData>> pairs;
                         using (StreamReader reader = new StreamReader(file.FullName))
                         {
-                            pairs = JsonConvert.DeserializeObject<SortedDictionary<TechType, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }) ?? new SortedDictionary<TechType, List<BiomeData>>();
+                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
                         }
-                        foreach (KeyValuePair<TechType, List<BiomeData>> pair in pairs)
+                        foreach (KeyValuePair<string, List<BiomeData>> pair in pairs)
                         {
-                            if (modifiedDistributions.ContainsKey(pair.Key))
+                            if (TechTypeExtensions.FromString(pair.Key, out TechType techType, true))
                             {
-                                List<BiomeData> datas = modifiedDistributions[pair.Key];
-                                pair.Value.ForEach((x) => datas.Add(x));
-                                datas.Distinct();
-                            }
-                            else
-                            {
-                                modifiedDistributions[pair.Key] = pair.Value;
+                                if (modifiedDistributions.ContainsKey(techType))
+                                {
+                                    List<BiomeData> datas = modifiedDistributions[techType];
+                                    pair.Value.ForEach((x) => datas.Add(x));
+                                    datas.Distinct();
+                                }
+                                else
+                                {
+                                    modifiedDistributions[techType] = pair.Value;
+                                }
                             }
                         }
                         Logger.Log(Logger.Level.Debug, $"Successfully loaded file: {file.Name} with {pairs.Count} TechTypes being altered.");
@@ -71,19 +74,30 @@ namespace CustomizeYourSpawns
                 }
                 catch (Exception e)
                 {
-                    if(e is JsonSerializationException)
-                    {
-                        Logger.Log(Logger.Level.Error, $"JsonSerialization failed for file {file.Name}.  I suggest running it through a json validator to find the flaw.");
-                    }
                     Logger.Log(Logger.Level.Error, $"Failed to load {file.Name}.", e);
                 }
             }
 
             foreach (KeyValuePair<TechType, List<BiomeData>> pair in modifiedDistributions)
             {
-                string classId = CraftData.GetClassIdForTechType(pair.Key);
+                string classId = CraftData.GetClassIdForTechType(pair.Key) ?? pair.Key.AsString();
                 if (PrefabDatabase.TryGetPrefabFilename(classId, out string prefabPath))
                 {
+                    if (!WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
+                    {
+                        info = new WorldEntityInfo()
+                        {
+                            cellLevel = LargeWorldEntity.CellLevel.Medium,
+                            classId = classId,
+                            localScale = UnityEngine.Vector3.one,
+                            prefabZUp = false,
+                            slotType = EntitySlot.Type.Medium,
+                            techType = pair.Key
+                        };
+
+                        WorldEntityDatabaseHandler.AddCustomInfo(classId, info);
+                    }
+                    
                     SrcData data = new SrcData() { prefabPath = prefabPath, distribution = pair.Value };
                     Logger.Log(Logger.Level.Debug, $"Altering Spawn Locations for {pair.Key.AsString()}. Adding {data.distribution.Count} values");
                     LootDistributionHandler.AddLootDistributionData(classId, data);
