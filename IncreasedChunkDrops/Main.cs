@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using IncreasedChunkDrops.Configuration;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 

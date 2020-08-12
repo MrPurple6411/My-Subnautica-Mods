@@ -1,27 +1,22 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
+using BuilderModule.Module;
 using HarmonyLib;
 using QModManager.API.ModLoading;
-using Debug = UnityEngine.Debug;
 
 namespace BuilderModule
 {
     [QModCore]
     public static class Main
     {
+        internal static BuilderModulePrefab buildermodule = new BuilderModulePrefab();
+
         [QModPatch]
         public static void Load()
         {
-            try
-            {
-                var buildermodule = new BuilderModulePrefab();
-                buildermodule.Patch();
-                new Harmony("MrPurple6411.BuilderModule").PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
+            buildermodule.Patch();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
 }

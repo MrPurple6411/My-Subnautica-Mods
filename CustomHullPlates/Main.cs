@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using CustomHullPlates.HullPlate;
 using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Utility;

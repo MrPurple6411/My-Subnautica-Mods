@@ -17,99 +17,23 @@ namespace CustomizeYourSpawns
     [QModCore]
     public static partial class Main
     {
-        internal static Assembly assembly = Assembly.GetExecutingAssembly();
-        internal static string modPath = Path.GetDirectoryName(assembly.Location);
-        internal static DirectoryInfo workingPath = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ChangesToLoad"));
-        internal static string DefaultDistributions = modPath + "/DefaultDistributions.json";
-        internal static string BiomeDictionary = modPath + "/BiomeList.json";
-        internal static string ExampleFile = modPath + "/ExampleFile.json";
-        internal static Dictionary<TechType, List<BiomeData>> modifiedDistributions = new Dictionary<TechType, List<BiomeData>>();
+        internal static string ModPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        internal static DirectoryInfo ChangesPath = Directory.CreateDirectory(ModPath+ "/ChangesToLoad");
+        internal static string DefaultDistributions = ModPath + "/DefaultDistributions.json";
+        internal static string BiomeDictionary = ModPath + "/BiomeList.json";
+        internal static string ExampleFile = ModPath + "/ExampleFile.json";
 
         [QModPostPatch]
         public static void Load()
         {
-            if (!File.Exists(DefaultDistributions) || !File.Exists(BiomeDictionary) || !File.Exists(ExampleFile))
-            {
-                CreateResources();
-            }
+            EnsureDefaultDistributions();
+            EnsureBiomeDictionary();
+            EnsureExample();
 
-            LoadDistributions();
+            LoadChangeFiles();
         }
 
-        private static void LoadDistributions()
-        {
-            foreach(FileInfo file in workingPath.GetFiles().Where((x)=>x.Extension.ToLower()== ".json"))
-            {
-                try
-                {
-                    if (!file.Name.ToLower().Contains("disabled"))
-                    {
-                        SortedDictionary<string, List<BiomeData>> pairs;
-                        using (StreamReader reader = new StreamReader(file.FullName))
-                        {
-                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
-                        }
-                        foreach (KeyValuePair<string, List<BiomeData>> pair in pairs)
-                        {
-                            if (TechTypeExtensions.FromString(pair.Key, out TechType techType, true))
-                            {
-                                if (modifiedDistributions.ContainsKey(techType))
-                                {
-                                    List<BiomeData> datas = modifiedDistributions[techType];
-                                    pair.Value.ForEach((x) => datas.Add(x));
-                                    datas.Distinct();
-                                }
-                                else
-                                {
-                                    modifiedDistributions[techType] = pair.Value;
-                                }
-                            }
-                        }
-                        Logger.Log(Logger.Level.Debug, $"Successfully loaded file: {file.Name} with {pairs.Count} TechTypes being altered.");
-                    }
-                    else
-                    {
-                        Logger.Log(Logger.Level.Debug, $"Ignored file: {file.Name} as it contains the keyword 'disabled' in the name.");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Log(Logger.Level.Error, $"Failed to load {file.Name}.", e);
-                }
-            }
-
-            foreach (KeyValuePair<TechType, List<BiomeData>> pair in modifiedDistributions)
-            {
-                string classId = CraftData.GetClassIdForTechType(pair.Key) ?? pair.Key.AsString();
-                if (PrefabDatabase.TryGetPrefabFilename(classId, out string prefabPath))
-                {
-                    if (!WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
-                    {
-                        info = new WorldEntityInfo()
-                        {
-                            cellLevel = LargeWorldEntity.CellLevel.Medium,
-                            classId = classId,
-                            localScale = UnityEngine.Vector3.one,
-                            prefabZUp = false,
-                            slotType = EntitySlot.Type.Medium,
-                            techType = pair.Key
-                        };
-
-                        WorldEntityDatabaseHandler.AddCustomInfo(classId, info);
-                    }
-                    
-                    SrcData data = new SrcData() { prefabPath = prefabPath, distribution = pair.Value };
-                    Logger.Log(Logger.Level.Debug, $"Altering Spawn Locations for {pair.Key.AsString()}. Adding {data.distribution.Count} values");
-                    LootDistributionHandler.AddLootDistributionData(classId, data);
-                }
-                else
-                {
-                    Logger.Log(Logger.Level.Warn, $"Failed to get PrefabPath for {pair.Key.AsString()}. Skipped editing distribution for {pair.Key.AsString()}");
-                }
-            }
-        }
-
-        internal static void CreateResources()
+        private static void EnsureDefaultDistributions()
         {
             if (!File.Exists(DefaultDistributions))
             {
@@ -131,12 +55,15 @@ namespace CustomizeYourSpawns
                     writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }));
                 }
             }
+        }
 
+        private static void EnsureBiomeDictionary()
+        {
             if (!File.Exists(BiomeDictionary))
             {
 
-                SortedDictionary< int, string>  biomeDictionary = new SortedDictionary<int,string>();
-                foreach(BiomeType biome in Enum.GetValues(typeof(BiomeType)))
+                SortedDictionary<int, string> biomeDictionary = new SortedDictionary<int, string>();
+                foreach (BiomeType biome in Enum.GetValues(typeof(BiomeType)))
                 {
                     biomeDictionary[(int)biome] = biome.AsString();
                 }
@@ -146,20 +73,23 @@ namespace CustomizeYourSpawns
                     writer.Write(JsonConvert.SerializeObject(biomeDictionary, Formatting.Indented));
                 }
             }
+        }
 
+        private static void EnsureExample()
+        {
             if (!File.Exists(ExampleFile))
             {
-                Dictionary<TechType, List<BiomeData>> example = new Dictionary<TechType, List<BiomeData>>() { 
-                    { 
-                        TechType.GenericJeweledDisk, 
-                        new List<BiomeData>() 
-                        { 
-                            new BiomeData() 
+                Dictionary<TechType, List<BiomeData>> example = new Dictionary<TechType, List<BiomeData>>() {
+                    {
+                        TechType.GenericJeweledDisk,
+                        new List<BiomeData>()
+                        {
+                            new BiomeData()
                             {
-                                biome = BiomeType.SafeShallows_Wall, 
-                                count = 1, 
-                                probability = 1 
-                            } 
+                                biome = BiomeType.SafeShallows_Wall,
+                                count = 1,
+                                probability = 1
+                            }
                         }
                     },
                     {
@@ -188,5 +118,94 @@ namespace CustomizeYourSpawns
                 }
             }
         }
+
+        private static void LoadChangeFiles()
+        {
+            Dictionary<TechType, List<BiomeData>> modifiedDistributions = new Dictionary<TechType, List<BiomeData>>();
+            foreach (FileInfo file in ChangesPath.GetFiles().Where((x) => x.Extension.ToLower() == ".json"))
+            {
+                try
+                {
+                    if (!file.Name.ToLower().Contains("disabled"))
+                    {
+                        SortedDictionary<string, List<BiomeData>> pairs;
+                        using (StreamReader reader = new StreamReader(file.FullName))
+                        {
+                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
+                        }
+                        int Succeded = 0;
+                        foreach (KeyValuePair<string, List<BiomeData>> pair in pairs)
+                        {
+                            if (TechTypeExtensions.FromString(pair.Key, out TechType techType, true))
+                            {
+                                if (modifiedDistributions.ContainsKey(techType))
+                                {
+                                    List<BiomeData> datas = modifiedDistributions[techType];
+                                    pair.Value.ForEach((x) => datas.Add(x));
+                                    datas.Distinct();
+                                    Succeded++;
+                                }
+                                else
+                                {
+                                    modifiedDistributions[techType] = pair.Value;
+                                    Succeded++;
+                                }
+                            }
+                            else
+                            {
+                                Logger.Log(Logger.Level.Debug, $"TechType: {pair.Key} not found --- do you have its mod installed?");
+                            }
+                        }
+                        Logger.Log(Logger.Level.Debug, $"Successfully loaded file: {file.Name} with {Succeded} TechTypes being altered.");
+                    }
+                    else
+                    {
+                        Logger.Log(Logger.Level.Debug, $"Ignored file: {file.Name} as it contains the keyword 'disabled' in the name.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Log(Logger.Level.Error, $"Failed to load {file.Name}.", e);
+                }
+
+            }
+
+            if (modifiedDistributions.Count > 0)
+                RegisterChanges(modifiedDistributions);
+        }
+
+        private static void RegisterChanges(Dictionary<TechType, List<BiomeData>> modifiedDistributions)
+        {
+            foreach (KeyValuePair<TechType, List<BiomeData>> pair in modifiedDistributions)
+            {
+                string classId = CraftData.GetClassIdForTechType(pair.Key) ?? pair.Key.AsString();
+                if (PrefabDatabase.TryGetPrefabFilename(classId, out string prefabPath))
+                {
+                    if (!WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
+                    {
+                        info = new WorldEntityInfo()
+                        {
+                            cellLevel = LargeWorldEntity.CellLevel.Medium,
+                            classId = classId,
+                            localScale = UnityEngine.Vector3.one,
+                            prefabZUp = false,
+                            slotType = EntitySlot.Type.Medium,
+                            techType = pair.Key
+                        };
+
+                        WorldEntityDatabaseHandler.AddCustomInfo(classId, info);
+                    }
+
+                    SrcData data = new SrcData() { prefabPath = prefabPath, distribution = pair.Value };
+                    Logger.Log(Logger.Level.Debug, $"Altering Spawn Locations for {pair.Key.AsString()}. Adding {data.distribution.Count} values");
+                    LootDistributionHandler.AddLootDistributionData(classId, data);
+                }
+                else
+                {
+                    Logger.Log(Logger.Level.Warn, $"Failed to get PrefabPath for {pair.Key.AsString()}. Skipped editing distribution for {pair.Key.AsString()}");
+                }
+            }
+        }
+
     }
 }

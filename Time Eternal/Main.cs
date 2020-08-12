@@ -3,6 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
+using Time_Eternal.Configuration;
 using UnityEngine;
 
 namespace Time_Eternal

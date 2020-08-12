@@ -110,8 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicHullPlatePrefab.cs" />
-    <Compile Include="HullPlateInfo.cs" />
+    <Compile Include="HullPlate\BasicHullPlatePrefab.cs" />
+    <Compile Include="HullPlate\HullPlateInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

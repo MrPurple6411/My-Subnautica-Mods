@@ -107,7 +107,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resizer.cs" />
+    <Compile Include="Patches\Resizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod_BelowZero.json" />

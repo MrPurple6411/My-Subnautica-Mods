@@ -105,23 +105,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder_UpdateAllowed.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="CrafterLogic_IsCraftRecipeUnlocked.cs" />
-    <Compile Include="GUIHand_OnUpdate.cs" />
-    <Compile Include="Inventory_Pickup.cs" />
-    <Compile Include="KnownTech_Analyze.cs" />
-    <Compile Include="KnownTech_Initialize.cs" />
-    <Compile Include="LanguageCache_GetPickupText.cs" />
+    <Compile Include="Patches\Builder_UpdateAllowed.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Patches\CrafterLogic_IsCraftRecipeUnlocked.cs" />
+    <Compile Include="Patches\GUIHand_OnUpdate.cs" />
+    <Compile Include="Patches\Inventory_Pickup.cs" />
+    <Compile Include="Patches\KnownTech_Analyze.cs" />
+    <Compile Include="Patches\KnownTech_Initialize.cs" />
+    <Compile Include="Patches\LanguageCache_GetPickupText.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="PDAScanner_Iniialize.cs" />
-    <Compile Include="PDAScanner_Scan.cs" />
-    <Compile Include="Player_Start.cs" />
+    <Compile Include="Patches\PDAScanner_Iniialize.cs" />
+    <Compile Include="Patches\PDAScanner_Scan.cs" />
+    <Compile Include="Patches\Player_Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScannerTool_OnHover.cs" />
-    <Compile Include="TooltipFactory_InventoryItem.cs" />
-    <Compile Include="TooltipFactory_Recipe.cs" />
-    <Compile Include="TooltipFactory_WriteIngredients.cs" />
+    <Compile Include="Patches\ScannerTool_OnHover.cs" />
+    <Compile Include="Patches\TooltipFactory_InventoryItem.cs" />
+    <Compile Include="Patches\TooltipFactory_Recipe.cs" />
+    <Compile Include="Patches\TooltipFactory_WriteIngredients.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod_BelowZero.json" />

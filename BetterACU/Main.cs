@@ -2,6 +2,7 @@
 using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
+using BetterACU.Configuration;
 
 namespace BetterACU
 {

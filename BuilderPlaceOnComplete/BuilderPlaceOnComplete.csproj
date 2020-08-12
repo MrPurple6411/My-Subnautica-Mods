@@ -105,8 +105,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderTool_HandleInput_Patch.cs" />
-    <Compile Include="Constructable_Construct_Patch.cs" />
+    <Compile Include="Patches\BuilderTool_HandleInput_Patch.cs" />
+    <Compile Include="Patches\Constructable_Construct_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" Condition="'$(Configuration)' == 'Subnautica'" />
   </ItemGroup>

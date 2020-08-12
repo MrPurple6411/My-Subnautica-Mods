@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterACU", "BetterACU\Bett
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialtyManifold", "SpecialtyManifold\SpecialtyManifold.csproj", "{800D613A-0790-40E1-BF38-B4AB07BD7813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecyclingBin", "RecyclingBin\RecyclingBin.csproj", "{A942E84F-68B6-4605-B569-575C3B03BEA8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpersNoWarping", "WarpersNoWarping\WarpersNoWarping.csproj", "{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnknownName", "UnkownName\UnknownName.csproj", "{2C0E7258-8B6E-4D88-9D7C-8C0D83AF824E}"
@@ -97,10 +95,6 @@ Global
 		{800D613A-0790-40E1-BF38-B4AB07BD7813}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{800D613A-0790-40E1-BF38-B4AB07BD7813}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{800D613A-0790-40E1-BF38-B4AB07BD7813}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
-		{A942E84F-68B6-4605-B569-575C3B03BEA8}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
-		{A942E84F-68B6-4605-B569-575C3B03BEA8}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
-		{A942E84F-68B6-4605-B569-575C3B03BEA8}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
-		{A942E84F-68B6-4605-B569-575C3B03BEA8}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{EE814ABE-ADAF-4272-A614-EDE822ED9EBF}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
@@ -146,6 +140,7 @@ Global
 		{78E76141-C9C2-4663-AE3E-54F19C363A1D}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{78E76141-C9C2-4663-AE3E-54F19C363A1D}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{5F6292BB-185C-4276-A8B7-74C6151DA96D}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU

@@ -12,15 +12,8 @@ namespace WarpersNoWarping
         [QModPatch]
         public static void Load()
         {
-            try
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
+            var assembly = Assembly.GetExecutingAssembly();
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
 }

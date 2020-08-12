@@ -3,6 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
 using UnityEngine;
+using UnKnownName.Configuration;
 
 namespace UnKnownName
 {

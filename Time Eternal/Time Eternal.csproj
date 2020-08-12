@@ -105,10 +105,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="DayNightCycle_GetDayNightCycleTime_Patch.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Patches\DayNightCycle_GetDayNightCycleTime_Patch.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Configuration\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

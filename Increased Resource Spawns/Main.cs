@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using HarmonyLib;
+using Increased_Resource_Spawns.Configuration;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 

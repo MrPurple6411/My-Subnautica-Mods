@@ -106,10 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="SeaTruckSegment_OnKill.cs" />
+    <Compile Include="Patches\SeaTruckSegment_OnKill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubRoot_OnKill.cs" />
-    <Compile Include="Vehicle_OnKill.cs" />
+    <Compile Include="Patches\SubRoot_OnKill.cs" />
+    <Compile Include="Patches\Vehicle_OnKill.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod_BelowZero.json" />

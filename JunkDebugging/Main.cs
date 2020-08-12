@@ -1,11 +1,6 @@
 ﻿using HarmonyLib;
-using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
-using SMLHelper.V2.Handlers;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using static LootDistributionData;
 
 namespace JunkDebugging
 {

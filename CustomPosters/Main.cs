@@ -7,6 +7,7 @@ using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using Oculus.Newtonsoft.Json;
+using CustomPosters.Poster;
 
 namespace CustomPosters
 {
@@ -25,6 +26,7 @@ namespace CustomPosters
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
+
             foreach (string directory in Directory.GetDirectories(PosterFolder.FullName))
             {
                 string info = Path.Combine(directory, "info.json");

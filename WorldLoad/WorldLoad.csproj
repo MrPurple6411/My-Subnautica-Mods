@@ -110,11 +110,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
+    <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Configuration\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorldStreamer_ParseClipmapSettings_Patch.cs" />
+    <Compile Include="Patches\WorldStreamer_ParseClipmapSettings_Patch.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

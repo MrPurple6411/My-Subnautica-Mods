@@ -110,9 +110,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicPostersPrefab.cs" />
+    <Compile Include="Poster\BasicPostersPrefab.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="PosterInfo.cs" />
+    <Compile Include="Poster\PosterInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
+using WorldLoad.Configuration;
 
 namespace WorldLoad
 {

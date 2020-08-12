@@ -105,11 +105,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUIHand_OnUpdate_Patch.cs" />
-    <Compile Include="HandReticle_Awake_Patch.cs" />
+    <Compile Include="Patches\GUIHand_OnUpdate_Patch.cs" />
+    <Compile Include="Patches\HandReticle_Awake_Patch.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="MapRoomScanner_OnTriggerEnter_Patch.cs" />
-    <Compile Include="MapRoomScanner_OnTriggerExit_Patch.cs" />
+    <Compile Include="Patches\MapRoomScanner_OnTriggerEnter_Patch.cs" />
+    <Compile Include="Patches\MapRoomScanner_OnTriggerExit_Patch.cs" />
     <Compile Include="NoCrosshair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
