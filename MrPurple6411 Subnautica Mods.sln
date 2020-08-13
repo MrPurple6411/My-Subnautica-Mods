@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomizeYourSpawns", "Cust
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunkDebugging", "JunkDebugging\JunkDebugging.csproj", "{1E07B791-2768-4E89-823D-69436EDC3D24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumPowerTransmitters", "QuantumPowerTransmitters\QuantumPowerTransmitters.csproj", "{164BCAA7-D72A-4B16-B924-A2CA672CF51E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BelowZero|Any CPU = BelowZero|Any CPU
@@ -147,6 +149,10 @@ Global
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{164BCAA7-D72A-4B16-B924-A2CA672CF51E}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{164BCAA7-D72A-4B16-B924-A2CA672CF51E}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{164BCAA7-D72A-4B16-B924-A2CA672CF51E}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{164BCAA7-D72A-4B16-B924-A2CA672CF51E}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
