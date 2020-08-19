@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time Eternal", "Time Eterna
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "All-Items-1x1", "All-Items-1x1\All-Items-1x1.csproj", "{42843B35-B64F-4A46-B314-B76066C2ECB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearTheWater", "ClearTheWater\ClearTheWater.csproj", "{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldLoad", "WorldLoad\WorldLoad.csproj", "{38555CF2-BED5-45B3-BBC6-D71BA9A69564}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingTweaks", "BuildingTweaks\BuildingTweaks.csproj", "{B6A7966B-78AF-440C-A262-76AF9929E158}"
@@ -78,10 +76,6 @@ Global
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{42843B35-B64F-4A46-B314-B76066C2ECB0}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
-		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
-		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
-		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
-		{B00FA6E4-DDF8-4E30-93CA-226FA30626BB}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{38555CF2-BED5-45B3-BBC6-D71BA9A69564}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{38555CF2-BED5-45B3-BBC6-D71BA9A69564}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{38555CF2-BED5-45B3-BBC6-D71BA9A69564}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
