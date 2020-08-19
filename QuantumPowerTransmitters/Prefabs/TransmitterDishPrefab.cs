@@ -10,7 +10,7 @@ using System.Reflection;
 using UnityEngine;
 using UWE;
 using Logger = QModManager.Utility.Logger;
-using QuantumPowerTransmitters.MonoBehaviours;
+using SMLHelper.V2.Utility;
 
 //Subnautica and Below Zero handle Crafting recipes and Sprites differently. this makes it easier to write the code below.
 #if SUBNAUTICA
@@ -42,42 +42,30 @@ namespace QuantumPowerTransmitters.Prefabs
         public override GameObject GetGameObject()
         {
             //Instantiates a copy of the prefab that is loaded from the AssetBundle loaded above.
-            GameObject gameObject = UnityEngine.Object.Instantiate(assetBundle.LoadAsset<GameObject>("Dish.prefab"));
+            GameObject gameObject = GameObject.Instantiate(assetBundle.LoadAsset<GameObject>("Dish.prefab"));
 
-            AddConstructable(gameObject);
             ApplySubnauticaShaders(gameObject);
 
-            //Using CellLevel Global sets your item to not be unloaded when you move far away from it ingame.
             gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
-
-            //Add my MonoBehaviour.
-            gameObject.EnsureComponent<PowerConsolidation>();
-
-            //Game seems to not save the object when exiting the game if it does not have this set.
             gameObject.EnsureComponent<PrefabIdentifier>().ClassId = ClassID;
+
+            // Required to be able to build the object using the Builder tool. Also sets limits to where it can be built, if it can be removed after construction and if rotating it is allowed.
+            Constructable cs = gameObject.EnsureComponent<Constructable>();
+            cs.model = gameObject.transform.GetChild(0).gameObject;
+            cs.allowedInBase = false;
+            cs.allowedInSub = false;
+            cs.allowedOutside = true;
+            cs.allowedOnConstructables = true;
+            cs.allowedOnGround = true;
+            cs.allowedOnWall = false;
+            cs.deconstructionAllowed = true;
+            cs.rotationEnabled = true;
+            cs.constructedAmount = 1;
+            cs.techType = TechType;
 
             return gameObject;
         }
 
-        /// <summary>
-        /// Required to be able to build the object using the Builder tool. Also sets limits to where it can be built, if it can be removed after construction and if rotating it is allowed.
-        /// </summary>
-        /// <param name="gameObject"></param>
-        private static void AddConstructable(GameObject gameObject)
-        {
-            Constructable constructable = gameObject.AddComponent<Constructable>();
-            constructable.allowedInBase = false;
-            constructable.allowedInSub = false;
-            constructable.allowedOutside = true;
-            constructable.allowedOnConstructables = true;
-            constructable.allowedOnGround = true;
-            constructable.allowedOnWall = false;
-            constructable.deconstructionAllowed = true;
-            constructable.model = gameObject;
-            constructable.rotationEnabled = true;
-            constructable.controlModelState = false;
-            constructable.constructedAmount = 1;
-        }
 
         /// <summary>
         /// This game uses its own shader system and as such the shaders from UnityEditor do not work and will leave you with a black object unless in direct sunlight.
