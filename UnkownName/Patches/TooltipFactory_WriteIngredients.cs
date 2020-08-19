@@ -11,6 +11,10 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
         {
+	        if (ingredients == null)
+	        {
+		        return;
+	        }
             int ingredientCount = data.ingredientCount;
             for (int i = 0; i < ingredientCount; i++)
             {
@@ -38,6 +42,11 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(IList<Ingredient> ingredients, ref List<TooltipIcon> icons)
         {
+            if (ingredients == null)
+            {
+                return;
+            }
+
             int ingredientCount = ingredients.Count;
             for(int i = 0; i < ingredientCount; i++)
             {
