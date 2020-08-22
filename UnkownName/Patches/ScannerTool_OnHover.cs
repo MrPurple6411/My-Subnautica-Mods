@@ -12,11 +12,11 @@ namespace UnKnownName.Patches
 #if SUBNAUTICA
             PDAScanner.Result result = PDAScanner.CanScan();
 #elif BELOWZERO
-            PDAScanner.Result result = PDAScanner.CanScan();
+            PDAScanner.Result result = PDAScanner.CanScan(scanTarget);
 #endif
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
-            if ((entryData != null && (KnownTech.Contains(entryData.blueprint) || KnownTech.Contains(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if ((entryData != null && (CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint) || CrafterLogic.IsCraftRecipeUnlocked(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }

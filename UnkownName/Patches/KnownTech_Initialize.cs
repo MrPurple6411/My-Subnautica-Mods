@@ -9,27 +9,15 @@ namespace UnKnownName.Patches
         [HarmonyPrefix]
         public static void Prefix(PDAData data)
         {
-            List<TechType> types = data.defaultTech;
-            List<TechType> removals = new List<TechType>();
-
-            foreach (TechType techType in types)
+            List<TechType> types = new List<TechType>(data.defaultTech);
+            foreach(TechType techType in types)
             {
-#if SUBNAUTICA
-                if (techType == TechType.Titanium || CraftData.Get(techType, true) == null)
+                PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+                if (entryData != null && entryData.locked)
                 {
-#elif BELOWZERO
-                if(techType == TechType.Titanium || TechData.GetIngredients(techType) == null)
-                {
-#endif
-                    removals.Add(techType);
+                    data.defaultTech.Remove(techType);
                 }
-            }
-
-            foreach (TechType tech in removals)
-            {
-                data.defaultTech.Remove(tech);
             }
         }
     }
-
 }

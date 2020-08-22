@@ -8,7 +8,7 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(ref string __result, TechType techType)
         {
-            if (!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
+            if (!CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
                 __result = Main.config.UnKnownLabel;
             }

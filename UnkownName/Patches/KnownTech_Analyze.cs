@@ -13,10 +13,8 @@ namespace UnKnownName.Patches
                 PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
                 return !verbose || entryData == null || (entryData != null && PDAScanner.ContainsCompleteEntry(techType));
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
     }
 

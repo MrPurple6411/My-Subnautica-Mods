@@ -11,7 +11,7 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
         {
-	        if (ingredients == null)
+	        if (data == null)
 	        {
 		        return;
 	        }
@@ -23,8 +23,9 @@ namespace UnKnownName.Patches
                 if (!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
                     KnownTech.Add(techType);
+                    continue;
                 }
-                if (!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
+                if (!CrafterLogic.IsCraftRecipeUnlocked(techType))
                 {
                     TooltipIcon icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
                     if (icons.Contains(icon))

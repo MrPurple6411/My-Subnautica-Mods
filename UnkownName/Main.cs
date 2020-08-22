@@ -2,8 +2,14 @@
 using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Handlers;
 using UnityEngine;
 using UnKnownName.Configuration;
+#if SUBNAUTICA
+using Data = SMLHelper.V2.Crafting.TechData;
+#elif BELOWZERO
+using Data = SMLHelper.V2.Crafting.RecipeData;
+#endif
 
 namespace UnKnownName
 {
@@ -16,16 +22,17 @@ namespace UnKnownName
         [QModPatch]
         public static void Load()
         {
-            try
-            {
-                config.Load();
-                var assembly = Assembly.GetExecutingAssembly();
-                new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
+            config.Load();
+            var assembly = Assembly.GetExecutingAssembly();
+            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+        }
+        internal static Data GetData(TechType techType)
+        {
+#if SUBNAUTICA
+            return CraftDataHandler.GetTechData(techType);
+#elif BELOWZERO
+            return CraftDataHandler.GetRecipeData(techType);
+#endif
         }
     }
 }

@@ -13,7 +13,7 @@ namespace UnKnownName.Patches
             TechType key = entryData?.key ?? TechType.None;
             TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if (scanTarget.techType != TechType.None && KnownTech.Contains(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && KnownTech.Contains(entryData.blueprint)) || (key != TechType.None && KnownTech.Contains(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints())
+            if (scanTarget.techType != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint)) || (key != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
