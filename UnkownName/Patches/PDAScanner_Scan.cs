@@ -21,6 +21,12 @@ namespace UnKnownName.Patches
         {
             if (PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
             {
+                if(techType == TechType.ScrapMetal && !KnownTech.Contains(TechType.Titanium))
+                {
+                    PDAScanner.AddByUnlockable(TechType.Titanium, 1);
+                    KnownTech.Add(TechType.Titanium);
+                }
+
                 if(!KnownTech.Contains(techType))
                     KnownTech.Add(techType);
                 PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
