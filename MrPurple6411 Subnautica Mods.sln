@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomizeYourSpawns", "Cust
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunkDebugging", "JunkDebugging\JunkDebugging.csproj", "{1E07B791-2768-4E89-823D-69436EDC3D24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargeRequired", "ChargeRequired\ChargeRequired.csproj", "{01F927B1-7979-4D9B-B242-4A368B71CDF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BelowZero|Any CPU = BelowZero|Any CPU
@@ -141,6 +143,10 @@ Global
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{1E07B791-2768-4E89-823D-69436EDC3D24}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{01F927B1-7979-4D9B-B242-4A368B71CDF8}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{01F927B1-7979-4D9B-B242-4A368B71CDF8}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{01F927B1-7979-4D9B-B242-4A368B71CDF8}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{01F927B1-7979-4D9B-B242-4A368B71CDF8}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
