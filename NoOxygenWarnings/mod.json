@@ -1,0 +1,9 @@
+{
+  "Id": "NoOxygenWarnings",
+  "DisplayName": "NoOxygenWarnings",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Enable": true,
+  "Game": "Both",
+  "AssemblyName": "NoOxygenWarnings.dll"
+}
