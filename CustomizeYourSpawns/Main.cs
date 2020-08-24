@@ -1,6 +1,12 @@
 ﻿using HarmonyLib;
+#if SUBNAUTICA
 using Oculus.Newtonsoft.Json;
 using Oculus.Newtonsoft.Json.Converters;
+#elif BELOWZERO
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+#endif
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using System;
@@ -52,7 +58,13 @@ namespace CustomizeYourSpawns
 
                 using (StreamWriter writer = new StreamWriter(DefaultDistributions))
                 {
-                    writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }));
+                    writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() {
+#if SUBNAUTICA
+                        CamelCaseText = true,
+#elif BELOWZERO
+                        NamingStrategy = new CamelCaseNamingStrategy(), 
+#endif
+                        AllowIntegerValues = true })) ;
                 }
             }
         }
@@ -114,7 +126,14 @@ namespace CustomizeYourSpawns
                 };
                 using (StreamWriter writer = new StreamWriter(ExampleFile))
                 {
-                    writer.Write(JsonConvert.SerializeObject(example, Formatting.Indented, new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }));
+                    writer.Write(JsonConvert.SerializeObject(example, Formatting.Indented, new StringEnumConverter()
+                    {
+#if SUBNAUTICA
+                        CamelCaseText = true,
+#elif BELOWZERO
+                        NamingStrategy = new CamelCaseNamingStrategy(), 
+#endif
+                        AllowIntegerValues = true }));
                 }
             }
         }
@@ -131,7 +150,14 @@ namespace CustomizeYourSpawns
                         SortedDictionary<string, List<BiomeData>> pairs;
                         using (StreamReader reader = new StreamReader(file.FullName))
                         {
-                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter() { CamelCaseText = true, AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
+                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter()
+                            {
+#if SUBNAUTICA
+                                CamelCaseText = true,
+#elif BELOWZERO
+                                NamingStrategy = new CamelCaseNamingStrategy(), 
+#endif
+                                AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
                         }
                         int Succeded = 0;
                         foreach (KeyValuePair<string, List<BiomeData>> pair in pairs)
@@ -171,7 +197,9 @@ namespace CustomizeYourSpawns
             }
 
             if (modifiedDistributions.Count > 0)
+            {
                 RegisterChanges(modifiedDistributions);
+            }
         }
 
         private static void RegisterChanges(Dictionary<TechType, List<BiomeData>> modifiedDistributions)
