@@ -1,0 +1,12 @@
+﻿{
+  "Id": "CreaturesFleeLess",
+  "DisplayName": "CreaturesFleeLess",
+  "Author": "MrPurple6411",
+  "Version": "1.0",
+  "Dependencies": [],
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "Both",
+  "AssemblyName": "CreaturesFleeLess.dll"
+}
