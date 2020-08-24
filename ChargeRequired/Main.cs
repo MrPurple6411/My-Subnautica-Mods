@@ -21,7 +21,9 @@ namespace ChargeRequired
             Assembly assembly = Assembly.GetExecutingAssembly();
             Harmony harmony = Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
 
-            Assembly EasyCraft = AppDomain.CurrentDomain.GetAssemblies().First((x)=> x.FullName.StartsWith("EasyCraft"));
+            Assembly EasyCraft = AppDomain.CurrentDomain.GetAssemblies()
+                                                        .Where((x) => x.FullName.StartsWith("EasyCraft"))?
+                                                        .FirstOrFallback(null);
 
             if(EasyCraft != null)
             {
