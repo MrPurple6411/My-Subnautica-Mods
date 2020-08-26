@@ -17,7 +17,7 @@ namespace PowerOrder.Configuration
         {
             try
             {
-                //config.Load();
+                config.Load();
             }
             catch(Exception e)
             {
