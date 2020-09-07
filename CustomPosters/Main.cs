@@ -20,9 +20,6 @@ namespace CustomPosters
         [QModPatch]
         public static void Load()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
