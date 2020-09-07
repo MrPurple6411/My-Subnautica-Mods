@@ -17,15 +17,15 @@ namespace UnKnownName
     [QModCore]
     public static class Main
     {
-        internal static Config config = new Config();
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()
         {
-            config.Load();
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
+
         internal static Data GetData(TechType techType)
         {
 #if SUBNAUTICA

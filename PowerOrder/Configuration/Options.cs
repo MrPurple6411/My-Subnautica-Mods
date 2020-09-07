@@ -1,10 +1,7 @@
 ﻿using HarmonyLib;
-using Oculus.Newtonsoft.Json;
 using QModManager.Utility;
 using SMLHelper.V2.Options;
-using SMLHelper.V2.Utility;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerOrder.Configuration

@@ -108,7 +108,6 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Patches\IncreaseResourceSpawn.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Configuration\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

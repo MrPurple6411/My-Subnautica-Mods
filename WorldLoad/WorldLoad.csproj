@@ -112,7 +112,6 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Configuration\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Patches\WorldStreamer_ParseClipmapSettings_Patch.cs" />
   </ItemGroup>

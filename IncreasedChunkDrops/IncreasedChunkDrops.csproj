@@ -108,7 +108,6 @@
     <Compile Include="Patches\BreakableResource_BreakIntoResources_Patch.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Configuration\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

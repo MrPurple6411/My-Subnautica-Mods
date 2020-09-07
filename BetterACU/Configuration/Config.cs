@@ -1,16 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using SMLHelper.V2.Json;
+using SMLHelper.V2.Options;
 
 namespace BetterACU.Configuration
 {
-    internal class Config : ConfigFile
+    [Menu("Better ACU", IgnoreUnattributedMembers = true, SaveOn = MenuAttribute.SaveEvents.ChangeValue)]
+    public class Config : ConfigFile
     {
-        public int WaterParkSize;
-#if BELOWZERO
-        public int LargeWaterParkSize;
-#endif
-        public bool OverFlowIntoOcean;
-        public Dictionary<string, float> PowerValues = new Dictionary<string, float>();
 
+        [Toggle("Allow Breed Into Ocean")]
+        public bool OverFlowIntoOcean = true;
+
+        [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
+        public int WaterParkSize = 10;
+
+#if BELOWZERO
+        [Slider("Large Room Alien Containment Limit", 20, 200, DefaultValue = 20, Step = 1))]
+        public int LargeWaterParkSize = 20;
+#endif
+        public Dictionary<string, float> PowerValues = new Dictionary<string, float>();
     }
 }

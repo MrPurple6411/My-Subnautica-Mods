@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolInspection", "ToolInspe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerOrder", "PowerOrder\PowerOrder.csproj", "{7EA42ECB-7526-4DD9-A0E2-713F64F87192}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerRoomUpgrades", "ScannerRoomUpgrades\ScannerRoomUpgrades.csproj", "{5E038A37-3495-487F-83B9-E3FD9211AB9F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurableChunkDrops", "ConfigurableChunkDrops\ConfigurableChunkDrops.csproj", "{CFD6344B-6DD6-46B9-86BF-2B44DDEC1F3C}"
 EndProject
 Global
@@ -173,6 +175,10 @@ Global
 		{7EA42ECB-7526-4DD9-A0E2-713F64F87192}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{7EA42ECB-7526-4DD9-A0E2-713F64F87192}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{7EA42ECB-7526-4DD9-A0E2-713F64F87192}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{5E038A37-3495-487F-83B9-E3FD9211AB9F}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{5E038A37-3495-487F-83B9-E3FD9211AB9F}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{5E038A37-3495-487F-83B9-E3FD9211AB9F}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{5E038A37-3495-487F-83B9-E3FD9211AB9F}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{CFD6344B-6DD6-46B9-86BF-2B44DDEC1F3C}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{CFD6344B-6DD6-46B9-86BF-2B44DDEC1F3C}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{CFD6344B-6DD6-46B9-86BF-2B44DDEC1F3C}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
