@@ -12,7 +12,8 @@ This repository now uses 4 game folders for the 4 branches of the 2 games and th
 My Batch files are as follows.
 
 switching to Stable:
-==============================
+
+
 @echo off
 setlocal
 set BRANCH=Stable
@@ -34,10 +35,7 @@ del ..\appmanifest_848450.acf
 mklink /h ..\appmanifest_848450.acf ..\appmanifest_848450.acf.%BRANCH%
 
 
-===============================
-
 switching to Experimental branches
-
 
 @echo off
 setlocal
