@@ -30,6 +30,23 @@ namespace CustomPosters.Poster
 
         public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
 
+        public override GameObject GetGameObject()
+        {
+            GameObject prefab = orientation.ToLower() == "landscape"
+                ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
+                : CraftData.GetPrefabForTechType(TechType.PosterKitty);
+
+
+            GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
+            _GameObject.name = this.ClassID;
+
+            Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
+            material.SetTexture("_MainTex", posterTexture);
+            material.SetTexture("_SpecTex", posterTexture);
+
+            return _GameObject;
+        }
+
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = orientation.ToLower() == "landscape"

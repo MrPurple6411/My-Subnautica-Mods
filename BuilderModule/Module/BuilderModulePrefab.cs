@@ -37,6 +37,12 @@ namespace BuilderModule.Module
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
+        public override GameObject GetGameObject()
+        {
+            GameObject gameobject = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
+            return gameobject;
+        }
+
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.SeamothSonarModule, false);

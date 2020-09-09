@@ -27,6 +27,19 @@ namespace CustomHullPlates.HullPlate
 
         public override TechCategory CategoryForPDA => TechCategory.MiscHullplates;
 
+        public override GameObject GetGameObject()
+        {
+            GameObject prefab = CraftData.GetPrefabForTechType(TechType.DioramaHullPlate);
+
+            GameObject _GameObject = GameObject.Instantiate(prefab);
+
+            MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
+            meshRenderer.material.mainTexture = hullPlateTexture;
+            _GameObject.name = this.ClassID;
+
+            return _GameObject;
+        }
+
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.DioramaHullPlate);
