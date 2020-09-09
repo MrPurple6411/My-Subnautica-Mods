@@ -5,9 +5,9 @@ using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 using UnKnownName.Configuration;
-#if SUBNAUTICA
+#if SN1
 using Data = SMLHelper.V2.Crafting.TechData;
-#elif BELOWZERO
+#elif BZ
 using Data = SMLHelper.V2.Crafting.RecipeData;
 #endif
 
@@ -28,9 +28,9 @@ namespace UnKnownName
 
         internal static Data GetData(TechType techType)
         {
-#if SUBNAUTICA
+#if SN1
             return CraftDataHandler.GetTechData(techType);
-#elif BELOWZERO
+#elif BZ
             return CraftDataHandler.GetRecipeData(techType);
 #endif
         }

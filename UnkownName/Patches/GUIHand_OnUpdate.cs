@@ -17,9 +17,9 @@ namespace UnKnownName.Patches
             {
                 return;
             }
-#if SUBNAUTICA
+#if SN1
             HandReticle.main.SetInteractText(Main.config.UnKnownLabel, false, HandReticle.Hand.None);
-#elif BELOWZERO
+#elif BZ
             HandReticle.main.SetText(HandReticle.TextType.Hand, Main.config.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }

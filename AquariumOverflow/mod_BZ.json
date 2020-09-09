@@ -1,0 +1,9 @@
+{
+  "Id": "AquariumOverflow",
+  "DisplayName": "AquariumOverflow",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "AquariumOverflow.dll"
+}

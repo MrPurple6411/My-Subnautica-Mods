@@ -1,9 +1,9 @@
 ﻿using SMLHelper.V2.Json;
-using SMLHelper.V2.Options;
+using SMLHelper.V2.Options.Attributes;
 
 namespace UnKnownName.Configuration
 {
-    [Menu("Unkown Name Config", IgnoreUnattributedMembers = true)]
+    [Menu("Unkown Name Config", LoadOn = MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened)]
     public class Config : ConfigFile
     {
         public string UnKnownLabel = "";

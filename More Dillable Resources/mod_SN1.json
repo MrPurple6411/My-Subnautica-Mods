@@ -1,0 +1,10 @@
+{
+  "Id": "More_Drillable_Resources",
+  "DisplayName": "More Drillable Resources",
+  "Author": "MrPurple6411",
+  "Version": "1.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "More_Drillable_Resources.dll"
+}

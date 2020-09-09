@@ -1,0 +1,10 @@
+{
+  "Id": "Increased_Resource_Spawns",
+  "DisplayName": "Increased Resource Spawns",
+  "Author": "MrPurple6411",
+  "Version": "1.1.1",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "Increased_Resource_Spawns.dll"
+}

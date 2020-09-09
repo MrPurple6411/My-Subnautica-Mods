@@ -25,7 +25,7 @@ namespace More_Drillable_Resources
                 {
                     string classId = CraftData.GetClassIdForTechType(techType);
 
-                    if (CraftData.GetPrefabForTechType(techType, false) == null)
+                    if (!PrefabDatabase.TryGetPrefabFilename(classId, out string filename))
                     {
                         continue;
                     }

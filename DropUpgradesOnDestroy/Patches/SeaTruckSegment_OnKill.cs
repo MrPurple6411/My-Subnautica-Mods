@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DropUpgradesOnDestroy.Patches
 {
-#if BELOWZERO
+#if BZ
     [HarmonyPatch(typeof(SeaTruckSegment), nameof(SeaTruckSegment.OnKill))]
     public class SeaTruckSegment_OnKill
     {

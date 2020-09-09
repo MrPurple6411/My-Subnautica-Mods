@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using CyclopsBioReactor;
 using HarmonyLib;
 using RALIV.Subnautica.AquariumBreeding;
 using UnityEngine;
+using UWE;
 
 namespace AquariumOverflow.Patches
 {
@@ -63,9 +65,7 @@ namespace AquariumOverflow.Patches
                 {
                     if (reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
                     {
-                        GameObject poorFishy = CraftData.InstantiateFromPrefab(fishType);
-                        poorFishy.SetActive(false);
-                        _ = reactor.container.AddItem(poorFishy.EnsureComponent<Pickupable>());
+                        CoroutineHost.StartCoroutine(AddToReactor(fishType, reactor));
                         break;
                     }
                     else
@@ -77,6 +77,19 @@ namespace AquariumOverflow.Patches
                 fullReactors.Clear();
             }
             return breedCount > 0;
+        }
+
+        private static IEnumerator AddToReactor(TechType fishType, CyBioReactorMono reactor)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(fishType, false);
+            yield return task;
+
+            GameObject poorFishy = GameObject.Instantiate(task.GetResult());
+
+            poorFishy.SetActive(false);
+            reactor.container.AddItem(poorFishy.EnsureComponent<Pickupable>());
+
+            yield break;
         }
     }
 }

@@ -2,10 +2,14 @@
 using System.IO;
 using System.Reflection;
 using CustomHullPlates.HullPlate;
-using Oculus.Newtonsoft.Json;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+#if SUBNAUTICA_STABLE
+using Oculus.Newtonsoft.Json;
+#else
+using Newtonsoft.Json;
+#endif
 
 namespace CustomHullPlates
 {

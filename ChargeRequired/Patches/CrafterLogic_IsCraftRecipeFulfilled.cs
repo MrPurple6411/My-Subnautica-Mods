@@ -12,7 +12,7 @@ namespace ChargeRequired.Patches
             if (__result && GameModeUtils.RequiresIngredients())
             {
                 Inventory main = Inventory.main;
-#if SUBNAUTICA
+#if SN1
                 ITechData techData = CraftData.Get(techType, true);
                 if (techData != null)
                 {
@@ -21,7 +21,7 @@ namespace ChargeRequired.Patches
                     while (i < ingredientCount)
                     {
                         IIngredient ingredient = techData.GetIngredient(i);
-#elif BELOWZERO
+#elif BZ
                 IList<Ingredient> ingredients = TechData.GetIngredients(techType);
                 if(ingredients != null)
                 {

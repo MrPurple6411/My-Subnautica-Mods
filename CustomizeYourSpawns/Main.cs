@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
-#if SUBNAUTICA
+#if SUBNAUTICA_STABLE
 using Oculus.Newtonsoft.Json;
 using Oculus.Newtonsoft.Json.Converters;
-#elif BELOWZERO
+#elif BZ || SUBNAUTICA_EXP
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -59,9 +59,9 @@ namespace CustomizeYourSpawns
                 using (StreamWriter writer = new StreamWriter(DefaultDistributions))
                 {
                     writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() {
-#if SUBNAUTICA
+#if SN1
                         CamelCaseText = true,
-#elif BELOWZERO
+#elif BZ
                         NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
                         AllowIntegerValues = true })) ;
@@ -128,9 +128,9 @@ namespace CustomizeYourSpawns
                 {
                     writer.Write(JsonConvert.SerializeObject(example, Formatting.Indented, new StringEnumConverter()
                     {
-#if SUBNAUTICA
+#if SN1
                         CamelCaseText = true,
-#elif BELOWZERO
+#elif BZ
                         NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
                         AllowIntegerValues = true }));
@@ -152,9 +152,9 @@ namespace CustomizeYourSpawns
                         {
                             pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter()
                             {
-#if SUBNAUTICA
+#if SN1
                                 CamelCaseText = true,
-#elif BELOWZERO
+#elif BZ
                                 NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
                                 AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();

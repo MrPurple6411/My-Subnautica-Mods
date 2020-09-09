@@ -3,7 +3,28 @@ using UnityEngine;
 
 namespace BetterACU.Patches
 {
-#if SUBNAUTICA
+#if SUBNAUTICA_EXP
+    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.BornAsync))]
+    internal class WaterParkCreature_Born_Prefix
+    {
+        [HarmonyPrefix]
+        public static bool Prefix(WaterPark waterPark, Vector3 position)
+        {
+            return waterPark.IsPointInside(position);
+        }
+    }
+#else
+    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Born))]
+    internal class WaterParkCreature_Born_Prefix
+    {
+        [HarmonyPrefix]
+        public static bool Prefix(WaterPark waterPark, Vector3 position)
+        {
+            return waterPark.IsPointInside(position);
+        }
+    }
+#endif
+#if SN1
 
     [HarmonyPatch(typeof(WaterParkCreature), "Update")]
     internal class WaterParkCreature_Update_Prefix
@@ -18,17 +39,7 @@ namespace BetterACU.Patches
         }
     }
 
-    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Born))]
-    internal class WaterParkCreature_Born_Prefix
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(WaterPark waterPark, Vector3 position)
-        {
-            return waterPark.IsPointInside(position);
-        }
-    }
-
-#elif BELOWZERO
+#elif BZ
     
     [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]
     internal class WaterParkCreature_ManagedUpdate_Prefix

@@ -1,0 +1,10 @@
+{
+  "Id": "CustomHullPlates2",
+  "DisplayName": "CustomHullPlates",
+  "Author": "MrPurple6411",
+  "Version": "1.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "CustomHullPlates2.dll"
+}

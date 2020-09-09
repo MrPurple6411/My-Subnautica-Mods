@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
@@ -237,9 +239,9 @@ namespace BuilderModule.Module
             if (this.EnergyMixin.charge <= 0f)
             {
                 HandReticle main = HandReticle.main;
-#if SUBNAUTICA
+#if SN1
                 main.SetInteractText(noPowerText, false, HandReticle.Hand.None);
-#elif BELOWZERO
+#elif BZ
                 main.SetText(HandReticle.TextType.Hand, this.noPowerText, true);
 #endif
                 main.SetIcon(HandReticle.IconType.Default, 1f);
@@ -257,21 +259,43 @@ namespace BuilderModule.Module
             noPowerText = Language.main.Get("NoPower");
         }
 
-        private bool Construct(Constructable c, bool state)
+        private void Construct(Constructable c, bool state)
         {
             if (c != null && !c.constructed && this.EnergyMixin.charge > 0f)
             {
-                float amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
-                this.EnergyMixin.ConsumeEnergy(amount);
-                bool constructed = c.constructed;
-                _ = (!state) ? c.Deconstruct() : c.Construct();
-                if (state && !constructed)
-                {
-                    global::Utils.PlayFMODAsset(completeSound, c.transform, 20f);
-                }
-                return true;
+
+                base.StartCoroutine(this.ConstructAsync(c, state));
             }
-            return false;
+        }
+
+        private IEnumerator ConstructAsync(Constructable c, bool state)
+        {
+            float amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
+            this.EnergyMixin.ConsumeEnergy(amount);
+            bool constructed = c.constructed;
+            bool wasConstructed = c.constructed;
+            bool flag;
+            if (state)
+            {
+                flag = c.Construct();
+            }
+            else
+            {
+#if SUBNAUTICA_EXP
+                TaskResult<bool> result = new TaskResult<bool>();
+                yield return c.DeconstructAsync(result);
+                flag = result.Get();
+                result = null;
+#elif SUBNAUTICA_STABLE
+                flag = c.Deconstruct();
+#endif
+            }
+
+            if (!flag && state && !wasConstructed)
+            {
+                Utils.PlayFMODAsset(this.completeSound, c.transform, 20f);
+            }
+            yield break;
         }
 
         private void OnHover(Constructable constructable)
@@ -281,9 +305,9 @@ namespace BuilderModule.Module
                 HandReticle main = HandReticle.main;
                 if (constructable.constructed)
                 {
-#if SUBNAUTICA
+#if SN1
                     main.SetInteractText(Language.main.Get(constructable.techType), deconstructText, false, false, HandReticle.Hand.Left);
-#elif BELOWZERO
+#elif BZ
                     main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
 #endif
                 }
@@ -305,9 +329,9 @@ namespace BuilderModule.Module
                             stringBuilder.AppendLine(text);
                         }
                     }
-#if SUBNAUTICA
+#if SN1
                     main.SetInteractText(Language.main.Get(constructable.techType), stringBuilder.ToString(), false, false, HandReticle.Hand.Left);
-#elif BELOWZERO
+#elif BZ
                     main.SetText(HandReticle.TextType.Hand, stringBuilder.ToString(), false);
 #endif
                     main.SetProgress(constructable.amount);
@@ -321,9 +345,9 @@ namespace BuilderModule.Module
             if (isActive)
             {
                 HandReticle main = HandReticle.main;
-#if SUBNAUTICA
+#if SN1
                 main.SetInteractText(deconstructable.Name, deconstructText);
-#elif BELOWZERO
+#elif BZ
                 main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
 #endif
             }

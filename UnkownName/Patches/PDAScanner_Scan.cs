@@ -43,9 +43,9 @@ namespace UnKnownName.Patches
                         KnownTech.Add(entryData.blueprint);
                     }
                 }
-#if SUBNAUTICA
+#if SN1
                 TechType techType2 = CraftData.GetHarvestOutputData(techType);
-#elif BELOWZERO
+#elif BZ
                 TechType techType2 = TechData.GetHarvestOutput(techType);
 #endif
                 if (techType2 != TechType.None)

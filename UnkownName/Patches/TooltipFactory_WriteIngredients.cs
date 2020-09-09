@@ -6,7 +6,7 @@ namespace UnKnownName.Patches
     [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
     public class TooltipFactory_WriteIngredients
     {
-#if SUBNAUTICA
+#if SN1
 
         [HarmonyPostfix]
         public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
@@ -38,7 +38,7 @@ namespace UnKnownName.Patches
             }
         }
 
-#elif BELOWZERO
+#elif BZ
 
         [HarmonyPostfix]
         public static void Postfix(IList<Ingredient> ingredients, ref List<TooltipIcon> icons)

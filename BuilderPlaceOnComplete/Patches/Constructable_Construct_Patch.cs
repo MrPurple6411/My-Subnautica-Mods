@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+using System.Collections;
+using UnityEngine;
+using UWE;
 
 namespace BuilderPlaceOnComplete.Patches
 {
@@ -10,8 +13,16 @@ namespace BuilderPlaceOnComplete.Patches
         {
             if (__instance.constructed)
             {
-                Builder.Begin(CraftData.GetPrefabForTechType(CraftData.GetTechType(__instance.gameObject)));
+                CoroutineHost.StartCoroutine(InitializeBuilder(CraftData.GetTechType(__instance.gameObject)));
             }
+        }
+        private static IEnumerator InitializeBuilder(TechType techType)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType);
+            yield return task;
+
+            Builder.Begin(task.GetResult());
+            yield break;
         }
     }
 }

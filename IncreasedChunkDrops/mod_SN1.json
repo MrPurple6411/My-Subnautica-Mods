@@ -1,0 +1,10 @@
+{
+  "Id": "IncreasedChunkDrops",
+  "DisplayName": "IncreasedChunkDrops",
+  "Author": "MrPurple6411",
+  "Version": "1.1.1",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "IncreasedChunkDrops.dll"
+}

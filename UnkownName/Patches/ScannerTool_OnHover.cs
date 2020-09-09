@@ -9,9 +9,9 @@ namespace UnKnownName.Patches
         public static void Postfix(ScannerTool __instance)
         {
             PDAScanner.ScanTarget scanTarget = PDAScanner.scanTarget;
-#if SUBNAUTICA
+#if SN1
             PDAScanner.Result result = PDAScanner.CanScan();
-#elif BELOWZERO
+#elif BZ
             PDAScanner.Result result = PDAScanner.CanScan(scanTarget);
 #endif
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
@@ -20,9 +20,9 @@ namespace UnKnownName.Patches
             {
                 return;
             }
-#if SUBNAUTICA
+#if SN1
             HandReticle.main.SetInteractText(Main.config.UnKnownLabel, false, HandReticle.Hand.None);
-#elif BELOWZERO
+#elif BZ
             HandReticle.main.SetText(HandReticle.TextType.Hand, Main.config.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }

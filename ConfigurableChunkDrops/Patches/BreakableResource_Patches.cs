@@ -1,11 +1,19 @@
 ﻿using HarmonyLib;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UWE;
 
 namespace ConfigurableChunkDrops.Patches
 {
     [HarmonyPatch(typeof(BreakableResource), "BreakIntoResources")]
     public static class BreakableResource_ChooseRandomResource
     {
+
+        private static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new Dictionary<TechType, List<BreakableResource.RandomPrefab>>();
+
         [HarmonyPrefix]
         public static void Prefix(BreakableResource __instance)
         {
@@ -18,6 +26,12 @@ namespace ConfigurableChunkDrops.Patches
 
             Dictionary<TechType, float> customDrops = Main.config.Breakables[Breakable];
 
+            if (prefabs.ContainsKey(Breakable) && prefabs.Keys.ToList() == customDrops.Keys.ToList())
+            {
+                __instance.prefabList = prefabs[Breakable];
+                return;
+            }
+            
             __instance.prefabList = new List<BreakableResource.RandomPrefab>();
 
             foreach(KeyValuePair<TechType, float> pair in customDrops)
@@ -28,15 +42,41 @@ namespace ConfigurableChunkDrops.Patches
                 if (techEntropy is null)
                     entropy.randomizers.Add(new PlayerEntropy.TechEntropy() { entropy = new FairRandomizer(), techType = pair.Key });
 
-                BreakableResource.RandomPrefab randomPrefab = new BreakableResource.RandomPrefab() { prefab = CraftData.InstantiateFromPrefab(pair.Key), chance = pair.Value };
-                BreakableResource.RandomPrefab existingRandomPrefab = __instance.prefabList.Find((x) => x.prefab.name == randomPrefab.prefab.name);
-
-                if (existingRandomPrefab is null)
-                    __instance.prefabList.Add(randomPrefab);
-                else
-                    existingRandomPrefab.chance = pair.Value;
+                CoroutineHost.StartCoroutine(GetPrefabForList(Breakable, pair.Key, pair.Value));
             }
 
+        }
+
+        private static IEnumerator GetPrefabForList(TechType breakable, TechType techType, float chance)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType, false);
+
+            if (prefabs.ContainsKey(breakable))
+            {
+                BreakableResource.RandomPrefab existingPrefab = prefabs[breakable].Find((x) => CraftData.GetTechType(x.prefab) == techType);
+                if (existingPrefab != null)
+                {
+                    existingPrefab.chance = chance;
+                    yield break;
+                }
+                else
+                {
+                    yield return task;
+                    GameObject gameObject = task.GetResult();
+                    if (gameObject != null)
+                        prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefab = gameObject, chance = chance });
+                    yield break;
+                }
+            }
+            else
+            {
+                prefabs[breakable] = new List<BreakableResource.RandomPrefab>();
+                yield return task;
+                GameObject gameObject = task.GetResult();
+                if (gameObject != null)
+                    prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefab = gameObject, chance = chance });
+                yield break;
+            }
         }
     }
 }

@@ -6,8 +6,12 @@ using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using UnityEngine;
-using Oculus.Newtonsoft.Json;
 using CustomPosters.Poster;
+#if SUBNAUTICA_STABLE
+using Oculus.Newtonsoft.Json;
+#else
+using Newtonsoft.Json;
+#endif
 
 namespace CustomPosters
 {

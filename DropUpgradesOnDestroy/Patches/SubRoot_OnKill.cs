@@ -1,7 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.CodeDom;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using FMOD;
 using HarmonyLib;
 using UnityEngine;
+using UWE;
 
 namespace DropUpgradesOnDestroy.Patches
 {
@@ -13,13 +19,42 @@ namespace DropUpgradesOnDestroy.Patches
         {
             Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.upgradeConsole?.modules) as Dictionary<string, InventoryItem>;
             List<InventoryItem> equipment = eq?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
-            foreach (InventoryItem item in equipment)
+
+            Assembly MCU = AppDomain.CurrentDomain.GetAssemblies()
+                                                        .Where((x) => x.FullName.StartsWith("MoreCyclopsUpgrades"))?
+                                                        .FirstOrFallback(null);
+
+            if(MCU != null)
             {
-                GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
-                Vector3 position = __instance.gameObject.transform.position;
-                gameObject.transform.position = new Vector3(position.x + UnityEngine.Random.Range(-3, 3), position.y + UnityEngine.Random.Range(5, 8), position.z + UnityEngine.Random.Range(-3, 3));
-                gameObject.SetActive(true);
+                Type IMCUCrossMod = AccessTools.TypeByName("MoreCyclopsUpgrades.API.IMCUCrossMod");
+                Type MCUServices = AccessTools.TypeByName("MoreCyclopsUpgrades.API.MCUServices");
+                Type UpgradeSlot = AccessTools.TypeByName("MoreCyclopsUpgrades.API.Buildables.UpgradeSlot");
+                
+                if (IMCUCrossMod != null && UpgradeSlot != null)
+                {
+                    MethodInfo IMCUCrossMod_GetAllUpgradeSlots = AccessTools.Method(IMCUCrossMod, "GetAllUpgradeSlots");
+                    MethodInfo UpgradeSlot_GetItemInSlot = AccessTools.Method(UpgradeSlot, "GetItemInSlot");
+                    PropertyInfo CrossMod = AccessTools.Property(MCUServices, "CrossMod");
+                    if (IMCUCrossMod_GetAllUpgradeSlots != null && UpgradeSlot_GetItemInSlot != null && CrossMod != null)
+                    {
+                        var listType = typeof(List<>).MakeGenericType(UpgradeSlot);
+                        IList upgradeSlots = (IList)Activator.CreateInstance(listType, IMCUCrossMod_GetAllUpgradeSlots.Invoke(CrossMod.GetValue(null), new object[] { __instance }));
+
+                        foreach(var slot in upgradeSlots)
+                        {
+                            InventoryItem item = (InventoryItem)UpgradeSlot_GetItemInSlot.Invoke(slot, null);
+
+                            if(item != null)
+                            {
+                                equipment.Add(item);
+                            }
+                        }
+                    }
+                }
             }
+
+            Vector3 position = __instance.gameObject.transform.position;
+            CoroutineHost.StartCoroutine(Main.SpawnModuleNearby(equipment, position));
         }
     }
 }

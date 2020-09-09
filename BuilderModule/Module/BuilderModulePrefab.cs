@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using SMLHelper.V2.Assets;
@@ -6,7 +7,7 @@ using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 
-#if SUBNAUTICA
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
@@ -36,9 +37,13 @@ namespace BuilderModule.Module
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
-        public override GameObject GetGameObject()
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            return Object.Instantiate(CraftData.GetPrefabForTechType(TechType.SeamothSonarModule));
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.SeamothSonarModule, false);
+            yield return task;
+            gameObject.Set(task.GetResult());
+
+            yield break;
         }
 
         protected override RecipeData GetBlueprintRecipe()

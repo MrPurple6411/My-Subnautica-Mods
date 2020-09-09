@@ -1,0 +1,9 @@
+﻿{
+  "Id": "DropUpgradesOnDestroy",
+  "DisplayName": "Drop Upgrades On Destroy",
+  "Author": "MrPurple6411",
+  "Version": "1.1.0",
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "DropUpgradesOnDestroy.dll"
+}

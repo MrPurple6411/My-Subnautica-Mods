@@ -4,9 +4,9 @@ using System.Linq;
 using HarmonyLib;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
-#if SUBNAUTICA
+#if SN1
 using Data = SMLHelper.V2.Crafting.TechData;
-#elif BELOWZERO
+#elif BZ
 using Data = SMLHelper.V2.Crafting.RecipeData;
 #endif
 

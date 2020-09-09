@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using System.Collections;
 using UnityEngine;
+using UWE;
 
 namespace BuilderPlaceOnComplete.Patches
 {
@@ -12,11 +14,19 @@ namespace BuilderPlaceOnComplete.Patches
             TechType techType = PDAScanner.scanTarget.techType;
             if (Input.GetMouseButtonDown(2) && CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
-                GameObject prefab = CraftData.GetPrefabForTechType(techType);
-                Builder.Begin(prefab);
+                CoroutineHost.StartCoroutine(InitializeBuilder(techType));
                 return false;
             }
             return true;
+        }
+
+        private static IEnumerator InitializeBuilder(TechType techType)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType);
+            yield return task;
+
+            Builder.Begin(task.GetResult());
+            yield break;
         }
     }
 }

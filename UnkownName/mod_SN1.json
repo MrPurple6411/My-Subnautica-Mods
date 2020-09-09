@@ -1,0 +1,10 @@
+﻿{
+  "Id": "UnKnownName",
+  "DisplayName": "UnKnown Name",
+  "Author": "MrPurple6411",
+  "Version": "1.1.3",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "UnKnownName.dll"
+}

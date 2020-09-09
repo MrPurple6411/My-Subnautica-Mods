@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
@@ -29,23 +30,26 @@ namespace CustomPosters.Poster
 
         public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
 
-        public override GameObject GetGameObject()
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            GameObject prefab = orientation.ToLower() == "landscape"
-                ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
-                : CraftData.GetPrefabForTechType(TechType.PosterKitty);
+            CoroutineTask<GameObject> task = orientation.ToLower() == "landscape"
+                ? CraftData.GetPrefabForTechTypeAsync(TechType.PosterAurora)
+                : CraftData.GetPrefabForTechTypeAsync(TechType.PosterKitty);
 
-            GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
+            yield return task;
+
+            GameObject _GameObject = UnityEngine.Object.Instantiate(task.GetResult());
             _GameObject.name = this.ClassID;
 
             Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
             material.SetTexture("_MainTex", posterTexture);
             material.SetTexture("_SpecTex", posterTexture);
 
-            return _GameObject;
+            gameObject.Set(_GameObject);
+            yield break;
         }
 
-#if SUBNAUTICA
+#if SN1
         /// <summary>
         /// This provides the <see cref="TechData"/> instance used to designate how this item is crafted or constructed.
         /// </summary>
@@ -65,7 +69,7 @@ namespace CustomPosters.Poster
         {
             return ImageUtils.LoadSpriteFromTexture(posterIcon);
         }
-#elif BELOWZERO
+#elif BZ
         /// <summary>
         /// This provides the <see cref="RecipeData"/> instance used to designate how this item is crafted or constructed.
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -42,7 +43,7 @@ namespace BetterACU.Patches
         [HarmonyPrefix]
         public static void Prefix(WaterPark __instance)
         {
-#if BELOWZERO
+#if BZ
             if(__instance is LargeRoomWaterPark)
             {
                 AccessTools.Field(typeof(WaterPark), "wpPieceCapacity").SetValue(__instance, Main.config.LargeWaterParkSize);
@@ -53,7 +54,7 @@ namespace BetterACU.Patches
         }
     }
 
-#if SUBNAUTICA
+#if SN1
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
     internal class WaterPark_TryBreed_Prefix
     {
@@ -82,35 +83,47 @@ namespace BetterACU.Patches
                         {
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
-                            GameObject gameObject = CraftData.InstantiateFromPrefab(WaterParkCreature.creatureEggs.GetOrDefault(parkCreature.pickupable.GetTechType(), parkCreature.pickupable.GetTechType()), false);
-                            gameObject.SetActive(false);
-                            container.AddItem(gameObject.EnsureComponent<Pickupable>());
                             hasBred = true;
+                            SpawnCreature(__instance, parkCreature, container);
                             break;
                         }
                     }
-                    if (!hasBred && Main.config.OverFlowIntoOcean && (!WaterParkCreature.waterParkCreatureParameters.ContainsKey(parkCreature.pickupable.GetTechType()) || parkCreature.pickupable.GetTechType() == TechType.Spadefish))
+                    if (!hasBred && count > 10 && Main.config.OverFlowIntoOcean && (!WaterParkCreature.waterParkCreatureParameters.ContainsKey(parkCreature.pickupable.GetTechType()) || parkCreature.pickupable.GetTechType() == TechType.Spadefish))
                     {
-                        creature.ResetBreedTime();
-                        parkCreature.ResetBreedTime();
-                        if (count > Main.config.WaterParkSize)
-                        {
-                            GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
-                            gameObject.transform.position = __instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
-                            gameObject.SetActive(true);
-                            count = 0;
-                        }
-                        else
-                        {
-                            count++;
-                        }
+                        SpawnCreature(__instance, parkCreature, null);
+                        count = 0;
                     }
+
+                    creature.ResetBreedTime();
+                    parkCreature.ResetBreedTime();
+                    count++;
                     break;
                 }
             }
         }
+
+        private static IEnumerator SpawnCreature(WaterPark waterPark, WaterParkCreature parkCreature, ItemsContainer container)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreature.pickupable.GetTechType(), false);
+            yield return task;
+
+            GameObject gameObject = GameObject.Instantiate(task.GetResult());
+            
+            if(container is null)
+            {
+                gameObject.transform.position = waterPark.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+                container.AddItem(gameObject.EnsureComponent<Pickupable>());
+            }
+
+            yield break;
+        }
     }
-#elif BELOWZERO
+#elif BZ
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
     internal class WaterPark_GetBreedingPartner_Postfix
     {

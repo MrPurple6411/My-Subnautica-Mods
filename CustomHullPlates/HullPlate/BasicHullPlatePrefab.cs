@@ -1,11 +1,12 @@
 ﻿using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
+using System.Collections;
 using UnityEngine;
-#if SUBNAUTICA
+#if SN1
 using Data = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
-#elif BELOWZERO
+#elif BZ
 using Data = SMLHelper.V2.Crafting.RecipeData;
 #endif
 
@@ -26,14 +27,19 @@ namespace CustomHullPlates.HullPlate
 
         public override TechCategory CategoryForPDA => TechCategory.MiscHullplates;
 
-        public override GameObject GetGameObject()
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            GameObject _GameObject = UnityEngine.Object.Instantiate(CraftData.GetPrefabForTechType(TechType.DioramaHullPlate));
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.DioramaHullPlate);
+            yield return task;
+
+            GameObject _GameObject = GameObject.Instantiate(task.GetResult());
 
             MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
             _GameObject.name = this.ClassID;
-            return _GameObject;
+
+            gameObject.Set(_GameObject);
+            yield break;
         }
 
         /// <summary>

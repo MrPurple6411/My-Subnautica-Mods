@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
-#if SUBNAUTICA
+#if SN1
 using Data = CraftData;
-#elif BELOWZERO
+#elif BZ
 using Data = TechData;
 #endif
 
