@@ -1,0 +1,11 @@
+{
+  "Id":"Randomsizemod",
+  "DisplayName":"Random creature size",
+  "Author":"Cotriec",
+  "Version":"1.1.1",
+  "Requires":[],
+  "Enable":true,
+  "AssemblyName":"Randomcreaturesize.dll",
+  "EntryMethod":"Randomcreaturesize.Randomcreature.Patch",
+  "Config":{}
+}
