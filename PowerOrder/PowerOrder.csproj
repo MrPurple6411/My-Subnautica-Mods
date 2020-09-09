@@ -20,9 +20,9 @@
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <GameDir>$(BelowZeroDir)</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
     <DataFolder>SubnauticaZero_Data</DataFolder>
-	<SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
+    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -31,9 +31,9 @@
     <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <GameDir>$(BelowZeroDir)</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZero.Exp</GameDir>
     <DataFolder>SubnauticaZero_Data</DataFolder>
-	<SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
+    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -42,9 +42,9 @@
     <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <GameDir>$(SubnauticaDir)</GameDir>
+    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
-	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -53,7 +53,7 @@
     <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <GameDir>$(SubnauticaDir)</GameDir>
+    <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
 	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>

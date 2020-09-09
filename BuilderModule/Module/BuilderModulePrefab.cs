@@ -37,12 +37,13 @@ namespace BuilderModule.Module
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
+#if BZ || SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             GameObject gameobject = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
             return gameobject;
         }
-
+#endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.SeamothSonarModule, false);
@@ -51,7 +52,6 @@ namespace BuilderModule.Module
 
             yield break;
         }
-
         protected override RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()

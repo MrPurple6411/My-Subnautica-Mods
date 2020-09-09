@@ -286,7 +286,7 @@ namespace BuilderModule.Module
                 yield return c.DeconstructAsync(result);
                 flag = result.Get();
                 result = null;
-#elif SUBNAUTICA_STABLE
+#elif SUBNAUTICA_STABLE || BZ
                 flag = c.Deconstruct();
 #endif
             }
