@@ -1,0 +1,11 @@
+{
+  "Id": "MoreSeamothDepth",
+  "DisplayName": "More Seamoth Depth",
+  "Author": "MrPurple6411",
+  "Version": "1.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "LoadBefore": [ "UpgradedVehicles" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "MoreSeamothDepth.dll"
+}

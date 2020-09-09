@@ -1,0 +1,10 @@
+{
+  "Id": "SeamothThermal",
+  "DisplayName": "SeamothThermal",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "SeamothThermal.dll"
+}
