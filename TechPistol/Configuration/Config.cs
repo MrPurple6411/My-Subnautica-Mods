@@ -24,10 +24,10 @@ namespace TechPistol.Configuration
         [Slider("Resize Range", 1, 100, DefaultValue = 150, Step = 10)]
         public float ScaleRange = 40f;
 
-        [Slider("Increase Size Speed", 0.01f, 0.3f, DefaultValue = 0.02f, Step = 0.01f)]
+        [Slider("Increase Size Speed", 0.01f, 0.3f, DefaultValue = 0.02f, Step = 0.01f, Format = "{0:F2}")]
         public float ScaleUpspeed = 0.02f;
 
-        [Slider("Decrease Size Speed", 0.01f, 0.3f, DefaultValue = 0.02f, Step = 0.01f)]
+        [Slider("Decrease Size Speed", 0.01f, 0.3f, DefaultValue = 0.02f, Step = 0.01f, Format = "{0:F2}")]
         public float ScaleDownspeed = 0.02f;
     }
 }
