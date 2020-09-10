@@ -5,7 +5,8 @@
 
 
 
-This repository now uses 4 game folders for the 4 branches of the 2 games and the folders are setup using information learned from https://forum.keenswh.com/threads/how-to-easily-switch-between-steam-branches-for-modding.7385481/.   
+This repository now uses 4 game folders for the 4 branches of the 2 games and the folders are setup using information learned from:
+https://forum.keenswh.com/threads/how-to-easily-switch-between-steam-branches-for-modding.7385481/.   
 
 
 
