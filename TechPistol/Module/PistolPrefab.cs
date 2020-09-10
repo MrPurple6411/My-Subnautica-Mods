@@ -1,12 +1,15 @@
-﻿using SMLHelper.V2.Assets;
+﻿using HarmonyLib;
+using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UWE;
 #if SN1
 using Data = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
@@ -18,12 +21,18 @@ namespace TechPistol.Module
 {
     internal class PistolPrefab : Equipable
     {
-        public PistolPrefab() : base("techpistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
-        {
+		static HashSet<TechType> batteryChargerCompatibleTech => (HashSet<TechType>)Traverse.Create<BatteryCharger>().Field("compatibleTech").GetValue();
+		static HashSet<TechType> powerCellChargerCompatibleTech => (HashSet<TechType>)Traverse.Create<PowerCellCharger>().Field("compatibleTech").GetValue();
 
-        }
+		static List<TechType> compatibleTech => batteryChargerCompatibleTech.Concat(powerCellChargerCompatibleTech).ToList();
 
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
+
+		public PistolPrefab() : base("techpistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
+		{
+		}
+
+
+		public override EquipmentType EquipmentType => EquipmentType.Hand;
 
         public override Vector2int SizeInInventory => new Vector2int(2,2);
 
@@ -52,6 +61,11 @@ namespace TechPistol.Module
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
 					meshRenderer.material.SetColor("_Emission", new Color(1f, 1f, 1f));
 				}
+
+				SkyApplier skyApplier = gameObject.EnsureComponent<SkyApplier>();
+				skyApplier.renderers = componentsInChildren;
+				skyApplier.anchorSky = Skies.Auto;
+
 				gameObject.transform.Find("Cannonmode/shoot/shoo").gameObject.EnsureComponent<ExplosionBehaviour>();
 				gameObject.EnsureComponent<PrefabIdentifier>().ClassId = base.ClassID;
 				gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Near;
@@ -65,13 +79,7 @@ namespace TechPistol.Module
 				EnergyMixin energyMixin = gameObject.EnsureComponent<EnergyMixin>();
 				energyMixin.storageRoot = Radical.FindChild(gameObject, "BatteryRoot").EnsureComponent<ChildObjectIdentifier>();
 				energyMixin.allowBatteryReplacement = true;
-				energyMixin.compatibleBatteries = new List<TechType>
-				{
-					TechType.PrecursorIonBattery,
-					TechType.Battery,
-					TechType.PrecursorIonPowerCell,
-					TechType.PowerCell
-				};
+				energyMixin.compatibleBatteries = compatibleTech;
 				energyMixin.batteryModels = new EnergyMixin.BatteryModels[]
 				{
 					new EnergyMixin.BatteryModels
@@ -142,6 +150,10 @@ namespace TechPistol.Module
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
 					meshRenderer.material.SetColor("_Emission", new Color(1f, 1f, 1f));
 				}
+				SkyApplier skyApplier = prefab.EnsureComponent<SkyApplier>();
+				skyApplier.renderers = componentsInChildren;
+				skyApplier.anchorSky = Skies.Auto;
+
 				prefab.transform.Find("Cannonmode/shoot/shoo").gameObject.EnsureComponent<ExplosionBehaviour>();
 				prefab.EnsureComponent<PrefabIdentifier>().ClassId = base.ClassID;
 				prefab.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Near;
@@ -155,13 +167,7 @@ namespace TechPistol.Module
 				EnergyMixin energyMixin = prefab.EnsureComponent<EnergyMixin>();
 				energyMixin.storageRoot = Radical.FindChild(prefab, "BatteryRoot").EnsureComponent<ChildObjectIdentifier>();
 				energyMixin.allowBatteryReplacement = true;
-				energyMixin.compatibleBatteries = new List<TechType>
-				{
-					TechType.PrecursorIonBattery,
-					TechType.Battery,
-					TechType.PrecursorIonPowerCell,
-					TechType.PowerCell
-				};
+				energyMixin.compatibleBatteries = compatibleTech;
 				energyMixin.batteryModels = new EnergyMixin.BatteryModels[]
 				{
 					new EnergyMixin.BatteryModels

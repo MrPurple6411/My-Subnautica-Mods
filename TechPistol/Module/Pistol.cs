@@ -393,112 +393,63 @@ namespace TechPistol.Module
 		public void OnProtoSerialize(ProtobufSerializer serializer)
 		{
 
-			string contents = null;
 			GameObject battery = this.energyMixin.GetBattery();
-			bool flag = battery;
-			if (flag)
+			if (battery != null)
 			{
-				CraftData.GetTechType(battery);
-				bool flag2 = CraftData.GetTechType(battery) == TechType.PrecursorIonBattery;
-				if (flag2)
-				{
-					contents = "PrecursorIonBattery";
-				}
-				bool flag3 = CraftData.GetTechType(battery) == TechType.Battery;
-				if (flag3)
-				{
-					contents = "Battery";
-				}
-				bool flag4 = CraftData.GetTechType(battery) == TechType.PowerCell;
-				if (flag4)
-				{
-					contents = "PowerCell";
-				}
-				bool flag5 = CraftData.GetTechType(battery) == TechType.PrecursorIonPowerCell;
-				if (flag5)
-				{
-					contents = "PrecursorIonPowerCell";
-				}
-				bool flag6 = CraftData.GetTechType(battery) != TechType.None && this.energyMixin.HasItem();
-				if (flag6)
-				{
-					File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", contents);
-					File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", this.energyMixin.charge.ToString());
-				}
+				TechType batteryTech = CraftData.GetTechType(battery);
+				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", batteryTech.AsString());
+				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", this.energyMixin.charge.ToString());
 			}
 			else
 			{
-				contents = "None";
-				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", contents);
+				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", "None");
 				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", "0");
 			}
 		}
 
 		public void OnProtoDeserialize(ProtobufSerializer serializer)
 		{
-			bool flag = this.energyMixin == null;
-			if (flag)
+			if (this.energyMixin == null)
 			{
 				this.energyMixin = base.GetComponent<EnergyMixin>();
 			}
-			bool flag2 = File.Exists(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type");
+			string typeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type";
+			string chargeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge";
+
+			bool flag2 = File.Exists(typeFile);
 			if (flag2)
 			{
-				string a = File.ReadAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type");
-				float num = float.Parse(File.ReadAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge"));
-				bool flag3 = a != "None";
-				if (flag3)
+				string a = File.ReadAllText(typeFile);
+				float num = float.Parse(File.ReadAllText(chargeFile));
+				if (a != "None" && TechTypeExtensions.FromString(a, out TechType batteryTech, true))
 				{
-					bool flag4 = a == "PrecursorIonBattery";
 #if SUBNAUTICA_EXP
-					if (flag4)
-					{
-
-						CoroutineHost.StartCoroutine(SetBattery(TechType.PrecursorIonBattery, num, 500f));
-					}
-					bool flag5 = a == "Battery";
-					if (flag5)
-					{
-						CoroutineHost.StartCoroutine(SetBattery(TechType.Battery, num, 100f));
-					}
-					bool flag6 = a == "PowerCell";
-					if (flag6)
-					{
-						CoroutineHost.StartCoroutine(SetBattery(TechType.PowerCell, num, 200f));
-					}
-					bool flag7 = a == "PrecursorIonPowerCell";
-					if (flag7)
-					{
-						CoroutineHost.StartCoroutine(SetBattery(TechType.PrecursorIonPowerCell, num, 1000f));
-					}
+					CoroutineHost.StartCoroutine(SetBattery(batteryTech, num));
 				}
 			}
 		}
 
-		private IEnumerator SetBattery(TechType techType, float num, float num2)
+		private IEnumerator SetBattery(TechType techType, float num)
 		{
-			TaskResult<InventoryItem> task = new TaskResult<InventoryItem>();
-			yield return this.energyMixin.SetBatteryAsync(techType, num / num2, task);
+			TaskResult<GameObject> result = new TaskResult<GameObject>();
+			yield return CraftData.InstantiateFromPrefabAsync(techType, result);
+
+			Battery battery = result.Get().GetComponent<Battery>();
+
+			if(battery != null)
+			{
+				TaskResult<InventoryItem> task = new TaskResult<InventoryItem>();
+				yield return this.energyMixin.SetBatteryAsync(techType, num / battery.capacity, task);
+			}
+
+			yield break;
 		}
 #else
-					if (flag4)
+
+					Battery battery = CraftData.InstantiateFromPrefab(batteryTech).GetComponent<Battery>();
+					if (battery != null)
 					{
-						this.energyMixin.SetBattery(TechType.PrecursorIonBattery, num / 500f);
-					}
-					bool flag5 = a == "Battery";
-					if (flag5)
-					{
-						this.energyMixin.SetBattery(TechType.Battery, num / 100f);
-					}
-					bool flag6 = a == "PowerCell";
-					if (flag6)
-					{
-						this.energyMixin.SetBattery(TechType.PowerCell, num / 200f);
-					}
-					bool flag7 = a == "PrecursorIonPowerCell";
-					if (flag7)
-					{
-						this.energyMixin.SetBattery(TechType.PrecursorIonPowerCell, num / 1000f);
+						this.energyMixin.SetBattery(batteryTech, num / battery.capacity);
 					}
 				}
 			}
