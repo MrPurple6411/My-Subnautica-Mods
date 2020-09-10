@@ -78,12 +78,13 @@ namespace UnKnownName.Patches
             TaskResult<Pickupable> task4 = new TaskResult<Pickupable>();
             yield return pickupable2.PickupAsync(task4, false);
             yield return task4;
+            pickupable2 = task4.Get();
 #else
             pickupable1.Pickup(false);
             pickupable2.Pickup(false);
 #endif
             ScannerTool scannerTool = pickupable1?.GetComponent<ScannerTool>();
-            scannerTool?.energyMixin?.batterySlot?.AddItem(task4.Get());
+            scannerTool?.energyMixin?.batterySlot?.AddItem(pickupable2);
 
             Inventory.main.container.AddItem(pickupable1);
             yield break;
