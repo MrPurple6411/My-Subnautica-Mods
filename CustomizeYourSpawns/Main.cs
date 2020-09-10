@@ -128,9 +128,9 @@ namespace CustomizeYourSpawns
                 {
                     writer.Write(JsonConvert.SerializeObject(example, Formatting.Indented, new StringEnumConverter()
                     {
-#if SN1
+#if SUBNAUTICA_STABLE
                         CamelCaseText = true,
-#elif BZ
+#else
                         NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
                         AllowIntegerValues = true }));
