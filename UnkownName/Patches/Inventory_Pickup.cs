@@ -59,29 +59,33 @@ namespace UnKnownName.Patches
         private static IEnumerator GiveHardcoreScanner()
         {
             CoroutineTask<GameObject> task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
-            CoroutineTask<GameObject> task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
-
             yield return task1;
-            yield return task2;
+            GameObject gameObject1 = GameObject.Instantiate(task1.GetResult());
+            Pickupable pickupable1 = gameObject1.GetComponent<Pickupable>();
 
-            Pickupable pickupable1 = task1.GetResult().GetComponent<Pickupable>();
-            Pickupable pickupable2 = task2.GetResult().GetComponent<Pickupable>();
+            CoroutineTask<GameObject> task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
+            yield return task2;
+            GameObject gameObject2 = GameObject.Instantiate(task2.GetResult());
+            Pickupable pickupable2 = gameObject2.GetComponent<Pickupable>();
 
 #if SUBNAUTICA_EXP
-            TaskResult<Pickupable> task3 = new TaskResult<Pickupable>();
-            TaskResult<Pickupable> task4 = new TaskResult<Pickupable>();
 
+            TaskResult<Pickupable> task3 = new TaskResult<Pickupable>();
             yield return pickupable1.PickupAsync(task3, false);
+            yield return task3;
+            pickupable1 = task3.Get();
+
+            TaskResult<Pickupable> task4 = new TaskResult<Pickupable>();
             yield return pickupable2.PickupAsync(task4, false);
+            yield return task4;
 #else
             pickupable1.Pickup(false);
             pickupable2.Pickup(false);
 #endif
-            ScannerTool scannerTool = pickupable1.GetComponent<ScannerTool>();
-            scannerTool.energyMixin.batterySlot.AddItem(pickupable2);
+            ScannerTool scannerTool = pickupable1?.GetComponent<ScannerTool>();
+            scannerTool?.energyMixin?.batterySlot?.AddItem(task4.Get());
 
             Inventory.main.container.AddItem(pickupable1);
-
             yield break;
         }
     }

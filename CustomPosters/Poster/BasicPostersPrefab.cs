@@ -56,7 +56,7 @@ namespace CustomPosters.Poster
 
             yield return task;
 
-            GameObject _GameObject = UnityEngine.Object.Instantiate(task.GetResult());
+            GameObject _GameObject = GameObject.Instantiate(task.GetResult());
             _GameObject.name = this.ClassID;
 
             Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];

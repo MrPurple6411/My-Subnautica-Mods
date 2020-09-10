@@ -48,7 +48,8 @@ namespace BuilderModule.Module
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.SeamothSonarModule, false);
             yield return task;
-            gameObject.Set(task.GetResult());
+            GameObject gameObject1 = GameObject.Instantiate(task.GetResult());
+            gameObject.Set(gameObject1);
 
             yield break;
         }

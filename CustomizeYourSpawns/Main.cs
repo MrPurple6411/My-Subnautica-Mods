@@ -59,9 +59,9 @@ namespace CustomizeYourSpawns
                 using (StreamWriter writer = new StreamWriter(DefaultDistributions))
                 {
                     writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() {
-#if SN1
+#if SUBNAUTICA_STABLE
                         CamelCaseText = true,
-#elif BZ
+#else
                         NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
                         AllowIntegerValues = true })) ;
