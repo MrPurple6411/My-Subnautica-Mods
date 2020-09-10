@@ -1,0 +1,10 @@
+{
+  "Id": "TechPistol",
+  "DisplayName": "TechPistol",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "TechPistol.dll"
+}
