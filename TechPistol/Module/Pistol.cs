@@ -91,12 +91,12 @@ namespace TechPistol.Module
 		public override bool OnAltDown()
 		{
 			bool flag = this.energyMixin.charge > 0f;
-			if (flag)
+			if (flag || !GameModeUtils.RequiresPower())
 			{
 				this.par[0].Play();
 				this.Reset();
 				this.mode++;
-				FMODUWE.PlayOneShot(this.modechang, base.transform.position, 1f);
+				FMODUWE.PlayOneShot(this.modechang, base.transform.position, 0.5f);
 				bool flag2 = this.mode == 1;
 				if (flag2)
 				{
@@ -131,7 +131,7 @@ namespace TechPistol.Module
 		public void Update()
 		{
 			bool flag = this.energyMixin.charge > 0f && base.isDrawn;
-			if (flag)
+			if (flag || !GameModeUtils.RequiresPower())
 			{
 				bool laserStart = this.LaserStart;
 				if (laserStart)
@@ -151,7 +151,7 @@ namespace TechPistol.Module
 					{
 						this.TargetLaser(Main.config.ScaleRange, this.Line[3]);
 					}
-					bool flag3 = Input.GetKeyDown(KeyCode.Q) && this.energyMixin.charge > 0f;
+					bool flag3 = Input.GetKeyDown(KeyCode.Q) && (this.energyMixin.charge > 0f || !GameModeUtils.RequiresPower());
 					if (flag3)
 					{
 						bool flag4 = !this.Scalebig;
@@ -182,7 +182,7 @@ namespace TechPistol.Module
 			if (isDrawn)
 			{
 				bool flag = this.energyMixin.charge > 0f;
-				if (flag)
+				if (flag || !GameModeUtils.RequiresPower())
 				{
 					bool flag2 = this.mode == 1 && this.CannonStart;
 					if (flag2)
@@ -283,14 +283,14 @@ namespace TechPistol.Module
 					bool flag12 = text == "0";
 					if (flag12)
 					{
-						text = "0-death";
+						text = "Dead";
 					}
 					this.textname.text = text2;
 					this.textblood.text = text;
 				}
 				else
 				{
-					this.textname.text = "No target";
+					this.textname.text = "No Target";
 					this.textblood.text = "";
 				}
 			}
@@ -299,7 +299,7 @@ namespace TechPistol.Module
 		public override bool OnRightHandDown()
 		{
 			bool flag = this.energyMixin.charge > 0f;
-			if (flag)
+			if (flag || !GameModeUtils.RequiresPower())
 			{
 				bool flag2 = this.mode == 1;
 				if (flag2)
