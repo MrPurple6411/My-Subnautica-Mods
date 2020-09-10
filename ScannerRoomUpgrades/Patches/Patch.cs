@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScannerRoomUpgrades.Patches
 {
-    [HarmonyPatch(typeof(), nameof())]
+    [HarmonyPatch(typeof(Main), nameof(Main.Load))]
     public static class Patch
     {
         [HarmonyPostfix]

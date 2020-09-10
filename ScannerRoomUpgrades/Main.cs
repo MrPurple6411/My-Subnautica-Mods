@@ -9,13 +9,11 @@ namespace ScannerRoomUpgrades
     [QModCore]
     public static class Main
     {
-        internal static readonly Config config = new Config();
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()
         {
-            OptionsPanelHandler.RegisterModOptions(new Options());
-
             Assembly assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }
