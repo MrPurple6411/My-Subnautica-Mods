@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
+using rail;
 using RandomCreatureSize.Configuration;
+using SMLHelper.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +24,37 @@ namespace RandomCreatureSize.Patches
 				Main.CreatureConfig.Load();
 			}
 
-			if ((!__instance.gameObject.GetComponent<WaterParkCreature>()?.IsInsideWaterPark() ?? true) && !Main.CreatureConfig.CreatureSizes.ContainsKey(__instance.GetComponent<PrefabIdentifier>().Id))
+			if ((!__instance.gameObject.GetComponent<WaterParkCreature>()?.IsInsideWaterPark() ?? true))
 			{
-				UnityEngine.Random.InitState(DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + DateTime.Now.Millisecond);
-				float scale = UnityEngine.Random.Range(Main.Config.minsize, Main.Config.maxsize);
-				__instance.GetComponent<Creature>().SetScale(scale);
-				Main.CreatureConfig.CreatureSizes.Add(__instance.GetComponent<PrefabIdentifier>().Id, scale);
-				Main.CreatureConfig.Save();
+				string id = __instance.GetComponent<PrefabIdentifier>().Id;
+				float scale = 1;
+				if (!Main.CreatureConfig.CreatureSizes.ContainsKey(id))
+				{
+					UnityEngine.Random.InitState(DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + DateTime.Now.Millisecond);
+					scale = UnityEngine.Random.Range(Main.Config.minsize, Main.Config.maxsize);
+					__instance.SetScale(scale);
+					Main.CreatureConfig.CreatureSizes.Add(__instance.GetComponent<PrefabIdentifier>().Id, scale);
+					Main.CreatureConfig.Save();
+				}
+				else
+				{
+					scale = Main.CreatureConfig.CreatureSizes[id];
+					__instance.SetScale(scale);
+				}
+
+				List<CreatureAction> creatureActions = __instance.gameObject.GetComponentsInChildren<CreatureAction>().Where((x) => x.GetType().GetField("swimVelocity") != null)?.ToList() ?? new List<CreatureAction>();
+
+				scale = scale < 1f ? 1f : scale > 5f ? 5f : scale;
+
+				foreach (CreatureAction creatureAction in creatureActions)
+				{
+					Traverse swimVelocity = Traverse.Create(creatureAction).Field("swimVelocity");
+					if (swimVelocity.FieldExists())
+					{
+						float currentSpeed = swimVelocity.GetValue<float>();
+						swimVelocity.SetValue(currentSpeed * scale);
+					}
+				}
 			}
 		}
 	}

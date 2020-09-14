@@ -133,10 +133,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Assets">
+    <None Include="Assets\TechPistol">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Assets.manifest" />
     <None Include="mod_BZ.EXP.json" />
     <None Include="mod_BZ.json" />
     <None Include="mod_SN1.EXP.json" />

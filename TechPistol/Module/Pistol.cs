@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using UWE;
@@ -10,22 +14,22 @@ namespace TechPistol.Module
 	[RequireComponent(typeof(EnergyMixin))]
 	class Pistol : PlayerTool, IProtoEventListener
 	{
-		public FMODAsset shoot1;
-		public FMODAsset shoot2;
-		public FMOD_StudioEventEmitter xulikai;
+		public FMODAsset repulsionCannonFireSound;
+		public FMODAsset stasisRifleFireSound;
+		public FMOD_StudioEventEmitter stasisRifleEvent;
 #if SN1
-		public FMODASRPlayer laseroopS;
+		public FMODASRPlayer laserShootSound;
 #elif BZ
-		public FMOD_CustomEmitter laseroopS;
+		public FMOD_CustomEmitter laserShootSound;
 #endif
-		public FMODAsset modechang;
+		public FMODAsset modeChangeSound;
 		public ParticleSystem[] par = new ParticleSystem[10];
 		public LineRenderer[] Line = new LineRenderer[10];
-		public GameObject dis;
-		public bool CannonStart = false;
-		public bool LaserStart = false;
-		public bool Scalebig = false;
-		public bool Scalesamm = false;
+		public GameObject LaserParticles;
+		public bool CannonCharging = false;
+		public bool LaserFiring = false;
+		public bool ScaleBig = false;
+		public bool ScaleSmall = false;
 		public float time;
 		public float time2;
 		public int mode;
@@ -33,12 +37,21 @@ namespace TechPistol.Module
 		public TextMesh textblood;
 		public TextMesh textmode;
 
+		public const string GunMain = "HandGun/GunMain";
+		public const string ModeChange = GunMain + "/ModeChange";
+		public const string Point = GunMain + "/GunCylinder/Point";
+		public const string CannonMode = Point + "/CannonMode";
+		public const string LaserMode = Point + "/LaserMode";
+		public const string ScaleMode = Point + "/ScaleMode";
 
-		public override string animToolName => "flashlight";
+		public Vector3 currentMuzzlePosition => base.gameObject.transform.Find(Point).position;
+
+		public override bool DoesOverrideHand() => true;
+
+		public override string animToolName => TechType.Scanner.AsString(true);
 
 		private void TargetLaser(float range, LineRenderer lineder)
 		{
-			bool target = Targeting.GetTarget(Player.main.gameObject, range, out GameObject gameObject, out float num);
 #if SN1
 			Vector3 forward = Player.main.camRoot.mainCamera.transform.forward;
 			Vector3 position = Player.main.camRoot.mainCamera.transform.position;
@@ -46,359 +59,457 @@ namespace TechPistol.Module
 			Vector3 forward = Player.main.camRoot.mainCam.transform.forward;
 			Vector3 position = Player.main.camRoot.mainCam.transform.position;
 #endif
-			if (target)
+			if (Targeting.GetTarget(Player.main.gameObject, range, out GameObject gameObject, out float num))
 			{
-				lineder.SetPosition(0, Radical.FindChild(base.gameObject, "Point").transform.position);
+				lineder.SetPosition(0, currentMuzzlePosition);
 				lineder.SetPosition(1, (forward * num) + position);
-				this.dis.transform.position = (forward * num) + position;
+				LaserParticles.transform.position = (forward * num) + position;
 			}
 			else
 			{
-				lineder.SetPosition(0, Radical.FindChild(base.gameObject, "Point").transform.position);
+				lineder.SetPosition(0, currentMuzzlePosition);
 				lineder.SetPosition(1, (forward * range) + position);
-				this.dis.transform.position = (forward * range) + position;
+				LaserParticles.transform.position = (forward * range) + position;
 			}
 		}
 
 		public override void OnHolster()
 		{
-			this.Reset();
+			Reset();
 		}
-
 
 		private void Start()
 		{
-			GameObject gameObject = Main.assetBundle.LoadAsset<GameObject>("Dis.prefab");
-			this.dis = GameObject.Instantiate<GameObject>(gameObject, base.transform.position, base.transform.rotation);
-			this.par[0] = Radical.FindChild(base.gameObject, "modech").GetComponent<ParticleSystem>();
-			GameObject gameObject2 = Radical.FindChild(base.gameObject, "Cannonmode");
-			this.par[1] = Radical.FindChild(gameObject2, "Ball").GetComponent<ParticleSystem>();
-			this.par[2] = Radical.FindChild(gameObject2, "Charge").GetComponent<ParticleSystem>();
-			this.par[3] = Radical.FindChild(gameObject2, "shoot").GetComponent<ParticleSystem>();
-			GameObject gameObject3 = Radical.FindChild(base.gameObject, "Lasermode");
-			this.par[4] = Radical.FindChild(gameObject3, "Laser").GetComponent<ParticleSystem>();
-			this.Line[1] = Radical.FindChild(gameObject3, "line").GetComponent<LineRenderer>();
-			GameObject gameObject4 = Radical.FindChild(base.gameObject, "Scalemode");
-			this.par[5] = Radical.FindChild(gameObject4, "Laser").GetComponent<ParticleSystem>();
-			this.par[6] = Radical.FindChild(gameObject4, "Lasersamm").GetComponent<ParticleSystem>();
-			this.Line[2] = Radical.FindChild(gameObject4, "linebig").GetComponent<LineRenderer>();
-			this.Line[3] = Radical.FindChild(gameObject4, "linesamm").GetComponent<LineRenderer>();
-			this.textname = base.gameObject.transform.Find("miazhun/name").gameObject.GetComponent<TextMesh>();
-			this.textblood = base.gameObject.transform.Find("miazhun/blood").gameObject.GetComponent<TextMesh>();
-			this.textmode = base.gameObject.transform.Find("modech/modehud").gameObject.GetComponent<TextMesh>();
+			par[0] = base.gameObject.transform.Find(ModeChange)?.gameObject.GetComponent<ParticleSystem>();
+			textmode = base.gameObject.transform.Find(ModeChange + "/ModeHud").gameObject.GetComponent<TextMesh>();
+			textname = base.gameObject.transform.Find(GunMain + "/TargetDisplay/Name").gameObject.GetComponent<TextMesh>();
+			textblood = base.gameObject.transform.Find(GunMain + "/TargetDisplay/Health").gameObject.GetComponent<TextMesh>();
+
+			par[1] = base.gameObject.transform.Find(CannonMode + "/BlueOrb").gameObject.GetComponent<ParticleSystem>();
+			par[2] = base.gameObject.transform.Find(CannonMode + "/Charge").gameObject.GetComponent<ParticleSystem>();
+			par[3] = base.gameObject.transform.Find(CannonMode + "/Shoot").gameObject.GetComponent<ParticleSystem>();
+			base.gameObject.transform.Find(CannonMode + "/Shoot").gameObject.EnsureComponent<ExplosionBehaviour>();
+			base.gameObject.transform.Find(CannonMode + "/Shoot/Orb").gameObject.EnsureComponent<ExplosionBehaviour>();
+
+			par[4] = base.gameObject.transform.Find(LaserMode + "/Laser").gameObject.GetComponent<ParticleSystem>();
+			par[5] = base.gameObject.transform.Find(ScaleMode + "/LaserBig").gameObject.GetComponent<ParticleSystem>();
+			par[6] = base.gameObject.transform.Find(ScaleMode + "/LaserSmall").gameObject.GetComponent<ParticleSystem>();
+
+			Line[1] = base.gameObject.transform.Find(LaserMode + "/LaserLine").gameObject.GetComponent<LineRenderer>();
+			Line[2] = base.gameObject.transform.Find(ScaleMode + "/LineBig").gameObject.GetComponent<LineRenderer>();
+			Line[3] = base.gameObject.transform.Find(ScaleMode + "/LineSmall").gameObject.GetComponent<LineRenderer>();
+
+
+			VFXFabricating vfxfabricating = base.gameObject.transform.Find("HandGun")?.gameObject.EnsureComponent<VFXFabricating>();
+			vfxfabricating.localMinY = -3f;
+			vfxfabricating.localMaxY = 3f;
+			vfxfabricating.posOffset = new Vector3(0f, 0f, 0f);
+			vfxfabricating.eulerOffset = new Vector3(0f, 90f, -90f);
+			vfxfabricating.scaleFactor = 1f;
+
+			GameObject gameObject = Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab");
+			LaserParticles = GameObject.Instantiate<GameObject>(gameObject, base.transform.position, base.transform.rotation);
 		}
 
 		public override bool OnAltDown()
 		{
-			bool flag = this.energyMixin.charge > 0f;
-			if (flag || !GameModeUtils.RequiresPower())
+			if (energyMixin.charge > 0f || !GameModeUtils.RequiresPower())
 			{
-				this.par[0].Play();
-				this.Reset();
-				this.mode++;
-				FMODUWE.PlayOneShot(this.modechang, base.transform.position, 0.5f);
-				bool flag2 = this.mode == 1;
-				if (flag2)
+				par[0].Play();
+				Reset();
+				mode++;
+				FMODUWE.PlayOneShot(modeChangeSound, base.transform.position, 0.5f);
+
+				switch (mode)
 				{
-					this.textmode.text = "Cannon";
-					this.time = 10f;
-					this.time2 = 10f;
-				}
-				bool flag3 = this.mode == 2;
-				if (flag3)
-				{
-					this.textmode.text = "Laser";
-				}
-				bool flag4 = this.mode == 3;
-				if (flag4)
-				{
-					this.textmode.text = "Scale";
-				}
-				bool flag5 = this.mode == 4;
-				if (flag5)
-				{
-					this.textmode.text = "Standby";
-					this.mode = 0;
+					case 1:
+						textmode.text = "Harm";
+						time = 10f;
+						time2 = 10f;
+						break;
+					case 2:
+						textmode.text = "Resize";
+						break;
+					case 3:
+						textmode.text = "Standby";
+						mode = 0;
+						break;
 				}
 			}
 			else
 			{
-				this.textmode.text = "No Power";
+				textmode.text = "No Power";
 			}
 			return true;
 		}
 
-		public void Update()
+		private void Update()
 		{
-			bool flag = this.energyMixin.charge > 0f && base.isDrawn;
-			if (flag || !GameModeUtils.RequiresPower())
+			if (base.isDrawn && (energyMixin.charge > 0f || !GameModeUtils.RequiresPower()))
 			{
-				bool laserStart = this.LaserStart;
-				if (laserStart)
+				if (LaserFiring)
 				{
-					this.TargetLaser(Main.config.LaserRange, this.Line[1]);
+					TargetLaser(Main.config.TargetingRange, Line[1]);
 				}
-				bool flag2 = this.mode == 3;
-				if (flag2)
+				else if (ScaleBig)
 				{
-					bool scalebig = this.Scalebig;
-					if (scalebig)
-					{
-						this.TargetLaser(Main.config.ScaleRange, this.Line[2]);
-					}
-					bool scalesamm = this.Scalesamm;
-					if (scalesamm)
-					{
-						this.TargetLaser(Main.config.ScaleRange, this.Line[3]);
-					}
-					bool flag3 = Input.GetKeyDown(KeyCode.Q) && (this.energyMixin.charge > 0f || !GameModeUtils.RequiresPower());
-					if (flag3)
-					{
-						bool flag4 = !this.Scalebig;
-						if (flag4)
-						{
-							Radical.FindChild(this.dis, "scale").GetComponent<ParticleSystem>().Play();
-							this.par[6].Play();
-							FMODUWE.PlayOneShot(this.shoot1, base.transform.position, 1f);
-							this.Scalesamm = true;
-						}
-					}
-					bool keyUp = Input.GetKeyUp(KeyCode.Q);
-					if (keyUp)
-					{
-						this.par[6].Stop();
-						Radical.FindChild(this.dis, "scale").GetComponent<ParticleSystem>().Stop();
-						this.Line[3].SetPosition(0, new Vector3(0f, 0f, 0f));
-						this.Line[3].SetPosition(1, new Vector3(0f, 0f, 0f));
-						this.Scalesamm = false;
-					}
+					TargetLaser(Main.config.TargetingRange, Line[2]);
+				}
+				else if (ScaleSmall)
+				{
+					TargetLaser(Main.config.TargetingRange, Line[3]);
 				}
 			}
 		}
 
-		public void LateUpdate()
+		private void LateUpdate()
 		{
-			bool isDrawn = base.isDrawn;
-			if (isDrawn)
+			if (base.isDrawn)
 			{
-				bool flag = this.energyMixin.charge > 0f;
-				if (flag || !GameModeUtils.RequiresPower())
+				if (energyMixin.charge > 0f || !GameModeUtils.RequiresPower())
 				{
-					bool flag2 = this.mode == 1 && this.CannonStart;
-					if (flag2)
+					switch (mode)
 					{
-						this.energyMixin.ConsumeEnergy(0.05f);
-						bool flag3 = this.time > 0f;
-						if (flag3)
+						case 1:
+							HarmMode();
+							break;
+						case 2:
+							ResizeMode();
+							break;
+					}
+				}
+				else
+				{
+					mode = 0;
+					Reset();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Handles the code for scaling up and down targets when using Scale Mode.
+		/// </summary>
+		private void ResizeMode()
+		{
+			try
+			{
+				if(Targeting.GetTarget(Player.main.gameObject, Main.config.TargetingRange, out GameObject gameObject, out float num2))
+				{
+					GameObject entityRoot = UWE.Utils.GetEntityRoot(gameObject) ?? gameObject;
+					if (energyMixin.ConsumeEnergy(0.1f))
+					{
+						if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
 						{
-							this.time -= 5f * Time.deltaTime;
+							entityRoot.transform.localScale = Vector3.one;
 						}
-						else
+						else if (ScaleBig)
 						{
-							this.par[2].Stop();
-							bool flag4 = this.time2 > 0f;
-							if (flag4)
+							par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
+							float changespeed = Main.config.ScaleUpspeed;
+							Vector3 oldScale = entityRoot.transform.localScale;
+							Vector3 newScale = new Vector3(oldScale.x + changespeed, oldScale.y + changespeed, oldScale.z + changespeed);
+
+							entityRoot.transform.localScale = newScale;
+
+							if (newScale.x >= 10f || newScale.y >= 10f || newScale.z >= 10f)
 							{
-								this.time2 -= 5f * Time.deltaTime;
+								entityRoot.GetComponentInChildren<LiveMixin>()?.Kill(DamageType.Normal);
+								entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
+								Drillable drillable = entityRoot?.GetComponent<Drillable>();
+
+								if (drillable != null)
+								{
+									while (drillable.health.Sum() > 0)
+									{
+										drillable?.OnDrill(entityRoot.transform.position, null, out var _);
+									}
+								}
+							}
+						}
+						else if (ScaleSmall)
+						{
+							par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
+
+							float changespeed = Main.config.ScaleDownspeed;
+							Vector3 oldScale = entityRoot.transform.localScale;
+							Vector3 newScale = new Vector3(oldScale.x - changespeed, oldScale.y - changespeed, oldScale.z - changespeed);
+
+							if (newScale.x > changespeed)
+							{
+								entityRoot.transform.localScale = newScale;
 							}
 							else
 							{
-								this.energyMixin.ConsumeEnergy(30f);
-								FMODUWE.PlayOneShot(this.shoot1, base.transform.position, 1f);
-								FMODUWE.PlayOneShot(this.shoot2, base.transform.position, 1f);
-								this.par[1].Stop();
-								this.par[1].Clear();
-#if SN1
-								this.par[3].transform.rotation = Player.main.camRoot.mainCamera.transform.rotation;
-#elif BZ
-								this.par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
-#endif
-								this.par[3].Play();
-								this.time = 10f;
-								this.time2 = 10f;
-								this.CannonStart = false;
+								entityRoot.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
 							}
 						}
 					}
-					bool flag5 = this.mode == 2 && this.LaserStart;
-					if (flag5)
-					{
-						this.energyMixin.ConsumeEnergy(0.2f);
-						this.par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
-						bool flag6 = Targeting.GetTarget(Player.main.gameObject, Main.config.LaserRange, out GameObject gameObject, out float num) && gameObject.GetComponentInChildren<LiveMixin>();
-						if (flag6)
-						{
-							UWE.Utils.GetEntityRoot(gameObject).GetComponentInChildren<LiveMixin>().TakeDamage(Main.config.LaserDamage, gameObject.transform.position, DamageType.Explosive, null);
-						}
-						else
-						{
-							bool flag7 = gameObject;
-							if (flag7)
-							{
-								DamageSystem.RadiusDamage(Main.config.LaserDamage, gameObject.transform.position, 1f, DamageType.Explosive, UWE.Utils.GetEntityRoot(gameObject));
-							}
-						}
-					}
-					bool flag8 = this.mode == 3;
-					if (flag8)
-					{
-						bool scalebig = this.Scalebig;
-						if (scalebig)
-						{
-							this.energyMixin.ConsumeEnergy(0.1f);
-							this.par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
-							bool flag9 = Targeting.GetTarget(Player.main.gameObject, Main.config.ScaleRange, out GameObject gameObject2, out float num2) && gameObject2.GetComponentInChildren<Creature>();
-							if (flag9)
-							{
-								float x = UWE.Utils.GetEntityRoot(gameObject2).transform.localScale.x;
-								UWE.Utils.GetEntityRoot(gameObject2).GetComponentInChildren<Creature>().SetScale(x + Main.config.ScaleUpspeed);
-							}
-						}
-						bool scalesamm = this.Scalesamm;
-						if (scalesamm)
-						{
-							this.energyMixin.ConsumeEnergy(0.1f);
-							this.par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
-							bool flag10 = Targeting.GetTarget(Player.main.gameObject, Main.config.ScaleRange, out GameObject gameObject3, out float num3) && gameObject3.GetComponentInChildren<Creature>();
-							if (flag10)
-							{
-								float x2 = UWE.Utils.GetEntityRoot(gameObject3).transform.localScale.x;
-								UWE.Utils.GetEntityRoot(gameObject3).GetComponentInChildren<Creature>().SetScale(x2 - Main.config.ScaleDownspeed);
-							}
-						}
-					}
+
+					// Handles the Target display on the top of the gun.
+					TechType techType = CraftData.GetTechType(entityRoot);
+					string name = techType != TechType.None ? techType.AsString() : "";
+					string translatedName = name != "" ? Language.main.GetOrFallback(name, name) + " size" : "";
+					string scale = translatedName != "" ? System.Math.Round(entityRoot.transform.localScale.x, 2).ToString(): "";
+
+					textname.text = translatedName;
+					textblood.text = scale;
 				}
 				else
 				{
-					this.mode = 0;
-					this.Reset();
+					textname.text = "";
+					textblood.text = "";
 				}
-				bool flag11 = Targeting.GetTarget(Player.main.gameObject, Main.config.HealthDetectionRange, out GameObject gameObject4, out float num4) && gameObject4.GetComponentInChildren<LiveMixin>();
-				if (flag11)
-				{
-					string text = gameObject4.GetComponentInChildren<LiveMixin>().health.ToString();
-					string text2 = gameObject4.GetComponentInChildren<LiveMixin>().name;
-					text2 = text2.Replace("(Clone)", "");
-					text2 = text2.Replace("Leviathan", "");
-					bool flag12 = text == "0";
-					if (flag12)
-					{
-						text = "Dead";
-					}
-					this.textname.text = text2;
-					this.textblood.text = text;
-				}
-				else
-				{
-					this.textname.text = "No Target";
-					this.textblood.text = "";
-				}
+			}
+			catch
+			{
+				textname.text = "";
+				textblood.text = "";
 			}
 		}
 
-		public override bool OnRightHandDown()
+		/// <summary>
+		/// Handles the Cannon and Laser functions of the Harm Mode.
+		/// </summary>
+		private void HarmMode()
 		{
-			bool flag = this.energyMixin.charge > 0f;
-			if (flag || !GameModeUtils.RequiresPower())
+			try
 			{
-				bool flag2 = this.mode == 1;
-				if (flag2)
+				// Handles the Target display on the top of the gun.
+				if (Targeting.GetTarget(Player.main.gameObject, Main.config.TargetingRange, out GameObject gameObject4, out float num4) && gameObject4.TryGetComponent<LiveMixin>(out LiveMixin liveMixin))
 				{
-					this.CannonStart = true;
-					this.par[1].Play();
-					this.par[2].Play();
-					this.time = 10f;
-					this.time2 = 10f;
-					this.xulikai.StartEvent();
+					TechType techType = CraftData.GetTechType(gameObject4);
+					string name = techType != TechType.None ? techType.AsString() : "";
+					string translatedName = Language.main.GetOrFallback(name, name);
+					string health = liveMixin?.health.ToString() ?? "";
+
+					if (health == "0")
+					{
+						health = "Dead";
+					}
+					textname.text = translatedName;
+					textblood.text = health;
 				}
-				bool flag3 = this.mode == 2;
-				if (flag3)
+				else
 				{
-					FMODUWE.PlayOneShot(this.shoot1, base.transform.position, 1f);
-					this.laseroopS.Play();
-					this.LaserStart = true;
-					this.par[4].Play();
-					Radical.FindChild(this.dis, "Laserend").GetComponent<ParticleSystem>().Play();
+					textname.text = "";
+					textblood.text = "";
 				}
-				bool flag4 = this.mode == 3 && !this.Scalesamm;
-				if (flag4)
+
+				if (CannonCharging && energyMixin.ConsumeEnergy(0.1f))
 				{
-					FMODUWE.PlayOneShot(this.shoot1, base.transform.position, 1f);
-					this.par[5].Play();
-					this.Scalebig = true;
-					Radical.FindChild(this.dis, "scale").GetComponent<ParticleSystem>().Play();
+					if (time > 0f)
+					{
+						time -= 5f * Time.deltaTime;
+					}
+					else
+					{
+						par[2].Stop();
+						if (time2 > 0f)
+						{
+							time2 -= 5f * Time.deltaTime;
+						}
+						else if (energyMixin.ConsumeEnergy(30f))
+						{
+							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
+							FMODUWE.PlayOneShot(stasisRifleFireSound, base.transform.position, 1f);
+							par[1].Stop();
+							par[1].Clear();
+#if SN1
+							par[3].transform.rotation = Player.main.camRoot.mainCamera.transform.rotation;
+#elif BZ
+						par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
+#endif
+							par[3].Play();
+							StartCannonCharging();
+						}
+					}
+				}
+				else if (LaserFiring)
+				{
+					energyMixin.ConsumeEnergy(0.2f);
+					par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
+					if (Targeting.GetTarget(Player.main.gameObject, Main.config.TargetingRange, out GameObject gameObject, out float num))
+					{
+						var entityRoot = UWE.Utils.GetEntityRoot(gameObject);
+						entityRoot.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.config.LaserDamage, gameObject.transform.position, DamageType.Heat, null);
+						entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
+						entityRoot.GetComponentInChildren<Drillable>()?.OnDrill(entityRoot.transform.position, null, out var _);
+					}
 				}
 			}
-			return true;
+			catch
+			{
+				textname.text = "";
+				textblood.text = "";
+			}
 		}
 
 		public override bool OnRightHandUp()
 		{
-			bool flag = this.mode == 1;
-			if (flag)
+			switch (mode)
 			{
-				this.par[1].Stop();
-				this.par[2].Stop();
-				this.par[3].Stop();
-				this.xulikai.Stop(false);
-				this.CannonStart = false;
-			}
-			bool flag2 = this.mode == 2;
-			if (flag2)
-			{
-				this.Line[1].SetPosition(0, new Vector3(0f, 0f, 0f));
-				this.Line[1].SetPosition(1, new Vector3(0f, 0f, 0f));
-				this.par[4].Stop();
-				this.laseroopS.Stop();
-				this.LaserStart = false;
-				Radical.FindChild(this.dis, "Laserend").GetComponent<ParticleSystem>().Stop();
-			}
-			bool flag3 = this.mode == 3;
-			if (flag3)
-			{
-				Radical.FindChild(this.dis, "scale").GetComponent<ParticleSystem>().Stop();
-				this.Line[2].SetPosition(0, new Vector3(0f, 0f, 0f));
-				this.Line[2].SetPosition(1, new Vector3(0f, 0f, 0f));
-				this.par[5].Stop();
-				this.Scalebig = false;
+				case 1:
+					if (CannonCharging)
+					{
+						par[1].Stop();
+						par[2].Stop();
+						par[3].Stop();
+						stasisRifleEvent.Stop(false);
+						CannonCharging = false;
+					}
+					break;
+				case 2:
+					if (ScaleSmall)
+					{
+						par[6].Stop();
+						Radical.FindChild(LaserParticles, "scale").GetComponent<ParticleSystem>().Stop();
+						Line[3].SetPosition(0, new Vector3(0f, 0f, 0f));
+						Line[3].SetPosition(1, new Vector3(0f, 0f, 0f));
+						ScaleSmall = false;
+					}
+					break;
 			}
 			return true;
 		}
 
+		public override bool OnLeftHandUp()
+		{
+			switch (mode)
+			{
+				case 1:
+					if (LaserFiring)
+					{
+						Line[1].SetPosition(0, new Vector3(0f, 0f, 0f));
+						Line[1].SetPosition(1, new Vector3(0f, 0f, 0f));
+						par[4].Stop();
+						laserShootSound.Stop();
+						LaserFiring = false;
+						Radical.FindChild(LaserParticles, "Laserend").GetComponent<ParticleSystem>().Stop();
+					}
+					break;
+				case 2:
+					if (ScaleBig)
+					{
+						Radical.FindChild(LaserParticles, "scale").GetComponent<ParticleSystem>().Stop();
+						Line[2].SetPosition(0, new Vector3(0f, 0f, 0f));
+						Line[2].SetPosition(1, new Vector3(0f, 0f, 0f));
+						par[5].Stop();
+						ScaleBig = false;
+					}
+					break;
+			}
+			return true;
+		}
+
+		public override bool OnRightHandDown()
+		{
+			if (energyMixin.charge > 0f || !GameModeUtils.RequiresPower())
+			{
+				switch (mode)
+				{
+					case 1:
+						if (!LaserFiring)
+						{
+							StartCannonCharging();
+						}
+						break;
+					case 2:
+						if (!ScaleBig)
+						{
+							Radical.FindChild(LaserParticles, "scale").GetComponent<ParticleSystem>().Play();
+							par[6].Play();
+							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
+							ScaleSmall = true;
+						}
+						break;
+				}
+			}
+			return false;
+		}
+
+		private void StartCannonCharging()
+		{
+			CannonCharging = true;
+			Console.WriteLine("1");
+			par[1].Play();
+			Console.WriteLine("2");
+			par[2].Play();
+			Console.WriteLine("3");
+			time = 10f;
+			time2 = 10f;
+			stasisRifleEvent.StartEvent();
+			Console.WriteLine("4");
+		}
+
+		public override bool OnLeftHandDown()
+		{
+			if (energyMixin.charge > 0f || !GameModeUtils.RequiresPower())
+			{
+				switch (mode)
+				{
+					case 1:
+						if (!CannonCharging)
+						{
+							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
+							laserShootSound.Play();
+							LaserFiring = true;
+							par[4].Play();
+							Radical.FindChild(LaserParticles, "Laserend").GetComponent<ParticleSystem>().Play();
+						}
+						break;
+					case 2:
+						if (!ScaleSmall)
+						{
+							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
+							par[5].Play();
+							ScaleBig = true;
+							Radical.FindChild(LaserParticles, "scale").GetComponent<ParticleSystem>().Play();
+						}
+						break;
+				}
+			}
+			return false;
+		}
+
 		public void Reset()
 		{
-			Radical.FindChild(this.dis, "scale").GetComponent<ParticleSystem>().Stop();
-			Radical.FindChild(this.dis, "Laserend").GetComponent<ParticleSystem>().Stop();
-			this.par[1].Stop();
-			this.par[2].Stop();
-			this.par[3].Stop();
-			this.par[4].Stop();
-			this.par[5].Stop();
-			this.par[6].Stop();
-			this.par[4].gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-			this.laseroopS.Stop();
-			this.xulikai.Stop(true);
-			this.LaserStart = false;
-			this.CannonStart = false;
-			this.Scalebig = false;
-			this.Scalesamm = false;
-			this.Line[1].SetPosition(0, new Vector3(0f, 0f, 0f));
-			this.Line[1].SetPosition(1, new Vector3(0f, 0f, 0f));
-			this.Line[2].SetPosition(0, new Vector3(0f, 0f, 0f));
-			this.Line[2].SetPosition(1, new Vector3(0f, 0f, 0f));
-			this.Line[3].SetPosition(0, new Vector3(0f, 0f, 0f));
-			this.Line[3].SetPosition(1, new Vector3(0f, 0f, 0f));
+			if (LaserFiring || CannonCharging || ScaleBig || ScaleSmall)
+			{
+				LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>().Stop();
+				LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>().Stop();
+				par[1].Stop();
+				par[2].Stop();
+				par[3].Stop();
+				par[4].Stop();
+				par[5].Stop();
+				par[6].Stop();
+				par[4].gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+				laserShootSound.Stop();
+				stasisRifleEvent.Stop(true);
+				LaserFiring = false;
+				CannonCharging = false;
+				ScaleBig = false;
+				ScaleSmall = false;
+				Line[1].SetPosition(0, new Vector3(0f, 0f, 0f));
+				Line[1].SetPosition(1, new Vector3(0f, 0f, 0f));
+				Line[2].SetPosition(0, new Vector3(0f, 0f, 0f));
+				Line[2].SetPosition(1, new Vector3(0f, 0f, 0f));
+				Line[3].SetPosition(0, new Vector3(0f, 0f, 0f));
+				Line[3].SetPosition(1, new Vector3(0f, 0f, 0f));
+			}
+			textname.text = "";
+			textblood.text = "";
 		}
 
 		public void OnProtoSerialize(ProtobufSerializer serializer)
 		{
 
-			GameObject battery = this.energyMixin.GetBattery();
+			GameObject battery = energyMixin.GetBattery();
 			if (battery != null)
 			{
 				TechType batteryTech = CraftData.GetTechType(battery);
 				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", batteryTech.AsString());
-				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", this.energyMixin.charge.ToString());
+				File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", energyMixin.charge.ToString());
 			}
 			else
 			{
@@ -409,9 +520,9 @@ namespace TechPistol.Module
 
 		public void OnProtoDeserialize(ProtobufSerializer serializer)
 		{
-			if (this.energyMixin == null)
+			if (energyMixin == null)
 			{
-				this.energyMixin = base.GetComponent<EnergyMixin>();
+				energyMixin = base.GetComponent<EnergyMixin>();
 			}
 			string typeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type";
 			string chargeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge";
@@ -439,7 +550,7 @@ namespace TechPistol.Module
 			if(battery != null)
 			{
 				TaskResult<InventoryItem> task = new TaskResult<InventoryItem>();
-				yield return this.energyMixin.SetBatteryAsync(techType, num / battery.capacity, task);
+				yield return energyMixin.SetBatteryAsync(techType, num / battery.capacity, task);
 			}
 
 			yield break;
@@ -449,7 +560,7 @@ namespace TechPistol.Module
 					Battery battery = CraftData.InstantiateFromPrefab(batteryTech).GetComponent<Battery>();
 					if (battery != null)
 					{
-						this.energyMixin.SetBattery(batteryTech, num / battery.capacity);
+						energyMixin.SetBattery(batteryTech, num / battery.capacity);
 					}
 				}
 			}

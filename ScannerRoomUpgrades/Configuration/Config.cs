@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ScannerRoomUpgrades.Configuration
 {
-    [Menu("ScannerRoomUpgrades")]
     public class Config: ConfigFile
     {
 

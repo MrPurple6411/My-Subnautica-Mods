@@ -15,7 +15,7 @@ namespace TechPistol
     {
         private static Assembly assembly = Assembly.GetExecutingAssembly();
 		private static string modPath = Path.GetDirectoryName(assembly.Location);
-		internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/Assets"));
+		internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/TechPistol"));
 		internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 		internal static PistolPrefab pistol { get; } = new PistolPrefab();
 

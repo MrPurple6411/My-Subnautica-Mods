@@ -55,7 +55,7 @@
     <Optimize>true</Optimize>
     <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
-	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -134,8 +134,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mod_BelowZero.json" />
-    <None Include="mod_Subnautica.json" />
+    <None Include="mod_BZ.EXP.json" />
+    <None Include="mod_BZ.json" />
+    <None Include="mod_SN1.EXP.json" />
+    <None Include="mod_SN1.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
