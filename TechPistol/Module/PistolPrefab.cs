@@ -85,7 +85,7 @@ namespace TechPistol.Module
 			PropulsionCannon component3 = CraftData.InstantiateFromPrefab(TechType.PropulsionCannon, false).GetComponent<PropulsionCannon>();
 			Welder component4 = CraftData.InstantiateFromPrefab(TechType.Welder, false).GetComponent<Welder>();
 
-			Pistol pistolBehaviour = gameObject.EnsureComponent<Pistol>();
+			PistolBehaviour pistolBehaviour = gameObject.EnsureComponent<PistolBehaviour>();
 			pistolBehaviour.repulsionCannonFireSound = component.shootSound;
 			pistolBehaviour.stasisRifleFireSound = component2.fireSound;
 			pistolBehaviour.stasisRifleEvent = component2.chargeBegin;
@@ -107,13 +107,13 @@ namespace TechPistol.Module
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> pistol)
 		{
 			GameObject gameObject = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-
 			MeshRenderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<MeshRenderer>();
 			foreach (MeshRenderer meshRenderer in componentsInChildren)
 			{
 				if (meshRenderer.name.StartsWith("Gun"))
 				{
 					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
+
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
 					meshRenderer.material.EnableKeyword("_Glow");
 					meshRenderer.material.SetTexture("_Illum", emissionMap);
@@ -130,11 +130,10 @@ namespace TechPistol.Module
 			gameObject.EnsureComponent<Pickupable>().isPickupable = true;
 			gameObject.EnsureComponent<TechTag>().type = base.TechType;
 
-			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
 			WorldForces worldForces = gameObject.EnsureComponent<WorldForces>();
+			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
 			worldForces.underwaterGravity = 0f;
 			worldForces.useRigidbody = useRigidbody;
-
 			EnergyMixin energyMixin = gameObject.EnsureComponent<EnergyMixin>();
 			energyMixin.storageRoot = gameObject.transform.Find("HandGun/GunMain/BatteryRoot").gameObject.EnsureComponent<ChildObjectIdentifier>();
 			energyMixin.allowBatteryReplacement = true;
@@ -143,10 +142,6 @@ namespace TechPistol.Module
 
 			foreach (TechType techType in compatibleTech)
 			{
-
-				CoroutineTask<GameObject> batteryTask = CraftData.GetPrefabForTechTypeAsync(TechType.RepulsionCannon, false);
-				yield return batteryTask;
-
 				energyMixin.batteryModels.AddItem(new EnergyMixin.BatteryModels
 				{
 					techType = techType,
@@ -174,9 +169,8 @@ namespace TechPistol.Module
 			yield return task4;
 			GameObject gameObject4 = task4.GetResult();
 			Welder component4 = gameObject4.GetComponent<Welder>();
-
-
-			Pistol pistolBehaviour = gameObject.EnsureComponent<Pistol>();
+			
+			PistolBehaviour pistolBehaviour = gameObject.EnsureComponent<PistolBehaviour>();
 			pistolBehaviour.repulsionCannonFireSound = component.shootSound;
 			pistolBehaviour.stasisRifleFireSound = component2.fireSound;
 			pistolBehaviour.stasisRifleEvent = component2.chargeBegin;
@@ -184,9 +178,7 @@ namespace TechPistol.Module
 			pistolBehaviour.laserShootSound = component4.weldSound;
 			pistolBehaviour.mainCollider = gameObject.GetComponent<BoxCollider>();
 			pistolBehaviour.ikAimRightArm = true;
-			pistolBehaviour.hasAnimations = false;
-			pistolBehaviour.hasBashAnimation = false;
-			pistolBehaviour.hasFirstUseAnimation = false;
+			pistolBehaviour.useLeftAimTargetOnPlayer = true;
 
 			pistol.Set(gameObject);
 			GameObject.Destroy(gameObject1);

@@ -12,7 +12,7 @@ using UWE;
 namespace TechPistol.Module
 {
 	[RequireComponent(typeof(EnergyMixin))]
-	class Pistol : PlayerTool, IProtoEventListener
+	class PistolBehaviour : PlayerTool, IProtoEventListener
 	{
 		public FMODAsset repulsionCannonFireSound;
 		public FMODAsset stasisRifleFireSound;
@@ -139,6 +139,7 @@ namespace TechPistol.Module
 			else
 			{
 				textmode.text = "No Power";
+				mode = 0;
 			}
 			return true;
 		}
@@ -180,6 +181,7 @@ namespace TechPistol.Module
 				}
 				else
 				{
+					textmode.text = "No Power";
 					mode = 0;
 					Reset();
 				}
