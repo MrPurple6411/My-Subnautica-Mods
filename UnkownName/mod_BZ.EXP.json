@@ -2,7 +2,7 @@
   "Id": "UnKnownName",
   "DisplayName": "UnKnown Name",
   "Author": "MrPurple6411",
-  "Version": "1.1.3",
+  "Version": "1.1.4",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",

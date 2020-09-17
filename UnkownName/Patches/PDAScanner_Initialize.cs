@@ -24,6 +24,7 @@ namespace UnKnownName.Patches
     public class PDAScanner_Initialize
     {
         [HarmonyPostfix]
+        [HarmonyAfter(new string[] { "com.ahk1221.smlhelper" })]
         public static void Postfix()
         {
             if (Main.config.Hardcore)

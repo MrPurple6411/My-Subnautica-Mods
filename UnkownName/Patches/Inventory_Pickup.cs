@@ -60,13 +60,17 @@ namespace UnKnownName.Patches
         {
             CoroutineTask<GameObject> task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
             yield return task1;
-            GameObject gameObject1 = GameObject.Instantiate(task1.GetResult());
+            GameObject scannerPrefab = task1.GetResult();
+            GameObject gameObject1 = GameObject.Instantiate(scannerPrefab);
             Pickupable pickupable1 = gameObject1.GetComponent<Pickupable>();
+            scannerPrefab.SetActive(false);
 
             CoroutineTask<GameObject> task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
             yield return task2;
-            GameObject gameObject2 = GameObject.Instantiate(task2.GetResult());
+            GameObject batteryPrefab = task2.GetResult();
+            GameObject gameObject2 = GameObject.Instantiate(batteryPrefab);
             Pickupable pickupable2 = gameObject2.GetComponent<Pickupable>();
+            batteryPrefab.SetActive(false);
 
 #if SUBNAUTICA_EXP
 
