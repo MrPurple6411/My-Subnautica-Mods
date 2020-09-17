@@ -17,11 +17,13 @@ namespace TechPistol
 		private static string modPath = Path.GetDirectoryName(assembly.Location);
 		internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/TechPistol"));
 		internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+		internal static PistolFragmentPrefab pistolFragment { get; } = new PistolFragmentPrefab();
 		internal static PistolPrefab pistol { get; } = new PistolPrefab();
 
 		[QModPatch]
         public static void Load()
-        {
+		{
+			pistolFragment.Patch();
 			pistol.Patch();
 		}
 	}

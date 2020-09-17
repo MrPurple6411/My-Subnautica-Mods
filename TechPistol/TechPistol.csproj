@@ -129,6 +129,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Module\ExplosionBehaviour.cs" />
     <Compile Include="Module\PistolBehaviour.cs" />
+    <Compile Include="Module\PistolFragmentPrefab.cs" />
     <Compile Include="Module\PistolPrefab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
