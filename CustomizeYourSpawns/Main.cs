@@ -42,6 +42,7 @@ namespace CustomizeYourSpawns
         private static void EnsureDefaultDistributions()
         {
             if (!File.Exists(DefaultDistributions))
+            PrefabDatabase.LoadPrefabDatabase(SNUtils.prefabDatabaseFilename);
             {
                 SortedDictionary<string, List<BiomeData>> defaultDistributions = new SortedDictionary<string, List<BiomeData>>();
                 LootDistributionData data = LootDistributionData.Load("Balance/EntityDistributions");
@@ -58,13 +59,18 @@ namespace CustomizeYourSpawns
 
                 using (StreamWriter writer = new StreamWriter(DefaultDistributions))
                 {
-                    writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new StringEnumConverter() {
+                    writer.Write(JsonConvert.SerializeObject(defaultDistributions, Formatting.Indented, new JsonConverter[] {
+                        
+                        new StringEnumConverter() {
 #if SUBNAUTICA_STABLE
                         CamelCaseText = true,
 #else
                         NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
-                        AllowIntegerValues = true })) ;
+                        AllowIntegerValues = true },
+
+                        new TechTypeConverter()
+                    }));
                 }
             }
         }
@@ -150,14 +156,18 @@ namespace CustomizeYourSpawns
                         SortedDictionary<string, List<BiomeData>> pairs;
                         using (StreamReader reader = new StreamReader(file.FullName))
                         {
-                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new StringEnumConverter()
+                            pairs = JsonConvert.DeserializeObject<SortedDictionary<string, List<BiomeData>>>(reader.ReadToEnd(), new JsonConverter[]{ 
+                                new StringEnumConverter()
                             {
-#if SN1
+#if SUBNAUTICA_STABLE
                                 CamelCaseText = true,
-#elif BZ
+#else
                                 NamingStrategy = new CamelCaseNamingStrategy(), 
 #endif
-                                AllowIntegerValues = true }) ?? new SortedDictionary<string, List<BiomeData>>();
+                                AllowIntegerValues = true
+                            },
+                                new TechTypeConverter()
+                            }) ?? new SortedDictionary<string, List<BiomeData>>();
                         }
                         int Succeded = 0;
                         foreach (KeyValuePair<string, List<BiomeData>> pair in pairs)
@@ -200,6 +210,28 @@ namespace CustomizeYourSpawns
             {
                 RegisterChanges(modifiedDistributions);
             }
+        }
+
+        private class TechTypeConverter : JsonConverter
+        {
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                serializer.Serialize(writer, ((TechType)value).AsString());
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                string v = (string)serializer.Deserialize(reader, typeof(string));
+                if (TechTypeExtensions.FromString(v, out TechType techType, true))
+                    return techType;
+                else
+                    if (TechTypeHandler.TryGetModdedTechType(v, out techType))
+                    return techType;
+                else
+                    throw new Exception($"Failed to parse {v} into a Techtype");
+            }
+
+            public override bool CanConvert(Type objectType) => objectType == typeof(TechType);
         }
 
         private static void RegisterChanges(Dictionary<TechType, List<BiomeData>> modifiedDistributions)
