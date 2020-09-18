@@ -116,12 +116,9 @@ namespace TechPistol.Module
 					childObjectIdentifier.ClassId = classId;
 				}
 
-				model.SetActive(false);
-
 				bool cellCheck = techType.AsString().ToLower().Contains("cell");
 				Vector3 position = cellCheck ? new Vector3(0f, 1.45f, 0.95f) : new Vector3(0f, 1.46f, 0.95f);
 				Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
-
 
 				model.transform.SetParent(BatteryRoot);
 				model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
@@ -250,21 +247,25 @@ namespace TechPistol.Module
 			CoroutineTask<GameObject> task1 = CraftData.GetPrefabForTechTypeAsync(TechType.RepulsionCannon, false);
 			yield return task1;
 			GameObject gameObject1 = task1.GetResult();
+			gameObject1.SetActive(false);
 			RepulsionCannon component = gameObject1.GetComponent<RepulsionCannon>();
 
 			CoroutineTask<GameObject> task2 = CraftData.GetPrefabForTechTypeAsync(TechType.StasisRifle, false);
 			yield return task2;
 			GameObject gameObject2 = task2.GetResult();
+			gameObject2.SetActive(false);
 			StasisRifle component2 = gameObject2.GetComponent<StasisRifle>();
 
 			CoroutineTask<GameObject> task3 = CraftData.GetPrefabForTechTypeAsync(TechType.PropulsionCannon, false);
 			yield return task3;
 			GameObject gameObject3 = task3.GetResult();
+			gameObject3.SetActive(false);
 			PropulsionCannon component3 = gameObject3.GetComponent<PropulsionCannon>();
 
 			CoroutineTask<GameObject> task4 = CraftData.GetPrefabForTechTypeAsync(TechType.Welder, false);
 			yield return task4;
 			GameObject gameObject4 = task4.GetResult();
+			gameObject4.SetActive(false);
 			Welder component4 = gameObject4.GetComponent<Welder>();
 			
 			PistolBehaviour pistolBehaviour = gameObject.EnsureComponent<PistolBehaviour>();

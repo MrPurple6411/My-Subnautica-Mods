@@ -105,7 +105,6 @@ namespace TechPistol.Module
 
 			GameObject gameObject = Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab");
 			LaserParticles = GameObject.Instantiate<GameObject>(gameObject, base.transform.position, base.transform.rotation);
-
 		}
 
 		public override bool OnAltDown()
@@ -223,7 +222,7 @@ namespace TechPistol.Module
 						entityRoot.transform.localScale = Vector3.one;
 						return;
 					}
-					else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && energyMixin.ConsumeEnergy(0.1f))
+					else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(0.1f) || !GameModeUtils.RequiresPower()))
 					{
 						par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
 						float changespeed = Main.config.ScaleUpspeed;
@@ -247,7 +246,7 @@ namespace TechPistol.Module
 							}
 						}
 					}
-					else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleSmall && energyMixin.ConsumeEnergy(0.1f))
+					else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleSmall && (energyMixin.ConsumeEnergy(0.1f) || !GameModeUtils.RequiresPower()))
 					{
 						par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
 
@@ -309,11 +308,12 @@ namespace TechPistol.Module
 					textHealth.text = "";
 				}
 
-				if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && CannonCharging && energyMixin.ConsumeEnergy(0.1f))
+				if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && CannonCharging && (energyMixin.ConsumeEnergy(0.1f) || !GameModeUtils.RequiresPower()))
 				{
 					if (time > 0f)
 					{
 						time -= 5f * Time.deltaTime;
+						Console.WriteLine($"Time: {time}");
 					}
 					else
 					{
@@ -321,24 +321,26 @@ namespace TechPistol.Module
 						if (time2 > 0f)
 						{
 							time2 -= 5f * Time.deltaTime;
+							Console.WriteLine($"Time2: {time2}");
 						}
-						else if (energyMixin.ConsumeEnergy(30f))
+						else if (energyMixin.ConsumeEnergy(30f) || !GameModeUtils.RequiresPower())
 						{
+							Console.WriteLine($"Fire!");
 							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
 							FMODUWE.PlayOneShot(stasisRifleFireSound, base.transform.position, 1f);
 							par[1].Stop();
 							par[1].Clear();
-#if SN1
-							par[3].transform.rotation = Player.main.camRoot.mainCamera.transform.rotation;
-#elif BZ
 							par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
-#endif
 							par[3].Play();
 							CannonCharging = false;
 						}
+						else
+						{
+							Reset();
+						}
 					}
 				}
-				else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && energyMixin.ConsumeEnergy(0.2f))
+				else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(0.2f) || !GameModeUtils.RequiresPower()))
 				{
 					par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
 					if (Targeting.GetTarget(Player.main.gameObject, Main.config.TargetingRange, out GameObject gameObject, out float num))
