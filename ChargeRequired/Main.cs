@@ -57,6 +57,10 @@ namespace ChargeRequired
                     IBattery battery = gameObject.GetComponent<IBattery>();
                     return battery.capacity == battery.charge;
                 }
+                else if(gameObject == null && QModManager.API.QModServices.Main.ModPresent("NoBattery"))
+                {
+                    return true;
+                }
                 return false;
             }
 
