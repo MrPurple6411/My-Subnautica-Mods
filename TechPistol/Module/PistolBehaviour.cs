@@ -231,7 +231,7 @@ namespace TechPistol.Module
 
 						entityRoot.transform.localScale = newScale;
 
-						if (newScale.x >= 10f || newScale.y >= 10f || newScale.z >= 10f)
+						if (Main.config.LethalResizing && (newScale.x >= Main.config.ScaleKillSize || newScale.y >= Main.config.ScaleKillSize || newScale.z >= Main.config.ScaleKillSize))
 						{
 							entityRoot.GetComponentInChildren<LiveMixin>()?.Kill(DamageType.Normal);
 							entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
@@ -260,7 +260,7 @@ namespace TechPistol.Module
 						}
 						else
 						{
-							entityRoot.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+							entityRoot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 						}
 					}
 

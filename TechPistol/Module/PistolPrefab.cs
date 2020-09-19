@@ -289,7 +289,6 @@ namespace TechPistol.Module
 				craftAmount = 1,
 				Ingredients = new List<Ingredient>
 				{
-					new Ingredient(TechType.SeaTreaderPoop, 1),
 					new Ingredient(TechType.TitaniumIngot, 1),
 					new Ingredient(TechType.Lubricant, 1),
 					new Ingredient(TechType.AdvancedWiringKit, 1),
