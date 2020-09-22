@@ -1,9 +1,0 @@
-﻿{
-  "Id": "BuildingTweaks",
-  "DisplayName": "BuildingTweaks",
-  "Author": "MrPurple6411",
-  "Version": "1.1.0",
-  "Enable": true,
-  "Game": "Both",
-  "AssemblyName": "BuildingTweaks.dll"
-}

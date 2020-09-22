@@ -25,6 +25,8 @@ namespace TechPistol
 		{
 			pistolFragment.Patch();
 			pistol.Patch();
+
+			Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
 		}
 	}
 }

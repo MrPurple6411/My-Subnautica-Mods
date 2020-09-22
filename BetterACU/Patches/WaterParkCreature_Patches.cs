@@ -24,34 +24,22 @@ namespace BetterACU.Patches
         }
     }
 #endif
-#if SN1
 
+#if SN1
     [HarmonyPatch(typeof(WaterParkCreature), "Update")]
+#elif BZ
+    [HarmonyPatch(typeof(WaterParkCreature), "ManagedUpdate")]
+#endif
     internal class WaterParkCreature_Update_Prefix
     {
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if (__instance?.pickupable?.GetTechType() == TechType.Shocker && (__instance?.GetCanBreed() ?? false) && DayNightCycle.main?.timePassed > __instance?.timeNextBreed)
+            if (Main.config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out float powerValue))
             {
-                __instance?.GetWaterPark()?.gameObject?.GetComponent<PowerSource>()?.AddEnergy(100f, out _);
+                float power = powerValue/10 * Time.deltaTime * Main.config.PowerGenSpeed;
+                __instance?.GetWaterPark()?.gameObject?.GetComponent<PowerSource>()?.AddEnergy(power, out _);
             }
         }
     }
-
-#elif BZ
-    
-    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]
-    internal class WaterParkCreature_ManagedUpdate_Prefix
-    {
-        [HarmonyPrefix]
-        public static void Prefix(WaterParkCreature __instance)
-        {
-            if(__instance.pickupable.GetTechType() == TechType.Jellyfish && __instance.GetCanBreed() && DayNightCycle.main.timePassed > (double)__instance.timeNextBreed)
-            {
-                __instance.GetWaterPark()?.gameObject.GetComponent<PowerSource>()?.AddEnergy(100f, out float stored);
-            }
-        }
-    }
-#endif
 }

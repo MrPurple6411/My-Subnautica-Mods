@@ -1,0 +1,9 @@
+﻿{
+  "Id": "BuildingTweaks",
+  "DisplayName": "BuildingTweaks",
+  "Author": "MrPurple6411",
+  "Version": "1.2.0",
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "BuildingTweaks.dll"
+}

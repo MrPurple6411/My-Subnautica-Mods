@@ -313,7 +313,6 @@ namespace TechPistol.Module
 					if (time > 0f)
 					{
 						time -= 5f * Time.deltaTime;
-						Console.WriteLine($"Time: {time}");
 					}
 					else
 					{
@@ -321,11 +320,9 @@ namespace TechPistol.Module
 						if (time2 > 0f)
 						{
 							time2 -= 5f * Time.deltaTime;
-							Console.WriteLine($"Time2: {time2}");
 						}
 						else if (energyMixin.ConsumeEnergy(30f) || !GameModeUtils.RequiresPower())
 						{
-							Console.WriteLine($"Fire!");
 							FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
 							FMODUWE.PlayOneShot(stasisRifleFireSound, base.transform.position, 1f);
 							par[1].Stop();

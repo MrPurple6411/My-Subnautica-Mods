@@ -1,5 +1,9 @@
 ﻿using HarmonyLib;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UWE;
 
 namespace IncreasedChunkDrops.Patches
 {
@@ -9,45 +13,40 @@ namespace IncreasedChunkDrops.Patches
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-            int extraSpawns = UnityEngine.Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
+            Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
+
+            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
             while (extraSpawns > 0)
             {
+                Rigidbody rigidbody = null;
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
                 {
-                    GameObject gameObject = (GameObject)AccessTools.Method(typeof(BreakableResource), "ChooseRandomResource").Invoke(__instance, null);
-                    if (gameObject)
+                    GameObject prefab = (GameObject)AccessTools.Method(typeof(BreakableResource), "ChooseRandomResource").Invoke(__instance, null);
+                    if (prefab)
                     {
-                        SpawnResourceFromPrefab(__instance, gameObject);
+                        rigidbody = Object.Instantiate(prefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                         flag = true;
+                        break;
                     }
                 }
                 if (!flag)
                 {
-                    SpawnResourceFromPrefab(__instance, __instance.defaultPrefab);
+                    rigidbody = Object.Instantiate(__instance.defaultPrefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                 }
 
+                if(rigidbody != null)
+                {
+                    rigidbody.isKinematic = false;
+                    rigidbody.maxDepenetrationVelocity = 0.5f;
+                    rigidbody.maxAngularVelocity = 1f;
+                    rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
+                    rigidbody.AddForce(position * 0.2f);
+                }
                 extraSpawns--;
             }
         }
 
-        private static void SpawnResourceFromPrefab(BreakableResource instance, GameObject breakPrefab)
-        {
-            Vector3 position = instance.transform.position + instance.transform.up * instance.verticalSpawnOffset;
-
-            position.x += UnityEngine.Random.Range(-1f, 1f);
-            position.y += UnityEngine.Random.Range(-1f, 1f);
-            position.z += UnityEngine.Random.Range(-1f, 1f);
-
-            GameObject gameObject = UnityEngine.Object.Instantiate(breakPrefab, position, Quaternion.identity);
-            if (!gameObject.GetComponent<Rigidbody>())
-            {
-                gameObject.AddComponent<Rigidbody>();
-            }
-            gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            gameObject.GetComponent<Rigidbody>().AddTorque(Vector3.right * (float)UnityEngine.Random.Range(3, 6));
-            gameObject.GetComponent<Rigidbody>().AddForce(instance.transform.up * 0.1f);
-        }
     }
 
 }

@@ -28,9 +28,14 @@ namespace BetterACU.Patches
             {
                 powerSource.maxPower = 100 * numberOfShockers;
             }
+
             if (powerSource.GetPower() > powerSource.GetMaxPower())
             {
                 powerSource.power = powerSource.maxPower;
+            }
+            else
+            {
+                
             }
 
             Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.GetPower();

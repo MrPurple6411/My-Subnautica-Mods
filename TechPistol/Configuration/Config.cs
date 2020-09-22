@@ -29,5 +29,8 @@ namespace TechPistol.Configuration
 
         [Slider("Decrease Size Speed", 0.01f, 0.3f, DefaultValue = 0.02f, Step = 0.01f, Format = "{0:F2}")]
         public float ScaleDownspeed = 0.02f;
+
+        [Toggle("Resize Player on entering Resized Vehicle/Base")]
+        public bool ResizePlayer = true;
     }
 }

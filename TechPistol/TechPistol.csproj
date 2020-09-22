@@ -131,6 +131,8 @@
     <Compile Include="Module\PistolBehaviour.cs" />
     <Compile Include="Module\PistolFragmentPrefab.cs" />
     <Compile Include="Module\PistolPrefab.cs" />
+    <Compile Include="Patches\SubRoot_Patches.cs" />
+    <Compile Include="Patches\Vehicle_Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

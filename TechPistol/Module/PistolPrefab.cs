@@ -78,6 +78,8 @@ namespace TechPistol.Module
 			gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Near;
 			gameObject.EnsureComponent<Pickupable>().isPickupable = true;
 			gameObject.EnsureComponent<TechTag>().type = base.TechType;
+			gameObject.EnsureComponent<VFXFabricating>();
+
 
 			WorldForces worldForces = gameObject.EnsureComponent<WorldForces>();
 			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
@@ -85,7 +87,6 @@ namespace TechPistol.Module
 			worldForces.useRigidbody = useRigidbody;
 			EnergyMixin energyMixin = gameObject.EnsureComponent<EnergyMixin>();
 			energyMixin.storageRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot").gameObject.EnsureComponent<ChildObjectIdentifier>();
-			gameObject.transform.Find("HandGun/GunMain/BatteryRoot/Battery").gameObject.SetActive(false);
 			energyMixin.allowBatteryReplacement = true;
 			energyMixin.compatibleBatteries = compatibleTech;
 			List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
@@ -145,7 +146,6 @@ namespace TechPistol.Module
 			pistolBehaviour.stasisRifleEvent = component2.chargeBegin;
 			pistolBehaviour.modeChangeSound = component3.shootSound;
 			pistolBehaviour.laserShootSound = component4.weldSound;
-			pistolBehaviour.mainCollider = gameObject.GetComponent<BoxCollider>();
 			
 			pistolBehaviour.ikAimRightArm = true;
 			pistolBehaviour.hasBashAnimation = true;
@@ -274,7 +274,6 @@ namespace TechPistol.Module
 			pistolBehaviour.stasisRifleEvent = component2.chargeBegin;
 			pistolBehaviour.modeChangeSound = component3.shootSound;
 			pistolBehaviour.laserShootSound = component4.weldSound;
-			pistolBehaviour.mainCollider = gameObject.GetComponent<BoxCollider>();
 			pistolBehaviour.ikAimRightArm = true;
 			pistolBehaviour.hasBashAnimation = true;
 
