@@ -14,14 +14,13 @@ namespace WorldLoad.Patches
             __result.maxWorkspaces *= 4;
             __result.maxMeshQueue *= 4;
 
-            for (int i = 1; i < __result.levels.Length-1; i++)
+            for (int i = 1; i < __result.levels.Length - 1; i++)
             {
                 ClipMapManager.LevelSettings levelSettings = __result.levels[i];
                 levelSettings.chunksPerSide = Main.config.IncreasedWorldLoad;
-                levelSettings.chunksVertically = Main.config.IncreasedWorldLoad;
-                levelSettings.grass = true;
-                levelSettings.grassSettings.reduction = 0f;
+                levelSettings.chunksVertically = Main.config.IncreasedWorldLoad*2;
             }
         }
     }
+
 }
