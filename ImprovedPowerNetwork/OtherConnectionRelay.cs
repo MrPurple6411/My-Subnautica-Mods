@@ -1,4 +1,6 @@
-﻿namespace ImprovedPowerNetwork
+﻿using UnityEngine;
+
+namespace ImprovedPowerNetwork
 {
     public class OtherConnectionRelay : PowerRelay
     {
@@ -15,7 +17,10 @@
                 {
                     OtherRelayPowerFX powerFX = originalRelay.gameObject.AddComponent<OtherRelayPowerFX>();
                     powerFX.attachPoint = originalRelay.powerFX.attachPoint;
-                    powerFX.vfxPrefab = originalRelay.powerFX.vfxPrefab;
+                    powerFX.vfxPrefab = GameObject.Instantiate(originalRelay.powerFX.vfxPrefab);
+                    powerFX.vfxPrefab.SetActive(false);
+                    powerFX.vfxPrefab.GetComponent<LineRenderer>().material.SetColor(ShaderPropertyID._Color, Color.green);
+
                     additionalRelay.powerFX = powerFX;
                 }
                 additionalRelay.AddInboundPower(originalRelay);

@@ -123,6 +123,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="BaseConnectionRelay.cs" />
     <Compile Include="OtherConnectionRelay.cs" />
+    <Compile Include="Patches\PowerRelay_OnDestroy_Patch.cs" />
+    <Compile Include="Patches\PowerRelay_UpdatePowerState_Patch.cs" />
     <Compile Include="Patches\PowerRelay_IsValidRelayForConnection_Patch.cs" />
     <Compile Include="Patches\PowerRelay_Start_Patch.cs" />
     <Compile Include="Patches\PowerRelay_TryConnectToRelay_Patch.cs" />

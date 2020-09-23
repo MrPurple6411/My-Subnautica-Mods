@@ -1,4 +1,9 @@
-﻿namespace ImprovedPowerNetwork
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using UnityEngine;
+
+namespace ImprovedPowerNetwork
 {
     public class BaseConnectionRelay : PowerRelay
     {
@@ -15,7 +20,11 @@
                 {
                     BaseConnectionRelayPowerFX powerFX = originalRelay.gameObject.AddComponent<BaseConnectionRelayPowerFX>();
                     powerFX.attachPoint = originalRelay.powerFX.attachPoint;
-                    powerFX.vfxPrefab = originalRelay.powerFX.vfxPrefab;
+                    powerFX.vfxPrefab = GameObject.Instantiate(originalRelay.powerFX.vfxPrefab);
+                    powerFX.vfxPrefab.SetActive(false);
+                    powerFX.vfxPrefab.GetComponent<LineRenderer>().material.SetColor(ShaderPropertyID._Color, Color.magenta);
+
+
                     additionalRelay.powerFX = powerFX;
                 }
                 additionalRelay.AddInboundPower(originalRelay);

@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace ImprovedPowerNetwork.Patches
 {
@@ -34,7 +36,7 @@ namespace ImprovedPowerNetwork.Patches
                     return;
                 }
 
-                if (__instance.gameObject.name.Contains("Transmitter") && __instance.GetType() == typeof(PowerRelay) && potentialRelay.GetType() != typeof(PowerRelay))
+                if (!(__instance is OtherConnectionRelay) && !(__instance is BaseConnectionRelay) && __instance.gameObject.name.Contains("Transmitter") && !potentialRelay.gameObject.name.Contains("Transmitter"))
                 {
                     __result = false;
                     return;
@@ -63,10 +65,14 @@ namespace ImprovedPowerNetwork.Patches
                     __result = false;
                     return;
                 }
+
+                if (__instance.gameObject.name.Contains("Transmitter") && potentialRelay.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), potentialRelay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
+                {
+                    __result = false;
+                    return;
+                }
             }
         }
-
-
     }
 
 }
