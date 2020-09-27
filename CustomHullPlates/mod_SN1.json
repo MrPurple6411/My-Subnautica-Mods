@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "475"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomHullPlates2/mod_SN1.json"
+  },
   "AssemblyName": "CustomHullPlates2.dll"
 }

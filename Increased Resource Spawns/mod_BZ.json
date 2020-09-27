@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "82"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/Increased%20Resource%20Spawns/mod_BZ.json"
+  },
   "AssemblyName": "Increased_Resource_Spawns.dll"
 }

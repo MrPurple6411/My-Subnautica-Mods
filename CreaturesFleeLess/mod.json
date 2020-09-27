@@ -8,5 +8,12 @@
   "LoadAfter": [],
   "Enable": true,
   "Game": "Both",
+  "NexusId": {
+    "BelowZero": "101",
+	  "Subnautica": "543"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CreaturesFleeLess/mod.json"
+  },
   "AssemblyName": "CreaturesFleeLess.dll"
 }

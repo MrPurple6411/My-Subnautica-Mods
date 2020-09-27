@@ -6,5 +6,12 @@
   "Dependencies": [],
   "Enable": true,
   "Game": "Both",
+  "NexusId": {
+    "BelowZero": "64",
+    "Subnautica": "450"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CopperFromScanning/mod.json"
+  },
   "AssemblyName": "CopperFromScanning.dll"
 }

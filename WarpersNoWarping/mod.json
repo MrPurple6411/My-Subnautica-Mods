@@ -6,5 +6,11 @@
   "Dependencies": [],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "442"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/WarpersNoWarping/mod.json"
+  },
   "AssemblyName": "WarpersNoWarping.dll"
 }

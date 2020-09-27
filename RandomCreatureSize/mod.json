@@ -5,6 +5,13 @@
   "Version":"1.1.1",
   "Requires":[],
   "Enable":true,
+  "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "96"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": ""
+  },
   "AssemblyName":"Randomcreaturesize.dll",
   "EntryMethod":"Randomcreaturesize.Randomcreature.Patch",
   "Config":{}

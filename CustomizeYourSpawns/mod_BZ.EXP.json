@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "95"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomizeYourSpawns/mod_BZ.EXP.json"
+  },
   "AssemblyName": "CustomizeYourSpawns.dll"
 }

@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "81"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/IncreasedChunkDrops/mod_BZ.json"
+  },
   "AssemblyName": "IncreasedChunkDrops.dll"
 }

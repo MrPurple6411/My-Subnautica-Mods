@@ -2,8 +2,14 @@
   "Id": "All_Items_1x1",
   "DisplayName": "All Items 1x1",
   "Author": "MrPurple6411",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "41"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/All-Items-1x1/mod_BZ.json"
+  },
   "AssemblyName": "All-Items-1x1.dll"
 }

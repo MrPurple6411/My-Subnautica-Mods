@@ -27,7 +27,8 @@ namespace BetterACU.Configuration
             { TechType.Shocker, 1f },
             { TechType.CrabSquid, 1f }
 #elif BZ
-            { TechType.Jellyfish, 1f }
+            { TechType.Jellyfish, 1f },
+            { TechType.SquidShark, 1f }
 #endif
         }; 
 

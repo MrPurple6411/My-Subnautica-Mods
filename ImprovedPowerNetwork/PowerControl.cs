@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UWE;
 
 namespace ImprovedPowerNetwork
 {
     internal class PowerControl : MonoBehaviour, IHandTarget 
     {
-        private PowerRelay powerRelay;
-        private BaseConnectionRelay baseConnectionRelay;
-        private OtherConnectionRelay otherConnectionRelay;
+        public PowerRelay powerRelay;
+        public Constructable constructable;
+        public List<BaseInboundRelay> baseConnectionRelays = new List<BaseInboundRelay>();
+        public List<OtherConnectionRelay> otherConnectionRelays = new List<OtherConnectionRelay>();
+        public bool baseConnectionsEnabled = false;
+        public bool otherConnectionsEnabled = false;
 
         public void OnHandClick(GUIHand hand)
         {
@@ -24,41 +22,98 @@ namespace ImprovedPowerNetwork
             }
         }
 
-
         public void OnHandHover(GUIHand hand)
         {
             if (!hand.IsTool())
             {
-                HandReticle.main.SetInteractText($"MainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionRelay.dontConnectToRelays}, Other Connections: {!otherConnectionRelay.dontConnectToRelays}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
+                HandReticle.main.SetInteractText($"Max Power {powerRelay.GetMaxPower()}, Current Power: {powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
 
                 if (GameInput.GetButtonDown(GameInput.Button.AltTool))
                 {
-                    baseConnectionRelay.dontConnectToRelays = !baseConnectionRelay.dontConnectToRelays;
+                    baseConnectionsEnabled = !baseConnectionsEnabled;
+                    baseConnectionRelays.ForEach((x)=> { 
+                        x.dontConnectToRelays = baseConnectionsEnabled;
+                        x.DisconnectFromRelay();
+                    });
                     RefreshNetwork();
                 }
 
                 if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
                 {
-                    otherConnectionRelay.dontConnectToRelays = !otherConnectionRelay.dontConnectToRelays;
+                    otherConnectionsEnabled = !otherConnectionsEnabled;
+                    otherConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = otherConnectionsEnabled;
+                        x.DisconnectFromRelay();
+                    });
                     RefreshNetwork();
                 }
             }
         }
 
-        private void RefreshNetwork()
+        public void RefreshNetwork()
         {
             foreach(PowerRelay relay in PowerRelay.relayList)
             {
                 relay.DisconnectFromRelay();
             }
+            PowerRelay.MarkRelaySystemDirty();
         }
 
         public void Start()
         {
             powerRelay = gameObject.GetComponent<PowerRelay>();
-            baseConnectionRelay = gameObject.GetComponent<BaseConnectionRelay>();
-            otherConnectionRelay = gameObject.GetComponent<OtherConnectionRelay>();
+            constructable = gameObject.GetComponent<Constructable>();
+        }
 
+        public void LateUpdate()
+        {
+            bool openBaseConnector = false;
+            bool openOtherConnector = false;
+
+            baseConnectionRelays.ForEach((x) => { if (x.outboundRelay == null) openBaseConnector = true; });
+            otherConnectionRelays.ForEach((x) => { if (x.outboundRelay == null) openOtherConnector = true; });
+
+            if (!openBaseConnector)
+            {
+                BaseInboundRelay.AddNewBaseConnectionRelay(powerRelay, this);
+            }
+
+            if (!openOtherConnector)
+            {
+                OtherConnectionRelay.AddNewOtherConnectionRelay(powerRelay, this);
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (!constructable?.constructed ?? false)
+            {
+                if (powerRelay?.outboundRelay != null)
+                {
+                    powerRelay.outboundRelay.RemoveInboundPower(powerRelay);
+                    powerRelay.outboundRelay = null;
+                    powerRelay.powerFX.target = null;
+                    GameObject.Destroy(powerRelay.powerFX.vfxEffectObject);
+                }
+
+                foreach (PowerRelay powerRelay in new List<PowerRelay>().Concat(baseConnectionRelays).Concat(otherConnectionRelays))
+                {
+                    if (powerRelay.outboundRelay != null)
+                    {
+                        powerRelay.outboundRelay.RemoveInboundPower(powerRelay);
+                        powerRelay.outboundRelay = null;
+                        powerRelay.powerFX.target = null;
+                        GameObject.Destroy(powerRelay.powerFX.vfxEffectObject);
+                    }
+                }
+                RefreshNetwork();
+            }
+        }
+
+        public void OnDestroy()
+        {
+            baseConnectionRelays.ForEach((x) => x.DisconnectFromRelay());
+            otherConnectionRelays.ForEach((x) => x.DisconnectFromRelay());
         }
     }
 }

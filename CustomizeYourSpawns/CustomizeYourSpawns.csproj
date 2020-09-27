@@ -138,7 +138,6 @@
     <None Include="mod_BZ.EXP.json" />
     <None Include="mod_SN1.json" />
     <None Include="mod_SN1.EXP.json" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

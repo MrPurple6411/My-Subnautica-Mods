@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": ""
+  },
+  "VersionChecker": {
+    "LatestVersionURL": ""
+  },
   "AssemblyName": "ScannerRoomUpgrades.dll"
 }

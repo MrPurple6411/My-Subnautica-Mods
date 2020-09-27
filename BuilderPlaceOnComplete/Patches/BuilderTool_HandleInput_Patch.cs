@@ -25,8 +25,7 @@ namespace BuilderPlaceOnComplete.Patches
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType);
             yield return task;
 
-            GameObject gameObject = GameObject.Instantiate(task.GetResult());
-            Builder.Begin(gameObject);
+            Builder.Begin(task.GetResult());
             yield break;
         }
     }

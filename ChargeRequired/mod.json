@@ -6,5 +6,12 @@
   "LoadAfter": [ "EasyCraft" ],
   "Enable": true,
   "Game": "Both",
+  "NexusId": {
+    "BelowZero": "100",
+	  "Subnautica": "542"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/ChargeRequired/mod.json"
+  },
   "AssemblyName": "ChargeRequired.dll"
 }

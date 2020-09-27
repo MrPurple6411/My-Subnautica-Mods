@@ -5,5 +5,12 @@
   "Version": "1.1.0",
   "Enable": true,
   "Game": "Both",
+  "NexusId": {
+    "BelowZero": "49",
+	  "Subnautica": "176"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/NoCrosshair/mod.json"
+  },
   "AssemblyName": "NoCrosshair.dll"
 }

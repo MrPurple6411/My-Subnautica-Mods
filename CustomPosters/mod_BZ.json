@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "72"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomPosters/mod_BZ.json"
+  },
   "AssemblyName": "CustomPosters.dll"
 }

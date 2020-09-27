@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "476"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomPosters/mod_SN1.json"
+  },
   "AssemblyName": "CustomPosters.dll"
 }

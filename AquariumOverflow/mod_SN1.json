@@ -6,5 +6,11 @@
   "Dependencies": [ "AquariumBreeding", "CyclopsBioReactor" ],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "530"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/AquariumOverflow/mod_SN1.json"
+  },
   "AssemblyName": "AquariumOverflow.dll"
 }

@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": ""
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/StartWithCheats/mod_SN1.json"
+  },
   "AssemblyName": "StartWithCheats.dll"
 }

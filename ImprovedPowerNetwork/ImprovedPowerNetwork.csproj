@@ -121,13 +121,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="BaseConnectionRelay.cs" />
+    <Compile Include="BaseInboundRelay.cs" />
     <Compile Include="OtherConnectionRelay.cs" />
-    <Compile Include="Patches\PowerRelay_OnDestroy_Patch.cs" />
-    <Compile Include="Patches\PowerRelay_UpdatePowerState_Patch.cs" />
+    <Compile Include="Patches\PowerRelay_GetMaxPower_Patch.cs" />
+    <Compile Include="Patches\PowerRelay_GetPowerFromInBound_Patch.cs" />
+    <Compile Include="Patches\PowerRelay_IsUnderConstruction_Patch.cs" />
     <Compile Include="Patches\PowerRelay_IsValidRelayForConnection_Patch.cs" />
+    <Compile Include="Patches\PowerRelay_ModifyPowerFromInbound_Patch.cs" />
     <Compile Include="Patches\PowerRelay_Start_Patch.cs" />
     <Compile Include="Patches\PowerRelay_TryConnectToRelay_Patch.cs" />
+    <Compile Include="Patches\PowerSource_FindRelay_Patch.cs" />
     <Compile Include="PowerControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

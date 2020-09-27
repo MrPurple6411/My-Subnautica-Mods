@@ -5,5 +5,11 @@
   "Version": "1.0.0",
   "Enable": true,
   "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": ""
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/AquariumOverflow/mod_BZ.json"
+  },
   "AssemblyName": "AquariumOverflow.dll"
 }

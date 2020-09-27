@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace ImprovedPowerNetwork.Patches
 {
@@ -10,9 +11,12 @@ namespace ImprovedPowerNetwork.Patches
         {
             if (__instance.gameObject.name.Contains("Transmitter"))
             {
-                BaseConnectionRelay.EnsureBaseConnectionRelay(__instance);
-                OtherConnectionRelay.EnsureOtherConnectionRelay(__instance);
                 __instance.gameObject.EnsureComponent<PowerControl>();
+            }
+
+            if(__instance.transform.position == Vector3.zero && __instance.gameObject.name.Contains("Transmitter"))
+            {
+                GameObject.Destroy(__instance.gameObject);
             }
         }
     }

@@ -6,5 +6,12 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",
+  "NexusId": {
+    "BelowZero": "29",
+	  "Subnautica": "350"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/Time%20Eternal/mod.json"
+  },
   "AssemblyName": "Time Eternal.dll"
 }

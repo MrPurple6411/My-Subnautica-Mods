@@ -16,13 +16,13 @@ namespace BuilderPlaceOnComplete.Patches
                 CoroutineHost.StartCoroutine(InitializeBuilder(CraftData.GetTechType(__instance.gameObject)));
             }
         }
+
         private static IEnumerator InitializeBuilder(TechType techType)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType);
             yield return task;
 
-            GameObject gameObject = GameObject.Instantiate(task.GetResult());
-            Builder.Begin(gameObject);
+            Builder.Begin(task.GetResult());
             yield break;
         }
     }
