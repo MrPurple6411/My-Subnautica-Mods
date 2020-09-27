@@ -10,7 +10,7 @@
     "BelowZero": ""
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/SeamothThermal/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothThermal/mod_BZ.EXP.json"
   },
   "AssemblyName": "SeamothThermal.dll"
 }

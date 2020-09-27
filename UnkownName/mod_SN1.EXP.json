@@ -10,7 +10,7 @@
 	"Subnautica": "443"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/UnkownName/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/UnkownName/mod_SN1.EXP.json"
   },
   "AssemblyName": "UnKnownName.dll"
 }

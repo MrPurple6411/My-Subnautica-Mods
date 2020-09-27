@@ -9,7 +9,7 @@
 	  "Subnautica": "409"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/BuildingTweaks/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BuildingTweaks/mod_SN1.EXP.json"
   },
   "AssemblyName": "BuildingTweaks.dll"
 }

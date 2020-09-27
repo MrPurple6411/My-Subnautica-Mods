@@ -10,7 +10,7 @@
 	"Subnautica": "475"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomHullPlates2/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomHullPlates/mod_SN1.EXP.json"
   },
   "AssemblyName": "CustomHullPlates2.dll"
 }

@@ -11,7 +11,7 @@
 	  "Subnautica": "547"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/PowerOrder/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/PowerOrder/mod.json"
   },
   "AssemblyName": "PowerOrder.dll"
 }

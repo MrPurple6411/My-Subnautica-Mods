@@ -10,7 +10,7 @@
 	"Subnautica": "297"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/SeamothThermal/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothThermal/mod_SN1.EXP.json"
   },
   "AssemblyName": "SeamothThermal.dll"
 }

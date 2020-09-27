@@ -9,7 +9,7 @@
     "Subnautica": "378"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/All-Items-1x1/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/All-Items-1x1/mod_SN1.EXP.json"
   },
   "AssemblyName": "All-Items-1x1.dll"
 }

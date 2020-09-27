@@ -10,7 +10,7 @@
     "BelowZero": "27"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/BuilderModule/mod_BZ.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BuilderModule/mod_BZ.json"
   },
   "AssemblyName": "BuilderModule.dll"
 }

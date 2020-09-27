@@ -10,7 +10,7 @@
     "BelowZero": "58"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/BetterACU/mod_BZ.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BetterACU/mod_BZ.json"
   },
   "AssemblyName": "BetterACU.dll"
 }

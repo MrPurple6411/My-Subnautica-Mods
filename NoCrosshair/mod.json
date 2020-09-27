@@ -10,7 +10,7 @@
 	  "Subnautica": "176"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/NoCrosshair/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoCrosshair/mod.json"
   },
   "AssemblyName": "NoCrosshair.dll"
 }

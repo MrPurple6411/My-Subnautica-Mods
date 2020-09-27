@@ -10,7 +10,7 @@
 	"Subnautica": "433"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/BetterACU/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BetterACU/mod_SN1.EXP.json"
   },
   "AssemblyName": "BetterACU.dll"
 }

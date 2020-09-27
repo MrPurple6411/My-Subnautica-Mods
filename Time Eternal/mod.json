@@ -11,7 +11,7 @@
 	  "Subnautica": "350"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/Time%20Eternal/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/Time%20Eternal/mod.json"
   },
   "AssemblyName": "Time Eternal.dll"
 }

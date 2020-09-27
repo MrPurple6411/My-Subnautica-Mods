@@ -9,7 +9,7 @@
 	"Subnautica": "444"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/DropUpgradesOnDestroy/mod_SN1.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/DropUpgradesOnDestroy/mod_SN1.json"
   },
   "AssemblyName": "DropUpgradesOnDestroy.dll"
 }

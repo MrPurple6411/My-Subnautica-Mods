@@ -10,7 +10,7 @@
     "BelowZero": "7"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomCommands/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomCommands/mod_BZ.EXP.json"
   },
   "AssemblyName": "CustomCommands.dll"
 }

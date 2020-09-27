@@ -13,7 +13,7 @@
 	  "Subnautica": "543"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CreaturesFleeLess/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CreaturesFleeLess/mod.json"
   },
   "AssemblyName": "CreaturesFleeLess.dll"
 }

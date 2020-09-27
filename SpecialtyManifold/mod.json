@@ -10,7 +10,7 @@
 	"Subnautica": "416"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/SpecialtyManifold/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SpecialtyManifold/mod.json"
   },
   "AssemblyName": "SpecialtyManifold.dll"
 }

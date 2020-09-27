@@ -10,7 +10,7 @@
 	"Subnautica": "530"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/AquariumOverflow/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/AquariumOverflow/mod_SN1.EXP.json"
   },
   "AssemblyName": "AquariumOverflow.dll"
 }

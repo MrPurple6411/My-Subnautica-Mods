@@ -11,7 +11,7 @@
 	  "Subnautica": "556"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/ConfigurableChunkDrops/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ConfigurableChunkDrops/mod.json"
   },
   "AssemblyName": "ConfigurableChunkDrops.dll"
 }

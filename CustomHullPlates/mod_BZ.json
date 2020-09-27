@@ -10,7 +10,7 @@
     "BelowZero": "69"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/blob/master/CustomHullPlates2/mod_BZ.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomHullPlates/mod_BZ.json"
   },
   "AssemblyName": "CustomHullPlates2.dll"
 }
