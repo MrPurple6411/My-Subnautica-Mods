@@ -5,9 +5,7 @@ using HarmonyLib;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 #if SN1
-using Data = SMLHelper.V2.Crafting.TechData;
-#elif BZ
-using Data = SMLHelper.V2.Crafting.RecipeData;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
 namespace UnKnownName.Patches
@@ -20,7 +18,7 @@ namespace UnKnownName.Patches
         {
             if (Main.config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
-                Data data = Main.GetData(techType);
+                RecipeData data = Main.GetData(techType);
                 int ingredientCount = data?.ingredientCount ?? 0;
                 for (int i = 0; i < ingredientCount; i++)
                 {

@@ -6,9 +6,7 @@ using SMLHelper.V2.Handlers;
 using UnityEngine;
 using UnKnownName.Configuration;
 #if SN1
-using Data = SMLHelper.V2.Crafting.TechData;
-#elif BZ
-using Data = SMLHelper.V2.Crafting.RecipeData;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
 namespace UnKnownName
@@ -26,7 +24,7 @@ namespace UnKnownName
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
 
-        internal static Data GetData(TechType techType)
+        internal static RecipeData GetData(TechType techType)
         {
 #if SN1
             return CraftDataHandler.GetTechData(techType);

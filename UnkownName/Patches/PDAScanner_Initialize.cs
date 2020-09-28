@@ -13,9 +13,7 @@ using Newtonsoft.Json;
 #endif
 
 #if SN1
-using Data = SMLHelper.V2.Crafting.TechData;
-#elif BZ
-using Data = SMLHelper.V2.Crafting.RecipeData;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
 namespace UnKnownName.Patches
@@ -30,10 +28,9 @@ namespace UnKnownName.Patches
             if (Main.config.Hardcore)
             {
                 Dictionary<TechType, PDAScanner.EntryData> map = PDAScanner.mapping;
-
                 foreach (TechType techType in Enum.GetValues(typeof(TechType)))
                 {
-                    Data data = Main.GetData(techType);
+                    RecipeData data = Main.GetData(techType);
                     map.TryGetValue(techType, out PDAScanner.EntryData entryData);
 
                     if (data is null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None)
