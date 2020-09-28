@@ -2,16 +2,15 @@
   "Id": "ChargeRequired",
   "DisplayName": "Charge Required",
   "Author": "MrPurple6411",
-  "Version": "1.1.1",
+  "Version": "1.1.2",
   "LoadAfter": [ "EasyCraft" ],
   "Enable": true,
-  "Game": "Both",
+  "Game": "Subnautica",
   "NexusId": {
-    "BelowZero": "100",
-	  "Subnautica": "542"
+    "Subnautica": "542"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ChargeRequired/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ChargeRequired/mod_SN1.EXP.json"
   },
   "AssemblyName": "ChargeRequired.dll"
 }
