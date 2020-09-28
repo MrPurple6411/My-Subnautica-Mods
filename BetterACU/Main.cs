@@ -14,6 +14,7 @@ namespace BetterACU
         [QModPatch]
         public static void Load()
         {
+            IngameMenuHandler.RegisterOnSaveEvent(config.Save);
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }

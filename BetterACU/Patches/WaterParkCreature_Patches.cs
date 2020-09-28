@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BetterACU.Patches
@@ -32,13 +33,22 @@ namespace BetterACU.Patches
 #endif
     internal class WaterParkCreature_Update_Prefix
     {
+        public static Dictionary<WaterParkCreature, float> timeLastGenerated = new Dictionary<WaterParkCreature, float>();
+
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if (Main.config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out float powerValue))
+            if ((__instance.GetComponent<LiveMixin>()?.IsAlive() ?? false) && Main.config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out float powerValue))
             {
-                float power = powerValue/10 * Time.deltaTime * Main.config.PowerGenSpeed;
+                if(!timeLastGenerated.TryGetValue(__instance, out float time))
+                {
+                    time = DayNightCycle.main.timePassedAsFloat;
+                }
+
+                float power = powerValue * __instance.gameObject.transform.localScale.x * (DayNightCycle.main.timePassedAsFloat - time) * Main.config.PowerGenSpeed;
                 __instance?.GetWaterPark()?.gameObject?.GetComponent<PowerSource>()?.AddEnergy(power, out _);
+
+                timeLastGenerated[__instance] = DayNightCycle.main.timePassedAsFloat;
             }
         }
     }

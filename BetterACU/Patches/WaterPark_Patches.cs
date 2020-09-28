@@ -4,41 +4,57 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using UWE;
 using Random = UnityEngine.Random;
 
 namespace BetterACU.Patches
 {
     [HarmonyPatch(typeof(WaterPark), "Update")]
-    internal class WaterPark_Update_Postfix
+    public static class WaterPark_Update_Postfix
     {
+        public static Dictionary<WaterPark, int> cachedItems = new Dictionary<WaterPark, int>();
+        public static Dictionary<WaterPark, int> cachedPowerCreatures = new Dictionary<WaterPark, int>();
+
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance)
         {
-            List<WaterParkItem> items = AccessTools.Field(typeof(WaterPark), "items").GetValue(__instance) as List<WaterParkItem>;
-            PowerSource powerSource = __instance.gameObject.GetComponent<PowerSource>();
-            int numberOfShockers = items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == TechType.Shocker).Count;
+            int numberOfPowerCreatures = 0;
 
+            List<WaterParkItem> items = Traverse.Create(__instance).Field<List<WaterParkItem>>("items")?.Value ?? new List<WaterParkItem>();
+
+            if (cachedItems.TryGetValue(__instance, out int count) && count == items.Count && cachedPowerCreatures.ContainsKey(__instance))
+            {
+                numberOfPowerCreatures = cachedPowerCreatures[__instance];
+            }
+            else
+            {
+                foreach (TechType techType in Main.config.CreaturePowerGeneration.Keys)
+                {
+                    numberOfPowerCreatures += items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == techType && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)).Count;
+                }
+
+                cachedItems[__instance] = items.Count;
+                cachedPowerCreatures[__instance] = numberOfPowerCreatures;
+            }
+
+            PowerSource powerSource = __instance.gameObject.GetComponent<PowerSource>();
             if (powerSource == null)
             {
                 powerSource = __instance.gameObject.AddComponent<PowerSource>();
-                powerSource.maxPower = 100 * numberOfShockers;
+                powerSource.maxPower = 500 * numberOfPowerCreatures;
                 powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
             }
             else
             {
-                powerSource.maxPower = 100 * numberOfShockers;
+                powerSource.maxPower = 500 * numberOfPowerCreatures;
             }
 
-            if (powerSource.GetPower() > powerSource.GetMaxPower())
+            if (powerSource.power > powerSource.maxPower)
             {
                 powerSource.power = powerSource.maxPower;
             }
-            else
-            {
-                
-            }
 
-            Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.GetPower();
+            Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
         }
     }
 
@@ -63,8 +79,6 @@ namespace BetterACU.Patches
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
     internal class WaterPark_TryBreed_Prefix
     {
-        private static int count = 0;
-
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
@@ -89,19 +103,19 @@ namespace BetterACU.Patches
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
                             hasBred = true;
-                            SpawnCreature(__instance, parkCreature, container);
+                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, container));
                             break;
                         }
                     }
-                    if (!hasBred && count > 10 && Main.config.OverFlowIntoOcean && (!WaterParkCreature.waterParkCreatureParameters.ContainsKey(parkCreature.pickupable.GetTechType()) || parkCreature.pickupable.GetTechType() == TechType.Spadefish))
+
+                    if (!hasBred && Main.config.OverFlowIntoOcean)
                     {
-                        SpawnCreature(__instance, parkCreature, null);
-                        count = 0;
+                        CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, null));
+                        break;
                     }
 
                     creature.ResetBreedTime();
                     parkCreature.ResetBreedTime();
-                    count++;
                     break;
                 }
             }
@@ -112,17 +126,21 @@ namespace BetterACU.Patches
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreature.pickupable.GetTechType(), false);
             yield return task;
 
-            GameObject gameObject = GameObject.Instantiate(task.GetResult());
+            GameObject prefab = task.GetResult();
+            prefab.SetActive(false);
+            GameObject gameObject = GameObject.Instantiate(prefab);
             
             if(container is null)
             {
-                gameObject.transform.position = waterPark.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
+                gameObject.transform.position = waterPark.gameObject.GetComponentInParent<SubRoot>().transform.up + new Vector3(Random.Range(-100, 100), Random.Range(2, 30), Random.Range(-100, 100));
                 gameObject.SetActive(true);
             }
             else
             {
-                gameObject.SetActive(false);
-                container.AddItem(gameObject.EnsureComponent<Pickupable>());
+                Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+                pickupable.Pickup(false);
+
+                container.AddItem(pickupable);
             }
 
             yield break;
