@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using rail;
 using RandomCreatureSize.Configuration;
+using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace RandomCreatureSize.Patches
 			{
 				Main.CreatureConfig = new CreatureConfig();
 				Main.CreatureConfig.Load();
+				IngameMenuHandler.RegisterOnSaveEvent(Main.CreatureConfig.Save);
 			}
 
 			if ((!__instance.gameObject.GetComponent<WaterParkCreature>()?.IsInsideWaterPark() ?? true))
@@ -34,7 +36,6 @@ namespace RandomCreatureSize.Patches
 					scale = UnityEngine.Random.Range(Main.Config.minsize, Main.Config.maxsize);
 					__instance.SetScale(scale);
 					Main.CreatureConfig.CreatureSizes.Add(__instance.GetComponent<PrefabIdentifier>().Id, scale);
-					Main.CreatureConfig.Save();
 				}
 				else
 				{
