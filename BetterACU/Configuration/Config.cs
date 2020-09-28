@@ -19,7 +19,7 @@ namespace BetterACU.Configuration
         [Slider("Large Room Alien Containment Limit", 20, 200, DefaultValue = 20, Step = 1)]
         public int LargeWaterParkSize = 20;
 #endif
-        [Slider("Overall Power Generation Multiplier", 1, 10, DefaultValue = 1, Step = 1)]
+        [Slider("Overall Power Generation Multiplier", 1, 100, DefaultValue = 1, Step = 1)]
         public int PowerGenSpeed = 1;
 
         public Dictionary<TechType, float> CreaturePowerGeneration = new Dictionary<TechType, float>() {
