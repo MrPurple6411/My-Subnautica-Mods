@@ -26,8 +26,12 @@ namespace ImprovedPowerNetwork
         {
             if (!hand.IsTool())
             {
+#if SN1
                 HandReticle.main.SetInteractText($"Max Power {powerRelay.GetMaxPower()}, Current Power: {powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
-
+#elif BZ
+                HandReticle.main.SetText(HandReticle.TextType.Hand, $"Max Power {powerRelay.GetMaxPower()}, Current Power: {powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", false);
+                HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false);
+#endif
                 if (GameInput.GetButtonDown(GameInput.Button.AltTool))
                 {
                     baseConnectionsEnabled = !baseConnectionsEnabled;
