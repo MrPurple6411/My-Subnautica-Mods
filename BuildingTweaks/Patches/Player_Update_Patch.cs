@@ -22,7 +22,6 @@ namespace BuildingTweaks.Patches
                 ErrorMessage.AddMessage($"Full Override = {Main.config.FullOverride}");
             }
 
-
             if (__instance.currentWaterPark?.GetComponentInParent<Creature>() != null)
             {
                 Vector3 vector3 = __instance.currentWaterPark.transform.position;
@@ -30,6 +29,7 @@ namespace BuildingTweaks.Patches
                 return;
             }
 
+#if SN1
             SubRoot currentSubRoot = __instance.GetCurrentSub();
             if (currentSubRoot != null && currentSubRoot is BaseRoot && __instance.playerController.velocity.y < -20f)
             {
@@ -47,6 +47,18 @@ namespace BuildingTweaks.Patches
                 __instance.SetPosition(escapePod.playerSpawn.transform.position, escapePod.playerSpawn.transform.rotation);
                 return;
             }
+#elif BZ
+            IInteriorSpace interiorSpace = __instance.currentInterior;
+            if (interiorSpace != null && __instance.playerController.velocity.y < -20f)
+            {
+                RespawnPoint respawnPoint = interiorSpace.GetRespawnPoint();
+                if (respawnPoint)
+                {
+                    __instance.SetPosition(respawnPoint.GetSpawnPosition());
+                    return;
+                }
+            }
+#endif
         }
     }
 }
