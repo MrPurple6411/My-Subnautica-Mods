@@ -75,7 +75,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomCreatureSize", "Rando
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechPistol", "TechPistol\TechPistol.csproj", "{F5CDB7EB-E543-4BF6-A53E-2582237D2120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartWithCheats", "StartWithCheats\StartWithCheats.csproj", "{38027216-ABB5-4E3C-9A6C-CA8315579910}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentCommands", "PersistentCommands\PersistentCommands.csproj", "{38027216-ABB5-4E3C-9A6C-CA8315579910}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImprovedPowerNetwork", "ImprovedPowerNetwork\ImprovedPowerNetwork.csproj", "{B0D80171-445A-462B-8FFA-22363EB1ED72}"
 EndProject
