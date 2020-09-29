@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using QModManager.API;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 #if SN1
@@ -18,16 +19,41 @@ namespace UnKnownName.Patches
         {
             if (Main.config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
-                RecipeData data = Main.GetData(techType);
-                int ingredientCount = data?.ingredientCount ?? 0;
-                for (int i = 0; i < ingredientCount; i++)
+                if (!QModServices.Main.ModPresent("UITweaks"))
                 {
-                    Ingredient ingredient = data.Ingredients[i];
-                    if (ingredient.techType != TechType.ScrapMetal && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                    RecipeData data = Main.GetData(techType);
+                    int ingredientCount = data?.ingredientCount ?? 0;
+                    for (int i = 0; i < ingredientCount; i++)
                     {
-                        __result = false;
-                        return;
+                        Ingredient ingredient = data.Ingredients[i];
+                        if (ingredient.techType != TechType.ScrapMetal && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                        {
+                            __result = false;
+                            return;
+                        }
                     }
+                }
+                else
+                {
+#if SN1
+                    Dictionary<TechType, CraftData.TechData> techData = Traverse.Create(typeof(CraftData)).Field("techData").GetValue() as Dictionary<TechType, CraftData.TechData>;
+
+                    if(techData.TryGetValue(techType, out CraftData.TechData data))
+                    {
+                        int ingredientCount = data?.ingredientCount ?? 0;
+                        for (int i = 0; i < ingredientCount; i++)
+                        {
+                            IIngredient ingredient = data.GetIngredient(i);
+                            if (ingredient.techType != TechType.ScrapMetal && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                            {
+                                __result = false;
+                                return;
+                            }
+                        }
+                    }
+#elif BZ
+
+#endif
                 }
             }
         }
