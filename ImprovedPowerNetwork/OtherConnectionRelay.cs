@@ -7,7 +7,7 @@ namespace ImprovedPowerNetwork
         internal static void AddNewOtherConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
             OtherConnectionRelay additionalRelay = originalRelay.gameObject.AddComponent<OtherConnectionRelay>();
-            additionalRelay.dontConnectToRelays = powerControl.otherConnectionsEnabled;
+            additionalRelay.dontConnectToRelays = powerControl.otherConnectionsDisabled;
             additionalRelay.maxOutboundDistance = 15;
             additionalRelay.constructable = originalRelay.constructable;
 

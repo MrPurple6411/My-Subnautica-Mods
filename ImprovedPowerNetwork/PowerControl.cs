@@ -10,8 +10,9 @@ namespace ImprovedPowerNetwork
         public Constructable constructable;
         public List<BaseInboundRelay> baseConnectionRelays = new List<BaseInboundRelay>();
         public List<OtherConnectionRelay> otherConnectionRelays = new List<OtherConnectionRelay>();
-        public bool baseConnectionsEnabled = false;
-        public bool otherConnectionsEnabled = false;
+        public bool SubRootExists = false;
+        public bool baseConnectionsDisabled = false;
+        public bool otherConnectionsDisabled = false;
 
         public void OnHandClick(GUIHand hand)
         {
@@ -27,16 +28,16 @@ namespace ImprovedPowerNetwork
             if (!hand.IsTool())
             {
 #if SN1
-                HandReticle.main.SetInteractText($"Max Power {(int)powerRelay.GetMaxPower()}, Current Power: {(int)powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
+                HandReticle.main.SetInteractText($"Max Power {(int)powerRelay.GetEndpoint().GetMaxPower()}, Current Power: {(int)powerRelay.GetEndpoint().GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsDisabled}, Other Connections: {!otherConnectionsDisabled}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
 #elif BZ
                 HandReticle.main.SetText(HandReticle.TextType.Hand, $"Max Power {(int)powerRelay.GetMaxPower()}, Current Power: {(int)powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", false);
                 HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false);
 #endif
-                if (GameInput.GetButtonDown(GameInput.Button.AltTool))
+                if (GameInput.GetButtonDown(GameInput.Button.AltTool) && !SubRootExists)
                 {
-                    baseConnectionsEnabled = !baseConnectionsEnabled;
-                    baseConnectionRelays.ForEach((x)=> { 
-                        x.dontConnectToRelays = baseConnectionsEnabled;
+                    baseConnectionsDisabled = !baseConnectionsDisabled;
+                    baseConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = baseConnectionsDisabled;
                         x.DisconnectFromRelay();
                     });
                     RefreshNetwork();
@@ -44,9 +45,9 @@ namespace ImprovedPowerNetwork
 
                 if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
                 {
-                    otherConnectionsEnabled = !otherConnectionsEnabled;
+                    otherConnectionsDisabled = !otherConnectionsDisabled;
                     otherConnectionRelays.ForEach((x) => {
-                        x.dontConnectToRelays = otherConnectionsEnabled;
+                        x.dontConnectToRelays = otherConnectionsDisabled;
                         x.DisconnectFromRelay();
                     });
                     RefreshNetwork();
@@ -67,6 +68,12 @@ namespace ImprovedPowerNetwork
         {
             powerRelay = gameObject.GetComponent<PowerRelay>();
             constructable = gameObject.GetComponent<Constructable>();
+
+            if(gameObject.GetComponentInParent<SubRoot>() != null)
+            {
+                baseConnectionsDisabled = false;
+                SubRootExists = true;
+            }
         }
 
         public void LateUpdate()
