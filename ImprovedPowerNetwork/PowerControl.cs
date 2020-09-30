@@ -30,7 +30,7 @@ namespace ImprovedPowerNetwork
 #if SN1
                 HandReticle.main.SetInteractText($"Max Power {(int)powerRelay.GetEndpoint().GetMaxPower()}, Current Power: {(int)powerRelay.GetEndpoint().GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsDisabled}, Other Connections: {!otherConnectionsDisabled}", "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false, false, HandReticle.Hand.None);
 #elif BZ
-                HandReticle.main.SetText(HandReticle.TextType.Hand, $"Max Power {(int)powerRelay.GetMaxPower()}, Current Power: {(int)powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsEnabled}, Other Connections: {!otherConnectionsEnabled}", false);
+                HandReticle.main.SetText(HandReticle.TextType.Hand, $"Max Power {(int)powerRelay.GetMaxPower()}, Current Power: {(int)powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsDisabled}, Other Connections: {!otherConnectionsDisabled}", false);
                 HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false);
 #endif
                 if (GameInput.GetButtonDown(GameInput.Button.AltTool) && !SubRootExists)

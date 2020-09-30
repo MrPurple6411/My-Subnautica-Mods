@@ -138,9 +138,16 @@ namespace BetterACU.Patches
             else
             {
                 Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+#if SUBNAUTICA_EXP
+                TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
+                yield return pickupable.PickupAsync(taskResult, false);
+
+                container.AddItem(taskResult.Get());
+#else
                 pickupable.Pickup(false);
 
                 container.AddItem(pickupable);
+#endif
             }
 
             yield break;
@@ -205,4 +212,4 @@ namespace BetterACU.Patches
         }
     }
 #endif
-}
+            }

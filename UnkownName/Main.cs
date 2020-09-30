@@ -2,6 +2,7 @@
 using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 using UnKnownName.Configuration;

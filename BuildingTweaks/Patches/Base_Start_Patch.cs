@@ -9,7 +9,7 @@ namespace BuildingTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Base __instance)
         {
-            if(!__instance.isReady)
+            if(Traverse.Create(__instance).Field<bool>("waitingForWorld").Value)
             {
                 __instance.RebuildGeometry();
             }
@@ -22,7 +22,7 @@ namespace BuildingTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Base __instance)
         {
-            if (!__instance.isReady)
+            if (Traverse.Create(__instance).Field<bool>("waitingForWorld").Value)
             {
                 Traverse.Create(__instance).Field<bool>("waitingForWorld").Value = false;
                 __instance.RebuildGeometry();
