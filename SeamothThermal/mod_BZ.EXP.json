@@ -2,7 +2,7 @@
   "Id": "SeamothThermal",
   "DisplayName": "SeamothThermal",
   "Author": "MrPurple6411",
-  "Version": "1.0.0",
+  "Version": "1.1.1",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",

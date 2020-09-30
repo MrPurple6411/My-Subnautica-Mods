@@ -2,7 +2,7 @@
   "Id": "ImprovedPowerNetwork",
   "DisplayName": "ImprovedPowerNetwork",
   "Author": "MrPurple6411",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
