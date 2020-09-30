@@ -18,7 +18,7 @@ namespace TechPistol.Module
 				
 				if(entityRoot.TryGetComponent<LiveMixin>(out LiveMixin liveMixin ))
 				{
-					liveMixin.TakeDamage(Main.config.CannonDamage, entityRoot.transform.position, DamageType.Explosive, null);
+					liveMixin.TakeDamage(PistolBehaviour.lastShotDamage, entityRoot.transform.position, DamageType.Explosive, null);
 				}
 
 				if (entityRoot.TryGetComponent<BreakableResource>(out BreakableResource breakableResource))
