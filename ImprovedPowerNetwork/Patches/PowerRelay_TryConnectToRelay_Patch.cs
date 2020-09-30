@@ -15,6 +15,14 @@ namespace ImprovedPowerNetwork.Patches
                 return true;
             }
 
+            SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
+            SubRoot subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
+
+            if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && subRoot1 != null && subRoot1 == subRoot2)
+            {
+                __result = false;
+                return false;
+            }
 
             if (relay is OtherConnectionRelay)
             {

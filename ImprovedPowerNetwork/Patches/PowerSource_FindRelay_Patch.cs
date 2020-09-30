@@ -12,7 +12,7 @@ namespace ImprovedPowerNetwork.Patches
             {
                 PowerControl powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
 
-                if(powerControl != null)
+                if(powerControl?.powerRelay != null)
                 {
                     if (__result.gameObject.name.Contains("Cyclops"))
                     {
@@ -20,7 +20,6 @@ namespace ImprovedPowerNetwork.Patches
                     }
                     __result = powerControl.powerRelay;
                 }
-
             }
         }
     }
