@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using FMOD;
+using HarmonyLib;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
@@ -79,7 +80,10 @@ namespace TechPistol.Module
 			gameObject.EnsureComponent<Pickupable>().isPickupable = true;
 			gameObject.EnsureComponent<TechTag>().type = base.TechType;
 			gameObject.EnsureComponent<VFXFabricating>();
-
+			if (gameObject.transform.Find(PistolBehaviour.GunMain).gameObject.TryGetComponent<MeshCollider>(out MeshCollider collider))
+			{
+				GameObject.DestroyImmediate(collider);
+			}
 
 			WorldForces worldForces = gameObject.EnsureComponent<WorldForces>();
 			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
