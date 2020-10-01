@@ -320,7 +320,7 @@ namespace TechPistol.Module
 				Charge += Time.deltaTime * Main.config.CannonChargeSpeed;
 				currentDamage = Main.config.CannonDamage / Main.config.CannonExplosionSize * Charge;
 				textName.text = "Cannon Fire Cost";
-				textHealth.text = $"{(int)(Charge)}";
+				textHealth.text = $"{System.Math.Round(Charge*10, 2)}";
 				par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
 			}
 			else if (!GameInput.GetButtonHeld(GameInput.Button.RightHand) && CannonCharging)
@@ -347,7 +347,7 @@ namespace TechPistol.Module
 				lastShotDamage = (int)currentDamage;
 				currentDamage = 0;
 
-				if (energyMixin.ConsumeEnergy(Charge) || !GameModeUtils.RequiresPower())
+				if ((System.Math.Round(Charge * 10, 2) >= 20f && energyMixin.ConsumeEnergy(Charge * 10)) || !GameModeUtils.RequiresPower())
 				{
 					Charge = 0;
 					FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
@@ -358,9 +358,15 @@ namespace TechPistol.Module
 					par[3].Play();
 					CannonCharging = false;
 				}
+				else if(System.Math.Round(Charge * 10, 2) < 20f)
+				{
+					ErrorMessage.AddMessage("Cannon Ball must charge to at least 20 power.");
+					textName.text = "";
+					textHealth.text = "";
+				}
 				else
 				{
-					ErrorMessage.AddMessage("Insufficient Power to Launch Cannon Ball");
+					ErrorMessage.AddMessage("Insufficient Power in battery to Launch Cannon Ball");
 					textName.text = "";
 					textHealth.text = "";
 				}
