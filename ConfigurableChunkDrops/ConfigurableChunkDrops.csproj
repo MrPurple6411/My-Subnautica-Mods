@@ -55,7 +55,7 @@
     <Optimize>true</Optimize>
     <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
-	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -134,6 +134,7 @@
     <Compile Include="Patches\Defaults_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\BreakableResource_Patches.cs" />
+    <Compile Include="Patches\Player_Awake_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

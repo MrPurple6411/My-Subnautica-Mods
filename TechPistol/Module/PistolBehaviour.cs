@@ -30,9 +30,8 @@ namespace TechPistol.Module
 		public bool LaserFiring = false;
 		public bool ScaleBig = false;
 		public bool ScaleSmall = false;
-		public float Charge;
-		public float time2;
-		public int mode;
+		public float Charge = 0f;
+		public int mode = 0;
 		public TextMesh textName;
 		public TextMesh textHealth;
 		public TextMesh textMode;
@@ -128,8 +127,6 @@ namespace TechPistol.Module
 						break;
 					case 2:
 						textMode.text = "Cannon";
-						Charge = 2f;
-						time2 = 2f;
 						break;
 					case 3:
 						textMode.text = "Big";
@@ -291,19 +288,26 @@ namespace TechPistol.Module
 			// Handles the Target display on the top of the gun.
 			if (Targeting.GetTarget(Player.main.gameObject, Main.config.TargetingRange, out GameObject gameObject4, out float num4) && UWE.Utils.GetEntityRoot(gameObject4) != null)
 			{
-				UWE.Utils.GetEntityRoot(gameObject4).TryGetComponent<LiveMixin>(out LiveMixin liveMixin);
-				string name = CraftData.GetTechType(liveMixin.gameObject).AsString();
-				string translatedName = Language.main.GetOrFallback(name, name);
-
-				if (translatedName.ToLower().Contains("school") && liveMixin.health == 0)
+				if(UWE.Utils.GetEntityRoot(gameObject4).TryGetComponent<LiveMixin>(out LiveMixin liveMixin))
 				{
-					GameObject.Destroy(liveMixin.gameObject);
+					string name = CraftData.GetTechType(liveMixin.gameObject).AsString();
+					string translatedName = Language.main.GetOrFallback(name, name);
+
+					if (translatedName.ToLower().Contains("school") && liveMixin.health == 0)
+					{
+						GameObject.Destroy(liveMixin.gameObject);
+					}
+
+					string health = liveMixin.health.ToString() ?? "";
+
+					textName.text = translatedName;
+					textHealth.text = health;
 				}
-
-				string health = liveMixin.health.ToString() ?? "";
-
-				textName.text = translatedName;
-				textHealth.text = health;
+				else
+				{
+					textName.text = "";
+					textHealth.text = "";
+				}
 			}
 			else
 			{
@@ -318,6 +322,10 @@ namespace TechPistol.Module
 				textName.text = "Cannon Fire Cost";
 				textHealth.text = $"{(int)(Charge)}";
 				par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
+			}
+			else if (!GameInput.GetButtonHeld(GameInput.Button.RightHand) && CannonCharging)
+			{
+				OnRightHandUp();
 			}
 			else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.config.LaserDamage * Time.deltaTime) || !GameModeUtils.RequiresPower()))
 			{
@@ -341,6 +349,7 @@ namespace TechPistol.Module
 
 				if (energyMixin.ConsumeEnergy(Charge) || !GameModeUtils.RequiresPower())
 				{
+					Charge = 0;
 					FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
 					FMODUWE.PlayOneShot(stasisRifleFireSound, base.transform.position, 1f);
 					par[1].Stop();

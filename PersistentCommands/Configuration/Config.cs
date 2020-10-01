@@ -71,25 +71,21 @@ namespace PersistentCommands.Configuration
 						GameModeUtils.DeactivateCheat(option);
 					}
 				}
-				else
+				else if(NoCostConsoleCommand.main != null)
 				{
 					switch (e.Id)
 					{
 						case "FastBuild":
-							Traverse<bool> cheat = Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastBuildCheat");
-							cheat.Value = !cheat.Value;
+							NoCostConsoleCommand.main.fastBuildCheat= e.Value;
 							break;
 						case "FastGrow":
-							cheat = Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastGrowCheat");
-							cheat.Value = !cheat.Value;
+							NoCostConsoleCommand.main.fastGrowCheat = e.Value;
 							break;
 						case "FastHatch":
-							cheat = Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastHatchCheat");
-							cheat.Value = !cheat.Value;
+							NoCostConsoleCommand.main.fastHatchCheat = e.Value;
 							break;
 						case "FastScan":
-							cheat = Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastScanCheat");
-							cheat.Value = !cheat.Value;
+							NoCostConsoleCommand.main.fastScanCheat = e.Value;
 							break;
 					}
 				}

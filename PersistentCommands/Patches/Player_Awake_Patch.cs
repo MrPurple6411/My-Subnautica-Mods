@@ -34,17 +34,6 @@ namespace PersistentCommands.Patches
                 GameModeUtils.ActivateCheat(GameModeOption.NoCold);
 #endif
 
-            if (Main.config.FastBuild)
-                Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastBuildCheat").Value = true;
-
-            if (Main.config.FastGrow)
-                Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastGrowCheat").Value = true;
-
-            if (Main.config.FastHatch)
-                Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastHatchCheat").Value = true;
-
-            if (Main.config.FastScan)
-                Traverse.Create(NoCostConsoleCommand.main).Property<bool>("fastScanCheat").Value = true;
         }
     }
 }

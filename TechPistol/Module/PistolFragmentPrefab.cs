@@ -97,6 +97,7 @@ namespace TechPistol.Module
             gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
             gameObject.EnsureComponent<TechTag>().type = base.TechType;
 
+            gameObject.SetActive(true);
             return gameObject;
         }
 
