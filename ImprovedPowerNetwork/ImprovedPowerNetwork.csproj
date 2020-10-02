@@ -131,6 +131,7 @@
     <Compile Include="Patches\PowerRelay_Start_Patch.cs" />
     <Compile Include="Patches\PowerRelay_TryConnectToRelay_Patch.cs" />
     <Compile Include="Patches\PowerSource_FindRelay_Patch.cs" />
+    <Compile Include="Patches\TechLight_GetNearestValidRelay_Patch.cs" />
     <Compile Include="PowerControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

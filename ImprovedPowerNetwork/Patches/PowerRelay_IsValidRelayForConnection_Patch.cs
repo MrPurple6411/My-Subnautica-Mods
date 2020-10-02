@@ -28,6 +28,12 @@ namespace ImprovedPowerNetwork.Patches
                     return;
                 }
 
+                if(subRoot1 != null && subRoot1 != subRoot2 && !__instance.gameObject.name.Contains("Transmitter"))
+                {
+                    __result = false;
+                    return;
+                }
+
                 if (potentialRelay is OtherConnectionRelay)
                 {
                     __result = false;
