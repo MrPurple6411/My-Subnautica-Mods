@@ -28,6 +28,8 @@ namespace CustomPosters.Poster
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
 
+        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
+
         public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
 
 #if BZ || SUBNAUTICA_STABLE

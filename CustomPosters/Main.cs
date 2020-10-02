@@ -51,7 +51,6 @@ namespace CustomPosters
                         {
                             var prefab = new BasicPostersPrefab(poster.InternalName, poster.DisplayName, poster.Description, poster.Orientation, icontexture, posterTexture);
                             prefab.Patch();
-                            CraftDataHandler.SetQuickSlotType(prefab.TechType, QuickSlotType.Selectable);
                         }
                         else
                         {
