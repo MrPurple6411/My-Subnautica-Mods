@@ -82,6 +82,11 @@ namespace ImprovedPowerNetwork.Patches
                     return;
                 }
 
+                if(__instance is OtherConnectionRelay || __instance is BaseInboundRelay)
+                {
+                    return;
+                }
+
                 if (__instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), potentialRelay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
                 {
                     __result = false;
