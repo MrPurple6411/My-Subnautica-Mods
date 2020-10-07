@@ -19,6 +19,29 @@ namespace ImprovedPowerNetwork
             if (!hand.IsTool())
             {
                 powerRelay.dontConnectToRelays = !powerRelay.dontConnectToRelays;
+                if (powerRelay.dontConnectToRelays)
+                {
+                    baseConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = powerRelay.dontConnectToRelays;
+                        x.DisconnectFromRelay();
+                    });
+                    otherConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = powerRelay.dontConnectToRelays;
+                        x.DisconnectFromRelay();
+                    });
+                }
+                else
+                {
+                    baseConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = baseConnectionsDisabled;
+                        x.DisconnectFromRelay();
+                    });
+                    otherConnectionRelays.ForEach((x) => {
+                        x.dontConnectToRelays = otherConnectionsDisabled;
+                        x.DisconnectFromRelay();
+                    });
+                }
+                powerRelay.DisconnectFromRelay();
                 RefreshNetwork();
             }
         }
@@ -33,7 +56,7 @@ namespace ImprovedPowerNetwork
                 HandReticle.main.SetText(HandReticle.TextType.Hand, $"Max Power {(int)powerRelay.GetMaxPower()}, Current Power: {(int)powerRelay.GetPower()}\nMainConnections: {!powerRelay.dontConnectToRelays}, BaseConnections: {!baseConnectionsDisabled}, Other Connections: {!otherConnectionsDisabled}", false);
                 HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "LeftHand: Full Enable/Disable\nAltTool Key (F): BaseConnections (Purple)\nDeconstruct Key (Q): Other Connections (Green)", false);
 #endif
-                if (GameInput.GetButtonDown(GameInput.Button.AltTool) && !SubRootExists)
+                if (GameInput.GetButtonDown(GameInput.Button.AltTool) && !SubRootExists && !powerRelay.dontConnectToRelays)
                 {
                     baseConnectionsDisabled = !baseConnectionsDisabled;
                     baseConnectionRelays.ForEach((x) => {
@@ -43,7 +66,7 @@ namespace ImprovedPowerNetwork
                     RefreshNetwork();
                 }
 
-                if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
+                if (GameInput.GetButtonDown(GameInput.Button.Deconstruct) && !powerRelay.dontConnectToRelays)
                 {
                     otherConnectionsDisabled = !otherConnectionsDisabled;
                     otherConnectionRelays.ForEach((x) => {

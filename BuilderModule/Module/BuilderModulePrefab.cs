@@ -41,7 +41,7 @@ namespace BuilderModule.Module
         public override GameObject GetGameObject()
         {
             GameObject gameobject = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
-            return gameobject;
+            return GameObject.Instantiate(gameobject);
         }
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)

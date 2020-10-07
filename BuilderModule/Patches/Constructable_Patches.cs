@@ -17,27 +17,20 @@ namespace BuilderModule.Patches
         {
             if (Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
             {
-                Type ConstructableType = typeof(Constructable);
-                List<TechType> resourceMapField = (List<TechType>)AccessTools.Field(ConstructableType, "resourceMap").GetValue(__instance);
-                MethodInfo getResourceIDMethod = AccessTools.Method(ConstructableType, "GetResourceID");
-                MethodInfo GetConstructIntervalMethod = AccessTools.Method(ConstructableType, "GetConstructInterval");
-                MethodInfo updateMaterialMethod = AccessTools.Method(ConstructableType, "UpdateMaterial");
-
-
                 Vehicle thisVehicle = Player.main.GetVehicle();
                 if (__instance._constructed)
                 {
                     return false;
                 }
-                int count = resourceMapField.Count;
-                int resourceID = (int)getResourceIDMethod.Invoke(__instance, null);
+                int count = __instance.resourceMap.Count;
+                int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount += Time.deltaTime / (count * (float)GetConstructIntervalMethod.Invoke(__instance, null));
+                __instance.constructedAmount += Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = (int)getResourceIDMethod.Invoke(__instance, null);
+                int resourceID2 = __instance.GetResourceID();
                 if (resourceID2 != resourceID)
                 {
-                    TechType destroyTechType = resourceMapField[resourceID2 - 1];
+                    TechType destroyTechType = __instance.resourceMap[resourceID2 - 1];
                     if (thisVehicle.GetType().Equals(typeof(Exosuit)))
                     {
                         StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
@@ -82,7 +75,7 @@ namespace BuilderModule.Patches
                         }
                     }
                 }
-                _ = updateMaterialMethod.Invoke(__instance, null);
+                __instance.UpdateMaterial();
                 if (__instance.constructedAmount >= 1f)
                 {
                     _ = __instance.SetState(true, true);
@@ -113,27 +106,22 @@ namespace BuilderModule.Patches
 #if SN1
             if (Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
             {
-                Type ConstructableType = typeof(Constructable);
-                List<TechType> resourceMapField = (List<TechType>)AccessTools.Field(ConstructableType, "resourceMap").GetValue(__instance);
-                MethodInfo getResourceIDMethod = AccessTools.Method(ConstructableType, "GetResourceID");
-                MethodInfo GetConstructIntervalMethod = AccessTools.Method(ConstructableType, "GetConstructInterval");
-                MethodInfo updateMaterialMethod = AccessTools.Method(ConstructableType, "UpdateMaterial");
 
                 Vehicle thisVehicle = Player.main.GetVehicle();
                 if (__instance._constructed)
                 {
                     return true;
                 }
-                int count = resourceMapField.Count;
+                int count = __instance.resourceMap.Count;
 
-                int resourceID = (int)getResourceIDMethod.Invoke(__instance, null);
+                int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount -= Time.deltaTime / (count * (float)GetConstructIntervalMethod.Invoke(__instance, null));
+                __instance.constructedAmount -= Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = (int)getResourceIDMethod.Invoke(__instance, null);
+                int resourceID2 = __instance.GetResourceID();
                 if (resourceID2 != resourceID)
                 {
-                    TechType techType = resourceMapField[resourceID2];
+                    TechType techType = __instance.resourceMap[resourceID2];
 
                     Vector2int size = CraftData.GetItemSize(techType);
 
@@ -179,7 +167,7 @@ namespace BuilderModule.Patches
                         }
                     }
                 }
-                updateMaterialMethod.Invoke(__instance, null);
+                __instance.UpdateMaterial();
 #if SUBNAUTICA_EXP
                 result.Set(__instance.constructedAmount <= 0f);
                 return false;
@@ -224,27 +212,21 @@ namespace BuilderModule.Patches
         {
             if (Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
             {
-                Type ConstructableType = typeof(Constructable);
-                List<TechType> resourceMapField = (List<TechType>)AccessTools.Field(ConstructableType, "resourceMap").GetValue(__instance);
-                MethodInfo getResourceIDMethod = AccessTools.Method(ConstructableType, "GetResourceID");
-                MethodInfo GetConstructIntervalMethod = AccessTools.Method(ConstructableType, "GetConstructInterval");
-                MethodInfo updateMaterialMethod = AccessTools.Method(ConstructableType, "UpdateMaterial");
-
                 Vehicle thisVehicle = Player.main.GetVehicle();
                 if (__instance._constructed)
                 {
                     return true;
                 }
-                int count = resourceMapField.Count;
+                int count = __instance.resourceMap.Count;
 
-                int resourceID = (int)getResourceIDMethod.Invoke(__instance, null);
+                int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount -= Time.deltaTime / (count * (float)GetConstructIntervalMethod.Invoke(__instance, null));
+                __instance.constructedAmount -= Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = (int)getResourceIDMethod.Invoke(__instance, null);
+                int resourceID2 = __instance.GetResourceID();
                 if (resourceID2 != resourceID)
                 {
-                    TechType techType = resourceMapField[resourceID2];
+                    TechType techType = __instance.resourceMap[resourceID2];
                     GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
                     Pickupable component = gameObject.GetComponent<Pickupable>();
 
@@ -313,7 +295,7 @@ namespace BuilderModule.Patches
                         }
                     }
                 }
-                updateMaterialMethod.Invoke(__instance, null);
+                __instance.UpdateMaterial();
                 return __instance.constructedAmount <= 0f;
             }
             else

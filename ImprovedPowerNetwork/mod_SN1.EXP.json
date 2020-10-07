@@ -2,7 +2,7 @@
   "Id": "ImprovedPowerNetwork",
   "DisplayName": "ImprovedPowerNetwork",
   "Author": "MrPurple6411",
-  "Version": "1.0.2",
+  "Version": "1.0.4",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

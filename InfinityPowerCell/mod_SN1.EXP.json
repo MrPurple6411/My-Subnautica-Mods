@@ -1,0 +1,10 @@
+{
+  "Id": "InfinityPowerCell",
+  "DisplayName": "InfinityPowerCell",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "InfinityPowerCell.dll"
+}

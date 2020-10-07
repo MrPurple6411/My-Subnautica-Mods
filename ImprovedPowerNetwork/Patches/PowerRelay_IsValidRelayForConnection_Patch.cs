@@ -22,13 +22,7 @@ namespace ImprovedPowerNetwork.Patches
                 SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
                 SubRoot subRoot2 = potentialRelay.gameObject.GetComponentInParent<SubRoot>();
 
-                if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && subRoot1 != null && subRoot1 == subRoot2)
-                {
-                    __result = false;
-                    return;
-                }
-
-                if(subRoot1 != null && subRoot1 != subRoot2 && !__instance.gameObject.name.Contains("Transmitter"))
+                if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
                 {
                     __result = false;
                     return;
@@ -79,6 +73,12 @@ namespace ImprovedPowerNetwork.Patches
                 if (potentialRelay != __instance.outboundRelay && (potentialRelay.GetType() == typeof(BasePowerRelay) || potentialRelay.GetType() == typeof(PowerRelay)) && potentialRelay.inboundPowerSources.Where((x) => x.GetType() == typeof(BaseInboundRelay) || x.GetType() == typeof(OtherConnectionRelay)).Any())
                 {
                     __result = false;
+                    return;
+                }
+
+
+                if(__instance is OtherConnectionRelay || __instance is BaseInboundRelay)
+                {
                     return;
                 }
 

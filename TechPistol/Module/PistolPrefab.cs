@@ -65,9 +65,9 @@ namespace TechPistol.Module
 					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
 
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-					meshRenderer.material.EnableKeyword("_Glow");
+					meshRenderer.material.EnableKeyword("_EnableGlow");
 					meshRenderer.material.SetTexture("_Illum", emissionMap);
-					meshRenderer.material.SetColor("_EmissionColor", new Color(1f, 1f, 1f));
+					meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
 				}
 			}
 
@@ -173,9 +173,9 @@ namespace TechPistol.Module
 					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
 
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-					meshRenderer.material.EnableKeyword("_Glow");
+					meshRenderer.material.EnableKeyword("_EnableGlow");
 					meshRenderer.material.SetTexture("_Illum", emissionMap);
-					meshRenderer.material.SetColor("_EmissionColor", new Color(1f, 1f, 1f));
+					meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
 				}
 			}
 
