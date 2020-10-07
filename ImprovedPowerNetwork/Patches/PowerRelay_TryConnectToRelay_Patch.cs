@@ -18,7 +18,7 @@ namespace ImprovedPowerNetwork.Patches
             SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
             SubRoot subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
 
-            if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && subRoot1 != null && subRoot1 == subRoot2)
+            if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
             {
                 __result = false;
                 return false;

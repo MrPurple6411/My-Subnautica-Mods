@@ -14,15 +14,13 @@ namespace BuilderModule.Patches
         {
             int codepoint = -1;
 
-            object inputHandler = AccessTools.Field(typeof(Builder), "inputHandler");
-
             List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
             for (int i = 0; i < instructions.Count(); i++)
             {
                 CodeInstruction currentCode = codes[i];
                 if (codepoint == -1)
                 {
-                    if (currentCode.opcode == OpCodes.Ldsfld && currentCode.operand == inputHandler)
+                    if (currentCode.opcode == OpCodes.Ldsfld && currentCode.operand == Builder.inputHandler)
                     {
                         codepoint = i;
                         codes[i] = new CodeInstruction(OpCodes.Call, typeof(Builder_Update_Patch).GetMethod("VehicleCheck"));
@@ -38,15 +36,14 @@ namespace BuilderModule.Patches
 
         public static void VehicleCheck()
         {
-            BuildModeInputHandler inputHandler = (BuildModeInputHandler)AccessTools.Field(typeof(Builder), "inputHandler").GetValue(null);
             if (Player.main.GetVehicle() == null)
             {
-                inputHandler.canHandleInput = true;
-                InputHandlerStack.main.Push(inputHandler);
+                Builder.inputHandler.canHandleInput = true;
+                InputHandlerStack.main.Push(Builder.inputHandler);
             }
             else
             {
-                inputHandler.canHandleInput = false;
+                Builder.inputHandler.canHandleInput = false;
             }
         }
     }

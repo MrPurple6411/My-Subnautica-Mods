@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Linq;
 
 namespace ImprovedPowerNetwork.Patches
 {
@@ -8,17 +9,41 @@ namespace ImprovedPowerNetwork.Patches
         [HarmonyPostfix]
         public static void Postfix(ref PowerRelay __result)
         {
-            if(__result != null && (__result is BasePowerRelay || __result.gameObject.name.Contains("Cyclops")))
+            PowerControl powerControl;
+            bool isCyclops = __result.gameObject.name.Contains("Cyclops");
+            if (__result != null && (__result is BasePowerRelay || isCyclops))
             {
-                PowerControl powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
+                IPowerInterface powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay)?.FirstOrFallback(null);
 
-                if(powerControl?.powerRelay != null)
+                if (powerInterface is null)
                 {
-                    if (__result.gameObject.name.Contains("Cyclops"))
+                    powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
+
+                    if (powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
                     {
-                        __result.AddInboundPower(powerControl.powerRelay);
+                        if (isCyclops)
+                        {
+                            __result.AddInboundPower(powerControl.powerRelay);
+                        }
+                        __result = powerControl.powerRelay;
+                        return;
                     }
-                    __result = powerControl.powerRelay;
+                    return;
+                }
+
+                BaseInboundRelay baseInboundRelay = powerInterface as BaseInboundRelay;
+
+                if(baseInboundRelay.gameObject.TryGetComponent(out powerControl))
+                {
+                    if (powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
+                    {
+                        if (isCyclops)
+                        {
+                            __result.AddInboundPower(powerControl.powerRelay);
+                        }
+                        __result = powerControl.powerRelay;
+                        return;
+                    }
                 }
             }
         }

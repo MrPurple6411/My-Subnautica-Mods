@@ -1,0 +1,10 @@
+{
+  "Id": "InfinityBattery",
+  "DisplayName": "InfinityBattery",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "InfinityBattery.dll"
+}
