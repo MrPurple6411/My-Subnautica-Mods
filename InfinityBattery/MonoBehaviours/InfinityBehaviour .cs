@@ -13,40 +13,35 @@ namespace InfinityBattery.MonoBehaviours
         MeshRenderer renderer;
         SkinnedMeshRenderer skinnedRenderer;
         EnergyMixin energyMixin;
-        public static Texture illum;
 
-        public float[] strength = new float[] { 1f, 10f};
-
-        public int currentIndex = 0;
-        private int nextIndex;
-
-        public float changeColourTime = 2.0f;
-
+        private float currentStrength = 0;
+        private float nextStrength = 2;
+        private float changeTime = 2f;
         private float timer = 0.0f;
 
-        public void Start()
+        public void Awake()
         {
-            battery = gameObject.GetComponent<Battery>();
             renderer = gameObject.GetComponentInChildren<MeshRenderer>();
-            skinnedRenderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
-            if(renderer != null && illum == null)
+            if(renderer != null)
             {
-                illum = renderer.material.GetTexture(ShaderPropertyID._Illum);
+                renderer.material.EnableKeyword("_EnableGlow");
+                renderer.material.SetColor("_GlowColor", Color.white);
+                renderer.material.SetTexture(ShaderPropertyID._Illum, Main.Illum);
             }
 
-            if(skinnedRenderer != null && illum != null)
+            skinnedRenderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+
+            if(skinnedRenderer != null)
             {
                 skinnedRenderer.material.shader = Shader.Find("MarmosetUBER");
                 skinnedRenderer.material.EnableKeyword("_EnableGlow");
-                skinnedRenderer.material.SetTexture(ShaderPropertyID._Illum, illum);
-                skinnedRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+                skinnedRenderer.material.SetTexture(ShaderPropertyID._Illum, Main.Illum);
+                skinnedRenderer.material.SetColor("_GlowColor", Color.white);
             }
-            
-            
-            energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
 
-            nextIndex = (currentIndex + 1) % strength.Length;
+            battery = gameObject.GetComponent<Battery>();
+            energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
         }
 
         public void Update()
@@ -61,36 +56,26 @@ namespace InfinityBattery.MonoBehaviours
                 energyMixin.AddEnergy(energyMixin.capacity - energyMixin.charge);
             }
 
-            if(renderer != null)
+            timer += Time.deltaTime;
+
+            if (timer > changeTime)
             {
-                timer += Time.deltaTime;
+                currentStrength = nextStrength;
+                nextStrength = currentStrength == 2? 0: 2;
 
-                if (timer > changeColourTime)
-                {
-                    currentIndex = (currentIndex + 1) % strength.Length;
-                    nextIndex = (currentIndex + 1) % strength.Length;
-                    timer = 0.0f;
+                timer = 0.0f;
+            }
 
-                }
-                renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(strength[currentIndex], strength[nextIndex], timer / changeColourTime));
-                renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(strength[currentIndex], strength[nextIndex], timer / changeColourTime));
+            if (renderer != null)
+            {
+                renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
+                renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
             }
 
             if (skinnedRenderer != null)
             {
-
-                timer += Time.deltaTime;
-
-                if (timer > changeColourTime)
-                {
-                    currentIndex = (currentIndex + 1) % strength.Length;
-                    nextIndex = (currentIndex + 1) % strength.Length;
-                    timer = 0.0f;
-
-                }
-
-                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(strength[currentIndex], strength[nextIndex], timer / changeColourTime));
-                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(strength[currentIndex], strength[nextIndex], timer / changeColourTime));
+                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
+                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
             }
 
         }

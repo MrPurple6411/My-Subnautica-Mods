@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RandomCreatureSize.Patches
 {
-	[HarmonyPatch(typeof(Creature), "Start")]
+	[HarmonyPatch(typeof(Creature), nameof(Creature.Start))]
 	internal static class Creature_Start_Patch
 	{
 

@@ -2,7 +2,7 @@
 
 namespace SeamothThermal.Patches
 {
-    [HarmonyPatch(typeof(SeaMoth), "Start")]
+    [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Start))]
     public class Seamoth_Start_Patch
     {
         static void Prefix(SeaMoth __instance)

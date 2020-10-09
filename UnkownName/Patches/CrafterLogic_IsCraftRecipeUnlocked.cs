@@ -36,9 +36,7 @@ namespace UnKnownName.Patches
                 else
                 {
 #if SN1
-                    Dictionary<TechType, CraftData.TechData> techData = Traverse.Create(typeof(CraftData)).Field("techData").GetValue() as Dictionary<TechType, CraftData.TechData>;
-
-                    if(techData.TryGetValue(techType, out CraftData.TechData data))
+                    if(CraftData.techData.TryGetValue(techType, out CraftData.TechData data))
                     {
                         int ingredientCount = data?.ingredientCount ?? 0;
                         for (int i = 0; i < ingredientCount; i++)

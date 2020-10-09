@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Builder), "GetSurfaceType")]
+    [HarmonyPatch(typeof(Builder), nameof(Builder.GetSurfaceType))]
     internal class Builder_GetSurfaceType_Patch
     {
         public static void Postfix(ref SurfaceType __result, ref List<SurfaceType> ___allowedSurfaceTypes)

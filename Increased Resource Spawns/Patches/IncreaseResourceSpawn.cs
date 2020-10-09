@@ -4,8 +4,7 @@ using UWE;
 
 namespace Increased_Resource_Spawns.Patches
 {
-    [HarmonyPatch(typeof(CellManager))]
-    [HarmonyPatch(nameof(CellManager.GetPrefabForSlot), new Type[] { typeof(IEntitySlot) })]
+    [HarmonyPatch(typeof(CellManager), nameof(CellManager.GetPrefabForSlot), new Type[] { typeof(IEntitySlot) })]
     internal class IncreaseResourceSpawn
     {
         public static void Postfix(CellManager __instance, IEntitySlot slot, ref EntitySlot.Filler __result)

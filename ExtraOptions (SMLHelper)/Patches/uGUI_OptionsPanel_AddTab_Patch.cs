@@ -123,6 +123,7 @@ namespace ExtraOptions.Patches
                         }
 
                     }
+
                 }
                 catch (Exception e)
                 {

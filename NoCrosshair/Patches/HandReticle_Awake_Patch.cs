@@ -3,12 +3,12 @@ using HarmonyLib;
 
 namespace NoCrosshair.Patches
 {
-    [HarmonyPatch(typeof(HandReticle), "Awake")]
+    [HarmonyPatch(typeof(HandReticle), nameof(HandReticle.Awake))]
     public static class HandReticle_Awake_Patch
     {
         public static void Postfix(HandReticle __instance)
         {
-            NoCrosshair.icons = AccessTools.Field(typeof(HandReticle), "_icons").GetValue(__instance) as Dictionary<HandReticle.IconType, uGUI_HandReticleIcon>;
+            NoCrosshair.icons = __instance._icons;
             NoCrosshair.ChangeCrosshair(false);
         }
     }

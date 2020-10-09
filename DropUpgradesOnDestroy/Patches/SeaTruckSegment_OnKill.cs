@@ -2,6 +2,7 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using UWE;
 
 namespace DropUpgradesOnDestroy.Patches
 {
@@ -14,19 +15,13 @@ namespace DropUpgradesOnDestroy.Patches
         [HarmonyPrefix]
         public static void Prefix(SeaTruckSegment __instance)
         {
-            //ErrorMessage.AddMessage($"{__instance} {__instance.GetInstanceID()}");
             if(__instance.IsFront() && __instance != lastDestroyed)
             {
                 lastDestroyed = __instance;
-                Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.motor?.upgrades?.modules) as Dictionary<string, InventoryItem>;
-                List<InventoryItem> equipment = eq.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
-                foreach(InventoryItem item in equipment)
-                {
-                    GameObject gameObject = CraftData.InstantiateFromPrefab(item.item.GetTechType());
-                    Vector3 position = __instance.gameObject.transform.position;
-                    gameObject.transform.position = new Vector3(position.x + UnityEngine.Random.Range(-3, 3), position.y + UnityEngine.Random.Range(5, 8), position.z + UnityEngine.Random.Range(-3, 3));
-                    gameObject.SetActive(true);
-                }
+                List<InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+
+                Vector3 position = __instance.gameObject.transform.position;
+                Main.SpawnModuleNearby(equipment, position);
             }
         }
     }

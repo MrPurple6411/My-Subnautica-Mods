@@ -27,9 +27,9 @@ namespace BetterACU.Patches
 #endif
 
 #if SN1
-    [HarmonyPatch(typeof(WaterParkCreature), "Update")]
+    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Update))]
 #elif BZ
-    [HarmonyPatch(typeof(WaterParkCreature), "ManagedUpdate")]
+    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]
 #endif
     internal class WaterParkCreature_Update_Prefix
     {

@@ -15,13 +15,9 @@ namespace PowerOrder.Patches
         {
             try
             {
-                if (!__instance.GetType().Equals(typeof(BasePowerRelay)))
+                if (__instance.inboundPowerSources.Contains(powerInterface))
                     return;
-                var info = Traverse.Create(__instance).Field("inboundPowerSources");
-                var test = info.GetValue<List<IPowerInterface>>();
-                if (test.Contains(powerInterface))
-                    return;
-                Logger.Log(Logger.Level.Debug, "BasePowerRelay AddInboundPower");
+                Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
             }
             catch (Exception e)
@@ -37,8 +33,8 @@ namespace PowerOrder.Patches
             {
                 if (!Main.config.doSort)
                     return;
-                var info = Traverse.Create(__instance).Field("inboundPowerSources");
-                var test = info.GetValue<List<IPowerInterface>>();
+                List<IPowerInterface> info = __instance.inboundPowerSources;
+                List<IPowerInterface> test = new List<IPowerInterface>(info);
                 test.Sort((i, i2) =>
                 {
                     UnityEngine.MonoBehaviour p = (UnityEngine.MonoBehaviour)i;
@@ -47,7 +43,7 @@ namespace PowerOrder.Patches
                     int p2n = GetOrderNumber(p2.gameObject.name);
                     return Math.Sign(pn - p2n);
                 });
-                info.SetValue(test);
+                __instance.inboundPowerSources = test;
                 Main.config.doSort = false;
             }
             catch(Exception e)

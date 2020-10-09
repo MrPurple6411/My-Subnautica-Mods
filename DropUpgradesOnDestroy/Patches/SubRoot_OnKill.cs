@@ -17,8 +17,7 @@ namespace DropUpgradesOnDestroy.Patches
         [HarmonyPrefix]
         public static void Prefix(SubRoot __instance)
         {
-            Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.upgradeConsole?.modules) as Dictionary<string, InventoryItem>;
-            List<InventoryItem> equipment = eq?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            List<InventoryItem> equipment = __instance.upgradeConsole?.modules.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
 
             Assembly MCU = AppDomain.CurrentDomain.GetAssemblies()
                                                         .Where((x) => x.FullName.StartsWith("MoreCyclopsUpgrades"))?
@@ -54,7 +53,7 @@ namespace DropUpgradesOnDestroy.Patches
             }
 
             Vector3 position = __instance.gameObject.transform.position;
-            CoroutineHost.StartCoroutine(Main.SpawnModuleNearby(equipment, position));
+            Main.SpawnModuleNearby(equipment, position);
         }
     }
 }

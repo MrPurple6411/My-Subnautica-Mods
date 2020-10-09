@@ -1,28 +1,35 @@
 ﻿using HarmonyLib;
 using QModManager.API.ModLoading;
-using InfinityBattery.Configuration;
-using SMLHelper.V2.Handlers;
 using System.Reflection;
 using System.IO;
 using CustomBatteries.API;
 using InfinityBattery.Prefabs;
+using UnityEngine;
+using SMLHelper.V2.Utility;
+#if SN1
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace InfinityBattery
 {
     [QModCore]
     public static class Main
     {
-        internal static Assembly myAssembly = Assembly.GetExecutingAssembly();
-        internal static string ModPath = Path.GetDirectoryName(myAssembly.Location);
-        internal static string AssetsFolder = Path.Combine(ModPath, "Assets");
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        internal static InfinityBatteryItem InfinityBatteryItem { get; } = new InfinityBatteryItem();
+        private static Assembly myAssembly = Assembly.GetExecutingAssembly();
+        private static string ModPath = Path.GetDirectoryName(myAssembly.Location);
+        private static string AssetsFolder = Path.Combine(ModPath, "Assets");
+
+        public static Sprite Icon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "icon.png"));
+        public static Texture2D Skin => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin.png"));
+        public static Texture2D Illum => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_illum.png"));
+
+        private static InfinityBatteryItem InfinityBatteryItem = new InfinityBatteryItem();
         public static CbItemPack InfinityPack { get; private set; }
 
         [QModPatch]
         public static void Load()
         {
-            //Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
+            Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
             InfinityPack = InfinityBatteryItem.PatchAsBattery();
 
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SpecialtyManifold.Patches
 {
-    [HarmonyPatch(typeof(SpecialtyTanks), "Update")]
+    [HarmonyPatch(typeof(SpecialtyTanks), nameof(SpecialtyTanks.Update))]
     public class SpecialtyTanks_Update_Patch
     {
         [HarmonyPostfix]

@@ -5,7 +5,7 @@ using UWE;
 
 namespace BuilderPlaceOnComplete.Patches
 {
-    [HarmonyPatch(typeof(BuilderTool), "HandleInput")]
+    [HarmonyPatch(typeof(BuilderTool), nameof(BuilderTool.HandleInput))]
     public class BuilderTool_HandleInput_Patch
     {
         [HarmonyPrefix]

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TechPistol.Patches
 {
-    [HarmonyPatch(typeof(SubRoot), "OnPlayerEntered")]
+    [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnPlayerEntered))]
     public static class SubRoot_OnPlayerEntered_Patches
     {
         [HarmonyPostfix]
@@ -15,7 +15,7 @@ namespace TechPistol.Patches
         }
     }
 
-    [HarmonyPatch(typeof(SubRoot), "OnPlayerExited")]
+    [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnPlayerExited))]
     public static class SubRoot_OnPlayerExited_Patches
     {
         [HarmonyPostfix]

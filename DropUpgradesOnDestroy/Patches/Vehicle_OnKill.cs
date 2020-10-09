@@ -6,16 +6,27 @@ using UWE;
 
 namespace DropUpgradesOnDestroy.Patches
 {
-    [HarmonyPatch(typeof(Vehicle), "OnKill")]
+    [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnKill))]
     public class Vehicle_OnKill
     {
         [HarmonyPrefix]
         public static void Prefix(Vehicle __instance)
         {
-            Dictionary<string, InventoryItem> eq = AccessTools.Field(typeof(Equipment), "equipment").GetValue(__instance.modules) as Dictionary<string, InventoryItem>;
-            List<InventoryItem> equipment = eq?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            List<InventoryItem> equipment = __instance?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+
+            switch (__instance)
+            {
+                case Exosuit exosuit:
+                    exosuit.storageContainer.container.ForEach((x) => equipment.Add(x));
+                    exosuit.energyInterface.sources.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
+                    break;
+                case SeaMoth seaMoth:
+                    seaMoth.energyInterface.sources.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
+                    break;
+            }
+
             Vector3 position = __instance.gameObject.transform.position;
-            CoroutineHost.StartCoroutine(Main.SpawnModuleNearby(equipment, position));
+            Main.SpawnModuleNearby(equipment, position);
         }
     }
 

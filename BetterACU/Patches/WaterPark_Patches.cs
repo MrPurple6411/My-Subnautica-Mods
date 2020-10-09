@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace BetterACU.Patches
 {
-    [HarmonyPatch(typeof(WaterPark), "Update")]
+    [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.Update))]
     public static class WaterPark_Update_Postfix
     {
         public static Dictionary<WaterPark, int> cachedItems = new Dictionary<WaterPark, int>();
@@ -20,9 +20,7 @@ namespace BetterACU.Patches
         {
             int numberOfPowerCreatures = 0;
 
-            List<WaterParkItem> items = Traverse.Create(__instance).Field<List<WaterParkItem>>("items")?.Value ?? new List<WaterParkItem>();
-
-            if (cachedItems.TryGetValue(__instance, out int count) && count == items.Count && cachedPowerCreatures.ContainsKey(__instance))
+            if (cachedItems.TryGetValue(__instance, out int count) && count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
             {
                 numberOfPowerCreatures = cachedPowerCreatures[__instance];
             }
@@ -30,10 +28,10 @@ namespace BetterACU.Patches
             {
                 foreach (TechType techType in Main.config.CreaturePowerGeneration.Keys)
                 {
-                    numberOfPowerCreatures += items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == techType && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)).Count;
+                    numberOfPowerCreatures += __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == techType && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)).Count;
                 }
 
-                cachedItems[__instance] = items.Count;
+                cachedItems[__instance] = __instance.items.Count;
                 cachedPowerCreatures[__instance] = numberOfPowerCreatures;
             }
 
@@ -67,11 +65,11 @@ namespace BetterACU.Patches
 #if BZ
             if(__instance is LargeRoomWaterPark)
             {
-                AccessTools.Field(typeof(WaterPark), "wpPieceCapacity").SetValue(__instance, Main.config.LargeWaterParkSize);
+                __instance.wpPieceCapacity = Main.config.LargeWaterParkSize;
             }
             else
 #endif
-            AccessTools.Field(typeof(WaterPark), "wpPieceCapacity").SetValue(__instance, Main.config.WaterParkSize);
+                __instance.wpPieceCapacity= Main.config.WaterParkSize;
         }
     }
 
@@ -82,7 +80,7 @@ namespace BetterACU.Patches
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            List<WaterParkItem> items = AccessTools.Field(typeof(WaterPark), "items").GetValue(__instance) as List<WaterParkItem>;
+            List<WaterParkItem> items = __instance.items;
             if (!items.Contains(creature) || __instance.HasFreeSpace())
             {
                 return;
@@ -97,13 +95,12 @@ namespace BetterACU.Patches
                 {
                     foreach (BaseBioReactor baseBioReactor in baseBioReactors)
                     {
-                        ItemsContainer container = AccessTools.Property(typeof(BaseBioReactor), "container").GetValue(baseBioReactor) as ItemsContainer;
-                        if (container.HasRoomFor(parkCreature.pickupable))
+                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
                         {
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
                             hasBred = true;
-                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, container));
+                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
                             break;
                         }
                     }
@@ -162,7 +159,7 @@ namespace BetterACU.Patches
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            List<WaterParkItem> items = AccessTools.Field(typeof(WaterPark), "items").GetValue(__instance) as List<WaterParkItem>;
+            List<WaterParkItem> items = __instance.items;
             if (!items.Contains(creature) || __instance.HasFreeSpace())
             {
                 return;
@@ -175,17 +172,16 @@ namespace BetterACU.Patches
                 WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
                 if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
                 {
-                    WaterParkCreatureData data = AccessTools.Field(typeof(WaterParkCreature), "data").GetValue(parkCreature) as WaterParkCreatureData;
+                    WaterParkCreatureData data = parkCreature.data;
                     foreach (BaseBioReactor baseBioReactor in baseBioReactors)
                     {
-                        ItemsContainer container = AccessTools.Property(typeof(BaseBioReactor), "container").GetValue(baseBioReactor) as ItemsContainer;
-                        if (container.HasRoomFor(parkCreature.pickupable))
+                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
                         {
                             creature.ResetBreedTime();
                             parkCreature.ResetBreedTime();
                             GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(data.eggOrChildPrefab), false);
                             gameObject.SetActive(false);
-                            container.AddItem(gameObject.EnsureComponent<Pickupable>());
+                            baseBioReactor.container.AddItem(gameObject.EnsureComponent<Pickupable>());
                             hasBred = true;
                             break;
                         }

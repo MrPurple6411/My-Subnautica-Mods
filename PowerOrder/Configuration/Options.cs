@@ -46,10 +46,10 @@ namespace PowerOrder.Configuration
 
             try
             {
-                int currentTab = Traverse.Create(Main.optionsPanel).Field("currentTab").GetValue<int>();
+                int currentTab = Main.optionsPanel.currentTab;
                 Main.optionsPanel.RemoveTabs();
-                AccessTools.Method(typeof(uGUI_OptionsPanel), "AddTabs").Invoke(Main.optionsPanel, null);
-                AccessTools.Method(typeof(uGUI_TabbedControlsPanel), "SetVisibleTab").Invoke(Main.optionsPanel, new object[] { currentTab });
+                Main.optionsPanel.AddTabs();
+                Main.optionsPanel.SetVisibleTab(currentTab);
             }
             catch(Exception er)
             {

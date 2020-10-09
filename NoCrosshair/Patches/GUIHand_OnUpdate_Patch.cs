@@ -2,7 +2,7 @@
 
 namespace NoCrosshair.Patches
 {
-    [HarmonyPatch(typeof(GUIHand), "OnUpdate")]
+    [HarmonyPatch(typeof(GUIHand), nameof(GUIHand.OnUpdate))]
     public static class GUIHand_OnUpdate_Patch
     {
         public static void Postfix(GUIHand __instance)
@@ -12,9 +12,7 @@ namespace NoCrosshair.Patches
                 NoCrosshair.check = !NoCrosshair.check;
             }
 
-            HandReticle.IconType iconType = (HandReticle.IconType)AccessTools.Field(typeof(HandReticle), "iconType").GetValue(HandReticle.main);
-
-            if (iconType == HandReticle.IconType.Default)
+            if (HandReticle.main.iconType == HandReticle.IconType.Default)
             {
                 if ((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && NoCrosshair.check)
                 {

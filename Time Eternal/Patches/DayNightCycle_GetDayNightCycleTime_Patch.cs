@@ -2,7 +2,7 @@
 
 namespace Time_Eternal.Patches
 {
-    [HarmonyPatch(typeof(DayNightCycle), "GetDayNightCycleTime")]
+    [HarmonyPatch(typeof(DayNightCycle), nameof(DayNightCycle.GetDayNightCycleTime))]
     internal class DayNightCycle_GetDayNightCycleTime_Patch
     {
         [HarmonyPrefix]

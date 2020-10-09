@@ -7,16 +7,15 @@ using UWE;
 
 namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Player), "ResetPlayerOnDeath")]
+    [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath))]
     public static class Player_ResetPlayerOnDeath_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-			SubRoot lastValidSub = Traverse.Create(__instance).Field<SubRoot>("lastValidSub")?.Value;
-			MethodInfo CheckSubValid = AccessTools.Method(typeof(Player), "CheckSubValid", new Type[] { typeof(SubRoot) });
+			SubRoot lastValidSub = __instance.lastValidSub;
 
-			if (lastValidSub != null && (bool)CheckSubValid.Invoke(__instance, new object[] { lastValidSub }))
+			if (lastValidSub != null && __instance.CheckSubValid(lastValidSub))
 			{
 				CoroutineHost.StartCoroutine(WaitThenMovePlayer(__instance, lastValidSub));
 			}

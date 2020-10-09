@@ -25,9 +25,9 @@ namespace InfinityBattery.Prefabs
 
         public override TechType UnlocksWith => TechType.None;
 
-        public override Sprite CustomIcon => ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "icon.png"));
+        public override Sprite CustomIcon => Main.Icon;
 
-        public override Texture2D CustomSkin => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin.png"));
+        public override Texture2D CustomSkin => Main.Skin;
 
         public override bool ExcludeFromChargers => false;
 

@@ -8,7 +8,7 @@ using UWE;
 
 namespace ConfigurableChunkDrops.Patches
 {
-    [HarmonyPatch(typeof(BreakableResource), "BreakIntoResources")]
+    [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_ChooseRandomResource
     {
 

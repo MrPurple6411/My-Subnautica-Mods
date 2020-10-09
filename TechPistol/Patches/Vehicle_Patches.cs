@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TechPistol.Patches
 {
-    [HarmonyPatch(typeof(Vehicle), "OnPilotModeBegin")]
+    [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnPilotModeBegin))]
     public static class Vehicle_OnPilotModeBegin_Patches
     {
         [HarmonyPostfix]
@@ -14,7 +14,7 @@ namespace TechPistol.Patches
         }
     }
 
-    [HarmonyPatch(typeof(Vehicle), "OnPilotModeEnd")]
+    [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnPilotModeEnd))]
     public static class Vehicle_OnPilotModeEnd_Patches
     {
         [HarmonyPostfix]

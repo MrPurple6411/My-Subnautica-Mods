@@ -124,10 +124,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
-    <Compile Include="Patches\Patch.cs" />
+    <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
     <Compile Include="Prefabs\InfinityBatteryItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -143,6 +142,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\skin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\skin_illum.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

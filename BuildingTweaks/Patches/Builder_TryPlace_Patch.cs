@@ -52,7 +52,7 @@ namespace BuildingTweaks.Patches
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)
         {
             BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
-            GameObject placementTarget = AccessTools.Field(typeof(Builder), "placementTarget").GetValue(null) as GameObject;
+            GameObject placementTarget = Builder.placementTarget;
             if (Main.config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && placementTarget != null)
             {
                 constructableBase.transform.SetParent(UWE.Utils.GetEntityRoot(placementTarget).transform, true);
@@ -74,7 +74,7 @@ namespace BuildingTweaks.Patches
                 largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            GameObject placementTarget = AccessTools.Field(typeof(Builder), "placementTarget").GetValue(null) as GameObject;
+            GameObject placementTarget = Builder.placementTarget;
             if (Main.config.AttachToTarget && placementTarget != null)
             {
                 builtObject.transform.SetParent(UWE.Utils.GetEntityRoot(placementTarget)?.transform ?? placementTarget.transform);

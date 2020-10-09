@@ -10,7 +10,8 @@ namespace ImprovedPowerNetwork.Patches
         public static void Postfix(ref PowerRelay __result)
         {
             PowerControl powerControl;
-            bool isCyclops = __result.gameObject.name.Contains("Cyclops");
+            bool isCyclops = __result?.gameObject.name.Contains("Cyclops") ?? false;
+
             if (__result != null && (__result is BasePowerRelay || isCyclops))
             {
                 IPowerInterface powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay)?.FirstOrFallback(null);

@@ -18,8 +18,8 @@ namespace TechPistol.Module
 {
     internal class PistolPrefab : Equipable
     {
-		static HashSet<TechType> batteryChargerCompatibleTech => (HashSet<TechType>)Traverse.Create<BatteryCharger>().Field("compatibleTech").GetValue();
-		static HashSet<TechType> powerCellChargerCompatibleTech => (HashSet<TechType>)Traverse.Create<PowerCellCharger>().Field("compatibleTech").GetValue();
+		static HashSet<TechType> batteryChargerCompatibleTech => BatteryCharger.compatibleTech;
+		static HashSet<TechType> powerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
 		static List<TechType> compatibleTech => batteryChargerCompatibleTech.Concat(powerCellChargerCompatibleTech).ToList();
 
 

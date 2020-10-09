@@ -3,28 +3,28 @@ using UnityEngine;
 
 namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Base), "Start")]
+    [HarmonyPatch(typeof(Base), nameof(Base.Start))]
     public static class Base_Start_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(Base __instance)
         {
-            if(Traverse.Create(__instance).Field<bool>("waitingForWorld").Value)
+            if(__instance.waitingForWorld)
             {
                 __instance.RebuildGeometry();
             }
         }
     }
 
-    [HarmonyPatch(typeof(Base), "Update")]
+    [HarmonyPatch(typeof(Base), nameof(Base.Update))]
     public static class Base_Update_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(Base __instance)
         {
-            if (Traverse.Create(__instance).Field<bool>("waitingForWorld").Value)
+            if (__instance.waitingForWorld)
             {
-                Traverse.Create(__instance).Field<bool>("waitingForWorld").Value = false;
+                __instance.waitingForWorld = false;
                 __instance.RebuildGeometry();
             }
         }

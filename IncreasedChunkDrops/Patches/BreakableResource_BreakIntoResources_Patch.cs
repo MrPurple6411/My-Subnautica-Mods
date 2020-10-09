@@ -7,7 +7,7 @@ using UWE;
 
 namespace IncreasedChunkDrops.Patches
 {
-    [HarmonyPatch(typeof(BreakableResource), "BreakIntoResources")]
+    [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     internal class BreakableResource_BreakIntoResources_Patch
     {
         [HarmonyPostfix]
@@ -22,8 +22,8 @@ namespace IncreasedChunkDrops.Patches
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
                 {
-                    GameObject prefab = (GameObject)AccessTools.Method(typeof(BreakableResource), "ChooseRandomResource").Invoke(__instance, null);
-                    if (prefab)
+                    GameObject prefab = __instance.ChooseRandomResource();
+                    if (prefab != null)
                     {
                         rigidbody = Object.Instantiate(prefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                         flag = true;

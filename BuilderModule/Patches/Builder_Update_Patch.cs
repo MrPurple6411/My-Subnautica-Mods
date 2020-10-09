@@ -6,7 +6,7 @@ using HarmonyLib;
 namespace BuilderModule.Patches
 {
 
-    [HarmonyPatch(typeof(Builder), "Update")]
+    [HarmonyPatch(typeof(Builder), nameof(Builder.Update))]
     internal class Builder_Update_Patch
     {
         [HarmonyTranspiler]

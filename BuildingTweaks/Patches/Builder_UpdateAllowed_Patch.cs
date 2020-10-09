@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Builder), "UpdateAllowed")]
+    [HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
     internal class Builder_UpdateAllowed_Patch
     {
 
@@ -15,9 +15,9 @@ namespace BuildingTweaks.Patches
             if (Main.config.AttachToTarget)
             {
 #if SN1
-                    __result = (bool)AccessTools.Method(typeof(Builder), "CheckAsSubModule").Invoke(null,null);
+                __result = Builder.CheckAsSubModule();
 #elif BZ
-                __result = (bool)AccessTools.Method(typeof(Builder), "CheckAsSubModule").Invoke(null, new object[] { null });
+                __result = Builder.CheckAsSubModule(out _);
 #endif
             }
 

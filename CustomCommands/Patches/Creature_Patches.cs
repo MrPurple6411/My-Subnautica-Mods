@@ -2,7 +2,7 @@
 
 namespace CustomCommands.Patches
 {
-    [HarmonyPatch(typeof(Creature), "Start")]
+    [HarmonyPatch(typeof(Creature), nameof(Creature.Start))]
     class Creature_Start_Patch
     {
         [HarmonyPrefix]

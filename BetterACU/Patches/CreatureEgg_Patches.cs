@@ -2,7 +2,7 @@
 
 namespace BetterACU.Patches
 {
-    [HarmonyPatch(typeof(CreatureEgg), "Hatch")]
+    [HarmonyPatch(typeof(CreatureEgg), nameof(CreatureEgg.Hatch))]
     internal class CreatureEgg_Hatch_Prefix
     {
         [HarmonyPostfix]

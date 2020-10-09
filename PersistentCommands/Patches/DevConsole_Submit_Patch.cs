@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PersistentCommands.Patches
 {
-    [HarmonyPatch(typeof(DevConsole), "Submit")]
+    [HarmonyPatch(typeof(DevConsole), nameof(DevConsole.Submit))]
     public static class DevConsole_Submit_Patch
     {
         [HarmonyPostfix]

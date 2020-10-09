@@ -15,26 +15,28 @@ namespace ToolInspection.Patches
         [HarmonyPrefix]
         public static void Prefix(QuickSlots __instance)
         {
-
-            InventoryItem item = __instance.heldItem;
-            if(Input.GetKeyDown(KeyCode.I) && item != null && timeCheck == 0)
+            try
             {
-                TechType techType = item.item.GetTechType();
-                PlayerTool tool = item.item?.gameObject?.GetComponent<PlayerTool>();
-                FieldInfo firstUseAnimationStarted = AccessTools.Field(typeof(PlayerTool), "firstUseAnimationStarted");
-                if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
+                InventoryItem item = __instance.heldItem;
+                if (Input.GetKeyDown(KeyCode.I) && item != null && timeCheck == 0)
                 {
-                    if (Player.main.usedTools.Contains(techType))
+                    TechType techType = item.item.GetTechType();
+                    PlayerTool tool = item.item?.gameObject?.GetComponent<PlayerTool>();
+                    if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
                     {
-                        Player.main.usedTools.Remove(techType);
-                    }
+                        if (Player.main.usedTools.Contains(techType))
+                        {
+                            Player.main.usedTools.Remove(techType);
+                        }
 
-                    slot = __instance.GetSlotByItem(item);
-                    __instance.SelectImmediate(slot);
-                    timeCheck = Time.time + tool.holsterTime;
-                    CoroutineHost.StartCoroutine(SelectDelay(__instance));
+                        slot = __instance.GetSlotByItem(item);
+                        __instance.SelectImmediate(slot);
+                        timeCheck = Time.time + tool.holsterTime;
+                        CoroutineHost.StartCoroutine(SelectDelay(__instance));
+                    }
                 }
             }
+            catch { }
         }
 
         private static IEnumerator SelectDelay(QuickSlots quickSlots)

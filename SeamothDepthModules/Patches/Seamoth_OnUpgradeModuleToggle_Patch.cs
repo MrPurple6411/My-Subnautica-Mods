@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MoreSeamothDepth.Patches
 {
-    [HarmonyPatch(typeof(SeaMoth), "OnUpgradeModuleChange")]
+    [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnUpgradeModuleChange))]
     public class Seamoth_OnUpgradeModuleChange_Patch
     { 
         static void Postfix(SeaMoth __instance, TechType techType)

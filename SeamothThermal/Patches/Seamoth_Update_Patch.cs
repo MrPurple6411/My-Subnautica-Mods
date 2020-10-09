@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SeamothThermal.Patches
 {
-    [HarmonyPatch(typeof(SeaMoth), "Update")]
+    [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update))]
     public class Seamoth_Update_Patch
     {
         // Reflection Method: AddEnergy

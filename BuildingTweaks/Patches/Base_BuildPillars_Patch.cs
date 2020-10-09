@@ -1,19 +1,15 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Base), "BuildPillars")]
+#if SN1 || BELOWZERO_STABLE
+	[HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
     {
         [HarmonyPrefix]
         public static void Prefix(Base __instance)
         {
-            if(__instance.gameObject.transform.parent.name.Contains("(Clone)"))
+            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
 			{
 				if (__instance.isGhost)
 				{
@@ -53,4 +49,34 @@ namespace BuildingTweaks.Patches
 			}
         }
     }
+#elif BELOWZERO_EXP
+
+	[HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
+	public static class Base_BuildPillars_Patch
+	{
+		[HarmonyPrefix]
+		public static void Prefix(Base __instance)
+		{
+			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+			{
+				if (!__instance.isGhost)
+				{
+					IBaseAccessoryGeometry[] componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
+					for (int i = 0; i < componentsInChildren.Length; i++)
+					{
+						IBaseAccessoryGeometry baseAccessoryGeometry = componentsInChildren[i];
+
+						switch (baseAccessoryGeometry)
+						{
+							case BaseFoundationPiece baseFoundationPiece:
+								baseFoundationPiece.maxPillarHeight = 0f;
+								break;
+						}
+					}
+					return;
+				}
+			}
+		}
+	}
+#endif
 }

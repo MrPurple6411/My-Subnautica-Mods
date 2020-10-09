@@ -2,7 +2,7 @@
 
 namespace NoCrosshair.Patches
 {
-    [HarmonyPatch(typeof(uGUI_MapRoomScanner), "OnTriggerExit")]
+    [HarmonyPatch(typeof(uGUI_MapRoomScanner), nameof(uGUI_MapRoomScanner.OnTriggerExit))]
     public static class MapRoomScanner_OnTriggerExit_Patch
     {
         public static void Postfix()

@@ -33,8 +33,8 @@ namespace ExtraOptions
             Harmony harmony = Harmony.CreateAndPatchAll(assembly, "com.m22spencer.extraoptions");
 
             // When a preset is selected, the texture quality is also set, reload settings here to override this
-            harmony.Patch(AccessTools.Method(typeof(uGUI_OptionsPanel), "SyncQualityPresetSelection"), postfix: new HarmonyMethod(typeof(Main).GetMethod(nameof(ApplyOptions))));
-            harmony.Patch(AccessTools.Method(typeof(MainMenuController), "Start"), postfix: new HarmonyMethod(typeof(Main).GetMethod(nameof(ApplyOptions))));
+            harmony.Patch(AccessTools.Method(typeof(uGUI_OptionsPanel), nameof(uGUI_OptionsPanel.SyncQualityPresetSelection)), postfix: new HarmonyMethod(typeof(Main).GetMethod(nameof(ApplyOptions))));
+            harmony.Patch(AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.Start)), postfix: new HarmonyMethod(typeof(Main).GetMethod(nameof(ApplyOptions))));
         }
 
         public static void ApplyOptions()

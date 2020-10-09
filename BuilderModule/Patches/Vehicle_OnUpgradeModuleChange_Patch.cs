@@ -4,7 +4,7 @@ using QModManager.Utility;
 
 namespace BuilderModule.Patches
 {
-    [HarmonyPatch(typeof(Vehicle), "OnUpgradeModuleChange")]
+    [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnUpgradeModuleChange))]
     internal class Vehicle_OnUpgradeModuleChange_Patch
     {
         [HarmonyPostfix]
