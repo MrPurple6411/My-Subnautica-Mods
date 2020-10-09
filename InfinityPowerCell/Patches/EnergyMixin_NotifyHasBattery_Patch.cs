@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
-using InfinityBattery.MonoBehaviours;
+using InfinityPowerCell.MonoBehaviours;
 using System.Linq;
 
-namespace InfinityBattery.Patches
+namespace InfinityPowerCell.Patches
 {
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
@@ -14,7 +14,7 @@ namespace InfinityBattery.Patches
             {
                 TechType techType = item.item.GetTechType();
 
-                if (techType == Main.InfinityPack.ItemPrefab.TechType)
+                if (techType == Main.InfinityCellPack.ItemPrefab.TechType)
                 {
                     EnergyMixin.BatteryModels? i = __instance.batteryModels.Where((x) => x.techType == techType)?.First();
 

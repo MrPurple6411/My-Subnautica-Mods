@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using CustomBatteries.API;
-using InfinityBattery.MonoBehaviours;
-using SMLHelper.V2.Utility;
+using InfinityPowerCell.MonoBehaviours;
 using UnityEngine;
 #if SN1
 using Sprite = Atlas.Sprite;
 #endif
 
-namespace InfinityBattery.Prefabs
+namespace InfinityPowerCell.Prefabs
 {
-    internal class InfinityBatteryItem : CbItem
+    internal class InfinityPowerCellItem : CbItem
     {
         public override int EnergyCapacity => 1000000;
 
-        public override string ID => "InfinityBattery";
+        public override string ID => "InfinityCell";
 
-        public override string Name => "Infinity Battery";
+        public override string Name => "Infinity Cell";
 
-        public override string FlavorText => "Battery that constantly keeps 1 Million Power";
+        public override string FlavorText => "Power Cell that constantly keeps 1 Million Power";
 
         public override IList<TechType> CraftingMaterials => new List<TechType>();
 
