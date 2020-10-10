@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using InfinityBattery.MonoBehaviours;
 using System.Linq;
+using static EnergyMixin;
 
 namespace InfinityBattery.Patches
 {
@@ -16,11 +17,11 @@ namespace InfinityBattery.Patches
 
                 if (techType == Main.InfinityPack.ItemPrefab.TechType)
                 {
-                    EnergyMixin.BatteryModels? i = __instance.batteryModels.Where((x) => x.techType == techType)?.First();
+                    BatteryModels[] i = __instance.batteryModels.Where((x) => x.techType == techType) as BatteryModels[];
 
-                    if (i.HasValue)
+                    if ((i?.Length ?? 0) > 0)
                     {
-                        i.Value.model.EnsureComponent<InfinityBehaviour>();
+                        i[0].model.EnsureComponent<InfinityBehaviour>();
                     }
                 }
             }
