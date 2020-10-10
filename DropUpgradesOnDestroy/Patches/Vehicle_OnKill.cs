@@ -17,11 +17,11 @@ namespace DropUpgradesOnDestroy.Patches
             switch (__instance)
             {
                 case Exosuit exosuit:
-                    exosuit.storageContainer.container.ForEach((x) => equipment.Add(x));
-                    exosuit.energyInterface.sources.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
+                    exosuit?.storageContainer?.container?.ForEach((x) => equipment.Add(x));
+                    exosuit?.energyInterface?.sources?.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
                     break;
                 case SeaMoth seaMoth:
-                    seaMoth.energyInterface.sources.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
+                    seaMoth?.energyInterface?.sources?.ForEach((x) => { if (x.batterySlot.storedItem != null) equipment.Add(x.batterySlot.storedItem); });
                     break;
             }
 
