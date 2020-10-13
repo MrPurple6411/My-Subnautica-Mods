@@ -5,8 +5,7 @@ namespace InfinityPowerCell.MonoBehaviours
     internal class InfinityBehaviour : MonoBehaviour
     {
         Battery battery;
-        MeshRenderer renderer;
-        SkinnedMeshRenderer skinnedRenderer;
+        Renderer renderer;
         EnergyMixin energyMixin;
 
         private float currentStrength = 0;
@@ -16,26 +15,7 @@ namespace InfinityPowerCell.MonoBehaviours
 
         public void Awake()
         {
-            renderer = gameObject.GetComponentInChildren<MeshRenderer>();
-
-            if(renderer != null)
-            {
-                renderer.material.shader = Shader.Find("MarmosetUBER");
-                renderer.material.EnableKeyword("_EnableGlow");
-                renderer.material.SetColor("_GlowColor", Color.white);
-                renderer.material.SetTexture(ShaderPropertyID._Illum, Main.Illum);
-            }
-
-            skinnedRenderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
-
-            if(skinnedRenderer != null)
-            {
-                skinnedRenderer.material.shader = Shader.Find("MarmosetUBER");
-                skinnedRenderer.material.EnableKeyword("_EnableGlow");
-                skinnedRenderer.material.SetTexture(ShaderPropertyID._Illum, Main.Illum);
-                skinnedRenderer.material.SetColor("_GlowColor", Color.white);
-            }
-
+            renderer = gameObject.GetComponentInChildren<Renderer>();
             battery = gameObject.GetComponent<Battery>();
             energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
         }
@@ -67,13 +47,6 @@ namespace InfinityPowerCell.MonoBehaviours
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
             }
-
-            if (skinnedRenderer != null)
-            {
-                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
-                skinnedRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
-            }
-
         }
     }
 }

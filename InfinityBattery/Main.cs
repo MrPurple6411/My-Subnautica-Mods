@@ -20,8 +20,12 @@ namespace InfinityBattery
         private static string AssetsFolder = Path.Combine(ModPath, "Assets");
 
         public static Sprite Icon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "icon.png"));
-        public static Texture2D Skin => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin.png"));
+        public static Texture2D Texture => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin.png"));
         public static Texture2D Illum => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_illum.png"));
+
+        public static Texture2D Normal => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_normal.png"));
+
+        public static Texture2D Spec => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_spec.png"));
 
         private static InfinityBatteryItem InfinityBatteryItem = new InfinityBatteryItem();
         public static CbItemPack InfinityPack { get; private set; }

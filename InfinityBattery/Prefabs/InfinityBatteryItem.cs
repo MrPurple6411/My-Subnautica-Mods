@@ -27,7 +27,17 @@ namespace InfinityBattery.Prefabs
 
         public override Sprite CustomIcon => Main.Icon;
 
-        public override Texture2D CustomSkin => Main.Skin;
+        public override Texture2D CustomTexture => Main.Texture;
+
+        public override Texture2D CustomIllumMap => Main.Illum;
+
+        public override float CustomIllumStrength => 1f;
+
+        public override bool UseIonModels => true;
+
+        public override Texture2D CustomNormalMap => Main.Normal;
+
+        public override Texture2D CustomSpecMap => Main.Spec;
 
         public override bool ExcludeFromChargers => true;
 
