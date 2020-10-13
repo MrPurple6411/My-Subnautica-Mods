@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="BaseInboundRelay.cs" />
     <Compile Include="OtherConnectionRelay.cs" />

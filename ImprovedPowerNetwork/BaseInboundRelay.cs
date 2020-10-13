@@ -7,11 +7,11 @@ namespace ImprovedPowerNetwork
 {
     public class BaseInboundRelay : PowerRelay
     {
-        internal static void AddNewBaseConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
+        internal static BaseInboundRelay AddNewBaseConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
             BaseInboundRelay additionalRelay = originalRelay.gameObject.AddComponent<BaseInboundRelay>();
             additionalRelay.dontConnectToRelays = powerControl.baseConnectionsDisabled;
-            additionalRelay.maxOutboundDistance = 15;
+            additionalRelay.maxOutboundDistance = 10000;
             additionalRelay.constructable = originalRelay.constructable;
 
             if (originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
@@ -27,7 +27,26 @@ namespace ImprovedPowerNetwork
             }
             additionalRelay.AddInboundPower(originalRelay);
 
-            powerControl.baseConnectionRelays.Add(additionalRelay);
+            return additionalRelay;
+        }
+
+        public void LateUpdate()
+        {
+            if (outboundRelay is null && (constructable?.constructed ?? false))
+            {
+                UpdateConnection();
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (outboundRelay != null)
+            {
+                outboundRelay.RemoveInboundPower(this);
+                outboundRelay = null;
+                powerFX.target = null;
+                GameObject.Destroy(powerFX.vfxEffectObject);
+            }
         }
 
         public class BaseInboundRelayPowerFX : PowerFX { }

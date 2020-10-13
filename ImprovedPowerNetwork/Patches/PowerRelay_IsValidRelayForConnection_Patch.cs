@@ -28,6 +28,12 @@ namespace ImprovedPowerNetwork.Patches
                     return;
                 }
 
+                if(__instance is BaseInboundRelay && (subRoot1 is null || subRoot1 != subRoot2))
+                {
+                    __result = false;
+                    return;
+                }
+
                 if (potentialRelay is OtherConnectionRelay)
                 {
                     __result = false;
@@ -70,25 +76,27 @@ namespace ImprovedPowerNetwork.Patches
                     return;
                 }
 
-                if (potentialRelay != __instance.outboundRelay && (potentialRelay.GetType() == typeof(BasePowerRelay) || potentialRelay.GetType() == typeof(PowerRelay)) && potentialRelay.inboundPowerSources.Where((x) => x.GetType() == typeof(BaseInboundRelay) || x.GetType() == typeof(OtherConnectionRelay)).Any())
+                if (potentialRelay != __instance.outboundRelay && potentialRelay.GetType() == typeof(PowerRelay) && potentialRelay.inboundPowerSources.Where((x) => x.GetType() == typeof(OtherConnectionRelay)).Any())
                 {
                     __result = false;
                     return;
                 }
-
 
                 if(__instance is OtherConnectionRelay || __instance is BaseInboundRelay)
                 {
                     return;
                 }
 
-                if (__instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), potentialRelay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
+                if (Main.config.LOSBlue && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), potentialRelay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
                 {
                     __result = false;
                     return;
                 }
 
-                if (Vector3.Distance(__instance.GetConnectPoint(potentialRelay.GetConnectPoint(__instance.GetConnectPoint(potentialRelay.GetConnectPoint()))), potentialRelay.GetConnectPoint(__instance.GetConnectPoint(potentialRelay.GetConnectPoint()))) > __instance.maxOutboundDistance)
+                Vector3 position1 = __instance.GetConnectPoint(potentialRelay.GetConnectPoint(__instance.GetConnectPoint(potentialRelay.GetConnectPoint())));
+                Vector3 position2 = potentialRelay.GetConnectPoint(position1);
+
+                if (Vector3.Distance(position1, position2) > __instance.maxOutboundDistance)
                 {
                     __result = false;
                     return;

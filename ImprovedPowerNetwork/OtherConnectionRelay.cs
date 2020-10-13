@@ -8,7 +8,7 @@ namespace ImprovedPowerNetwork
         {
             OtherConnectionRelay additionalRelay = originalRelay.gameObject.AddComponent<OtherConnectionRelay>();
             additionalRelay.dontConnectToRelays = powerControl.otherConnectionsDisabled;
-            additionalRelay.maxOutboundDistance = 15;
+            additionalRelay.maxOutboundDistance = Main.config.GreenBeamRange;
             additionalRelay.constructable = originalRelay.constructable;
 
             if (originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
@@ -24,6 +24,44 @@ namespace ImprovedPowerNetwork
             additionalRelay.AddInboundPower(originalRelay);
 
             powerControl.otherConnectionRelays.Add(additionalRelay);
+        }
+
+        public void LateUpdate()
+        {
+            maxOutboundDistance = Main.config.GreenBeamRange;
+
+            if (outboundRelay != null)
+            {
+                Vector3 position1 = GetConnectPoint(outboundRelay.GetConnectPoint(GetConnectPoint(outboundRelay.GetConnectPoint())));
+                Vector3 position2 = outboundRelay.GetConnectPoint(position1);
+
+                if (Vector3.Distance(position1, position2) > maxOutboundDistance)
+                {
+                    DisconnectFromRelay();
+                    return;
+                }
+
+                GameObject target = powerFX?.target;
+                if (target != null)
+                {
+                    powerFX?.SetTarget(target);
+                }
+            }
+            else if (constructable?.constructed ?? false)
+            {
+                UpdateConnection();
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (outboundRelay != null)
+            {
+                outboundRelay.RemoveInboundPower(this);
+                outboundRelay = null;
+                powerFX.target = null;
+                GameObject.Destroy(powerFX.vfxEffectObject);
+            }
         }
 
         public class OtherRelayPowerFX : PowerFX { }

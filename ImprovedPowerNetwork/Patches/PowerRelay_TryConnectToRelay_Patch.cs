@@ -24,6 +24,12 @@ namespace ImprovedPowerNetwork.Patches
                 return false;
             }
 
+            if (__instance is BaseInboundRelay && (subRoot1 is null || subRoot1 != subRoot2))
+            {
+                __result = false;
+                return false;
+            }
+
             if (relay is OtherConnectionRelay)
             {
                 __result = false;
@@ -73,7 +79,7 @@ namespace ImprovedPowerNetwork.Patches
                 return false;
             }
 
-            if (!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
+            if (Main.config.LOSBlue && !(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
             {
                 __result = false;
                 return false;
