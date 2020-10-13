@@ -128,6 +128,7 @@
     <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
     <Compile Include="Prefabs\InfinityBatteryItem.cs" />
+    <Compile Include="Prefabs\InfinityBatteryModelData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

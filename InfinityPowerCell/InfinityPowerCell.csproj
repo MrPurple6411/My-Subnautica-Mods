@@ -127,6 +127,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
+    <Compile Include="Prefabs\InfinityPowerCellModelData.cs" />
     <Compile Include="Prefabs\InfinityPowerCellItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -28,14 +28,13 @@ namespace InfinityBattery
         public static Texture2D Spec => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_spec.png"));
 
         private static InfinityBatteryItem InfinityBatteryItem = new InfinityBatteryItem();
-        public static CbItemPack InfinityPack { get; private set; }
+        public static CbItemPack InfinityBatteryPack { get; private set; }
 
         [QModPatch]
         public static void Load()
         {
             Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
-            InfinityPack = InfinityBatteryItem.PatchAsBattery();
-
+            InfinityBatteryPack = InfinityBatteryItem.PatchAsBattery();
         }
     }
 }

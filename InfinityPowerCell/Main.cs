@@ -29,7 +29,7 @@ namespace InfinityPowerCell
 
         public static Texture2D Spec => ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "skin_spec.png"));
 
-        private static InfinityPowerCellItem InfinityBatteryItem = new InfinityPowerCellItem();
+        private static InfinityPowerCellItem InfinityPowerCellItem = new InfinityPowerCellItem();
 
         public static CbItemPack InfinityCellPack { get; private set; }
 
@@ -37,7 +37,7 @@ namespace InfinityPowerCell
         public static void Load()
         {
             Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
-            InfinityCellPack = InfinityBatteryItem.PatchAsPowerCell();
+            InfinityCellPack = InfinityPowerCellItem.PatchAsPowerCell();
         }
     }
 }

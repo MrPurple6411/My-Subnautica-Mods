@@ -18,10 +18,7 @@ namespace TechPistol.Module
 {
     internal class PistolPrefab : Equipable
     {
-		static HashSet<TechType> batteryChargerCompatibleTech => BatteryCharger.compatibleTech;
-		static HashSet<TechType> powerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
-		static List<TechType> compatibleTech => batteryChargerCompatibleTech.Concat(powerCellChargerCompatibleTech).ToList();
-
+		static List<TechType> compatibleTech =  new List<TechType> { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
 
 		public PistolPrefab() : base("TechPistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
 		{
@@ -63,11 +60,16 @@ namespace TechPistol.Module
 				if (meshRenderer.name.StartsWith("Gun") || meshRenderer.name.StartsWith("Target"))
 				{
 					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
+					Texture specMap = meshRenderer.material.GetTexture("_MetallicGlossMap");
 
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-					meshRenderer.material.EnableKeyword("_EnableGlow");
-					meshRenderer.material.SetTexture("_Illum", emissionMap);
+					meshRenderer.material.EnableKeyword("MARMO_EMISSION");
+					meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
+					meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+					meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
 					meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
 				}
 			}
 
@@ -168,14 +170,19 @@ namespace TechPistol.Module
 			MeshRenderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<MeshRenderer>();
 			foreach (MeshRenderer meshRenderer in componentsInChildren)
 			{
-				if (meshRenderer.name.StartsWith("Gun"))
+				if (meshRenderer.name.StartsWith("Gun") || meshRenderer.name.StartsWith("Target"))
 				{
 					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
+					Texture specMap = meshRenderer.material.GetTexture("_MetallicGlossMap");
 
 					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-					meshRenderer.material.EnableKeyword("_EnableGlow");
-					meshRenderer.material.SetTexture("_Illum", emissionMap);
+					meshRenderer.material.EnableKeyword("MARMO_EMISSION");
+					meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
+					meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+					meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
 					meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
 				}
 			}
 

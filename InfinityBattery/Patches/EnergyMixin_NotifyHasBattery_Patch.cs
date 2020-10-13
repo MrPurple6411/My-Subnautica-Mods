@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using InfinityBattery.MonoBehaviours;
-using System.Linq;
 using static EnergyMixin;
 
 namespace InfinityBattery.Patches
@@ -11,17 +10,20 @@ namespace InfinityBattery.Patches
         [HarmonyPostfix]
         public static void Postfix(EnergyMixin __instance, InventoryItem item)
         {
-            if(item != null)
+            if (item != null)
             {
                 TechType techType = item.item.GetTechType();
 
-                if (techType == Main.InfinityPack.ItemPrefab.TechType)
+                if (techType == Main.InfinityBatteryPack.ItemPrefab.TechType)
                 {
-                    BatteryModels[] i = __instance.batteryModels.Where((x) => x.techType == techType) as BatteryModels[];
 
-                    if ((i?.Length ?? 0) > 0)
+                    foreach (BatteryModels batteryModel in __instance.batteryModels)
                     {
-                        i[0].model.EnsureComponent<InfinityBehaviour>();
+                        if(batteryModel.techType == techType)
+                        {
+                            batteryModel.model.EnsureComponent<InfinityBehaviour>();
+                            break;
+                        }
                     }
                 }
             }

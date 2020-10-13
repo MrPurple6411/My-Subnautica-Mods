@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using CustomBatteries.API;
 using InfinityBattery.MonoBehaviours;
-using SMLHelper.V2.Utility;
 using UnityEngine;
 #if SN1
 using Sprite = Atlas.Sprite;
@@ -27,17 +24,7 @@ namespace InfinityBattery.Prefabs
 
         public override Sprite CustomIcon => Main.Icon;
 
-        public override Texture2D CustomTexture => Main.Texture;
-
-        public override Texture2D CustomIllumMap => Main.Illum;
-
-        public override float CustomIllumStrength => 1f;
-
-        public override bool UseIonModels => true;
-
-        public override Texture2D CustomNormalMap => Main.Normal;
-
-        public override Texture2D CustomSpecMap => Main.Spec;
+        public override CBModelData CBModelData => new InfinityBatteryModelData();
 
         public override bool ExcludeFromChargers => true;
 
