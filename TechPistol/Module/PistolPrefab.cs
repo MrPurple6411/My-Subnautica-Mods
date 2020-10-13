@@ -17,8 +17,10 @@ using Sprite = Atlas.Sprite;
 namespace TechPistol.Module
 {
     internal class PistolPrefab : Equipable
-    {
-		static List<TechType> compatibleTech =  new List<TechType> { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
+	{
+		static HashSet<TechType> batteryChargerCompatibleTech => BatteryCharger.compatibleTech;
+		static HashSet<TechType> powerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
+		static List<TechType> compatibleTech => batteryChargerCompatibleTech.Concat(powerCellChargerCompatibleTech).ToList();
 
 		public PistolPrefab() : base("TechPistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
 		{
