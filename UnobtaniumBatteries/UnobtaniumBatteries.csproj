@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
+    <Compile Include="Patches\Creature_OnTakeDamage_Patch.cs" />
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
     <Compile Include="Prefabs\UnobtaniumBatteryItem.cs" />
     <Compile Include="Prefabs\UnobtaniumBatteryModelData.cs" />

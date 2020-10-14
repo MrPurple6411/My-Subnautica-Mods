@@ -9,7 +9,7 @@ namespace UnobtaniumBatteries.Patches
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
     {
-        public static List<TechType> infinityBatteries = new List<TechType>() { Main.InfinityBatteryPack.ItemPrefab.TechType, Main.InfinityCellPack.ItemPrefab.TechType };
+        public static List<TechType> infinityBatteries = new List<TechType>() { Main.UnobtaniumBatteryPack.ItemPrefab.TechType, Main.UnobtaniumCellPack.ItemPrefab.TechType };
 
         [HarmonyPostfix]
         public static void Postfix(EnergyMixin __instance, InventoryItem item)

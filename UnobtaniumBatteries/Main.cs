@@ -14,14 +14,17 @@ namespace UnobtaniumBatteries
         private static string ModPath = Path.GetDirectoryName(myAssembly.Location);
         internal static string AssetsFolder = Path.Combine(ModPath, "Assets");
 
-        public static CbItemPack InfinityCellPack { get; } = new UnobtaniumPowerCellItem().PatchAsPowerCell();
-
-        public static CbItemPack InfinityBatteryPack { get; } = new UnobtaniumBatteryItem().PatchAsBattery();
+        public static CbItemPack UnobtaniumCellPack { get; private set; }
+        public static CbItemPack UnobtaniumBatteryPack { get; private set; }
 
         [QModPatch]
         public static void Load()
         {
             Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
+
+            UnobtaniumBatteryPack = new UnobtaniumBatteryItem().PatchAsBattery();
+            UnobtaniumCellPack = new UnobtaniumPowerCellItem().PatchAsPowerCell();
+
         }
     }
 }

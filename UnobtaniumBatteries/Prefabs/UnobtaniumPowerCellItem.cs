@@ -21,7 +21,7 @@ namespace UnobtaniumBatteries.Prefabs
 
         public override string FlavorText => "Power Cell that constantly keeps 1 Million Power";
 
-        public override IList<TechType> CraftingMaterials => new List<TechType>();
+        public override IList<TechType> CraftingMaterials => new List<TechType>() { Main.UnobtaniumBatteryPack.ItemPrefab.TechType };
 
         public override TechType UnlocksWith => TechType.None;
 
