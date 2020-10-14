@@ -4,6 +4,7 @@ using System.Reflection;
 using System.IO;
 using CustomBatteries.API;
 using UnobtaniumBatteries.Prefabs;
+using SMLHelper.V2.Handlers;
 
 namespace UnobtaniumBatteries
 {
@@ -24,6 +25,15 @@ namespace UnobtaniumBatteries
 
             UnobtaniumBatteryPack = new UnobtaniumBatteryItem().PatchAsBattery();
             UnobtaniumCellPack = new UnobtaniumPowerCellItem().PatchAsPowerCell();
+
+            LanguageHandler.SetTechTypeName(TechType.ReaperLeviathan, "Reaper Leviathan");
+            LanguageHandler.SetTechTypeTooltip(TechType.ReaperLeviathan, "The Reaper Leviathan is an aggressive leviathan class fauna species usually found swimming in large open areas.");
+
+            LanguageHandler.SetTechTypeName(TechType.Warper, "Warper");
+            LanguageHandler.SetTechTypeTooltip(TechType.Warper, "The Warper, or the Self-Warping Quarantine Enforcer Unit as named by the Precursors, is a bio-mechanical life form created by the Precursor race to hunt infected lifeforms.");
+
+            LanguageHandler.SetTechTypeName(TechType.GhostLeviathan, "Ghost Leviathan");
+            LanguageHandler.SetTechTypeTooltip(TechType.GhostLeviathan, "While the Ghost Leviathan is bigger then a Reaper Leviathan its aggression is territorial in nature, not predatory");
 
         }
     }
