@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using CustomBatteries.API;
-using InfinityPowerCell.MonoBehaviours;
+using UnobtaniumBatteries.MonoBehaviours;
+using SMLHelper.V2.Utility;
 using UnityEngine;
+
 #if SN1
 using Sprite = Atlas.Sprite;
 #endif
 
-namespace InfinityPowerCell.Prefabs
+namespace UnobtaniumBatteries.Prefabs
 {
-    internal class InfinityPowerCellItem : CbItem
+    internal class UnobtaniumPowerCellItem : CbItem
     {
         public override int EnergyCapacity => 1000000;
 
-        public override string ID => "InfinityCell";
+        public override string ID => "UnobtaniumCell";
 
-        public override string Name => "Infinity Cell";
+        public override string Name => "Unobtanium Cell";
 
         public override string FlavorText => "Power Cell that constantly keeps 1 Million Power";
 
@@ -22,9 +25,9 @@ namespace InfinityPowerCell.Prefabs
 
         public override TechType UnlocksWith => TechType.None;
 
-        public override Sprite CustomIcon => Main.Icon;
+        public override Sprite CustomIcon => ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png"));
 
-        public override CBModelData CBModelData => new InfinityPowerCellModelData();
+        public override CBModelData CBModelData => new UnobtaniumPowerCellModelData();
 
         public override bool ExcludeFromChargers => true;
 

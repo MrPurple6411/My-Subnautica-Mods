@@ -1,14 +1,16 @@
 ﻿using HarmonyLib;
-using InfinityPowerCell.MonoBehaviours;
-using System.Linq;
-using System.Text;
+using UnobtaniumBatteries.MonoBehaviours;
+using System.Collections.Generic;
+using UnityEngine;
 using static EnergyMixin;
 
-namespace InfinityPowerCell.Patches
+namespace UnobtaniumBatteries.Patches
 {
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
     {
+        public static List<TechType> infinityBatteries = new List<TechType>() { Main.InfinityBatteryPack.ItemPrefab.TechType, Main.InfinityCellPack.ItemPrefab.TechType };
+
         [HarmonyPostfix]
         public static void Postfix(EnergyMixin __instance, InventoryItem item)
         {
@@ -16,19 +18,24 @@ namespace InfinityPowerCell.Patches
             {
                 TechType techType = item.item.GetTechType();
 
-                if (techType == Main.InfinityCellPack.ItemPrefab.TechType)
+                if (infinityBatteries.Contains(techType))
                 {
-
                     foreach (BatteryModels batteryModel in __instance.batteryModels)
                     {
-                        if (batteryModel.techType == techType)
+                        if(batteryModel.techType == techType)
                         {
                             batteryModel.model.EnsureComponent<InfinityBehaviour>();
-                            break;
+                            return;
                         }
                     }
+
+                    __instance.gameObject.EnsureComponent<InfinityBehaviour>();
+                    return;
                 }
             }
+
+            if (__instance.TryGetComponent(out InfinityBehaviour infinityBehaviour))
+                GameObject.Destroy(infinityBehaviour);
         }
     }
 }

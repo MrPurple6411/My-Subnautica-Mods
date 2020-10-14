@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InfinityPowerCell.MonoBehaviours
+namespace UnobtaniumBatteries.MonoBehaviours
 {
     internal class InfinityBehaviour : MonoBehaviour
     {
@@ -22,12 +22,12 @@ namespace InfinityPowerCell.MonoBehaviours
 
         public void Update()
         {
-            if(battery != null)
+            if (battery != null)
             {
                 battery.charge = battery.capacity;
             }
 
-            if(energyMixin != null)
+            if (energyMixin != null)
             {
                 energyMixin.AddEnergy(energyMixin.capacity - energyMixin.charge);
             }
@@ -37,7 +37,7 @@ namespace InfinityPowerCell.MonoBehaviours
             if (timer > changeTime)
             {
                 currentStrength = nextStrength;
-                nextStrength = currentStrength == 2? 0: 2;
+                nextStrength = currentStrength == 2 ? 0 : 2;
 
                 timer = 0.0f;
             }
@@ -47,6 +47,11 @@ namespace InfinityPowerCell.MonoBehaviours
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
             }
+        }
+        public void OnDestroy()
+        {
+            renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+            renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
         }
     }
 }

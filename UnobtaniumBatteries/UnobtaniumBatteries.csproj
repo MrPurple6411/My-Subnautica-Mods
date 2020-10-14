@@ -8,8 +8,8 @@
     <ProjectGuid>{C0134F02-45C0-4301-8D59-5CBA72A5CD62}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InfinityBattery</RootNamespace>
-    <AssemblyName>InfinityBattery</AssemblyName>
+    <RootNamespace>UnobtaniumBatteries</RootNamespace>
+    <AssemblyName>UnobtaniumBatteries</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <LangVersion>latest</LangVersion>
@@ -127,8 +127,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
-    <Compile Include="Prefabs\InfinityBatteryItem.cs" />
-    <Compile Include="Prefabs\InfinityBatteryModelData.cs" />
+    <Compile Include="Prefabs\UnobtaniumBatteryItem.cs" />
+    <Compile Include="Prefabs\UnobtaniumBatteryModelData.cs" />
+    <Compile Include="Prefabs\UnobtaniumPowerCellItem.cs" />
+    <Compile Include="Prefabs\UnobtaniumPowerCellModelData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,13 +141,28 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Assets\icon.png">
+    <Content Include="Assets\cell_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\skin.png">
+    <Content Include="Assets\cell_skin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\skin_illum.png">
+    <Content Include="Assets\cell_skin_illum.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\cell_skin_normal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\cell_skin_spec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\battery_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\battery_skin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\battery_skin_illum.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

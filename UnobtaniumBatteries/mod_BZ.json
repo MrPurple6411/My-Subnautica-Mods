@@ -1,10 +1,10 @@
 {
-  "Id": "InfinityBattery",
-  "DisplayName": "InfinityBattery",
+  "Id": "UnobtaniumBatteries",
+  "DisplayName": "Unobtanium Batteries",
   "Author": "MrPurple6411",
   "Version": "1.0.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
-  "AssemblyName": "InfinityBattery.dll"
+  "AssemblyName": "UnobtaniumBatteries.dll"
 }
