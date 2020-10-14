@@ -63,8 +63,8 @@ namespace ImprovedPowerNetwork
 #if SN1
                 HandReticle.main.SetInteractText(stringBuilder.ToString(), stringBuilder2.ToString(), false, false, HandReticle.Hand.None);
 #elif BZ
-                HandReticle.main.SetText(stringBuilder.ToString(), false);
-                HandReticle.main.SetText(stringBuilder2.ToString(), false);
+                HandReticle.main.SetText(HandReticle.TextType.Hand, stringBuilder.ToString(), false);
+                HandReticle.main.SetText(HandReticle.TextType.HandSubscript, stringBuilder2.ToString(), false);
 #endif
 
                 if (GameInput.GetButtonDown(GameInput.Button.Deconstruct) && !powerRelay.dontConnectToRelays)
