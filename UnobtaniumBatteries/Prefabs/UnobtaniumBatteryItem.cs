@@ -23,7 +23,7 @@ namespace UnobtaniumBatteries.Prefabs
 
         public override IList<TechType> CraftingMaterials { get; } = new List<TechType>() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper };
 
-        public override TechType UnlocksWith => TechType.None;
+        public override TechType UnlocksWith => TechType.Warper;
 
         public override Sprite CustomIcon => ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "battery_icon.png"));
 
