@@ -6,5 +6,11 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
+  "NexusId": {
+    "Subnautica": "581"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/UnobtaniumBatteries/mod_SN1.json"
+  },
   "AssemblyName": "UnobtaniumBatteries.dll"
 }
