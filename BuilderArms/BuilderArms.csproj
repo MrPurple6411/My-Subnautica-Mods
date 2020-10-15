@@ -71,6 +71,9 @@
       <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SeamothArms">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica.Stable\Qmods\SeamothArms\SeamothArms.dll</HintPath>
+    </Reference>
     <Reference Include="SMLHelper">
       <HintPath>$(GameDir)\QMods\$(SMLHelperFolder)\SMLHelper.dll</HintPath>
       <Private>False</Private>

@@ -10,11 +10,11 @@ namespace BuilderArms
     public static class Main
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
         [QModPatch]
         public static void Load()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }
     }
