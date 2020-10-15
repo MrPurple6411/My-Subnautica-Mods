@@ -134,6 +134,7 @@
     <Compile Include="Modules\SeamothHullModule4.cs" />
     <Compile Include="Modules\SeamothHullModule5.cs" />
     <Compile Include="Patches\Seamoth_OnUpgradeModuleToggle_Patch.cs" />
+    <Compile Include="Patches\Seamoth_Start_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
