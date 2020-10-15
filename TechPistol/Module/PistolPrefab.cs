@@ -18,11 +18,15 @@ namespace TechPistol.Module
 {
     internal class PistolPrefab : Equipable
     {
-		static List<TechType> compatibleTech =  new List<TechType> { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
+		static List<TechType> modelsToMake =  new List<TechType> { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
 
 		public PistolPrefab() : base("TechPistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
 		{
 		}
+
+		private static HashSet<TechType> batteryChargerCompatibleTech => BatteryCharger.compatibleTech;
+		private static HashSet<TechType> powerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
+		private static List<TechType> compatibleTech => batteryChargerCompatibleTech.Concat(powerCellChargerCompatibleTech).ToList();
 
 		public override EquipmentType EquipmentType => EquipmentType.Hand;
         public override Vector2int SizeInInventory => new Vector2int(2,2);
@@ -54,22 +58,22 @@ namespace TechPistol.Module
 			gameObject.SetActive(false);
 			prefab.SetActive(false);
 
-			MeshRenderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<MeshRenderer>();
-			foreach (MeshRenderer meshRenderer in componentsInChildren)
+			Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
+			foreach (Renderer renderer in componentsInChildren)
 			{
-				if (meshRenderer.name.StartsWith("Gun") || meshRenderer.name.StartsWith("Target"))
+				if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
 				{
-					Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
-					Texture specMap = meshRenderer.material.GetTexture("_MetallicGlossMap");
+					Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
+					Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
 
-					meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-					meshRenderer.material.EnableKeyword("MARMO_EMISSION");
-					meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
-					meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-					meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-					meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
-					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-					meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+					renderer.material.shader = Shader.Find("MarmosetUBER");
+					renderer.material.EnableKeyword("MARMO_EMISSION");
+					renderer.material.EnableKeyword("MARMO_SPECMAP");
+					renderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+					renderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
+					renderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+					renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+					renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
 				}
 			}
 
@@ -95,11 +99,13 @@ namespace TechPistol.Module
 			energyMixin.storageRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot").gameObject.EnsureComponent<ChildObjectIdentifier>();
 			energyMixin.allowBatteryReplacement = true;
 			energyMixin.compatibleBatteries = compatibleTech;
+
+
 			List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
 
 			Transform BatteryRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot");
 
-			foreach (TechType techType in compatibleTech)
+			foreach (TechType techType in modelsToMake)
 			{
 				GameObject batteryprefab = CraftData.GetPrefabForTechType(techType, false);
 				GameObject model = GameObject.Instantiate(batteryprefab);
@@ -204,10 +210,11 @@ namespace TechPistol.Module
 			gameObject.transform.Find("HandGun/GunMain/BatteryRoot/Battery")?.gameObject.SetActive(false);
 			energyMixin.allowBatteryReplacement = true;
 			energyMixin.compatibleBatteries = compatibleTech;
+
 			List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
 			Transform BatteryRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot");
 
-			foreach (TechType techType in compatibleTech)
+			foreach (TechType techType in modelsToMake)
 			{
 				CoroutineTask<GameObject> batteryTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
 				yield return batteryTask;
