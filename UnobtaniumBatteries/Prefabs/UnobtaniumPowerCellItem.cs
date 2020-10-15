@@ -25,7 +25,7 @@ namespace UnobtaniumBatteries.Prefabs
 
         public override TechType UnlocksWith => TechType.Warper;
 
-        public override Sprite CustomIcon => ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png"));
+        public override Sprite CustomIcon { get; } = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png"));
 
         public override CBModelData CBModelData => new UnobtaniumPowerCellModelData();
 
