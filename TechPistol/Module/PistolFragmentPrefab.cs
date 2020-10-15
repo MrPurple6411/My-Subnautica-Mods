@@ -32,7 +32,10 @@ namespace TechPistol.Module
 #if SN1
             List<LootDistributionData.BiomeData> biomeDatas = new List<LootDistributionData.BiomeData>()
             {
-                new LootDistributionData.BiomeData(){ biome = BiomeType.SafeShallows_TechSite_Scattered, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.DeepGrandReef_AbandonedBase_Interior, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.DeepGrandReef_AbandonedBase_Exterior, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.FloatingIslands_AbandonedBase_Inside, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.FloatingIslands_AbandonedBase_Outside, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.JellyShroomCaves_AbandonedBase_Inside, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.JellyShroomCaves_AbandonedBase_Outside, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.JellyshroomCaves_CaveFloor, count = 1, probability = 0.2f },
@@ -47,6 +50,9 @@ namespace TechPistol.Module
             List<LootDistributionData.BiomeData> biomeDatas = new List<LootDistributionData.BiomeData>()
             {
                 new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Cave_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_ThermalVentArea_Ground, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialBasin_BikeCrashSite, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialBasin_Generic, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialConnection_Ground, count = 1, probability = 0.2f },
@@ -71,17 +77,22 @@ namespace TechPistol.Module
 
             gameObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
-            MeshRenderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer meshRenderer in componentsInChildren)
+            Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
+            foreach (Renderer renderer in componentsInChildren)
             {
-                if (meshRenderer.name.StartsWith("Gun"))
+                if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
                 {
-                    Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
+                    Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
+                    Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
 
-                    meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-                    meshRenderer.material.EnableKeyword("_Glow");
-                    meshRenderer.material.SetTexture("_Illum", emissionMap);
-                    meshRenderer.material.SetColor("_EmissionColor", new Color(1f, 1f, 1f));
+                    renderer.material.shader = Shader.Find("MarmosetUBER");
+                    renderer.material.EnableKeyword("MARMO_EMISSION");
+                    renderer.material.EnableKeyword("MARMO_SPECMAP");
+                    renderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+                    renderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
+                    renderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+                    renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+                    renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
                 }
             }
 
