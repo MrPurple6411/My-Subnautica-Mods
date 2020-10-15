@@ -6,7 +6,7 @@ using SMLHelper.V2.Options.Attributes;
 
 namespace BetterACU.Configuration
 {
-    [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened, SaveOn = MenuAttribute.SaveEvents.ChangeValue)]
+    [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]
     public class Config : ConfigFile
     {
         [Toggle("Allow Breed Into Ocean")]

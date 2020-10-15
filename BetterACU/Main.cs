@@ -9,12 +9,14 @@ namespace BetterACU
     [QModCore]
     public static class Main
     {
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config config { get; private set; } 
 
         [QModPatch]
         public static void Load()
         {
+            config = OptionsPanelHandler.RegisterModOptions<Config>();
             IngameMenuHandler.RegisterOnSaveEvent(config.Save);
+
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
