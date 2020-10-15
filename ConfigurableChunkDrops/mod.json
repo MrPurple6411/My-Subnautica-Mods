@@ -2,7 +2,7 @@
   "Id": "ConfigurableChunkDrops",
   "DisplayName": "ConfigurableChunkDrops",
   "Author": "MrPurple6411",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",
