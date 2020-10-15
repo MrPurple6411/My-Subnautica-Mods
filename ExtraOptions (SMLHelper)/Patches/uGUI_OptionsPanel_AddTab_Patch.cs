@@ -13,13 +13,13 @@ using Newtonsoft.Json;
 
 namespace ExtraOptions.Patches
 {
-    [HarmonyPatch(typeof(uGUI_OptionsPanel), nameof(uGUI_OptionsPanel.AddTab))]
-    class uGUI_OptionsPanel_AddTab_Patch
+    [HarmonyPatch(typeof(uGUI_TabbedControlsPanel), nameof(uGUI_TabbedControlsPanel.AddHeading))]
+    class uGUI_TabbedControlsPanel_AddTab_Patch
     {
-        [HarmonyPostfix]
-        public static void Postfix(uGUI_OptionsPanel __instance, int __result, string label)
+        [HarmonyPrefix]
+        public static void Prefix(uGUI_TabbedControlsPanel __instance, int tabIndex, string label)
         {
-            if(label == "Mods")
+            if(label == "ExtraOptions")
             {
                 try
                 {
@@ -27,7 +27,7 @@ namespace ExtraOptions.Patches
                     if (biome != null)
                     {
                         var t = __instance;
-                        var idx = __result;
+                        var idx = tabIndex;
                         var name = biome.name ?? "???";
                         t.AddHeading(idx, $"Biome Config ({name})");
                         Dictionary<string, WaterscapeVolume.Settings> themes;
