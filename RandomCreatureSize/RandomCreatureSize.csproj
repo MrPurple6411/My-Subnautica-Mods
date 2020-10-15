@@ -133,7 +133,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\CreatureConfig.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\Creature_Patches.cs" />
+    <Compile Include="Patches\Creature_Start_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
