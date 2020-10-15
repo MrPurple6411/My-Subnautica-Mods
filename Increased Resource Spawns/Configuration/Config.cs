@@ -8,7 +8,7 @@ namespace Increased_Resource_Spawns.Configuration
     [Menu("Increased Resource Spawn Settings")]
     public class Config: ConfigFile
     {
-        [Slider("Resource Multiplier", 1, 100, Step = 1)]
+        [Slider("Resource Multiplier", 1, 10, DefaultValue = 1, Step = 1, Format = "{0:F0}")]
         public int ResourceMultiplier = 1;
 
         public List<string> Blacklist = new List<string>() { TechType.CrashHome.AsString(), TechType.SpikePlant.AsString() };
