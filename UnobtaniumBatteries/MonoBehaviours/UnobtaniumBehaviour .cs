@@ -2,7 +2,7 @@
 
 namespace UnobtaniumBatteries.MonoBehaviours
 {
-    internal class InfinityBehaviour : MonoBehaviour
+    internal class UnobtaniumBehaviour : MonoBehaviour
     {
         Battery battery;
         Renderer renderer;

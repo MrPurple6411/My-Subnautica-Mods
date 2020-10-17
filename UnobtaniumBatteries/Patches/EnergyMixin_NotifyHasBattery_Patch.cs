@@ -9,8 +9,6 @@ namespace UnobtaniumBatteries.Patches
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
     {
-        public static List<TechType> infinityBatteries = new List<TechType>() { Main.UnobtaniumBatteryPack.ItemPrefab.TechType, Main.UnobtaniumCellPack.ItemPrefab.TechType };
-
         [HarmonyPostfix]
         public static void Postfix(EnergyMixin __instance, InventoryItem item)
         {
@@ -18,23 +16,23 @@ namespace UnobtaniumBatteries.Patches
             {
                 TechType techType = item.item.GetTechType();
 
-                if (infinityBatteries.Contains(techType))
+                if (Main.unobtaniumBatteries.Contains(techType))
                 {
                     foreach (BatteryModels batteryModel in __instance.batteryModels)
                     {
                         if(batteryModel.techType == techType)
                         {
-                            batteryModel.model.EnsureComponent<InfinityBehaviour>();
+                            batteryModel.model.EnsureComponent<UnobtaniumBehaviour>();
                             return;
                         }
                     }
 
-                    __instance.gameObject.EnsureComponent<InfinityBehaviour>();
+                    __instance.gameObject.EnsureComponent<UnobtaniumBehaviour>();
                     return;
                 }
             }
 
-            if (__instance.TryGetComponent(out InfinityBehaviour infinityBehaviour))
+            if (__instance.TryGetComponent(out UnobtaniumBehaviour infinityBehaviour))
                 GameObject.Destroy(infinityBehaviour);
         }
     }

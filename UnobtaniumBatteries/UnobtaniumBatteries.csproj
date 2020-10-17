@@ -125,13 +125,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="MonoBehaviours\InfinityBehaviour .cs" />
+    <Compile Include="MonoBehaviours\UnobtaniumBehaviour .cs" />
+    <Compile Include="Patches\Charger_OnEquip_Patch.cs" />
     <Compile Include="Patches\Creature_OnTakeDamage_Patch.cs" />
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
-    <Compile Include="Prefabs\UnobtaniumBatteryItem.cs" />
-    <Compile Include="Prefabs\UnobtaniumBatteryModelData.cs" />
-    <Compile Include="Prefabs\UnobtaniumPowerCellItem.cs" />
-    <Compile Include="Prefabs\UnobtaniumPowerCellModelData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
