@@ -10,7 +10,7 @@ namespace BetterACU.Configuration
     public class Config : ConfigFile
     {
         [Toggle("Allow Breed Into Ocean")]
-        public bool OverFlowIntoOcean = true;
+        public bool OverFlowIntoOcean = false;
 
         [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
         public int WaterParkSize = 10;
@@ -24,8 +24,11 @@ namespace BetterACU.Configuration
 
         public Dictionary<TechType, float> CreaturePowerGeneration = new Dictionary<TechType, float>() {
 #if SN1
-            { TechType.Shocker, 1f },
-            { TechType.CrabSquid, 1f }
+            { TechType.Shocker, 2f },
+            { TechType.CrabSquid, 1f },
+            { TechType.GhostLeviathan, 10f },
+            { TechType.GhostLeviathanJuvenile, 3f },
+            { TechType.Warper, 1f }
 #elif BZ
             { TechType.Jellyfish, 1f },
             { TechType.SquidShark, 1f }
