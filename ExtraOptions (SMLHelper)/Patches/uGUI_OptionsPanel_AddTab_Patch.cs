@@ -84,11 +84,7 @@ namespace ExtraOptions.Patches
                             t.AddSliderOption(idx, $"{fieldName}.x/r", get().x, nmin, nmax, get().x, new UnityAction<float>(v => { set(new Vector3(v, get().y, get().z)); Apply(); }));
                             t.AddSliderOption(idx, $"{fieldName}.y/g", get().y, nmin, nmax, get().y, new UnityAction<float>(v => { set(new Vector3(get().x, v, get().z)); Apply(); }));
                             t.AddSliderOption(idx, $"{fieldName}.z/b", get().z, nmin, nmax, get().z, new UnityAction<float>(v => { set(new Vector3(get().x, get().y, v)); Apply(); }));
-#elif BELOWZERO_STABLE
-                            t.AddSliderOption(idx, $"{fieldName}.x/r", get().x, nmin, nmax, get().x, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(v, get().y, get().z)); Apply(); }));
-                            t.AddSliderOption(idx, $"{fieldName}.y/g", get().y, nmin, nmax, get().y, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(get().x, v, get().z)); Apply(); }));
-                            t.AddSliderOption(idx, $"{fieldName}.z/b", get().z, nmin, nmax, get().z, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(get().x, get().y, v)); Apply(); }));
-#elif BELOWZERO_EXP
+#elif BZ
                             t.AddSliderOption(idx, $"{fieldName}.x/r", get().x, nmin, nmax, get().x, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(v, get().y, get().z)); Apply(); }), SliderLabelMode.Default, "0.0");
                             t.AddSliderOption(idx, $"{fieldName}.y/g", get().y, nmin, nmax, get().y, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(get().x, v, get().z)); Apply(); }), SliderLabelMode.Default, "0.0");
                             t.AddSliderOption(idx, $"{fieldName}.z/b", get().z, nmin, nmax, get().z, Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(new Vector3(get().x, get().y, v)); Apply(); }), SliderLabelMode.Default, "0.0");
@@ -115,9 +111,7 @@ namespace ExtraOptions.Patches
                             Action<float> set = (iv) => fld.SetValue(iv / scale);
 #if SN1
                             t.AddSliderOption(idx, $"{fieldName}", get(), nmin, nmax, get(), new UnityAction<float>(v => { set(v); Apply(); }));
-#elif BELOWZERO_STABLE
-                            t.AddSliderOption(idx, $"{fieldName}", get(), nmin, nmax, get(), Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(v); Apply(); }));
-#elif BELOWZERO_EXP
+#elif BZ
                             t.AddSliderOption(idx, $"{fieldName}", get(), nmin, nmax, get(), Mathf.Clamp(nmin / nmax, 0.01f, 100f), new UnityAction<float>(v => { set(v); Apply(); }), SliderLabelMode.Default, "0.0");
 #endif
                         }

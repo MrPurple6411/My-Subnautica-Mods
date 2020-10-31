@@ -2,7 +2,7 @@
 
 namespace BuildingTweaks.Patches
 {
-#if SN1 || BELOWZERO_STABLE
+#if SN1 
 	[HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
     {
@@ -49,7 +49,7 @@ namespace BuildingTweaks.Patches
 			}
         }
     }
-#elif BELOWZERO_EXP
+#elif BZ
 
 	[HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
 	public static class Base_BuildPillars_Patch

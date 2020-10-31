@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace UnKnownName.Patches
 {
-#if BELOWZERO_EXP
+#if BZ
     [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.CraftRecipe))]
     public class TooltipFactory_Recipe
     {
