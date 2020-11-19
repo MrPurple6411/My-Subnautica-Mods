@@ -11,7 +11,7 @@ namespace ExtraOptions.Patches
         public static bool Patch_GetExtinctionAndScatteringCoefficients(WaterscapeVolume.Settings __instance, ref Vector4 __result)
         {
             var t = __instance;
-            var m = 1.0f - Mathf.Clamp(Main.config.Murkiness / 200.0f, 0.0f, 1.0f);
+            var m = 1.0f - Mathf.Clamp(Main.config.Murkiness / 400.0f, 0.0f, 1.0f);
             var mv = m * 180.0f + 10.0f;
             float d = t.murkiness / mv;
             Vector3 vector = t.absorption + t.scattering * Vector3.one;
