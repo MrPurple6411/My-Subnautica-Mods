@@ -11,9 +11,7 @@ namespace ConfigurableChunkDrops.Patches
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_ChooseRandomResource
     {
-
         public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new Dictionary<TechType, List<BreakableResource.RandomPrefab>>();
-
 
         [HarmonyPrefix]
         public static void Prefix(BreakableResource __instance)
@@ -25,10 +23,6 @@ namespace ConfigurableChunkDrops.Patches
                 __instance.prefabList = randomPrefabs;
                 return;
             }
-            
-
-
         }
-
     }
 }

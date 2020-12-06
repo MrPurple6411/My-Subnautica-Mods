@@ -37,7 +37,7 @@ namespace BuilderModule.Module
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
-#if BZ || SUBNAUTICA_STABLE
+#if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             GameObject gameobject = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);

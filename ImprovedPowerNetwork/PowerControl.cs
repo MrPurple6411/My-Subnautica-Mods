@@ -201,8 +201,11 @@ namespace ImprovedPowerNetwork
 
         public void OnDestroy()
         {
-            baseInboundRelay.DisconnectFromRelay();
-            otherConnectionRelays.ForEach((x) => x.DisconnectFromRelay());
+            if (!constructable?.constructed ?? false)
+            {
+                baseInboundRelay.DisconnectFromRelay();
+                otherConnectionRelays.ForEach((x) => x.DisconnectFromRelay());
+            }
         }
     }
 }

@@ -24,25 +24,6 @@ namespace CustomCommands
 			{ TechType.GhostLeviathanJuvenile, new WaterParkCreatureParameters(0.01f, 0.05f, 1f, 3f, false) },
 			{ TechType.Warper, new WaterParkCreatureParameters(0.05f, 0.2f, 1f, 3f, false) },
 		};
-#elif BZ
-		internal static Dictionary<TechType, WaterParkCreatureData> CreatureParameters = new Dictionary<TechType, WaterParkCreatureData>()
-		{
-			{ TechType.Chelicerate, new WaterParkCreatureData()
-			{ initialSize = 0.01f, maxSize = 0.05f, outsideSize = 1f, growingPeriodInDays = 3f, isPickupableOutside = false,
-				adultPrefab = CraftData.GetPrefabForTechType(TechType.Chelicerate), canBreed = true, eggOrChildPrefab = CraftData.GetPrefabForTechType(TechType.Chelicerate)  } },
-			{ TechType.ShadowLeviathan, new WaterParkCreatureData()
-			{ initialSize = 0.01f, maxSize = 0.05f, outsideSize = 1f, growingPeriodInDays =3f, isPickupableOutside = false,
-				adultPrefab = CraftData.GetPrefabForTechType(TechType.ShadowLeviathan), canBreed = true, eggOrChildPrefab = CraftData.GetPrefabForTechType(TechType.ShadowLeviathan) } },
-			{ TechType.IceWorm, new WaterParkCreatureData()
-			{ initialSize = 0.01f, maxSize = 0.05f, outsideSize = 1f, growingPeriodInDays =3f, isPickupableOutside = false,
-				adultPrefab = CraftData.GetPrefabForTechType(TechType.IceWorm), canBreed = true, eggOrChildPrefab = CraftData.GetPrefabForTechType(TechType.IceWorm) } },
-			{ TechType.SeaEmperorJuvenile, new WaterParkCreatureData()
-			{ initialSize = 0.01f, maxSize = 0.05f, outsideSize = 1f, growingPeriodInDays =3f, isPickupableOutside = false,
-				adultPrefab = CraftData.GetPrefabForTechType(TechType.SeaEmperorJuvenile), canBreed = true, eggOrChildPrefab = CraftData.GetPrefabForTechType(TechType.SeaEmperorJuvenile) } },
-			{ TechType.Warper, new WaterParkCreatureData()
-			{ initialSize = 0.05f, maxSize = 0.2f, outsideSize = 1f, growingPeriodInDays =3f, isPickupableOutside = false,
-				adultPrefab = CraftData.GetPrefabForTechType(TechType.Warper), canBreed = true, eggOrChildPrefab = CraftData.GetPrefabForTechType(TechType.Warper) } },
-		};
 #endif
 
 		[QModPatch]
@@ -61,9 +42,6 @@ namespace CustomCommands
 				}
 			}
 #endif
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			new Harmony($"Coticvo_{assembly.GetName().Name}").PatchAll(assembly);
-
 			Placeholder.Awake();
 		}
     }

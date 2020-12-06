@@ -15,7 +15,7 @@ namespace PowerOrder.Patches
         {
             try
             {
-                if (__instance.inboundPowerSources.Contains(powerInterface))
+                if (__instance is null || (__instance.inboundPowerSources?.Contains(powerInterface) ?? true))
                     return;
                 Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;

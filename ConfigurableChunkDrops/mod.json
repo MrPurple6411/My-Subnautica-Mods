@@ -7,7 +7,6 @@
   "Enable": true,
   "Game": "Both",
   "NexusId": {
-    "BelowZero": "105",
 	  "Subnautica": "556"
   },
   "VersionChecker": {

@@ -49,124 +49,6 @@ namespace TechPistol.Module
 
 		public override bool DestroyFragmentOnScan => true;
 
-
-#if SUBNAUTICA_STABLE || BZ
-		public override GameObject GetGameObject()
-		{
-			GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-			GameObject gameObject = GameObject.Instantiate(prefab);
-			gameObject.SetActive(false);
-			prefab.SetActive(false);
-
-			Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
-			foreach (Renderer renderer in componentsInChildren)
-			{
-				if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
-				{
-					Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
-					Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
-
-					renderer.material.shader = Shader.Find("MarmosetUBER");
-					renderer.material.EnableKeyword("MARMO_EMISSION");
-					renderer.material.EnableKeyword("MARMO_SPECMAP");
-					renderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-					renderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-					renderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
-					renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-					renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
-				}
-			}
-
-			SkyApplier skyApplier = gameObject.EnsureComponent<SkyApplier>();
-			skyApplier.renderers = componentsInChildren;
-			skyApplier.anchorSky = Skies.Auto;
-
-			gameObject.EnsureComponent<PrefabIdentifier>().ClassId = base.ClassID;
-			gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Near;
-			gameObject.EnsureComponent<Pickupable>().isPickupable = true;
-			gameObject.EnsureComponent<TechTag>().type = base.TechType;
-			gameObject.EnsureComponent<VFXFabricating>();
-			if (gameObject.transform.Find(PistolBehaviour.GunMain).gameObject.TryGetComponent<MeshCollider>(out MeshCollider collider))
-			{
-				GameObject.DestroyImmediate(collider);
-			}
-
-			WorldForces worldForces = gameObject.EnsureComponent<WorldForces>();
-			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
-			worldForces.underwaterGravity = 0f;
-			worldForces.useRigidbody = useRigidbody;
-			EnergyMixin energyMixin = gameObject.EnsureComponent<EnergyMixin>();
-			energyMixin.storageRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot").gameObject.EnsureComponent<ChildObjectIdentifier>();
-			energyMixin.allowBatteryReplacement = true;
-			energyMixin.compatibleBatteries = compatibleTech;
-
-
-			List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
-
-			Transform BatteryRoot = gameObject.transform.Find(PistolBehaviour.GunMain + "/BatteryRoot");
-
-			foreach (TechType techType in modelsToMake)
-			{
-				GameObject batteryprefab = CraftData.GetPrefabForTechType(techType, false);
-				GameObject model = GameObject.Instantiate(batteryprefab);
-				batteryprefab.SetActive(false);
-				model.SetActive(false);
-
-				GameObject.DestroyImmediate(model.GetComponentInChildren<WorldForces>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<Rigidbody>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<Battery>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<LargeWorldEntity>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<TechTag>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<EntityTag>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
-				GameObject.DestroyImmediate(model.GetComponentInChildren<Collider>());
-
-				if (model.TryGetComponent<PrefabIdentifier>(out PrefabIdentifier prefabIdentifier))
-				{
-					string classId = prefabIdentifier.ClassId;
-					GameObject.DestroyImmediate(prefabIdentifier);
-					ChildObjectIdentifier childObjectIdentifier = model.EnsureComponent<ChildObjectIdentifier>();
-					childObjectIdentifier.ClassId = classId;
-				}
-
-				bool cellCheck = techType.AsString().ToLower().Contains("cell");
-				Vector3 position = cellCheck ? new Vector3(0f, 1.45f, 0.95f) : new Vector3(0f, 1.46f, 0.95f);
-				Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
-
-				model.transform.SetParent(BatteryRoot);
-				model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
-				model.transform.localPosition = position;
-				model.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
-				model.transform.localScale = scale;
-
-				batteryModels.Add(new EnergyMixin.BatteryModels
-				{
-					techType = techType,
-					model = model
-				});
-			}
-			energyMixin.batteryModels = batteryModels.ToArray();
-
-			RepulsionCannon component = CraftData.GetPrefabForTechType(TechType.RepulsionCannon, false).GetComponent<RepulsionCannon>();
-			StasisRifle component2 = CraftData.GetPrefabForTechType(TechType.StasisRifle, false).GetComponent<StasisRifle>();
-			PropulsionCannon component3 = CraftData.GetPrefabForTechType(TechType.PropulsionCannon, false).GetComponent<PropulsionCannon>();
-			Welder component4 = CraftData.GetPrefabForTechType(TechType.Welder, false).GetComponent<Welder>();
-
-			PistolBehaviour pistolBehaviour = gameObject.EnsureComponent<PistolBehaviour>();
-			pistolBehaviour.repulsionCannonFireSound = component.shootSound;
-			pistolBehaviour.stasisRifleFireSound = component2.fireSound;
-			pistolBehaviour.stasisRifleEvent = component2.chargeBegin;
-			pistolBehaviour.modeChangeSound = component3.shootSound;
-			pistolBehaviour.laserShootSound = component4.weldSound;
-			
-			pistolBehaviour.ikAimRightArm = true;
-			pistolBehaviour.hasBashAnimation = true;
-
-			gameObject.SetActive(true);
-			return gameObject;
-		}
-#endif
-
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> pistol)
 		{
 			GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
@@ -198,13 +80,9 @@ namespace TechPistol.Module
 
 			gameObject.EnsureComponent<PrefabIdentifier>().ClassId = base.ClassID;
 			gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Near;
-			gameObject.EnsureComponent<Pickupable>().isPickupable = true;
 			gameObject.EnsureComponent<TechTag>().type = base.TechType;
 
-			WorldForces worldForces = gameObject.EnsureComponent<WorldForces>();
-			Rigidbody useRigidbody = gameObject.EnsureComponent<Rigidbody>();
-			worldForces.underwaterGravity = 0f;
-			worldForces.useRigidbody = useRigidbody;
+
 			EnergyMixin energyMixin = gameObject.EnsureComponent<EnergyMixin>();
 			energyMixin.storageRoot = gameObject.transform.Find("HandGun/GunMain/BatteryRoot").gameObject.EnsureComponent<ChildObjectIdentifier>();
 			gameObject.transform.Find("HandGun/GunMain/BatteryRoot/Battery")?.gameObject.SetActive(false);
@@ -294,6 +172,9 @@ namespace TechPistol.Module
 			pistolBehaviour.laserShootSound = component4.weldSound;
 			pistolBehaviour.ikAimRightArm = true;
 			pistolBehaviour.hasBashAnimation = true;
+			Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+			pickupable.isPickupable = true;
+			pistolBehaviour.pickupable = pickupable;
 
 			pistol.Set(gameObject);
 			yield break;

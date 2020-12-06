@@ -58,7 +58,6 @@ namespace ConfigurableChunkDrops
                 }
 
                 prefabs.Add(CraftData.GetTechType(breakableResource.defaultPrefab), 1f);
-
                 Logger.Log(Logger.Level.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File", showOnScreen: true);
                 defaultValues.Save();
             }

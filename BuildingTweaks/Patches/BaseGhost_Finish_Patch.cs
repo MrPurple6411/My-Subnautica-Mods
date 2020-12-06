@@ -10,7 +10,6 @@ namespace BuildingTweaks.Patches
     [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
     internal class BaseGhost_Finish_Patch
     {
-
         public static GameObject gameObject;
         public static GameObject parentObject;
 
@@ -26,7 +25,13 @@ namespace BuildingTweaks.Patches
                 CodeInstruction secondInstruction = codeInstructions[i + 1];
                 CodeInstruction thirdInstruction = codeInstructions[i + 2];
 
-                if (currentInstruction.opcode == OpCodes.Callvirt && secondInstruction.opcode == OpCodes.Call && thirdInstruction.opcode == OpCodes.Stloc_2)
+                if (currentInstruction.opcode == OpCodes.Callvirt 
+                    && secondInstruction.opcode == OpCodes.Call
+#if SN1
+                    && thirdInstruction.opcode == OpCodes.Stloc_2)
+#elif BZ
+                    && thirdInstruction.opcode == OpCodes.Stloc_1)
+#endif
                 {
                     codeInstructions.Insert(i + 2, new CodeInstruction(OpCodes.Ldarg_0));
                     codeInstructions.Insert(i + 3, new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(BaseGhost_Finish_Patch.CacheObject))));

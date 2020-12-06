@@ -281,12 +281,12 @@ namespace BuilderModule.Module
             }
             else
             {
-#if SUBNAUTICA_EXP
+#if SUBNAUTICA_EXP || BZ
                 TaskResult<bool> result = new TaskResult<bool>();
                 yield return c.DeconstructAsync(result);
                 flag = result.Get();
                 result = null;
-#elif SUBNAUTICA_STABLE || BZ
+#elif SUBNAUTICA_STABLE
                 flag = c.Deconstruct();
 #endif
             }

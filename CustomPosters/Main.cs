@@ -7,6 +7,9 @@ using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using CustomPosters.Poster;
+using System.Collections.Generic;
+using System.Collections;
+using UWE;
 #if SUBNAUTICA_STABLE
 using Oculus.Newtonsoft.Json;
 #else
@@ -23,6 +26,26 @@ namespace CustomPosters
 
         [QModPatch]
         public static void Load()
+        {
+#if SN1
+            CreateTabsAndLoadFiles();
+#elif BZ
+            CoroutineHost.StartCoroutine(WaitForSpriteManager());
+#endif
+        }
+
+#if BZ
+        private static IEnumerator WaitForSpriteManager()
+        {
+            while (!SpriteManager.hasInitialized)
+                yield return new WaitForSecondsRealtime(1);
+
+            CreateTabsAndLoadFiles();
+            yield break;
+        }
+#endif
+
+        private static void CreateTabsAndLoadFiles()
         {
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Posters", "Posters", SpriteManager.Get(TechType.PosterKitty));
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");

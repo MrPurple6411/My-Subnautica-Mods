@@ -27,7 +27,7 @@ namespace CustomHullPlates.HullPlate
 
         public override TechCategory CategoryForPDA => TechCategory.MiscHullplates;
 
-#if BZ || SUBNAUTICA_STABLE
+#if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             GameObject prefab = CraftData.GetPrefabForTechType(TechType.DioramaHullPlate);

@@ -75,7 +75,10 @@ namespace BetterACU.Patches
 
 #if SN1
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
-    internal class WaterPark_TryBreed_Prefix
+#elif BZ
+    [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
+#endif
+    internal class WaterPark_Breed_Postfix
     {
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
@@ -150,62 +153,4 @@ namespace BetterACU.Patches
             yield break;
         }
     }
-#elif BZ
-    [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
-    internal class WaterPark_GetBreedingPartner_Postfix
-    {
-        private static int count = 0;
-
-        [HarmonyPostfix]
-        public static void Postfix(WaterPark __instance, WaterParkCreature creature)
-        {
-            List<WaterParkItem> items = __instance.items;
-            if (!items.Contains(creature) || __instance.HasFreeSpace())
-            {
-                return;
-            }
-
-            List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
-            bool hasBred = false;
-            foreach(WaterParkItem waterParkItem in items)
-            {
-                WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
-                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
-                {
-                    WaterParkCreatureData data = parkCreature.data;
-                    foreach (BaseBioReactor baseBioReactor in baseBioReactors)
-                    {
-                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
-                        {
-                            creature.ResetBreedTime();
-                            parkCreature.ResetBreedTime();
-                            GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(data.eggOrChildPrefab), false);
-                            gameObject.SetActive(false);
-                            baseBioReactor.container.AddItem(gameObject.EnsureComponent<Pickupable>());
-                            hasBred = true;
-                            break;
-                        }
-                    }
-                    if(!hasBred && Main.config.OverFlowIntoOcean && data.isPickupableOutside)
-                    {
-                        creature.ResetBreedTime();
-                        parkCreature.ResetBreedTime();
-                        if(count > Main.config.WaterParkSize)
-                        {
-                            GameObject gameObject = CraftData.InstantiateFromPrefab(CraftData.GetTechType(parkCreature.gameObject), false);
-                            gameObject.transform.position = __instance.gameObject.GetComponentInParent<SubRoot>().transform.position + new Vector3(Random.Range(-30, 30), Random.Range(-2, 30), Random.Range(-30, 30));
-                            gameObject.SetActive(true);
-                            count = 0;
-                        }
-                        else
-                        {
-                            count++;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-#endif
-            }
+}

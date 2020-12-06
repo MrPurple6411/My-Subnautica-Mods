@@ -479,7 +479,7 @@ namespace TechPistol.Module
 				float num = float.Parse(File.ReadAllText(chargeFile));
 				if (a != "None" && TechTypeExtensions.FromString(a, out TechType batteryTech, true))
 				{
-#if SUBNAUTICA_EXP
+#if !SUBNAUTICA_STABLE
 					CoroutineHost.StartCoroutine(SetBattery(batteryTech, num));
 				}
 			}

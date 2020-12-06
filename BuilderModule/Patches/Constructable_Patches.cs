@@ -88,7 +88,7 @@ namespace BuilderModule.Patches
             }
         }
     }
-#if SUBNAUTICA_EXP
+#if SUBNAUTICA_EXP || BZ
     [HarmonyPatch(typeof(Constructable), nameof(Constructable.DeconstructAsync))]
     internal class Deconstruct_Patch
     {
@@ -103,7 +103,6 @@ namespace BuilderModule.Patches
         public static bool Prefix(Constructable __instance)
         {
 #endif
-#if SN1
             if (Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
             {
 
@@ -123,7 +122,12 @@ namespace BuilderModule.Patches
                 {
                     TechType techType = __instance.resourceMap[resourceID2];
 
-                    Vector2int size = CraftData.GetItemSize(techType);
+                    Vector2int size =
+#if SN1
+                        CraftData.GetItemSize(techType);
+#elif BZ
+                        TechData.GetItemSize(techType);
+#endif
 
                     if (thisVehicle.GetType().Equals(typeof(Exosuit)))
                     {
@@ -139,6 +143,7 @@ namespace BuilderModule.Patches
                             return true;
                         }
                     }
+#if SN1
                     else
                     {
                         SeaMoth seamoth = (SeaMoth)thisVehicle;
@@ -166,9 +171,10 @@ namespace BuilderModule.Patches
                             return true;
                         }
                     }
+#endif
                 }
                 __instance.UpdateMaterial();
-#if SUBNAUTICA_EXP
+#if SUBNAUTICA_EXP || BZ
                 result.Set(__instance.constructedAmount <= 0f);
                 return false;
 #elif SUBNAUTICA_STABLE
@@ -190,7 +196,7 @@ namespace BuilderModule.Patches
             TaskResult<Pickupable> result1 = new TaskResult<Pickupable>();
             yield return pickupable.InitializeAsync(result1);
             pickupable = result1.Get();
-#elif SUBNAUTICA_STABLE
+#else
             pickupable.Initialize();
 #endif
             var item = new InventoryItem(pickupable);
@@ -203,106 +209,4 @@ namespace BuilderModule.Patches
             yield break;
         }
     }
-#else
-        [HarmonyPatch(typeof(Constructable),nameof(Constructable.Deconstruct))]
-    internal class Deconstruct_Patch
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Constructable __instance)
-        {
-            if (Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
-            {
-                Vehicle thisVehicle = Player.main.GetVehicle();
-                if (__instance._constructed)
-                {
-                    return true;
-                }
-                int count = __instance.resourceMap.Count;
-
-                int resourceID = __instance.GetResourceID();
-                float backupConstructedAmount = __instance.constructedAmount;
-                __instance.constructedAmount -= Time.deltaTime / (count * Constructable.GetConstructInterval());
-                __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = __instance.GetResourceID();
-                if (resourceID2 != resourceID)
-                {
-                    TechType techType = __instance.resourceMap[resourceID2];
-                    GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
-                    Pickupable component = gameObject.GetComponent<Pickupable>();
-
-                    if (thisVehicle.GetType().Equals(typeof(Exosuit)))
-                    {
-                        StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
-
-                        if (storageContainer.container.HasRoomFor(component))
-                        {
-                            string name = Language.main.Get(component.GetTechName());
-                            ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
-
-                            uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
-#if SN1
-                            component = component.Initialize();
-#elif BZ
-                            component.Initialize();
-#endif
-                            var item = new InventoryItem(component);
-                            storageContainer.container.UnsafeAdd(item);
-                            component.PlayPickupSound();
-                        }
-                        else
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        var seamoth = (SeaMoth)thisVehicle;
-                        bool storageCheck = false;
-                        for (int i = 0; i < 12; i++)
-                        {
-                            try
-                            {
-                                ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if (storage != null && storage.HasRoomFor(component))
-                                {
-                                    string name = Language.main.Get(component.GetTechName());
-                                    ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
-
-                                    uGUI_IconNotifier.main.Play(component.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
-
-#if SN1
-                                    component = component.Initialize();
-#elif BZ
-                                    component.Initialize();
-#endif
-                                    var item = new InventoryItem(component);
-                                    storage.UnsafeAdd(item);
-                                    component.PlayPickupSound();
-                                    storageCheck = true;
-                                    break;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                continue;
-                            }
-                        }
-                        if (!storageCheck)
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
-                        }
-                    }
-                }
-                __instance.UpdateMaterial();
-                return __instance.constructedAmount <= 0f;
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
-#endif
 }

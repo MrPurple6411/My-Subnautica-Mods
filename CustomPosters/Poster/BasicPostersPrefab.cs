@@ -32,7 +32,7 @@ namespace CustomPosters.Poster
 
         public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
 
-#if BZ || SUBNAUTICA_STABLE
+#if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             GameObject prefab = orientation.ToLower() == "landscape"

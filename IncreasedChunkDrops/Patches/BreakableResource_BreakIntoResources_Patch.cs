@@ -46,7 +46,5 @@ namespace IncreasedChunkDrops.Patches
                 extraSpawns--;
             }
         }
-
     }
-
 }
