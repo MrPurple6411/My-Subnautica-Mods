@@ -141,9 +141,11 @@
     <Compile Include="Patches\Builder_UpdateAllowed_Patch.cs" />
     <Compile Include="Patches\Builder_ValidateOutdoor_Patch.cs" />
     <Compile Include="Patches\Base_Start_Patch.cs" />
+    <Compile Include="Patches\Constructable_Start_Patch.cs" />
     <Compile Include="Patches\DeconstructionAllowed_Patches.cs" />
     <Compile Include="Patches\Player_ResetPlayerOnDeath_Patch.cs" />
     <Compile Include="Patches\Player_Update_Patch.cs" />
+    <Compile Include="Patches\PowerConsumer_IsPowered_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
