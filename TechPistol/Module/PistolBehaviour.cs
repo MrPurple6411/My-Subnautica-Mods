@@ -37,6 +37,7 @@ namespace TechPistol.Module
 		public TextMesh textMode;
 		public float currentDamage = 0;
 		public static float lastShotDamage = 0;
+		private Rigidbody rigidbody;
 
 		private bool PowerCheck => energyMixin.charge > 0f || !GameModeUtils.RequiresPower();
 
@@ -73,9 +74,23 @@ namespace TechPistol.Module
 			}
 		}
 
+		public override void Awake()
+		{
+			rigidbody = gameObject.GetComponent<Rigidbody>();
+			base.Awake();
+		}
+
+		public override void OnDraw(Player p)
+		{
+			rigidbody.detectCollisions = false;
+			base.OnDraw(p);
+		}
+
 		public override void OnHolster()
 		{
+			rigidbody.detectCollisions = true;
 			Reset();
+			base.OnHolster();
 		}
 
 		private void Start()
