@@ -9,14 +9,16 @@ namespace ImprovedPowerNetwork.Patches
         [HarmonyPostfix]
         public static void Postfix(PowerRelay __instance)
         {
-            if (__instance.gameObject.name.Contains("Transmitter"))
-            {
-                __instance.gameObject.EnsureComponent<PowerControl>();
-            }
 
             if(__instance.transform.position == Vector3.zero && __instance.gameObject.name.Contains("Transmitter"))
             {
                 GameObject.Destroy(__instance.gameObject);
+                return;
+            }
+
+            if (__instance.gameObject.name.Contains("Transmitter"))
+            {
+                __instance.gameObject.EnsureComponent<PowerControl>();
             }
         }
     }

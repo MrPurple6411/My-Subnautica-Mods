@@ -13,6 +13,9 @@ namespace ImprovedPowerNetwork
         public List<OtherConnectionRelay> otherConnectionRelays = new List<OtherConnectionRelay>();
         public Vehicle vehicle;
         public SubRoot subRoot;
+#if BZ
+        public SeaTruckSegment truckSegment;
+#endif
 
         public bool baseConnectionsDisabled = true;
         public bool otherConnectionsDisabled = false;
@@ -87,24 +90,32 @@ namespace ImprovedPowerNetwork
 
             vehicle = gameObject.GetComponentInParent<Vehicle>();
             subRoot = gameObject.GetComponentInParent<SubRoot>();
-
-            if(subRoot != null)
+            if (subRoot != null)
             {
-                if(!subRoot.name.Contains("Cyclops"))
+                if (!subRoot.name.Contains("Cyclops"))
                 {
                     baseConnectionsDisabled = false;
                 }
             }
+#if BZ
+            truckSegment = gameObject.GetComponentInParent<SeaTruckSegment>();
+#endif
 
-            if((vehicle != null || subRoot != null) && gameObject.TryGetComponent(out Rigidbody rigidbody))
+
+            if ((vehicle != null || subRoot != null
+#if BZ
+                || truckSegment != null
+#endif
+                ) && gameObject.TryGetComponent(out Rigidbody rigidbody))
                 GameObject.Destroy(rigidbody);
         }
 
         public void LateUpdate()
         {
+#if SN1
             if (subRoot != null && subRoot.name.Contains("Cyclops") && GameModeUtils.RequiresPower())
             {
-                float chargeNeeded = (subRoot.powerRelay.GetMaxPower() - subRoot.powerRelay.GetPower()) * Time.deltaTime;
+                float chargeNeeded = (subRoot.powerRelay.GetMaxPower() - subRoot.powerRelay.GetPower());
                 subRoot.powerRelay.AddEnergy(chargeNeeded, out float amountStored);
                 powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
 
@@ -112,16 +123,28 @@ namespace ImprovedPowerNetwork
                     subRoot.powerRelay.ConsumeEnergy(amountStored - amountConsumed, out _);
             }
 
+#elif BZ
+            if(truckSegment?.relay != null && GameModeUtils.RequiresPower())
+            {
+                float chargeNeeded = (truckSegment.relay.GetMaxPower() - truckSegment.relay.GetPower());
+                truckSegment.relay.AddEnergy(chargeNeeded, out float amountStored);
+                powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
+
+                if (amountStored > amountConsumed)
+                    truckSegment.relay.ConsumeEnergy(amountStored - amountConsumed, out _);
+            }
+#endif
             if (vehicle?.energyInterface != null && GameModeUtils.RequiresPower())
             {
                 vehicle.energyInterface.GetValues(out float charge, out float capacity);
-                float chargeNeeded = (capacity - charge) * Time.deltaTime;
+                float chargeNeeded = (capacity - charge);
                 float amountStored = vehicle.energyInterface.AddEnergy(chargeNeeded);
                 powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
 
                 if (amountStored > amountConsumed)
                     vehicle.energyInterface.ConsumeEnergy(amountStored - amountConsumed);
             }
+
 
             powerRelay.maxOutboundDistance = Main.config.BlueBeamRange;
 
@@ -199,13 +222,5 @@ namespace ImprovedPowerNetwork
             }
         }
 
-        public void OnDestroy()
-        {
-            if (!constructable?.constructed ?? false)
-            {
-                baseInboundRelay.DisconnectFromRelay();
-                otherConnectionRelays.ForEach((x) => x.DisconnectFromRelay());
-            }
-        }
     }
 }

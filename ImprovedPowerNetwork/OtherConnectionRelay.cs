@@ -53,6 +53,14 @@ namespace ImprovedPowerNetwork
             }
         }
 
+        public void OnEnable()
+        {
+            if (constructable?.constructed ?? false)
+            {
+                PowerRelay.MarkRelaySystemDirty();
+            }
+        }
+
         public void OnDisable()
         {
             if (outboundRelay != null)
@@ -62,6 +70,15 @@ namespace ImprovedPowerNetwork
                 powerFX.target = null;
                 GameObject.Destroy(powerFX.vfxEffectObject);
             }
+        }
+
+        new public void OnDestroy()
+        {
+            if (!constructable?.constructed ?? false)
+            {
+                DisconnectFromRelay();
+            }
+            base.OnDestroy();
         }
 
         public class OtherRelayPowerFX : PowerFX { }
