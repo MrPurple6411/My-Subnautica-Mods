@@ -23,8 +23,8 @@ namespace TechPistol.Module
 		public FMOD_CustomEmitter laserShootSound;
 #endif
 		public FMODAsset modeChangeSound;
-		public ParticleSystem[] par = new ParticleSystem[10];
-		public LineRenderer[] Line = new LineRenderer[10];
+		public ParticleSystem[] par = new ParticleSystem[7];
+		public LineRenderer[] Line = new LineRenderer[3];
 		public GameObject LaserParticles;
 		public bool CannonCharging = false;
 		public bool LaserFiring = false;
@@ -32,12 +32,14 @@ namespace TechPistol.Module
 		public bool ScaleSmall = false;
 		public float Charge = 0f;
 		public int mode = 0;
+
 		public TextMesh textName;
 		public TextMesh textHealth;
 		public TextMesh textMode;
+		public Rigidbody rigidbody;
+
 		public float currentDamage = 0;
 		public static float lastShotDamage = 0;
-		private Rigidbody rigidbody;
 
 		private bool PowerCheck => energyMixin.charge > 0f || !GameModeUtils.RequiresPower();
 
@@ -46,8 +48,6 @@ namespace TechPistol.Module
 		public const string CannonMode = Point + "/CannonMode";
 		public const string LaserMode = Point + "/LaserMode";
 		public const string ScaleMode = Point + "/ScaleMode";
-
-
 
 		public Vector3 currentMuzzlePosition => base.gameObject.transform.Find(Point).position;
 
@@ -74,11 +74,6 @@ namespace TechPistol.Module
 			}
 		}
 
-		public override void Awake()
-		{
-			rigidbody = gameObject.GetComponent<Rigidbody>();
-			base.Awake();
-		}
 
 		public override void OnDraw(Player p)
 		{
@@ -93,37 +88,55 @@ namespace TechPistol.Module
 			base.OnHolster();
 		}
 
-		private void Start()
+        public override void Awake()
 		{
-			par[0] = base.gameObject.transform.Find(GunMain + "/ModeChange").gameObject.GetComponent<ParticleSystem>();
-			textMode = base.gameObject.transform.Find(GunMain + "/ModeChange/ModeHud").gameObject.GetComponent<TextMesh>();
-			textName = base.gameObject.transform.Find(GunMain + "/TargetDisplay/Name").gameObject.GetComponent<TextMesh>();
-			textHealth = base.gameObject.transform.Find(GunMain + "/TargetDisplay/Health").gameObject.GetComponent<TextMesh>();
+			rigidbody.detectCollisions = false;
+			base.Awake();
+        }
 
-			par[1] = base.gameObject.transform.Find(CannonMode + "/BlueOrb").gameObject.GetComponent<ParticleSystem>();
-			par[2] = base.gameObject.transform.Find(CannonMode + "/Charge").gameObject.GetComponent<ParticleSystem>();
-			par[3] = base.gameObject.transform.Find(CannonMode + "/Shoot").gameObject.GetComponent<ParticleSystem>();
-			base.gameObject.transform.Find(CannonMode + "/Shoot").gameObject.EnsureComponent<ExplosionBehaviour>();
-			base.gameObject.transform.Find(CannonMode + "/Shoot/Orb").gameObject.EnsureComponent<ExplosionBehaviour>();
+        private void Start()
+		{
+			if (LaserParticles is null)
+			{
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
+				{
+					GameObject gameObject1 = Resources.Load<GameObject>(RCFilename);
+					RepulsionCannon component = gameObject1.GetComponent<RepulsionCannon>();
+					repulsionCannonFireSound = component.shootSound;
+					gameObject1.SetActive(false);
+				}
 
-			par[4] = base.gameObject.transform.Find(LaserMode + "/Laser").gameObject.GetComponent<ParticleSystem>();
-			par[5] = base.gameObject.transform.Find(ScaleMode + "/LaserBig").gameObject.GetComponent<ParticleSystem>();
-			par[6] = base.gameObject.transform.Find(ScaleMode + "/LaserSmall").gameObject.GetComponent<ParticleSystem>();
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
+				{
+					GameObject gameObject2 = Resources.Load<GameObject>(SRFilename);
+					StasisRifle component2 = gameObject2.GetComponent<StasisRifle>();
+					stasisRifleFireSound = component2.fireSound;
+					stasisRifleEvent = component2.chargeBegin;
+					gameObject2.SetActive(false);
+				}
 
-			Line[1] = base.gameObject.transform.Find(LaserMode + "/LaserLine").gameObject.GetComponent<LineRenderer>();
-			Line[2] = base.gameObject.transform.Find(ScaleMode + "/LineBig").gameObject.GetComponent<LineRenderer>();
-			Line[3] = base.gameObject.transform.Find(ScaleMode + "/LineSmall").gameObject.GetComponent<LineRenderer>();
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
+				{
+					GameObject gameObject3 = Resources.Load<GameObject>(PCFilename);
+					PropulsionCannon component3 = gameObject3.GetComponent<PropulsionCannon>();
+					modeChangeSound = component3.shootSound;
+					gameObject3.SetActive(false);
+				}
 
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
+				{
+					GameObject gameObject4 = Resources.Load<GameObject>(WFilename);
+					Welder component4 = gameObject4.GetComponent<Welder>();
+					laserShootSound = component4.weldSound;
+					gameObject4.SetActive(false);
+				}
 
-			VFXFabricating vfxfabricating = base.gameObject.transform.Find("HandGun").gameObject.EnsureComponent<VFXFabricating>();
-			vfxfabricating.localMinY = -3f;
-			vfxfabricating.localMaxY = 3f;
-			vfxfabricating.posOffset = new Vector3(0f, 0f, 0f);
-			vfxfabricating.eulerOffset = new Vector3(0f, 90f, -90f);
-			vfxfabricating.scaleFactor = 1f;
-
-			GameObject gameObject = Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab");
-			LaserParticles = GameObject.Instantiate<GameObject>(gameObject, base.transform.position, base.transform.rotation);
+				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+			}
+            else
+            {
+				rigidbody.detectCollisions = true;
+			}
 		}
 
 		public override bool OnAltDown()
@@ -434,28 +447,24 @@ namespace TechPistol.Module
 			{
 				LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>().Stop();
 				LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>().Stop();
-				par[1].Stop();
-				par[2].Stop();
-				par[3].Stop();
-				par[4].Stop();
-				par[5].Stop();
-				par[6].Stop();
-				par[4].gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-				laserShootSound.Stop();
-				stasisRifleEvent.Stop(true);
+
+				laserShootSound?.Stop();
+				stasisRifleEvent?.Stop(true);
 				LaserFiring = false;
 				CannonCharging = false;
 				ScaleBig = false;
 				ScaleSmall = false;
-				Line[1].SetPosition(0, new Vector3(0f, 0f, 0f));
-				Line[1].SetPosition(1, new Vector3(0f, 0f, 0f));
-				Line[1].enabled = false;
-				Line[2].SetPosition(0, new Vector3(0f, 0f, 0f));
-				Line[2].SetPosition(1, new Vector3(0f, 0f, 0f));
-				Line[2].enabled = false;
-				Line[3].SetPosition(0, new Vector3(0f, 0f, 0f));
-				Line[3].SetPosition(1, new Vector3(0f, 0f, 0f));
-				Line[3].enabled = false;
+
+				par.ForEach((x) => { 
+					if (x.isPlaying) 
+						x.Stop(); 
+				});
+
+				Line.ForEach((x) => {
+					x.SetPosition(0, new Vector3(0f, 0f, 0f));
+					x.SetPosition(1, new Vector3(0f, 0f, 0f));
+					x.enabled = false;
+				});
 			}
 			textName.text = "";
 			textHealth.text = "";

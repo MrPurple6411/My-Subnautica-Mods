@@ -16,6 +16,9 @@ namespace TechPistol.Module
 {
     internal class PistolFragmentPrefab : Spawnable
     {
+
+        private static GameObject processedPrefab;
+
         public PistolFragmentPrefab() : base(
             "TechPistolFragment", 
             "Damaged Pistol Fragment", 
@@ -70,46 +73,49 @@ namespace TechPistol.Module
 
         public override GameObject GetGameObject()
         {
-            GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-            GameObject gameObject = GameObject.Instantiate(prefab);
-            gameObject.SetActive(false);
-            prefab.SetActive(false);
-
-            gameObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-
-            Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
-            foreach (Renderer renderer in componentsInChildren)
+            if(processedPrefab is null)
             {
-                if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
+                GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
+                GameObject gameObject = GameObject.Instantiate(prefab);
+                gameObject.SetActive(false);
+                prefab.SetActive(false);
+
+                gameObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+                gameObject.transform.localPosition += Vector3.up*2;
+
+                Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
+                foreach (Renderer renderer in componentsInChildren)
                 {
-                    Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
-                    Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
+                    if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
+                    {
+                        Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
+                        Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
 
-                    renderer.material.shader = Shader.Find("MarmosetUBER");
-                    renderer.material.EnableKeyword("MARMO_EMISSION");
-                    renderer.material.EnableKeyword("MARMO_SPECMAP");
-                    renderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-                    renderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-                    renderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
-                    renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-                    renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+                        renderer.material.shader = Shader.Find("MarmosetUBER");
+                        renderer.material.EnableKeyword("MARMO_EMISSION");
+                        renderer.material.EnableKeyword("MARMO_SPECMAP");
+                        renderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+                        renderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
+                        renderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
+                        renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+                        renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+                    }
                 }
+
+                GameObject.Destroy(gameObject.transform.Find(PistolBehaviour.GunMain + "/ModeChange")?.gameObject);
+                GameObject.Destroy(gameObject.transform.Find(PistolBehaviour.Point)?.gameObject);
+                GameObject.Destroy(gameObject.GetComponent<PistolBehaviour>());
+                GameObject.Destroy(gameObject.GetComponent<EnergyMixin>());
+                GameObject.Destroy(gameObject.GetComponent<Pickupable>());
+                GameObject.Destroy(gameObject.GetComponent<VFXFabricating>());
+
+                gameObject.GetComponent<PrefabIdentifier>().ClassId = base.ClassID;
+                gameObject.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.VeryFar;
+                gameObject.GetComponent<TechTag>().type = base.TechType;
+
+                processedPrefab = gameObject;
             }
-
-            GameObject.Destroy(gameObject.transform.Find(PistolBehaviour.GunMain + "/ModeChange")?.gameObject);
-            GameObject.Destroy(gameObject.transform.Find(PistolBehaviour.Point)?.gameObject);
-            GameObject.Destroy(gameObject.GetComponent<PistolBehaviour>());
-
-            SkyApplier skyApplier = gameObject.EnsureComponent<SkyApplier>();
-            skyApplier.renderers = componentsInChildren;
-            skyApplier.anchorSky = Skies.Auto;
-
-            gameObject.EnsureComponent<PrefabIdentifier>().ClassId = base.ClassID;
-            gameObject.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
-            gameObject.EnsureComponent<TechTag>().type = base.TechType;
-
-            gameObject.SetActive(true);
-            return gameObject;
+            return processedPrefab;
         }
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> pistolFragment)
