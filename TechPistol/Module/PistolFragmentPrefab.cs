@@ -106,12 +106,22 @@ namespace TechPistol.Module
                 GameObject.Destroy(gameObject.transform.Find(PistolBehaviour.Point)?.gameObject);
                 GameObject.Destroy(gameObject.GetComponent<PistolBehaviour>());
                 GameObject.Destroy(gameObject.GetComponent<EnergyMixin>());
-                GameObject.Destroy(gameObject.GetComponent<Pickupable>());
                 GameObject.Destroy(gameObject.GetComponent<VFXFabricating>());
 
-                gameObject.GetComponent<PrefabIdentifier>().ClassId = base.ClassID;
+                PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
+                prefabIdentifier.ClassId = this.ClassID;
                 gameObject.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.VeryFar;
-                gameObject.GetComponent<TechTag>().type = base.TechType;
+                gameObject.GetComponent<TechTag>().type = this.TechType;
+
+                Pickupable pickupable = gameObject.GetComponent<Pickupable>();
+                pickupable.isPickupable = false;
+
+                ResourceTracker resourceTracker = gameObject.EnsureComponent<ResourceTracker>();
+                resourceTracker.prefabIdentifier = prefabIdentifier;
+                resourceTracker.techType = this.TechType;
+                resourceTracker.overrideTechType = TechType.Fragment;
+                resourceTracker.rb = gameObject.GetComponent<Rigidbody>();
+                resourceTracker.pickupable = pickupable;
 
                 processedPrefab = gameObject;
             }
