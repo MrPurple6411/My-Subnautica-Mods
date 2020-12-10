@@ -36,13 +36,13 @@ namespace AdvancedScannerChip.MonoBehaviours
 
 			ResourceTracker.onResourceDiscovered += this.OnResourceDiscovered;
 			ResourceTracker.onResourceRemoved += this.OnResourceRemoved;
-            MapRoomFunctionality.mapRooms.Add(this);
+			MapRoomFunctionality.mapRooms.Add(this);
 		}
 
 		public new void Update()
-        {
+		{
 
-        }
+		}
 
 		public new void OnResourceDiscovered(ResourceTracker.ResourceInfo info)
 		{
