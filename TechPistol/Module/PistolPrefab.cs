@@ -1,10 +1,6 @@
-﻿using FMOD;
-using HarmonyLib;
-using Oculus.Newtonsoft.Json;
-using SMLHelper.V2.Assets;
+﻿using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
