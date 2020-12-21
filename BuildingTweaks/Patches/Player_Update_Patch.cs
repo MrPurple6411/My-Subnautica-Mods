@@ -17,8 +17,8 @@ namespace BuildingTweaks.Patches
             Vehicle vehicle = __instance.GetVehicle();
             Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 
-            bool builderCheck = heldTool != null && heldTool.pickupable.GetTechType() == TechType.Builder;
-            bool builderModuleCheck = TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module != null && module.GetTechType() == modTechType;
+            bool builderCheck = heldTool?.pickupable?.GetTechType() == TechType.Builder;
+            bool builderModuleCheck = module != null && TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module.GetTechType() == modTechType;
 
             string msg1 = $"Attach as target override = {Main.config.AttachToTarget}";
             ErrorMessage._Message emsg = ErrorMessage.main.GetExistingMessage(msg1);
