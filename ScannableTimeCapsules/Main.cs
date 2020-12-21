@@ -1,0 +1,26 @@
+﻿using HarmonyLib;
+using QModManager.API.ModLoading;
+using System.Reflection;
+using UWE;
+
+namespace ScannableTimeCapsules
+{
+    [QModCore]
+    public static class Main
+    {
+        internal static Assembly assembly = Assembly.GetExecutingAssembly();
+
+        [QModPatch]
+        public static void Load()
+        {
+            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
+            string classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
+            if (WorldEntityDatabase.TryGetInfo(classid, out WorldEntityInfo worldEntityInfo))
+            {
+                worldEntityInfo.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
+
+                WorldEntityDatabase.main.infos[classid] = worldEntityInfo;
+            }
+        }
+    }
+}
