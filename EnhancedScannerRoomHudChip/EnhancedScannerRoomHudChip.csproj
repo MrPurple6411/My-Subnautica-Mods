@@ -8,8 +8,8 @@
     <ProjectGuid>{0245FA00-D703-43D6-BEAE-4CFC6D855F95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdvancedScannerChip</RootNamespace>
-    <AssemblyName>AdvancedScannerChip</AssemblyName>
+    <RootNamespace>EnhancedScannerRoomHudChip</RootNamespace>
+    <AssemblyName>EnhancedScannerRoomHudChip</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <LangVersion>latest</LangVersion>
@@ -120,10 +120,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="MonoBehaviours\ScannerChipFunctionality.cs" />
-    <Compile Include="Patches\Player_Awake_Patch.cs" />
+    <Compile Include="Patches\MapRoomFunctionality_Patches.cs" />
+    <Compile Include="Patches\Equipment_Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,10 +131,7 @@
     <None Include="mod_SN1.EXP.json" />
     <None Include="mod_SN1.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-    <Folder Include="Prefabs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y</PostBuildEvent>
