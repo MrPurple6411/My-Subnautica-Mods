@@ -3,7 +3,7 @@
   "DisplayName": "Specialty Manifold",
   "Author": "MrPurple6411",
   "Version": "1.1.3",
-  "Dependencies": [ "NitrogenMod", "ScubaManifold", "SMLHelper" ],
+  "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
   "NexusId": {

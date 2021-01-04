@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using HarmonyLib;
-using NitrogenMod.Items;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SpecialtyManifold.Configuration;
-using UnityEngine;
 
 namespace SpecialtyManifold
 {
