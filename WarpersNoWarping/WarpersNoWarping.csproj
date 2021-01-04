@@ -57,7 +57,7 @@
     <Optimize>true</Optimize>
     <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
-	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
