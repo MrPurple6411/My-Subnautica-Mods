@@ -17,7 +17,7 @@ namespace UnobtaniumBatteries.Patches
 
             if (Main.typesToMakePickupable.Contains(__instance.GetType()) && __instance.liveMixin != null)
             {
-                if (__instance.liveMixin.health <= (__instance.liveMixin.initialHealth/10) && __instance.liveMixin.IsAlive())
+                if (__instance.liveMixin.IsAlive() && __instance.liveMixin.health <= (__instance.liveMixin.initialHealth/9))
                 {
                     Pickupable pickupable = __instance.gameObject.EnsureComponent<Pickupable>();
                     pickupable.isPickupable = true;
