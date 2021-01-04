@@ -45,8 +45,14 @@ namespace BetterACU.Patches
                     time = DayNightCycle.main.timePassedAsFloat;
                 }
 
-                float power = powerValue * __instance.gameObject.transform.localScale.x * (DayNightCycle.main.timePassedAsFloat - time) * Main.config.PowerGenSpeed;
-                __instance?.GetWaterPark()?.gameObject?.GetComponent<PowerSource>()?.AddEnergy(power, out _);
+                float power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.config.PowerGenSpeed;
+                PowerSource powerSource = __instance?.GetWaterPark()?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
+
+                if(powerSource != null)
+                {
+                    if (!powerSource.AddEnergy(power, out float amountStored))
+                        powerSource.connectedRelay?.AddEnergy(power - amountStored, out _);
+                }
 
                 timeLastGenerated[__instance] = DayNightCycle.main.timePassedAsFloat;
             }

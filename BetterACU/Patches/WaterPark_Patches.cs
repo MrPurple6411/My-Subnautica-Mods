@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -9,11 +8,13 @@ using Random = UnityEngine.Random;
 
 namespace BetterACU.Patches
 {
+
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.Update))]
     public static class WaterPark_Update_Postfix
     {
         public static Dictionary<WaterPark, int> cachedItems = new Dictionary<WaterPark, int>();
         public static Dictionary<WaterPark, int> cachedPowerCreatures = new Dictionary<WaterPark, int>();
+        public static float timeSinceLastPositionCheck = 0;
 
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance)
@@ -35,24 +36,37 @@ namespace BetterACU.Patches
                 cachedPowerCreatures[__instance] = numberOfPowerCreatures;
             }
 
-            PowerSource powerSource = __instance.gameObject.GetComponent<PowerSource>();
-            if (powerSource == null)
+            PowerSource powerSource = __instance?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
+            if (powerSource is null)
             {
-                powerSource = __instance.gameObject.AddComponent<PowerSource>();
+                powerSource = __instance?.itemsRoot?.gameObject?.AddComponent<PowerSource>();
                 powerSource.maxPower = 500 * numberOfPowerCreatures;
                 powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
             }
             else
             {
-                powerSource.maxPower = 500 * numberOfPowerCreatures;
+
+                if (powerSource.maxPower != 500 * numberOfPowerCreatures)
+                    powerSource.maxPower = 500 * numberOfPowerCreatures;
+
+                if (powerSource.power > powerSource.maxPower)
+                    powerSource.power = powerSource.maxPower;
+
+                Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
             }
 
-            if (powerSource.power > powerSource.maxPower)
+            timeSinceLastPositionCheck += Time.deltaTime;
+            if(timeSinceLastPositionCheck > 0.5f)
             {
-                powerSource.power = powerSource.maxPower;
+                foreach (WaterParkItem waterParkItem in __instance.items)
+                {
+                    if (!__instance.IsPointInside(waterParkItem.transform.position))
+                    {
+                        waterParkItem.transform.position = __instance.GetRandomPointInside();
+                    }
+                }
+                timeSinceLastPositionCheck = 0;
             }
-
-            Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
         }
     }
 
@@ -69,7 +83,7 @@ namespace BetterACU.Patches
             }
             else
 #endif
-                __instance.wpPieceCapacity= Main.config.WaterParkSize;
+                __instance.wpPieceCapacity = Main.config.WaterParkSize;
         }
     }
 
@@ -94,19 +108,21 @@ namespace BetterACU.Patches
             foreach (WaterParkItem waterParkItem in items)
             {
                 var parkCreature = waterParkItem as WaterParkCreature;
-                if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreature.pickupable.GetTechType() == creature.pickupable.GetTechType() && !parkCreature.pickupable.GetTechType().ToString().Contains("Egg"))
+                TechType parkCreatureTechType = parkCreature?.pickupable?.GetTechType() ?? TechType.None;
+                if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
                 {
-                    foreach (BaseBioReactor baseBioReactor in baseBioReactors)
-                    {
-                        if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                    if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
+                        foreach (BaseBioReactor baseBioReactor in baseBioReactors)
                         {
-                            creature.ResetBreedTime();
-                            parkCreature.ResetBreedTime();
-                            hasBred = true;
-                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
-                            break;
+                            if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                            {
+                                creature.ResetBreedTime();
+                                parkCreature.ResetBreedTime();
+                                hasBred = true;
+                                CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
+                                break;
+                            }
                         }
-                    }
 
                     if (!hasBred && Main.config.OverFlowIntoOcean)
                     {
@@ -141,13 +157,11 @@ namespace BetterACU.Patches
 #if SUBNAUTICA_EXP
                 TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
                 yield return pickupable.PickupAsync(taskResult, false);
-
-                container.AddItem(taskResult.Get());
+                pickupable = taskResult.Get();
 #else
                 pickupable.Pickup(false);
-
-                container.AddItem(pickupable);
 #endif
+                container.AddItem(pickupable);
             }
 
             yield break;
