@@ -2,7 +2,7 @@
   "Id": "ToolInspection",
   "DisplayName": "ToolInspection",
   "Author": "MrPurple6411",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "Enable": true,
   "Game": "Both",
   "NexusId": {

@@ -18,7 +18,7 @@ namespace TechPistol.Configuration
         [Slider("Cannon Charge Speed", 1, 10, DefaultValue = 1, Step = 1)]
         public float CannonChargeSpeed = 1f;
 
-        [Slider("Laser Damage", 0, 100, DefaultValue = 1, Step = 1, Tooltip = "Damage = Power cost per second")]
+        [Slider("Laser Damage", 0, 100, DefaultValue = 2, Step = 1, Tooltip = "Damage = Power cost per second")]
         public float LaserDamage = 1f;
 
         [Toggle("Lethal Resizing")]

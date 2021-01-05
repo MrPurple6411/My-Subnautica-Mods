@@ -75,6 +75,10 @@
       <HintPath>$(GameDir)\$(DataFolder)\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FCS_AlterraHub">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica.Play\QMods\FCS_AlterraHub\FCS_AlterraHub.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="QModInstaller">
       <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
       <Private>False</Private>
@@ -128,6 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AGT.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Patches\CreatureEgg_Patches.cs" />
     <Compile Include="Main.cs" />

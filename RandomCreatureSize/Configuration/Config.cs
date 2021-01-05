@@ -14,6 +14,6 @@ namespace RandomCreatureSize.Configuration
         [Slider("Min Size", 0.1f, 10f, Format = "{0:P0}")]
         public float minsize = 0.1f;
         [Slider("Max Size", 0.1f, 10f, Format = "{0:P0}")]
-        public float maxsize = 3f;
+        public float maxsize = 2f;
     }
 }

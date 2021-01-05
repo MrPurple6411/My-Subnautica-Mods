@@ -81,6 +81,10 @@
       <HintPath>.\CyclopsBioReactor_publicized.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FCS_AlterraHub">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica.Play\QMods\FCS_AlterraHub\FCS_AlterraHub.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="QModInstaller">
       <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
       <Private>False</Private>
@@ -94,6 +98,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AGCompat.cs" />
+    <Compile Include="CBRCompat.cs" />
     <Compile Include="Patches\AquariumBreedingPatches.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

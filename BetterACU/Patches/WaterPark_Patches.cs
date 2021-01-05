@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using QModManager.API;
 using UnityEngine;
 using UWE;
 using Random = UnityEngine.Random;
@@ -103,7 +104,7 @@ namespace BetterACU.Patches
                 return;
             }
 
-            var baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
+            List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
             foreach (WaterParkItem waterParkItem in items)
             {
@@ -112,17 +113,28 @@ namespace BetterACU.Patches
                 if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
                 {
                     if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
-                        foreach (BaseBioReactor baseBioReactor in baseBioReactors)
+                    {
+                        if (QModServices.Main.ModPresent("FCSEnergySolutions"))
                         {
-                            if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
-                            {
-                                creature.ResetBreedTime();
-                                parkCreature.ResetBreedTime();
-                                hasBred = true;
-                                CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
-                                break;
-                            }
+                            hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                         }
+
+                        if (!hasBred)
+                        {
+                            foreach (BaseBioReactor baseBioReactor in baseBioReactors)
+                            {
+                                if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                                {
+                                    creature.ResetBreedTime();
+                                    parkCreature.ResetBreedTime();
+                                    hasBred = true;
+                                    CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
 
                     if (!hasBred && Main.config.OverFlowIntoOcean)
                     {
