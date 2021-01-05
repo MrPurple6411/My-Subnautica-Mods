@@ -63,7 +63,9 @@ namespace BetterACU.Patches
                 {
                     if (!__instance.IsPointInside(waterParkItem.transform.position))
                     {
-                        waterParkItem.transform.position = __instance.GetRandomPointInside();
+                        Vector3 position = waterParkItem.transform.position;
+                         __instance.EnsurePointIsInside(ref position);
+                        waterParkItem.transform.position = position;
                     }
                 }
                 timeSinceLastPositionCheck = 0;
