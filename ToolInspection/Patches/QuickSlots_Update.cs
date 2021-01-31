@@ -6,40 +6,36 @@ using UWE;
 
 namespace ToolInspection.Patches
 {
-    [HarmonyPatch(typeof(QuickSlots), nameof(QuickSlots.Update))]
-    public static class QuickSlots_Update
+    [HarmonyPatch(typeof(QuickSlots), nameof(QuickSlots.UpdateState))]
+    class QuickSlots_UpdateState
     {
         static float timeCheck = 0;
-        static int slot;
 
         [HarmonyPrefix]
-        public static void Prefix(QuickSlots __instance)
+        static void Prefix(QuickSlots __instance)
         {
-            try
+            if (Input.GetKeyDown(KeyCode.I) && timeCheck == 0)
             {
                 InventoryItem item = __instance.heldItem;
-                if (Input.GetKeyDown(KeyCode.I) && item != null && timeCheck == 0)
+                TechType techType = item.item?.GetTechType() ?? TechType.None;
+                PlayerTool tool = item.item?.gameObject?.GetComponent<PlayerTool>();
+                if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
                 {
-                    TechType techType = item.item.GetTechType();
-                    PlayerTool tool = item.item?.gameObject?.GetComponent<PlayerTool>();
-                    if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
-                    {
-                        if (Player.main.usedTools.Contains(techType))
-                        {
-                            Player.main.usedTools.Remove(techType);
-                        }
+                    if (Player.main.usedTools.Contains(techType))
+                        Player.main.usedTools.Remove(techType);
 
-                        slot = __instance.GetSlotByItem(item);
+                    int slot = __instance.GetSlotByItem(item);
+                    if(slot != -1)
+                    {
                         __instance.SelectImmediate(slot);
                         timeCheck = Time.time + tool.holsterTime;
-                        CoroutineHost.StartCoroutine(SelectDelay(__instance));
+                        CoroutineHost.StartCoroutine(SelectDelay(__instance, slot));
                     }
                 }
             }
-            catch { }
         }
 
-        private static IEnumerator SelectDelay(QuickSlots quickSlots)
+        static IEnumerator SelectDelay(QuickSlots quickSlots, int slot)
         {
             while(Time.time < timeCheck)
             {
@@ -48,9 +44,7 @@ namespace ToolInspection.Patches
 
             quickSlots.Select(slot);
             timeCheck = 0;
-
             yield break;
-
         }
     }
 }
