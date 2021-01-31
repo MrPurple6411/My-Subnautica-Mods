@@ -56,7 +56,6 @@ namespace TechPistol.Module
 			{
 				GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
 				GameObject gameObject = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
-				GameObject.DestroyImmediate(prefab);
 
 				MeshRenderer[] componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
 				foreach (MeshRenderer meshRenderer in componentsInChildren)

@@ -182,15 +182,15 @@ namespace TechPistol.Module
 			{
 				if (LaserFiring)
 				{
-					TargetLaser(Main.config.TargetingRange, Line[1]);
+					TargetLaser(Main.config.TargetingRange, Line[0]);
 				}
 				else if (ScaleBig)
 				{
-					TargetLaser(Main.config.TargetingRange, Line[2]);
+					TargetLaser(Main.config.TargetingRange, Line[1]);
 				}
 				else if (ScaleSmall)
 				{
-					TargetLaser(Main.config.TargetingRange, Line[3]);
+					TargetLaser(Main.config.TargetingRange, Line[2]);
 				}
 			}
 		}
