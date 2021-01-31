@@ -133,6 +133,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="Module\BuilderModuleMono.cs" />
     <Compile Include="Module\BuilderModulePrefab.cs" />
+    <Compile Include="Patches\ExoSuit_Patches.cs" />
+    <Compile Include="Patches\Seamoth_CheckLightToggle_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Patches\Vehicle_OnUpgradeModuleChange_Patch.cs" />
   </ItemGroup>

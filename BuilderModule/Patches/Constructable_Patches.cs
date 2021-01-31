@@ -189,7 +189,12 @@ namespace BuilderModule.Patches
             CoroutineTask<GameObject> coroutineTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
             yield return coroutineTask;
 
-            GameObject gameObject = GameObject.Instantiate(coroutineTask.GetResult(), null);
+            GameObject prefab = coroutineTask.GetResult();
+
+            if (prefab is null)
+                prefab = Utils.CreateGenericLoot(techType);
+
+            GameObject gameObject = GameObject.Instantiate(prefab, null);
             Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
 
 #if SUBNAUTICA_EXP

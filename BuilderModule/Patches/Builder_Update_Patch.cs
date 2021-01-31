@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
+using QModManager.Utility;
 
 namespace BuilderModule.Patches
 {
@@ -20,7 +21,7 @@ namespace BuilderModule.Patches
                 CodeInstruction currentCode = codes[i];
                 if (codepoint == -1)
                 {
-                    if (currentCode.opcode == OpCodes.Ldsfld && currentCode.operand == Builder.inputHandler)
+                    if (currentCode.opcode == OpCodes.Ldsfld && currentCode.operand.ToString().Contains("inputHandler"))
                     {
                         codepoint = i;
                         codes[i] = new CodeInstruction(OpCodes.Call, typeof(Builder_Update_Patch).GetMethod("VehicleCheck"));
@@ -31,6 +32,12 @@ namespace BuilderModule.Patches
                     codes[i] = new CodeInstruction(OpCodes.Nop);
                 }
             }
+
+            if(codepoint > -1)
+                Logger.Log(Logger.Level.Debug, $"Builder Update Transpiler Found and Patched.");
+            else
+                throw new System.Exception("Builder Update Transpiler injection point NOT found!!  Game has most likely updated and broken this mod!");
+
             return codes.AsEnumerable();
         }
 

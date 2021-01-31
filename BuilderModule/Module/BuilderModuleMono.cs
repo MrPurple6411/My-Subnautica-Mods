@@ -14,8 +14,8 @@ namespace BuilderModule.Module
         private Player PlayerMain { get; set; }
         private EnergyMixin EnergyMixin { get; set; }
 
-        private bool isToggle;
-        private bool isActive;
+        public bool isToggle;
+        public bool isActive;
 
         public float powerConsumptionConstruct = 0.5f;
         public float powerConsumptionDeconstruct = 0.5f;
@@ -100,7 +100,7 @@ namespace BuilderModule.Module
                     this.ThisVehicle.SlotKeyDown(this.ThisVehicle.GetActiveSlotID());
                     this.ThisVehicle.SlotKeyUp(this.ThisVehicle.GetActiveSlotID());
                 }
-                if (GameInput.GetButtonDown(GameInput.Button.PDA) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
+                if (GameInput.GetButtonDown(GameInput.Button.RightHand) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
                 {
                     if (this.EnergyMixin.charge > 0f)
                     {
@@ -111,18 +111,14 @@ namespace BuilderModule.Module
                 }
                 if (Builder.isPlacing)
                 {
-                    if (Player.main.GetLeftHandDown())
-                    {
-                        UWE.Utils.lockCursor = true;
-                    }
-                    if (UWE.Utils.lockCursor && GameInput.GetButtonDown(GameInput.Button.AltTool))
+                    if (GameInput.GetButtonDown(GameInput.Button.LeftHand))
                     {
                         if (Builder.TryPlace())
                         {
                             Builder.End();
                         }
                     }
-                    else if (handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.Deconstruct))
+                    else if (handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.RightHand))
                     {
                         Builder.End();
                     }
@@ -158,7 +154,7 @@ namespace BuilderModule.Module
             {
                 return;
             }
-            bool buttonHeld = GameInput.GetButtonHeld(GameInput.Button.AltTool);
+            bool buttonHeld = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
             bool buttonDown = GameInput.GetButtonDown(GameInput.Button.Deconstruct);
             bool buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
             bool quickbuild = GameInput.GetButtonHeld(GameInput.Button.Sprint);
