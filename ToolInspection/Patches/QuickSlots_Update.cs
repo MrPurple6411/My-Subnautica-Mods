@@ -17,8 +17,8 @@ namespace ToolInspection.Patches
             if (Input.GetKeyDown(KeyCode.I) && timeCheck == 0)
             {
                 InventoryItem item = __instance.heldItem;
-                TechType techType = item.item?.GetTechType() ?? TechType.None;
-                PlayerTool tool = item.item?.gameObject?.GetComponent<PlayerTool>();
+                TechType techType = item?.item?.GetTechType() ?? TechType.None;
+                PlayerTool tool = item?.item?.gameObject?.GetComponent<PlayerTool>();
                 if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
                 {
                     if (Player.main.usedTools.Contains(techType))
