@@ -14,6 +14,8 @@ namespace UnKnownName.Patches
     [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.IsCraftRecipeUnlocked))]
     public class CrafterLogic_IsCraftRecipeUnlocked
     {
+        public static List<TechType> blackList = new List<TechType>() { TechType.Titanium, TechType.Copper };
+
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref bool __result)
         {
@@ -26,7 +28,7 @@ namespace UnKnownName.Patches
                     for (int i = 0; i < ingredientCount; i++)
                     {
                         Ingredient ingredient = data.Ingredients[i];
-                        if (ingredient.techType != TechType.ScrapMetal && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                        if (!blackList.Contains(techType) && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
                         {
                             __result = false;
                             return;
@@ -42,7 +44,7 @@ namespace UnKnownName.Patches
                         for (int i = 0; i < ingredientCount; i++)
                         {
                             IIngredient ingredient = data.GetIngredient(i);
-                            if (ingredient.techType != TechType.ScrapMetal && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
+                            if (!blackList.Contains(techType) && !CrafterLogic.IsCraftRecipeUnlocked(ingredient.techType))
                             {
                                 __result = false;
                                 return;
