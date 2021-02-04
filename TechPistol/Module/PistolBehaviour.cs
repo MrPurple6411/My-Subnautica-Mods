@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using HarmonyLib;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using UWE;
@@ -94,7 +90,8 @@ namespace TechPistol.Module
 			base.Awake();
         }
 
-        private void Start()
+#if SUBNAUTICA_STABLE
+		private void Start()
 		{
 			if (LaserParticles is null)
 			{
@@ -133,11 +130,65 @@ namespace TechPistol.Module
 
 				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
 			}
+			else
+			{
+				rigidbody.detectCollisions = true;
+			}
+		}
+#else
+		private void Start()
+		{
+			if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
+				{
+					GameObject gameObject1 = x.Result;
+					RepulsionCannon component = gameObject1?.GetComponent<RepulsionCannon>();
+					repulsionCannonFireSound = component?.shootSound;
+				};
+			}
+
+			if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
+				{
+					GameObject gameObject2 = x.Result;
+					StasisRifle component2 = gameObject2?.GetComponent<StasisRifle>();
+					stasisRifleFireSound = component2?.fireSound;
+					stasisRifleEvent = component2?.chargeBegin;
+				};
+			}
+
+			if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
+				{
+					GameObject gameObject3 = x.Result;
+					PropulsionCannon component3 = gameObject3?.GetComponent<PropulsionCannon>();
+					modeChangeSound = component3?.shootSound;
+				};
+			}
+
+			if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
+				{
+					GameObject gameObject4 = x.Result;
+					Welder component4 = gameObject4?.GetComponent<Welder>();
+					laserShootSound = component4?.weldSound;
+				};
+			}
+
+			if (LaserParticles is null)
+			{
+				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+			}
             else
             {
 				rigidbody.detectCollisions = true;
 			}
 		}
+#endif
 
 		public override bool OnAltDown()
 		{
