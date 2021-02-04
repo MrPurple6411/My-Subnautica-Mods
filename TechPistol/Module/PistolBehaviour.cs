@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using Newtonsoft.Json;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using UWE;
@@ -96,41 +97,49 @@ namespace TechPistol.Module
 
         private void Start()
 		{
+			if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
+				{
+					GameObject gameObject1 = x.Result;
+					RepulsionCannon component = gameObject1?.GetComponent<RepulsionCannon>();
+					repulsionCannonFireSound = component?.shootSound;
+				};
+			}
+
+			if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
+				{
+					GameObject gameObject2 = x.Result;
+					StasisRifle component2 = gameObject2?.GetComponent<StasisRifle>();
+					stasisRifleFireSound = component2?.fireSound;
+					stasisRifleEvent = component2?.chargeBegin;
+				};
+			}
+
+			if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
+				{
+					GameObject gameObject3 = x.Result;
+					PropulsionCannon component3 = gameObject3?.GetComponent<PropulsionCannon>();
+					modeChangeSound = component3?.shootSound;
+				};
+			}
+
+			if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
+			{
+				AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
+				{
+					GameObject gameObject4 = x.Result;
+					Welder component4 = gameObject4?.GetComponent<Welder>();
+					laserShootSound = component4?.weldSound;
+				};
+			}
+
 			if (LaserParticles is null)
 			{
-				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
-				{
-					GameObject gameObject1 = Resources.Load<GameObject>(RCFilename);
-					RepulsionCannon component = gameObject1.GetComponent<RepulsionCannon>();
-					repulsionCannonFireSound = component.shootSound;
-					gameObject1.SetActive(false);
-				}
-
-				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
-				{
-					GameObject gameObject2 = Resources.Load<GameObject>(SRFilename);
-					StasisRifle component2 = gameObject2.GetComponent<StasisRifle>();
-					stasisRifleFireSound = component2.fireSound;
-					stasisRifleEvent = component2.chargeBegin;
-					gameObject2.SetActive(false);
-				}
-
-				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
-				{
-					GameObject gameObject3 = Resources.Load<GameObject>(PCFilename);
-					PropulsionCannon component3 = gameObject3.GetComponent<PropulsionCannon>();
-					modeChangeSound = component3.shootSound;
-					gameObject3.SetActive(false);
-				}
-
-				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
-				{
-					GameObject gameObject4 = Resources.Load<GameObject>(WFilename);
-					Welder component4 = gameObject4.GetComponent<Welder>();
-					laserShootSound = component4.weldSound;
-					gameObject4.SetActive(false);
-				}
-
 				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
 			}
             else
