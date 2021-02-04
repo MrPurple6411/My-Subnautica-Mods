@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using HarmonyLib;
-using Newtonsoft.Json;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using UWE;
@@ -95,7 +90,53 @@ namespace TechPistol.Module
 			base.Awake();
         }
 
-        private void Start()
+#if SUBNAUTICA_STABLE
+		private void Start()
+		{
+			if (LaserParticles is null)
+			{
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
+				{
+					GameObject gameObject1 = Resources.Load<GameObject>(RCFilename);
+					RepulsionCannon component = gameObject1.GetComponent<RepulsionCannon>();
+					repulsionCannonFireSound = component.shootSound;
+					gameObject1.SetActive(false);
+				}
+
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
+				{
+					GameObject gameObject2 = Resources.Load<GameObject>(SRFilename);
+					StasisRifle component2 = gameObject2.GetComponent<StasisRifle>();
+					stasisRifleFireSound = component2.fireSound;
+					stasisRifleEvent = component2.chargeBegin;
+					gameObject2.SetActive(false);
+				}
+
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
+				{
+					GameObject gameObject3 = Resources.Load<GameObject>(PCFilename);
+					PropulsionCannon component3 = gameObject3.GetComponent<PropulsionCannon>();
+					modeChangeSound = component3.shootSound;
+					gameObject3.SetActive(false);
+				}
+
+				if (PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
+				{
+					GameObject gameObject4 = Resources.Load<GameObject>(WFilename);
+					Welder component4 = gameObject4.GetComponent<Welder>();
+					laserShootSound = component4.weldSound;
+					gameObject4.SetActive(false);
+				}
+
+				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+			}
+			else
+			{
+				rigidbody.detectCollisions = true;
+			}
+		}
+#else
+		private void Start()
 		{
 			if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
 			{
@@ -147,6 +188,7 @@ namespace TechPistol.Module
 				rigidbody.detectCollisions = true;
 			}
 		}
+#endif
 
 		public override bool OnAltDown()
 		{
