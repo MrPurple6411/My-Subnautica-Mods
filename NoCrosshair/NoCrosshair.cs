@@ -11,19 +11,23 @@ namespace NoCrosshair
 
         internal static void ChangeCrosshair(bool show)
         {
-            if (!show)
+            if(icons != null)
             {
-                if (!icon)
+                if (!show)
                 {
-                    icon = icons[HandReticle.IconType.Default];
+                    if (icon == null)
+                    {
+                        icon = icons[HandReticle.IconType.Default];
+                    }
+                    if(icons.ContainsKey(HandReticle.IconType.Default))
+                        icons.Remove(HandReticle.IconType.Default);
                 }
-                icons.Remove(HandReticle.IconType.Default);
+                else if (icon)
+                {
+                    icons[HandReticle.IconType.Default] = icon;
+                }
+                icon?.SetActive(show, 0.1f);
             }
-            else if (icon)
-            {
-                icons[HandReticle.IconType.Default] = icon;
-            }
-            icon.SetActive(show, 0.1f);
         }
     }
 }

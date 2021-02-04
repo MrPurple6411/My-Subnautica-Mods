@@ -57,7 +57,7 @@
     <Optimize>true</Optimize>
     <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
     <DataFolder>Subnautica_Data</DataFolder>
-	<SMLHelperFolder>Modding Helper</SMLHelperFolder>
+    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
@@ -129,7 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patches\GUIHand_OnUpdate_Patch.cs" />
-    <Compile Include="Patches\HandReticle_Awake_Patch.cs" />
+    <Compile Include="Patches\HandReticle_Patches.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\MapRoomScanner_OnTriggerEnter_Patch.cs" />
     <Compile Include="Patches\MapRoomScanner_OnTriggerExit_Patch.cs" />
