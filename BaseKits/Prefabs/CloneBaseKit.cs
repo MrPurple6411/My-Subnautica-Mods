@@ -3,13 +3,17 @@ using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 using System.Collections;
 using System.Collections.Generic;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 using UnityEngine;
 
 namespace BaseKits.Prefabs
 {
     internal class CloneBaseKit : Craftable
     {
-        private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
+        private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
         private GameObject processedPrefab;
         private readonly TechType TypeToClone;
 
@@ -38,7 +42,6 @@ namespace BaseKits.Prefabs
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
-                prefab.SetActive(false);
             }
 
             return GameObject.Instantiate(processedPrefab);
@@ -56,19 +59,23 @@ namespace BaseKits.Prefabs
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
-                prefab.SetActive(false);
             }
 
             gameObject.Set(GameObject.Instantiate(processedPrefab));
             yield break;
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
+#if SN1
             return CraftDataHandler.GetTechData(TypeToClone);
+#elif BZ
+            return CraftDataHandler.GetRecipeData(TypeToClone);
+#endif
         }
 
-        protected override Atlas.Sprite GetItemSprite()
+
+        protected override Sprite GetItemSprite()
         {
             return SpriteManager.Get(TypeToClone);
         }

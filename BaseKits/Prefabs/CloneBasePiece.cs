@@ -3,12 +3,16 @@ using SMLHelper.V2.Crafting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace BaseKits.Prefabs
 {
     internal class CloneBasePiece : Buildable
     {
-        private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
+        private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
         private GameObject processedPrefab;
         private readonly TechType TypeToClone;
         private readonly TechType KitTechType;
@@ -29,6 +33,7 @@ namespace BaseKits.Prefabs
 
         public override TechCategory CategoryForPDA => category;
 
+#if SN1
         public override GameObject GetGameObject()
         {
             if(processedPrefab != null)
@@ -39,11 +44,11 @@ namespace BaseKits.Prefabs
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
-                prefab.SetActive(false);
             }
 
             return GameObject.Instantiate(processedPrefab);
         }
+#endif
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
@@ -60,19 +65,18 @@ namespace BaseKits.Prefabs
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
-                prefab.SetActive(false);
             }
 
             gameObject.Set(processedPrefab);
             yield break;
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData() { craftAmount = 1, Ingredients = new List<Ingredient>() { new Ingredient(KitTechType, 1) } };
+            return new RecipeData() { craftAmount = 1, Ingredients = new List<Ingredient>() { new Ingredient(KitTechType, 1) } };
         }
 
-        protected override Atlas.Sprite GetItemSprite()
+        protected override Sprite GetItemSprite()
         {
             return SpriteManager.Get(TypeToClone);
         }

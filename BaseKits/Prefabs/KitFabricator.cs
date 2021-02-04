@@ -3,6 +3,10 @@ using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 using System.Collections.Generic;
 using UnityEngine;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace BaseKits.Prefabs
 {
@@ -99,13 +103,17 @@ namespace BaseKits.Prefabs
 
         public override TechGroup GroupForPDA => TechGroup.InteriorModules;
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
+#if SN1
             return CraftDataHandler.GetTechData(TechType.Fabricator);
+#elif BZ
+            return CraftDataHandler.GetRecipeData(TechType.Fabricator);
+#endif
         }
 
 
-        protected override Atlas.Sprite GetItemSprite()
+        protected override Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.Fabricator);
         }
