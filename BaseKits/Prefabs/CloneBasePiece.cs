@@ -36,25 +36,36 @@ namespace BaseKits.Prefabs
 #if SN1
         public override GameObject GetGameObject()
         {
-            if(processedPrefab != null)
-                return GameObject.Instantiate(processedPrefab);
+            GameObject go;
+            if (processedPrefab != null)
+            {
+                go = GameObject.Instantiate(processedPrefab);
+                go.SetActive(true);
+                return go;
+            }
 
             GameObject prefab = CraftData.GetPrefabForTechType(TypeToClone);
             
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab.SetActive(false);
             }
 
-            return GameObject.Instantiate(processedPrefab);
+            go = GameObject.Instantiate(processedPrefab);
+            go.SetActive(true);
+            return go;
         }
 #endif
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            if(processedPrefab != null)
+            GameObject go;
+            if (processedPrefab != null)
             {
-                gameObject.Set(processedPrefab);
+                go = GameObject.Instantiate(processedPrefab);
+                go.SetActive(true);
+                gameObject.Set(go);
                 yield break;
             }
 
@@ -65,9 +76,12 @@ namespace BaseKits.Prefabs
             if (prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab.SetActive(false);
             }
 
-            gameObject.Set(processedPrefab);
+            go = GameObject.Instantiate(processedPrefab);
+            go.SetActive(true);
+            gameObject.Set(go);
             yield break;
         }
 
