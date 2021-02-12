@@ -13,42 +13,61 @@ namespace BetterACU.Patches
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.Update))]
     public static class WaterPark_Update_Postfix
     {
-        public static Dictionary<WaterPark, int> cachedItems = new Dictionary<WaterPark, int>();
-        public static Dictionary<WaterPark, int> cachedPowerCreatures = new Dictionary<WaterPark, int>();
+        public static Dictionary<WaterPark, List<WaterParkItem>> cachedItems = new Dictionary<WaterPark, List<WaterParkItem>>();
+        public static Dictionary<WaterPark, List<WaterParkItem>> cachedPowerCreatures = new Dictionary<WaterPark, List<WaterParkItem>>();
         public static float timeSinceLastPositionCheck = 0;
 
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance)
         {
-            int numberOfPowerCreatures = 0;
-
-            if (cachedItems.TryGetValue(__instance, out int count) && count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
+            List<WaterParkItem> powerCreatures = new List<WaterParkItem>();
+            float maxPower = 0;
+            if (cachedItems.TryGetValue(__instance, out List<WaterParkItem> items) && items.Count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
             {
-                numberOfPowerCreatures = cachedPowerCreatures[__instance];
+                powerCreatures.AddRange(cachedPowerCreatures[__instance]);
+
+                foreach(var creature in cachedPowerCreatures[__instance])
+                {
+                    if (!creature.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive())
+                        powerCreatures.Remove(creature);
+                }
+
+                foreach (KeyValuePair<TechType, float> pair in Main.config.CreaturePowerGeneration)
+                {
+                    List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key) ?? new List<WaterParkItem>();
+                    if (creatures.Count > 0)
+                        maxPower += 500 * pair.Value * creatures.Count;
+                }
+
+                cachedPowerCreatures[__instance] = powerCreatures;
             }
             else
             {
-                foreach (TechType techType in Main.config.CreaturePowerGeneration.Keys)
+                foreach (KeyValuePair<TechType, float> pair in Main.config.CreaturePowerGeneration)
                 {
-                    numberOfPowerCreatures += __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == techType && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)).Count;
+                    List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)) ?? new List<WaterParkItem>();
+                    if(creatures.Count > 0)
+                    {
+                        maxPower += 500 * pair.Value * creatures.Count;
+                        powerCreatures.AddRange(creatures);
+                    }
                 }
 
-                cachedItems[__instance] = __instance.items.Count;
-                cachedPowerCreatures[__instance] = numberOfPowerCreatures;
+                cachedItems[__instance] = __instance.items;
+                cachedPowerCreatures[__instance] = powerCreatures;
             }
 
             PowerSource powerSource = __instance?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
             if (powerSource is null)
             {
                 powerSource = __instance?.itemsRoot?.gameObject?.AddComponent<PowerSource>();
-                powerSource.maxPower = 500 * numberOfPowerCreatures;
+                powerSource.maxPower = maxPower;
                 powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
             }
             else
             {
-
-                if (powerSource.maxPower != 500 * numberOfPowerCreatures)
-                    powerSource.maxPower = 500 * numberOfPowerCreatures;
+                if (powerSource.maxPower != maxPower)
+                    powerSource.maxPower = maxPower;
 
                 if (powerSource.power > powerSource.maxPower)
                     powerSource.power = powerSource.maxPower;
@@ -101,7 +120,7 @@ namespace BetterACU.Patches
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
             List<WaterParkItem> items = __instance.items;
-            if (!items.Contains(creature) || __instance.HasFreeSpace())
+            if (!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(creature.pickupable.GetTechType()) == -1)
             {
                 return;
             }
@@ -138,12 +157,6 @@ namespace BetterACU.Patches
                         }
                     }
 
-                    if (!hasBred && Main.config.OverFlowIntoOcean)
-                    {
-                        CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, null));
-                        break;
-                    }
-
                     creature.ResetBreedTime();
                     parkCreature.ResetBreedTime();
                     break;
@@ -160,13 +173,6 @@ namespace BetterACU.Patches
             prefab.SetActive(false);
             GameObject gameObject = GameObject.Instantiate(prefab);
             
-            if(container is null)
-            {
-                gameObject.transform.position = waterPark.gameObject.GetComponentInParent<SubRoot>().transform.up + new Vector3(Random.Range(-100, 100), Random.Range(2, 30), Random.Range(-100, 100));
-                gameObject.SetActive(true);
-            }
-            else
-            {
                 Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
                 TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
@@ -176,7 +182,6 @@ namespace BetterACU.Patches
                 pickupable.Pickup(false);
 #endif
                 container.AddItem(pickupable);
-            }
 
             yield break;
         }

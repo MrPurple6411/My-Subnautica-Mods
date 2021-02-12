@@ -9,9 +9,6 @@ namespace BetterACU.Configuration
     [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]
     public class Config : ConfigFile
     {
-        [Toggle("Allow Breed Into Ocean")]
-        public bool OverFlowIntoOcean = false;
-
         [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
         public int WaterParkSize = 10;
 
@@ -30,7 +27,7 @@ namespace BetterACU.Configuration
             { TechType.GhostLeviathanJuvenile, 3f },
             { TechType.Warper, 1f }
 #elif BZ
-            { TechType.Jellyfish, 1f },
+            { TechType.Jellyfish, 2f },
             { TechType.SquidShark, 1f }
 #endif
         }; 
