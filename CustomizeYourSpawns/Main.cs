@@ -47,7 +47,7 @@ namespace CustomizeYourSpawns
         private static void Setup()
         {
             PrefabDatabase.LoadPrefabDatabase(SNUtils.prefabDatabaseFilename);
-            List<string> names = new List<string>();
+            HashSet<string> names = new HashSet<string>();
 
             foreach (KeyValuePair<string, string> prefabFile in PrefabDatabase.prefabFiles)
             {
