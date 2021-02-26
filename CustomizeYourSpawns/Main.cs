@@ -28,6 +28,7 @@ namespace CustomizeYourSpawns
         internal static string DefaultDistributions = ModPath + "/DefaultDistributions.json";
         internal static string BiomeDictionary = ModPath + "/BiomeList.json";
         internal static string ExampleFile = ModPath + "/ExampleFile.json";
+        internal static string Names = ModPath + "/Names.json";
         static Dictionary<string, string> classIdName = new Dictionary<string, string>();
         static Dictionary<string, TechType> nameTechType = new Dictionary<string, TechType>();
         static Dictionary<string, List<string>> nameClassIds = new Dictionary<string, List<string>>();
@@ -46,11 +47,13 @@ namespace CustomizeYourSpawns
         private static void Setup()
         {
             PrefabDatabase.LoadPrefabDatabase(SNUtils.prefabDatabaseFilename);
-            
+            List<string> names = new List<string>();
+
             foreach (KeyValuePair<string, string> prefabFile in PrefabDatabase.prefabFiles)
             {
                 TechType techType = CraftData.GetTechForEntNameExpensive(Path.GetFileName(prefabFile.Value));
                 string name = techType.AsString();
+                //techType = TechType.Seamoth
                 nameTechType[name] = techType;
                 if (techType == TechType.None)
                 {
@@ -58,6 +61,7 @@ namespace CustomizeYourSpawns
                     name = name.Substring(name.LastIndexOf("/") + 1);
                     //Logger.Log(Logger.Level.Info, "TechType.None " + name);
                 }
+                names.Add(name);
                 if (!nameClassIds.ContainsKey(name))
                     nameClassIds[name] = new List<string> { prefabFile.Key };
                 else
@@ -68,6 +72,8 @@ namespace CustomizeYourSpawns
                     //Logger.Log(Logger.Level.Info, prefabFile.Key + " " + techType + " " + prefabFile.Value);
                 //}
             }
+            using (StreamWriter writer = new StreamWriter(Names))
+                writer.Write(JsonConvert.SerializeObject(names, Formatting.Indented));
         }
 
         private static void EnsureDefaultDistributions()
