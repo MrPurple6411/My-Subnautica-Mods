@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
+using UnityEngine;
+
+#if SN1
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UWE;
+#endif
 
 #if BZ
 using UnityEngine.AddressableAssets;
@@ -17,12 +20,13 @@ namespace IncreasedChunkDrops.Patches
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-#if SN1
+
             Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
 
             int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
             while (extraSpawns > 0)
             {
+#if SN1
                 Rigidbody rigidbody = null;
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
@@ -48,16 +52,8 @@ namespace IncreasedChunkDrops.Patches
                     rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
                     rigidbody.AddForce(position * 0.2f);
                 }
-                extraSpawns--;
-            }
 #endif
-            //------------------------------------------------------------------------------------------------------------
 #if BZ
-            Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
-
-            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax + 1);
-            while (extraSpawns > 0)
-            {
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
                 {
@@ -72,10 +68,9 @@ namespace IncreasedChunkDrops.Patches
                 {
                     __instance.SpawnResourceFromPrefab(__instance.defaultPrefabReference);
                 }
-
+#endif
                 extraSpawns--;
             }
-#endif
         }
     }
 }
