@@ -5,6 +5,10 @@ using System.Linq;
 using UnityEngine;
 using UWE;
 
+#if BZ
+using UnityEngine.AddressableAssets;
+#endif
+
 namespace IncreasedChunkDrops.Patches
 {
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
@@ -13,6 +17,7 @@ namespace IncreasedChunkDrops.Patches
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
+#if SN1
             Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
 
             int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
@@ -45,6 +50,32 @@ namespace IncreasedChunkDrops.Patches
                 }
                 extraSpawns--;
             }
+#endif
+            //------------------------------------------------------------------------------------------------------------
+#if BZ
+            Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
+
+            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax + 1);
+            while (extraSpawns > 0)
+            {
+                bool flag = false;
+                for (int i = 0; i < __instance.numChances; i++)
+                {
+                    AssetReferenceGameObject assetReferenceGameObject = __instance.ChooseRandomResource();
+                    if (assetReferenceGameObject != null)
+                    {
+                        __instance.SpawnResourceFromPrefab(assetReferenceGameObject);
+                        flag = true;
+                    }
+                }
+                if (!flag)
+                {
+                    __instance.SpawnResourceFromPrefab(__instance.defaultPrefabReference);
+                }
+
+                extraSpawns--;
+            }
+#endif
         }
     }
 }
