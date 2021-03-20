@@ -1,0 +1,16 @@
+{
+  "Id": "IncreasedChunkDrops",
+  "DisplayName": "IncreasedChunkDrops",
+  "Author": "MrPurple6411 and Desperationfighter",
+  "Version": "1.2.0",
+  "VersionDependencies": { "SMLHelper": "2.9.3" },
+  "Enable": true,
+  "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "999"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/IncreasedChunkDrops/mod_BZ.json"
+  },
+  "AssemblyName": "IncreasedChunkDrops.dll"
+}
