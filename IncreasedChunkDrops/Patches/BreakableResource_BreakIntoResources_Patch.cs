@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 #if !SUBNAUTICA_STABLE
 using UnityEngine.AddressableAssets;
-using UWE;
+using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
 
 namespace IncreasedChunkDrops.Patches
@@ -17,11 +17,11 @@ namespace IncreasedChunkDrops.Patches
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
-#if SUBNAUTICA_STABLE
             Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
+            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
             while (extraSpawns > 0)
             {
+#if SUBNAUTICA_STABLE
                 Rigidbody rigidbody = null;
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
@@ -52,45 +52,47 @@ namespace IncreasedChunkDrops.Patches
         }
 
 #else
-            while (extraSpawns > 0)
-            {
+                AssetReferenceGameObject assetReferenceGameObject = null;
                 bool flag = false;
                 for (int i = 0; i < __instance.numChances; i++)
                 {
-                    AssetReferenceGameObject assetReferenceGameObject = __instance.ChooseRandomResource();
+                    assetReferenceGameObject = __instance.ChooseRandomResource();
                     if (assetReferenceGameObject != null)
                     {
-                        CoroutineHost.StartCoroutine(SpawnFromPrefeb(assetReferenceGameObject, __instance.gameObject.transform.position, __instance.gameObject.transform.up * __instance.verticalSpawnOffset));
                         extraSpawns--;
                         flag = true;
+                        break;
                     }
                 }
                 if (!flag)
                 {
-                    CoroutineHost.StartCoroutine(SpawnFromPrefeb(__instance.defaultPrefabReference, __instance.gameObject.transform.position, __instance.gameObject.transform.up * __instance.verticalSpawnOffset));
+                    assetReferenceGameObject = __instance.defaultPrefabReference;
                     extraSpawns--;
                 }
-            }
-        }
 
-        private static IEnumerator SpawnFromPrefeb(AssetReferenceGameObject breakPrefab, Vector3 position, Vector3 up)
-        {
-            CoroutineTask<GameObject> result = AddressablesUtility.InstantiateAsync(breakPrefab.RuntimeKey as string, null, position, default(Quaternion), true);
-            yield return result;
-            GameObject result2 = result.GetResult();
-            if (result2 == null)
-            {
-                Debug.LogErrorFormat("Failed to spawn {0}" + breakPrefab.RuntimeKey, Array.Empty<object>());
-                yield break;
+                if(assetReferenceGameObject != null)
+                {
+                    AsyncOperationHandle<GameObject> loadPrefab = Addressables.LoadAssetAsync<GameObject>(assetReferenceGameObject.RuntimeKey as string);
+                    loadPrefab.Completed += (prefabTask) => {
+
+                        GameObject prefab = prefabTask.Result;
+                        if (prefab is null)
+                            return;
+
+                        Rigidbody rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).GetComponent<Rigidbody>();
+
+                        if (rigidbody != null)
+                        {
+                            rigidbody.isKinematic = false;
+                            rigidbody.maxDepenetrationVelocity = 0.5f;
+                            rigidbody.maxAngularVelocity = 1f;
+                            rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
+                            rigidbody.AddForce(position * 0.2f);
+                        }
+
+                    };
+                }
             }
-            Debug.Log("broke, spawned " + result2.name);
-            Rigidbody rigidbody = result2.EnsureComponent<Rigidbody>();
-            UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, false);
-            rigidbody.maxDepenetrationVelocity = 0.5f;
-            rigidbody.maxAngularVelocity = 1f;
-            rigidbody.AddTorque(Vector3.right * (float)UnityEngine.Random.Range(3, 6));
-            rigidbody.AddForce(up * 0.1f);
-            yield break;
         }
 #endif
     }
