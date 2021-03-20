@@ -20,9 +20,9 @@ namespace IncreasedChunkDrops.Patches
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-
+#if SN1
             Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
-
+#endif
             int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
             while (extraSpawns > 0)
             {
