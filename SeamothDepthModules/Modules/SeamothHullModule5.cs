@@ -24,7 +24,7 @@ namespace MoreSeamothDepth.Modules
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
 
-        public override string[] StepsToFabricatorTab => new string[] { "SeamothMenu" };
+        public override string[] StepsToFabricatorTab => new string[] { "EDM" };
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 

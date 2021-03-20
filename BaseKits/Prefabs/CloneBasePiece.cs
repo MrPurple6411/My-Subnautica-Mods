@@ -33,7 +33,7 @@ namespace BaseKits.Prefabs
 
         public override TechCategory CategoryForPDA => category;
 
-#if SN1
+#if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             GameObject go;
