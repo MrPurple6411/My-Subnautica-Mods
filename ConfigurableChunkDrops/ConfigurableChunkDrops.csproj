@@ -88,6 +88,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Unity.Addressables">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\Unity.Addressables.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>$(GameDir)\$(DataFolder)\Managed\Unity.ResourceManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
       <Private>False</Private>

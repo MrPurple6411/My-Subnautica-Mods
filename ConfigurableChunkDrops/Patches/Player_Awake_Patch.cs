@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UWE;
+#if !SUBNAUTICA_STABLE
+using UnityEngine.AddressableAssets;
+#endif
 
 namespace ConfigurableChunkDrops.Patches
 {
@@ -30,9 +33,11 @@ namespace ConfigurableChunkDrops.Patches
         private static IEnumerator GetPrefabForList(TechType breakable, TechType techType, float chance)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType, false);
-
+            
+#if SUBNAUTICA_STABLE
             if (BreakableResource_ChooseRandomResource.prefabs.ContainsKey(breakable))
             {
+                
                 BreakableResource.RandomPrefab existingPrefab = BreakableResource_ChooseRandomResource.prefabs[breakable].Find((x) => CraftData.GetTechType(x.prefab) == techType);
                 if (existingPrefab != null)
                 {
@@ -57,6 +62,24 @@ namespace ConfigurableChunkDrops.Patches
                     BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefab = gameObject, chance = chance });
                 yield break;
             }
+#else
+
+            if (!BreakableResource_ChooseRandomResource.prefabs.ContainsKey(breakable))
+                BreakableResource_ChooseRandomResource.prefabs[breakable] = new List<BreakableResource.RandomPrefab>();
+
+            BreakableResource.RandomPrefab existingPrefab = BreakableResource_ChooseRandomResource.prefabs[breakable].Find((x) => x.prefabTechType == techType);
+            if (existingPrefab != null)
+            {
+                existingPrefab.chance = chance;
+                yield break;
+            }
+
+            yield return task;
+            GameObject gameObject = task.GetResult();
+            if (gameObject != null && PrefabDatabase.TryGetPrefabFilename(gameObject.GetComponent<PrefabIdentifier>().ClassId, out string filename))
+                BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefabTechType = techType, prefabReference = new AssetReferenceGameObject(filename), chance = chance });
+            yield break;
+#endif
         }
     }
 }
