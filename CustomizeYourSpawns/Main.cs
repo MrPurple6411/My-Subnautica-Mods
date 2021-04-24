@@ -8,6 +8,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 #endif
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Assets;
 using SMLHelper.V2.Handlers;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace CustomizeYourSpawns
         internal static string Names = ModPath + "/Names.json";
         static Dictionary<string, string> classIdName = new Dictionary<string, string>();
         static Dictionary<string, TechType> nameTechType = new Dictionary<string, TechType>();
+        static Dictionary<TechType, List<string>> techTypeName = new Dictionary<TechType, List<string>>();
         static Dictionary<string, List<string>> nameClassIds = new Dictionary<string, List<string>>();
         static Dictionary<string, string> classIdPrefab = new Dictionary<string, string>();
 
@@ -51,16 +53,22 @@ namespace CustomizeYourSpawns
 
             foreach (KeyValuePair<string, string> prefabFile in PrefabDatabase.prefabFiles)
             {
-                TechType techType = CraftData.GetTechForEntNameExpensive(Path.GetFileName(prefabFile.Value));
+                TechType techType = CraftData.GetTechForEntNameExpensive(Path.GetFileName(prefabFile.Value).Replace(".prefab", ""));
                 string name = techType.AsString();
                 //techType = TechType.Seamoth
                 nameTechType[name] = techType;
+                if (!techTypeName.TryGetValue(techType, out List<string> techNames))
+                    techNames = new List<string>();
+                if(!techNames.Contains(name))
+                    techNames.Add(name);
+
                 if (techType == TechType.None)
                 {
                     name = prefabFile.Value;
-                    name = name.Substring(name.LastIndexOf("/") + 1);
-                    //Logger.Log(Logger.Level.Info, "TechType.None " + name);
+                    name = name.Substring(name.LastIndexOf("/") + 1).Replace(".prefab", "");
+                    //Logger.Log(Logger.Level.Debug, "TechType.None " + name);
                 }
+
                 names.Add(name);
                 if (!nameClassIds.ContainsKey(name))
                     nameClassIds[name] = new List<string> { prefabFile.Key };
@@ -69,9 +77,33 @@ namespace CustomizeYourSpawns
 
                 classIdName[prefabFile.Key] = name;
                 classIdPrefab[prefabFile.Key] = prefabFile.Value;
-                    //Logger.Log(Logger.Level.Info, prefabFile.Key + " " + techType + " " + prefabFile.Value);
-                //}
+                   // Logger.Log(Logger.Level.Info, prefabFile.Key + " " + techType + " " + prefabFile.Value);
             }
+
+            List<ModPrefab> modPreFabsList = Traverse.Create<ModPrefab>().Field<List<ModPrefab>>("PreFabsList").Value;
+
+            foreach (ModPrefab modPrefab in modPreFabsList)
+            {
+                string name = modPrefab.TechType.AsString();
+                var techType = modPrefab.TechType;
+
+                nameTechType[name] = techType;
+                if (!techTypeName.TryGetValue(techType, out List<string> techNames))
+                    techNames = new List<string>();
+                if (!techNames.Contains(name))
+                    techNames.Add(name);
+
+                names.Add(name);
+                if (!nameClassIds.ContainsKey(name))
+                    nameClassIds[name] = new List<string> { modPrefab.ClassID };
+                else
+                    nameClassIds[name].Add(modPrefab.ClassID);
+
+                classIdName[modPrefab.ClassID] = name;
+                classIdPrefab[modPrefab.ClassID] = modPrefab.PrefabFileName;
+
+            }
+
             using (StreamWriter writer = new StreamWriter(Names))
                 writer.Write(JsonConvert.SerializeObject(names, Formatting.Indented));
         }
@@ -86,45 +118,48 @@ namespace CustomizeYourSpawns
 
             foreach (KeyValuePair<string, SrcData> srcDist in lootDistData.srcDistribution)
             {
-                string classId = srcDist.Key;
-                if (!classIdName.ContainsKey(classId))
-                    Logger.Log(Logger.Level.Warn, "classIdName has no " + classId);
-                else
+                if(srcDist.Key != "None")
                 {
-                    string name = classIdName[classId];
-                    //string techType1 = "";
-                    //if (nameTechType.ContainsKey(name))
-                    //    techType1 = nameTechType[name].AsString();
-
-                    //Logger.Log(Logger.Level.Info, "lootDistData " + techType1 + " " + classId + " " + srcDist.Value.prefabPath);
-                    //foreach (BiomeData biomeData in srcDist.Value.distribution)
-                    //    Logger.Log(Logger.Level.Info, biomeData.biome + " " + biomeData.count + " " + biomeData.probability);
-                    
-                    if (!defaultDistributions.ContainsKey(name))
-                    {
-                        Dictionary<BiomeType, BiomeData> biomeDict = new Dictionary<BiomeType, BiomeData>();
-                        foreach (BiomeData biomeData in srcDist.Value.distribution)
-                            biomeDict[biomeData.biome] = biomeData;
-
-                        defaultDistributions[name] = new Dictionary<BiomeType, BiomeData>(biomeDict);
-                    }
+                    string classId = srcDist.Key;
+                    if (!classIdName.ContainsKey(classId))
+                        Logger.Log(Logger.Level.Warn, "classIdName has no " + classId);
                     else
                     {
-                        foreach (BiomeData srcBiomeData in srcDist.Value.distribution)
+                        string name = classIdName[classId];
+                        //string techType1 = "";
+                        //if (nameTechType.ContainsKey(name))
+                        //    techType1 = nameTechType[name].AsString();
+
+                        //Logger.Log(Logger.Level.Info, "lootDistData " + techType1 + " " + classId + " " + srcDist.Value.prefabPath);
+                        //foreach (BiomeData biomeData in srcDist.Value.distribution)
+                        //    Logger.Log(Logger.Level.Info, biomeData.biome + " " + biomeData.count + " " + biomeData.probability);
+
+                        if (!defaultDistributions.ContainsKey(name))
                         {
-                            if (!defaultDistributions[name].ContainsKey(srcBiomeData.biome))
-                                defaultDistributions[name][srcBiomeData.biome] = srcBiomeData;
-                            else
+                            Dictionary<BiomeType, BiomeData> biomeDict = new Dictionary<BiomeType, BiomeData>();
+                            foreach (BiomeData biomeData in srcDist.Value.distribution)
+                                biomeDict[biomeData.biome] = biomeData;
+
+                            defaultDistributions[name] = new Dictionary<BiomeType, BiomeData>(biomeDict);
+                        }
+                        else
+                        {
+                            foreach (BiomeData srcBiomeData in srcDist.Value.distribution)
                             {
-                                BiomeData savedBiomeData = defaultDistributions[name][srcBiomeData.biome];
-                               //Logger.Log(Logger.Level.Info, techType + " same biome " + srcBiomeData.biome);
-                                BiomeData newBiomeData = new BiomeData()
+                                if (!defaultDistributions[name].ContainsKey(srcBiomeData.biome))
+                                    defaultDistributions[name][srcBiomeData.biome] = srcBiomeData;
+                                else
                                 {
-                                    biome = srcBiomeData.biome,
-                                    count = srcBiomeData.count + savedBiomeData.count,
-                                    probability = (srcBiomeData.probability + savedBiomeData.probability) * 0.5f
-                                };
-                                defaultDistributions[name][srcBiomeData.biome] = newBiomeData;
+                                    BiomeData savedBiomeData = defaultDistributions[name][srcBiomeData.biome];
+                                    //Logger.Log(Logger.Level.Info, techType + " same biome " + srcBiomeData.biome);
+                                    BiomeData newBiomeData = new BiomeData()
+                                    {
+                                        biome = srcBiomeData.biome,
+                                        count = srcBiomeData.count + savedBiomeData.count,
+                                        probability = (srcBiomeData.probability + savedBiomeData.probability) * 0.5f
+                                    };
+                                    defaultDistributions[name][srcBiomeData.biome] = newBiomeData;
+                                }
                             }
                         }
                     }
@@ -256,8 +291,16 @@ namespace CustomizeYourSpawns
                             string name = nameBiomeData.Key;
                             if (!nameClassIds.ContainsKey(name))
                             {
-                                Logger.Log(Logger.Level.Warn, "nameClassIds has no " + name);
-                                continue;
+                                if (TechTypeExtensions.FromString(name, out TechType techType, true) && techTypeName.TryGetValue(techType, out List<string> techNames))
+                                    name = techNames.FirstOrDefault((x)=> nameClassIds.ContainsKey(x));
+                                else if (TechTypeHandler.TryGetModdedTechType(name, out techType) && techTypeName.TryGetValue(techType, out techNames))
+                                    name = techNames.FirstOrDefault((x) => nameClassIds.ContainsKey(x));
+
+                                if (string.IsNullOrEmpty(name) || !nameClassIds.ContainsKey(name))
+                                {
+                                    Logger.Log(Logger.Level.Warn, "nameClassIds has no " + name);
+                                    continue;
+                                }
                             }
                             if (!modifiedDistributions.ContainsKey(name))
                             {
@@ -272,7 +315,10 @@ namespace CustomizeYourSpawns
                                 succeded++;
                             }
                         }
-                        Logger.Log(Logger.Level.Debug, $"Successfully loaded file: {file.Name} with {succeded} TechTypes being altered.");
+                        if(succeded > 0)
+                            Logger.Log(Logger.Level.Debug, $"Successfully loaded file: {file.Name} with {succeded} TechTypes being altered.");
+                        else
+                            Logger.Log(Logger.Level.Debug, $"Loaded file: {file.Name} But found {succeded} TechTypes being altered.");
                     }
                     else
                     {
@@ -318,10 +364,9 @@ namespace CustomizeYourSpawns
 
                 foreach (string classId in nameClassIds[name])
                 {
-                    if (classIdPrefab.ContainsKey(classId))
+                    if (classIdPrefab.TryGetValue(classId, out string prefabPath))
                     {
-                        string prefabPath = classIdPrefab[classId];
-                        if ( !WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
+                        if (!WorldEntityDatabase.TryGetInfo(classId, out WorldEntityInfo info))
                         {
                             info = new WorldEntityInfo()
                             {
@@ -333,7 +378,7 @@ namespace CustomizeYourSpawns
                                 techType = nameTechType[name]
                             };
                             WorldEntityDatabaseHandler.AddCustomInfo(classId, info);
-                            Logger.Log(Logger.Level.Info, "AddCustomInfo for " + name);
+                            Logger.Log(Logger.Level.Debug, $"AddCustomInfo for {name}: {prefabPath}");
                         }
                         SrcData data = new SrcData() { prefabPath = prefabPath, distribution = modifiedDist.Value };
                         Logger.Log(Logger.Level.Debug, $"Altering Spawn Locations for {name}. Adding {data.distribution.Count} values");
