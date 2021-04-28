@@ -2,7 +2,7 @@
   "Id": "AquariumOverflow",
   "DisplayName": "AquariumOverflow",
   "Author": "MrPurple6411",
-  "Version": "4.0.0",
+  "Version": "1.1.0",
   "Dependencies": [ "AquariumBreeding", "CyclopsBioReactor" ],
   "Enable": true,
   "Game": "Subnautica",

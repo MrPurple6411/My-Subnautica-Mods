@@ -2,7 +2,7 @@
   "Id": "ChargeRequired",
   "DisplayName": "Charge Required",
   "Author": "MrPurple6411",
-  "Version": "4.0.0",
+  "Version": "1.1.5",
   "LoadAfter": [ "EasyCraft" ],
   "Enable": true,
   "Game": "BelowZero",

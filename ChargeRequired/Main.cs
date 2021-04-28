@@ -51,11 +51,7 @@ namespace ChargeRequired
             EnergyMixin energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
             if (energyMixin != null)
             {
-#if !BELOWZERO_EXP
-			    GameObject gameObject = energyMixin.GetBattery();
-#else
-                GameObject gameObject = energyMixin.GetBatteryGameObject();
-#endif
+                GameObject gameObject = energyMixin.GetBattery();
                 if (gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
                 {
                     IBattery battery = gameObject.GetComponent<IBattery>();

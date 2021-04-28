@@ -2,7 +2,7 @@
   "Id": "CustomCommands",
   "DisplayName": "CustomCommands",
   "Author": "Coticvo",
-  "Version": "4.0.0",
+  "Version": "1.8.3",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

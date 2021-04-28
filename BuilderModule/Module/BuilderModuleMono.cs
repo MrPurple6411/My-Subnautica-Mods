@@ -279,12 +279,7 @@ namespace BuilderModule.Module
             {
 #if SUBNAUTICA_EXP || BZ
                 TaskResult<bool> result = new TaskResult<bool>();
-#if BELOWZERO_EXP
-                TaskResult<string> resultReason = new TaskResult<string>();
-                yield return c.DeconstructAsync(result, resultReason);
-#else
                 yield return c.DeconstructAsync(result);
-#endif
                 flag = result.Get();
                 result = null;
 #elif SUBNAUTICA_STABLE

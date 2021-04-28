@@ -2,7 +2,7 @@
   "Id": "BZDeconstructFix",
   "DisplayName": "BZDeconstructFix",
   "Author": "MrPurple6411",
-  "Version": "4.0.0",
+  "Version": "1.0.0",
   "Dependencies": [ ],
   "Enable": true,
   "Game": "BelowZero",

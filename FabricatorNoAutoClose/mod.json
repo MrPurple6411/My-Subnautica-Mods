@@ -2,7 +2,7 @@
   "Id": "FabricatorNoAutoClose",
   "DisplayName": "FabricatorNoAutoClose",
   "Author": "MrPurple6411",
-  "Version": "4.0.0",
+  "Version": "1.0.1",
   "Enable": true,
   "Game": "Both",
   "NexusId": {

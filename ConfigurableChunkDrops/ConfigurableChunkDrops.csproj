@@ -154,10 +154,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
-
-
-powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(OutDir)..\$(TargetName)_$(Configuration).zip' -Force
-rmdir "$(TargetDir)" /q /s</PostBuildEvent>
+xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
   </PropertyGroup>
 </Project>
