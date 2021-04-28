@@ -53,23 +53,20 @@ namespace TechPistol.Module
             List<LootDistributionData.BiomeData> biomeDatas = new List<LootDistributionData.BiomeData>()
             {
                 new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Coral, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.ArcticKelp_Grass, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Coral, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_GroundRoots, count = 1, probability = 0.2f },
                 new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Cave_Ground, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_ThermalVentArea_Ground, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialBasin_BikeCrashSite, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialBasin_Generic, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.GlacialConnection_Ground, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.Glacier_Generic, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.LilyPads_Crevice_Ground, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.LilyPads_Crevice_Grass, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.LilyPads_Deep_Grass, count = 1, probability = 0.2f },
-                new LootDistributionData.BiomeData(){ biome = BiomeType.LilyPads_Deep_Ground, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Cave_Coral, count = 1, probability = 0.2f },
+                new LootDistributionData.BiomeData(){ biome = BiomeType.TwistyBridges_Deep_ThermalVentArea_Ground, count = 1, probability = 0.2f }
             };
 #endif
             return biomeDatas;
         }
 
-        public override WorldEntityInfo EntityInfo => new WorldEntityInfo() {cellLevel = LargeWorldEntity.CellLevel.Medium, classId = ClassID, localScale = Vector3.one, prefabZUp = false, slotType = EntitySlot.Type.Small, techType = TechType };
+        public override WorldEntityInfo EntityInfo => new WorldEntityInfo() {cellLevel = LargeWorldEntity.CellLevel.VeryFar, classId = ClassID, localScale = Vector3.one, prefabZUp = false, slotType = EntitySlot.Type.Small, techType = TechType };
 
         public override GameObject GetGameObject()
         {
@@ -112,6 +109,7 @@ namespace TechPistol.Module
                 prefabIdentifier.ClassId = this.ClassID;
                 gameObject.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.VeryFar;
                 gameObject.GetComponent<TechTag>().type = this.TechType;
+                gameObject.EnsureComponent<SpawnerFix>();
 
                 Pickupable pickupable = gameObject.GetComponent<Pickupable>();
                 pickupable.isPickupable = false;
@@ -119,7 +117,7 @@ namespace TechPistol.Module
                 ResourceTracker resourceTracker = gameObject.EnsureComponent<ResourceTracker>();
                 resourceTracker.prefabIdentifier = prefabIdentifier;
                 resourceTracker.techType = this.TechType;
-                resourceTracker.overrideTechType = TechType.Fragment;
+                resourceTracker.overrideTechType = this.TechType;
                 resourceTracker.rb = gameObject.GetComponent<Rigidbody>();
                 resourceTracker.pickupable = pickupable;
 

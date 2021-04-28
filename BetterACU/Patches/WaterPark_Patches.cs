@@ -36,7 +36,7 @@ namespace BetterACU.Patches
                 {
                     List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key) ?? new List<WaterParkItem>();
                     if (creatures.Count > 0)
-                        maxPower += 500 * pair.Value * creatures.Count;
+                        maxPower += 100 * pair.Value * creatures.Count;
                 }
 
                 cachedPowerCreatures[__instance] = powerCreatures;
@@ -48,7 +48,7 @@ namespace BetterACU.Patches
                     List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)) ?? new List<WaterParkItem>();
                     if(creatures.Count > 0)
                     {
-                        maxPower += 500 * pair.Value * creatures.Count;
+                        maxPower += 100 * pair.Value * creatures.Count;
                         powerCreatures.AddRange(creatures);
                     }
                 }
@@ -62,7 +62,7 @@ namespace BetterACU.Patches
             {
                 powerSource = __instance?.itemsRoot?.gameObject?.AddComponent<PowerSource>();
                 powerSource.maxPower = maxPower;
-                powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
+                powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetComponentInParent<PrefabIdentifier>().id}",  0f);
             }
             else
             {
@@ -72,7 +72,7 @@ namespace BetterACU.Patches
                 if (powerSource.power > powerSource.maxPower)
                     powerSource.power = powerSource.maxPower;
 
-                Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
+                Main.config.PowerValues[$"PowerSource:{__instance.GetComponentInParent<PrefabIdentifier>().id}"] = powerSource.power;
             }
 
             timeSinceLastPositionCheck += Time.deltaTime;

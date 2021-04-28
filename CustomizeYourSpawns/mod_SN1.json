@@ -2,7 +2,7 @@
   "Id": "CustomizeYourSpawns",
   "DisplayName": "Customize Your Spawns",
   "Author": "MrPurple6411",
-  "Version": "1.1",
+  "Version": "4.0.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

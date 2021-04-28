@@ -524,7 +524,11 @@ namespace TechPistol.Module
 		public void OnProtoSerialize(ProtobufSerializer serializer)
 		{
 
+#if !BELOWZERO_EXP
 			GameObject battery = energyMixin.GetBattery();
+#else
+			GameObject battery = energyMixin.GetBatteryGameObject();
+#endif
 			if (battery != null)
 			{
 				TechType batteryTech = CraftData.GetTechType(battery);

@@ -2,7 +2,7 @@
   "Id": "BaseKits",
   "DisplayName": "BaseKits",
   "Author": "MrPurple6411",
-  "Version": "1.0.1",
+  "Version": "4.0.0",
   "Dependencies": [ "SMLHelper", "Base_Deconstruct_Fix" ],
   "Enable": true,
   "Game": "BelowZero",

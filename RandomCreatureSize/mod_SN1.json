@@ -2,7 +2,7 @@
   "Id": "RandomCreatureSize",
   "DisplayName": "RandomCreatureSize",
   "Author": "Coticvo-MrPurple6411",
-  "Version": "1.0.2",
+  "Version": "4.0.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

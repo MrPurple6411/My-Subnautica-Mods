@@ -141,7 +141,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
+
+
+powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(OutDir)..\$(TargetName)_$(Configuration).zip' -Force
+rmdir "$(TargetDir)" /q /s</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Microsoft.Common.targets.
