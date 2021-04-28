@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using Logger = QModManager.Utility.Logger;
 
 namespace BuildingTweaks.Patches
@@ -52,10 +53,26 @@ namespace BuildingTweaks.Patches
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)
         {
             BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
-            GameObject placementTarget = Builder.placementTarget;
-            if (Main.config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && placementTarget != null)
+            if (Main.config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
-                constructableBase.transform.SetParent(UWE.Utils.GetEntityRoot(placementTarget).transform, true);
+                GameObject placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
+                if (placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
+                {
+                    largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
+                    largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
+
+                    LargeWorldStreamer.main.cellManager.RegisterEntity(largeWorldEntity);
+                }
+
+                if (constructableBase.gameObject.TryGetComponent(out Collider builtCollider))
+                {
+                    foreach (Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                    {
+                        Physics.IgnoreCollision(collider, builtCollider);
+                    }
+                }
+
+                constructableBase.transform.SetParent(placementTarget.transform);
             }
 
             return constructableBase;
@@ -72,13 +89,25 @@ namespace BuildingTweaks.Patches
             else if (builtObject.name.Contains("Transmitter"))
             {
                 largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
+                largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            GameObject placementTarget = Builder.placementTarget;
-            if (Main.config.AttachToTarget && placementTarget != null)
+            if (Main.config.AttachToTarget)
             {
-                builtObject.transform.SetParent(UWE.Utils.GetEntityRoot(placementTarget)?.transform ?? placementTarget.transform);
+                GameObject placementTarget = Builder.placementTarget ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+                if (placementTarget != null)
+                {
+                    if (builtObject.TryGetComponent(out Collider builtCollider))
+                    {
+                        foreach (Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                        {
+                            Physics.IgnoreCollision(collider, builtCollider);
+                        }
+                    }
+                    builtObject.transform.SetParent(placementTarget.transform);
+                }
             }
+
 
             return builtObject.transform;
         }

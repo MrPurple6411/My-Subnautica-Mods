@@ -8,8 +8,11 @@ namespace Base_Legs_Removal.Patches
     public static class BaseFoundationPiece_OnGenerate_Patch
     {
         [HarmonyPrefix]
-        public static void Prefix(BaseFoundationPiece __instance)
+		public static void Prefix(BaseFoundationPiece __instance)
 		{
+			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+				return;
+
 			float maxHeight = 0f;
 			var config = Main.config;
 

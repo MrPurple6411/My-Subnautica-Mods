@@ -58,10 +58,10 @@ namespace ExtraOptions
                 Shader.globalMaximumLOD = config.ShaderLOD;
                 QualitySettings.lodBias = config.LODGroupBias;
 
-                foreach (WaterSunShaftsOnCamera s in UnityEngine.Object.FindObjectsOfType<WaterSunShaftsOnCamera>())
+                foreach (WaterSunShaftsOnCamera s in UnityEngine.Object.FindObjectsOfType<WaterSunShaftsOnCamera>() ?? new WaterSunShaftsOnCamera[0])
                     s.enabled = config.LightShafts;
                 
-                foreach (AmbientParticles p in UnityEngine.Object.FindObjectsOfType<AmbientParticles>())
+                foreach (AmbientParticles p in UnityEngine.Object.FindObjectsOfType<AmbientParticles>() ?? new AmbientParticles[0])
                     p.enabled = config.AmbientParticles;
 
                 if (!config.VariablePhysicsStep)
@@ -71,15 +71,12 @@ namespace ExtraOptions
                     Time.maximumParticleDeltaTime = 0.03f;
                 }
 
-                foreach (WaterBiomeManager w in UnityEngine.Object.FindObjectsOfType<WaterBiomeManager>())
+                foreach (WaterBiomeManager w in UnityEngine.Object.FindObjectsOfType<WaterBiomeManager>() ?? new WaterBiomeManager[0])
                     w.Rebuild();
 
                 config.Save();
             }
-            catch (Exception e)
-            {
-                Logger.Log(Logger.Level.Error, msg: "Reload failed with Exception: \n", ex: e);
-            }
+            catch {}
         }
 
     }

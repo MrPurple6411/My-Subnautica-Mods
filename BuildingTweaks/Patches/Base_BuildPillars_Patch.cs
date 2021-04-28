@@ -7,14 +7,13 @@ namespace BuildingTweaks.Patches
     public static class Base_BuildPillars_Patch
     {
         [HarmonyPrefix]
-        public static void Prefix(Base __instance)
-        {
-            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+		public static void Prefix(Base __instance)
+		{
+			if (__instance.isGhost)
+				return;
+
+			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
 			{
-				if (__instance.isGhost)
-				{
-					return;
-				}
 				Int3.Bounds bounds = __instance.Bounds;
 				Int3 mins = bounds.mins;
 				Int3 maxs = bounds.maxs;
@@ -55,6 +54,7 @@ namespace BuildingTweaks.Patches
 	public static class Base_BuildPillars_Patch
 	{
 		[HarmonyPrefix]
+		[HarmonyPriority(Priority.Last)]
 		public static void Prefix(Base __instance)
 		{
 			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)

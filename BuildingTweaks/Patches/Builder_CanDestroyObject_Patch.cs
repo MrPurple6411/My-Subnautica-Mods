@@ -14,11 +14,24 @@ namespace BuildingTweaks.Patches
                 if (go.GetComponentInParent<Creature>() != null)
                 {
                     __result = false;
+                    return;
                 }
-                else if (go.GetComponentInParent<BaseGhost>() != null)
+                
+                if (go.GetComponentInParent<BaseGhost>() != null)
                 {
                     __result = false;
+                    return;
                 }
+
+                GameObject target = UWE.Utils.GetEntityRoot(go) ?? go;
+
+                if(target.name.ToLower().Contains("override") || target.name.ToLower().Contains("aurora") || target.name.ToLower().Contains("crashedship") || target.name.ToLower().Contains("starship"))
+                {
+                    __result = false;
+                    return;
+                }
+
+
             }
         }
     }
