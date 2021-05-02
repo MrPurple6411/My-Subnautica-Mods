@@ -18,7 +18,7 @@ namespace EnhancedScannerRoomHudChip.Patches
         {
             if(__instance is ScannerChipFunctionality)
             {
-                __result = Mathf.Min(5000f, 50f + (float)Inventory.main.container.GetCount(TechType.MapRoomUpgradeScanRange) * 50f);
+                __result = Mathf.Min(5000f, MapRoomFunctionality.defaultRange + (float)Inventory.main.container.GetCount(TechType.MapRoomUpgradeScanRange) * MapRoomFunctionality.rangePerUpgrade);
                 return false;
             }
 
