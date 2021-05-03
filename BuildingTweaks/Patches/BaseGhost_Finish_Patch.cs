@@ -27,9 +27,9 @@
 
                 if(currentInstruction.opcode == OpCodes.Callvirt
                     && secondInstruction.opcode == OpCodes.Call
-#if SN1
+#if SUBNAUTICA_STABLE
                     && thirdInstruction.opcode == OpCodes.Stloc_2)
-#elif BZ
+#else
                     && thirdInstruction.opcode == OpCodes.Stloc_1)
 #endif
                 {
