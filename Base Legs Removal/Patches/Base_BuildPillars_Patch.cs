@@ -60,33 +60,41 @@
 					case BaseFoundationPiece baseFoundationPiece:
 						float maxHeight = 0f;
 						var config = Main.Config;
+						bool buildTweaksCheck = __instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false;
 
-						switch (baseFoundationPiece.name)
+						if(!buildTweaksCheck)
 						{
-							case "BaseRoomAdjustableSupport(Clone)":
-								maxHeight = config.RoomLegs ? 0 : 20f;
-								break;
-							case "BaseLargeRoomAdjustableSupport(Clone)":
-								maxHeight = config.LargeRoomLegs ? 0 : 20f;
-								break;
-							case "BaseMoonpool(Clone)":
-								maxHeight = config.MoonPoolLegs ? 0 : 20f;
-								break;
-							case "BaseFoundationPiece(Clone)":
-								maxHeight = config.FoundationLegs ? 0 : 20f;
-								break;
-							case "BaseCorridorXShapeAdjustableSupport(Clone)":
-								maxHeight = config.XCorridor ? 0 : 20f;
-								break;
-							case "BaseCorridorTShapeAdjustableSupport(Clone)":
-								maxHeight = config.TCorridor ? 0 : 20f;
-								break;
-							case "BaseCorridorLShapeAdjustableSupport(Clone)":
-								maxHeight = config.LCorridor ? 0 : 20f;
-								break;
-							case "BaseCorridorIShapeAdjustableSupport(Clone)":
-								maxHeight = config.ICorridor ? 0 : 20f;
-								break;
+							switch(baseFoundationPiece.name)
+							{
+								case "BaseRoomAdjustableSupport(Clone)":
+									maxHeight = config.RoomLegs ? 0 : 20f;
+									break;
+								case "BaseLargeRoomAdjustableSupport(Clone)":
+									maxHeight = config.LargeRoomLegs ? 0 : 20f;
+									break;
+								case "BaseMoonpool(Clone)":
+									maxHeight = config.MoonPoolLegs ? 0 : 20f;
+									break;
+								case "BaseFoundationPiece(Clone)":
+									maxHeight = config.FoundationLegs ? 0 : 20f;
+									break;
+								case "BaseCorridorXShapeAdjustableSupport(Clone)":
+									maxHeight = config.XCorridor ? 0 : 20f;
+									break;
+								case "BaseCorridorTShapeAdjustableSupport(Clone)":
+									maxHeight = config.TCorridor ? 0 : 20f;
+									break;
+								case "BaseCorridorLShapeAdjustableSupport(Clone)":
+									maxHeight = config.LCorridor ? 0 : 20f;
+									break;
+								case "BaseCorridorIShapeAdjustableSupport(Clone)":
+									maxHeight = config.ICorridor ? 0 : 20f;
+									break;
+							}
+						}
+						else
+						{
+							maxHeight = 0;
 						}
 
 						baseFoundationPiece.maxPillarHeight = maxHeight;
