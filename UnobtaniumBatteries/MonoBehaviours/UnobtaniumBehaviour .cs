@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-
-namespace UnobtaniumBatteries.MonoBehaviours
+﻿namespace UnobtaniumBatteries.MonoBehaviours
 {
-    internal class UnobtaniumBehaviour : MonoBehaviour
+    using UnityEngine;
+
+    internal class UnobtaniumBehaviour: MonoBehaviour
     {
-        Battery battery;
-        Renderer renderer;
-        EnergyMixin energyMixin;
+        private Battery battery;
+        private Renderer renderer;
+        private EnergyMixin energyMixin;
 
         private float currentStrength = 0;
         private float nextStrength = 2;
@@ -22,19 +22,19 @@ namespace UnobtaniumBatteries.MonoBehaviours
 
         public void Update()
         {
-            if (battery != null)
+            if(battery != null)
             {
                 battery.charge = battery.capacity;
             }
 
-            if (energyMixin != null)
+            if(energyMixin != null)
             {
                 energyMixin.AddEnergy(energyMixin.capacity - energyMixin.charge);
             }
 
             timer += Time.deltaTime;
 
-            if (timer > changeTime)
+            if(timer > changeTime)
             {
                 currentStrength = nextStrength;
                 nextStrength = currentStrength == 2 ? 0 : 2;
@@ -42,7 +42,7 @@ namespace UnobtaniumBatteries.MonoBehaviours
                 timer = 0.0f;
             }
 
-            if (renderer != null)
+            if(renderer != null)
             {
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
                 renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));

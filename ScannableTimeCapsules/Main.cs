@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System.Reflection;
-using UWE;
-
+﻿#if SN1
 namespace ScannableTimeCapsules
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+    using UWE;
+
     [QModCore]
     public static class Main
     {
@@ -15,7 +16,7 @@ namespace ScannableTimeCapsules
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
             string classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
-            if (WorldEntityDatabase.TryGetInfo(classid, out WorldEntityInfo worldEntityInfo))
+            if(WorldEntityDatabase.TryGetInfo(classid, out WorldEntityInfo worldEntityInfo))
             {
                 worldEntityInfo.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
 
@@ -24,3 +25,4 @@ namespace ScannableTimeCapsules
         }
     }
 }
+#endif

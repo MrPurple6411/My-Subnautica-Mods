@@ -1,11 +1,10 @@
-﻿using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using System;
-
-namespace ExtraOptions.Configuration
+﻿namespace ExtraOptions.Configuration
 {
+    using SMLHelper.V2.Json;
+    using SMLHelper.V2.Options.Attributes;
+
     [Menu("ExtraOptions")]
-    public class Config : ConfigFile
+    public class Config: ConfigFile
     {
         [Slider("Murkiness", 0, 400, Step = 10, Tooltip = "How clear the water is to allow for distance viewing."), OnChange(nameof(ApplyOptions))]
         public float Murkiness = 200.0f;
@@ -19,7 +18,7 @@ namespace ExtraOptions.Configuration
         [Slider("Shadow LOD", 200, 1000, Step = 100, Tooltip = "This affects all of the light particles or shaders on plants/terrain.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
         public int ShaderLOD = 400;
 
-        [Choice("Shadow Cascades", new string[] { "1", "2", "4" }, Tooltip ="How perfect the edges of shadows are shaped.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
+        [Choice("Shadow Cascades", new string[] { "1", "2", "4" }, Tooltip = "How perfect the edges of shadows are shaped.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
         public int ShadowCascades = 2;
 
         [Toggle("AmbientParticles", Tooltip = "The small, clear, spherical particles hovering in the water which can be seen during the daytime.\nDisabling `can` increase performance.")]
@@ -34,9 +33,12 @@ namespace ExtraOptions.Configuration
         [Toggle("Fog \"Fix\""), OnChange(nameof(ApplyOptions))]
         public bool FogFix = true;
 
-        [Toggle("Clear Water Surface", Tooltip ="Makes the surface of the water clearer so you can see more when looking down from above the surface."), OnChange(nameof(ApplyOptions))]
+        [Toggle("Clear Water Surface", Tooltip = "Makes the surface of the water clearer so you can see more when looking down from above the surface."), OnChange(nameof(ApplyOptions))]
         public bool ClearSurface = true;
 
-        private void ApplyOptions() => Main.ApplyOptions();
+        private void ApplyOptions()
+        {
+            Main.ApplyOptions();
+        }
     }
 }

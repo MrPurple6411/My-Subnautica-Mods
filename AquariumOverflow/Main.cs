@@ -1,13 +1,13 @@
-﻿using HarmonyLib;
-using QModManager.API;
-using QModManager.API.ModLoading;
-using System.Collections;
-using System.Reflection;
-using UnityEngine;
-using UWE;
-
-namespace AquariumOverflow
+﻿namespace AquariumOverflow
 {
+    using HarmonyLib;
+    using QModManager.API;
+    using QModManager.API.ModLoading;
+    using System.Collections;
+    using System.Reflection;
+    using UnityEngine;
+    using UWE;
+
     [QModCore]
     public static class Main
     {
@@ -22,16 +22,21 @@ namespace AquariumOverflow
         {
             BaseBioReactor[] bioReactors = subRoot?.gameObject?.GetComponentsInChildren<BaseBioReactor>() ?? new BaseBioReactor[0];
 
-            if (bioReactors.Length == 0)
+            if(bioReactors.Length == 0)
                 return breedCount > 0;
 
-            Vector2int sizePerFish = CraftData.GetItemSize(fishType);
+            Vector2int sizePerFish =
+#if SN1
+                CraftData.GetItemSize(fishType);
+#else
+                TechData.GetItemSize(fishType);
+#endif
             int failCount = 0;
-            while (failCount < bioReactors.Length && breedCount > 0)
+            while(failCount < bioReactors.Length && breedCount > 0)
             {
-                foreach (BaseBioReactor reactor in bioReactors)
+                foreach(BaseBioReactor reactor in bioReactors)
                 {
-                    if (breedCount > 0 && reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
+                    if(breedCount > 0 && reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
                     {
                         CoroutineHost.StartCoroutine(AddToReactor(subRoot, fishType, sizePerFish, reactor));
                         breedCount--;
@@ -41,7 +46,7 @@ namespace AquariumOverflow
                         failCount++;
                     }
                 }
-                if (failCount < bioReactors.Length)
+                if(failCount < bioReactors.Length)
                     failCount = 0;
             }
             return breedCount > 0;
@@ -55,17 +60,17 @@ namespace AquariumOverflow
             GameObject prefab = task.GetResult();
             prefab.SetActive(false);
 
-            if (!reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
+            if(!reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
             {
                 int breedCount = 1;
 
-                if (QModServices.Main.ModPresent("FCSEnergySolutions"))
+                if(QModServices.Main.ModPresent("FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
 
-                if (QModServices.Main.ModPresent("CyclopsBioReactor") && breedCount > 0)
+                if(QModServices.Main.ModPresent("CyclopsBioReactor") && breedCount > 0)
                     CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);
 
-                if (breedCount > 0)
+                if(breedCount > 0)
                     Main.TryOverflowIntoBioreactors(subRoot, fishType, ref breedCount);
 
                 yield break;

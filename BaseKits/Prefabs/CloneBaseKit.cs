@@ -1,17 +1,18 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Handlers;
-using System.Collections;
-using System.Collections.Generic;
-#if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
-#endif
-using UnityEngine;
-
-namespace BaseKits.Prefabs
+﻿namespace BaseKits.Prefabs
 {
-    internal class CloneBaseKit : Craftable
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Handlers;
+    using System.Collections;
+    using System.Collections.Generic;
+#if SN1
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
+#else
+    using SMLHelper.V2.Crafting;
+#endif
+    using UnityEngine;
+
+    internal class CloneBaseKit: Craftable
     {
         private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
         private GameObject processedPrefab;
@@ -33,16 +34,16 @@ namespace BaseKits.Prefabs
         public override GameObject GetGameObject()
         {
             GameObject go;
-            if (processedPrefab != null)
+            if(processedPrefab != null)
             {
                 go = GameObject.Instantiate(processedPrefab);
                 go.SetActive(true);
                 return go;
             }
 
-            GameObject prefab = Utils.CreateGenericLoot(this.TechType);
+            GameObject prefab = Utils.CreateGenericLoot(TechType);
 
-            if (prefab != null)
+            if(prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
                 processedPrefab.SetActive(false);
@@ -56,7 +57,7 @@ namespace BaseKits.Prefabs
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             GameObject go;
-            if (processedPrefab != null)
+            if(processedPrefab != null)
             {
                 go = GameObject.Instantiate(processedPrefab);
                 go.SetActive(true);
@@ -64,8 +65,8 @@ namespace BaseKits.Prefabs
                 yield break;
             }
 
-            GameObject prefab = Utils.CreateGenericLoot(this.TechType);
-            if (prefab != null)
+            GameObject prefab = Utils.CreateGenericLoot(TechType);
+            if(prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
                 processedPrefab.SetActive(false);
@@ -79,13 +80,8 @@ namespace BaseKits.Prefabs
 
         protected override RecipeData GetBlueprintRecipe()
         {
-#if SN1
             return CraftDataHandler.GetTechData(TypeToClone);
-#elif BZ
-            return CraftDataHandler.GetRecipeData(TypeToClone);
-#endif
         }
-
 
         protected override Sprite GetItemSprite()
         {

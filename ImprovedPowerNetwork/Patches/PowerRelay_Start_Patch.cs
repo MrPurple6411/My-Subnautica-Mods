@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace ImprovedPowerNetwork.Patches
+﻿namespace ImprovedPowerNetwork.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(PowerRelay), nameof(PowerRelay.Start))]
     public static class PowerRelay_Start_Patch
     {
@@ -16,7 +16,7 @@ namespace ImprovedPowerNetwork.Patches
                 return;
             }
 
-            if (__instance.gameObject.name.Contains("Transmitter"))
+            if(__instance.gameObject.name.Contains("Transmitter"))
             {
                 __instance.gameObject.EnsureComponent<PowerControl>();
             }

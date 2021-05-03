@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace Keep_Inventory_On_Death.Patches
+﻿namespace Keep_Inventory_On_Death.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch]
     public static class Patch
     {

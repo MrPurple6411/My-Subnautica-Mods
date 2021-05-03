@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace FabricatorNoAutoClose.Patches
+﻿namespace FabricatorNoAutoClose.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Crafter), nameof(Crafter.OnCraftingBegin))]
     public static class Crafter_OnCraftingBegin_Patch
     {

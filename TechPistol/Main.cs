@@ -1,32 +1,31 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using TechPistol.Configuration;
-using SMLHelper.V2.Handlers;
-using System.Reflection;
-using UnityEngine;
-using System;
-using System.IO;
-using TechPistol.Module;
-
-namespace TechPistol
+﻿namespace TechPistol
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.IO;
+    using System.Reflection;
+    using TechPistol.Configuration;
+    using TechPistol.Module;
+    using UnityEngine;
+
     [QModCore]
     public static class Main
     {
         private static Assembly assembly = Assembly.GetExecutingAssembly();
-		private static string modPath = Path.GetDirectoryName(assembly.Location);
-		internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/TechPistol"));
-		internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-		internal static PistolFragmentPrefab pistolFragment { get; } = new PistolFragmentPrefab();
-		internal static PistolPrefab pistol { get; } = new PistolPrefab();
+        private static string modPath = Path.GetDirectoryName(assembly.Location);
+        internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/TechPistol"));
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static PistolFragmentPrefab PistolFragment { get; } = new PistolFragmentPrefab();
+        internal static PistolPrefab Pistol { get; } = new PistolPrefab();
 
-		[QModPatch]
+        [QModPatch]
         public static void Load()
-		{
-			pistolFragment.Patch();
-			pistol.Patch();
+        {
+            PistolFragment.Patch();
+            Pistol.Patch();
 
-			Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
-		}
-	}
+            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
+        }
+    }
 }

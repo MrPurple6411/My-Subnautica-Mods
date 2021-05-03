@@ -1,13 +1,11 @@
-﻿using HarmonyLib;
+﻿namespace All_Items_1x1.Patches
+{
+    using HarmonyLib;
 #if SN1
-using Data = CraftData;
-#elif BZ
-using Data = TechData;
+    using TechData = CraftData;
 #endif
 
-namespace All_Items_1x1.Patches
-{
-    [HarmonyPatch(typeof(Data), nameof(Data.GetItemSize))]
+    [HarmonyPatch(typeof(TechData), nameof(TechData.GetItemSize))]
     public class Resizer
     {
         [HarmonyPostfix]

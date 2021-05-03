@@ -1,15 +1,16 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
-
+﻿#if SN1
 namespace MoreSeamothDepth.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+
     [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnUpgradeModuleChange))]
     public class Seamoth_OnUpgradeModuleChange_Patch
-    { 
-        static void Postfix(SeaMoth __instance, TechType techType)
+    {
+        private static void Postfix(SeaMoth __instance)
         {
             // Dictionary of TechTypes and their depth additions.
-            var dictionary = new Dictionary<TechType, float>
+            Dictionary<TechType, float> dictionary = new Dictionary<TechType, float>
             {
                 {
                     TechType.SeamothReinforcementModule,
@@ -38,10 +39,10 @@ namespace MoreSeamothDepth.Patches
             };
 
             // Depth upgrade to add.
-            var depthUpgrade = 0f;
+            float depthUpgrade = 0f;
 
             // Loop through available depth module upgrades
-            foreach (var entry in dictionary)
+            foreach(KeyValuePair<TechType, float> entry in dictionary)
             {
                 TechType depthTechType = entry.Key;
                 float depthAddition = entry.Value;
@@ -63,3 +64,4 @@ namespace MoreSeamothDepth.Patches
         }
     }
 }
+#endif

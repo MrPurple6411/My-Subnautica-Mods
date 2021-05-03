@@ -1,24 +1,24 @@
-﻿using HarmonyLib;
-using UnobtaniumBatteries.MonoBehaviours;
-using System.Collections.Generic;
-using UnityEngine;
-using static EnergyMixin;
-
+﻿#if SN1
 namespace UnobtaniumBatteries.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+    using UnobtaniumBatteries.MonoBehaviours;
+    using static EnergyMixin;
+
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(EnergyMixin __instance, InventoryItem item)
         {
-            if (item != null)
+            if(item != null)
             {
                 TechType techType = item.item.GetTechType();
 
-                if (Main.unobtaniumBatteries.Contains(techType))
+                if(Main.unobtaniumBatteries.Contains(techType))
                 {
-                    foreach (BatteryModels batteryModel in __instance.batteryModels)
+                    foreach(BatteryModels batteryModel in __instance.batteryModels)
                     {
                         if(batteryModel.techType == techType)
                         {
@@ -32,8 +32,9 @@ namespace UnobtaniumBatteries.Patches
                 }
             }
 
-            if (__instance.TryGetComponent(out UnobtaniumBehaviour infinityBehaviour))
+            if(__instance.TryGetComponent(out UnobtaniumBehaviour infinityBehaviour))
                 GameObject.Destroy(infinityBehaviour);
         }
     }
 }
+#endif

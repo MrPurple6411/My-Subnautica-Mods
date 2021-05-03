@@ -1,28 +1,23 @@
-﻿using System;
-using System.Reflection;
-using System.Linq;
-using HarmonyLib;
-using UnityEngine;
-using System.IO;
-using QModManager.API.ModLoading;
-using BiomeSettings = WaterBiomeManager.BiomeSettings;
-using Logger = QModManager.Utility.Logger;
-using ExtraOptions.Configuration;
-using SMLHelper.V2.Handlers;
+﻿namespace ExtraOptions
+{
+    using ExtraOptions.Configuration;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.IO;
+    using System.Reflection;
+    using UnityEngine;
 #if SUBNAUTICA_STABLE
-using Oculus.Newtonsoft.Json;
 #else
-using Newtonsoft.Json;
+    using Newtonsoft.Json;
 #endif
 
-namespace ExtraOptions
-{
     [QModCore]
     public static class Main
     {
         internal static readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static readonly string modpath = Path.GetDirectoryName(assembly.Location);
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()
@@ -40,9 +35,9 @@ namespace ExtraOptions
             try
             {
 
-                QualitySettings.masterTextureLimit = 4 - config.TextureQuality;
+                QualitySettings.masterTextureLimit = 4 - Config.TextureQuality;
 
-                switch (config.ShadowCascades)
+                switch(Config.ShadowCascades)
                 {
                     case 0:
                         QualitySettings.shadowCascades = 1;
@@ -55,28 +50,28 @@ namespace ExtraOptions
                         break;
                 }
 
-                Shader.globalMaximumLOD = config.ShaderLOD;
-                QualitySettings.lodBias = config.LODGroupBias;
+                Shader.globalMaximumLOD = Config.ShaderLOD;
+                QualitySettings.lodBias = Config.LODGroupBias;
 
-                foreach (WaterSunShaftsOnCamera s in UnityEngine.Object.FindObjectsOfType<WaterSunShaftsOnCamera>() ?? new WaterSunShaftsOnCamera[0])
-                    s.enabled = config.LightShafts;
-                
-                foreach (AmbientParticles p in UnityEngine.Object.FindObjectsOfType<AmbientParticles>() ?? new AmbientParticles[0])
-                    p.enabled = config.AmbientParticles;
+                foreach(WaterSunShaftsOnCamera s in UnityEngine.Object.FindObjectsOfType<WaterSunShaftsOnCamera>() ?? new WaterSunShaftsOnCamera[0])
+                    s.enabled = Config.LightShafts;
 
-                if (!config.VariablePhysicsStep)
+                foreach(AmbientParticles p in UnityEngine.Object.FindObjectsOfType<AmbientParticles>() ?? new AmbientParticles[0])
+                    p.enabled = Config.AmbientParticles;
+
+                if(!Config.VariablePhysicsStep)
                 {
                     Time.fixedDeltaTime = 0.02f;
                     Time.maximumDeltaTime = 0.33333f;
                     Time.maximumParticleDeltaTime = 0.03f;
                 }
 
-                foreach (WaterBiomeManager w in UnityEngine.Object.FindObjectsOfType<WaterBiomeManager>() ?? new WaterBiomeManager[0])
+                foreach(WaterBiomeManager w in UnityEngine.Object.FindObjectsOfType<WaterBiomeManager>() ?? new WaterBiomeManager[0])
                     w.Rebuild();
 
-                config.Save();
+                Config.Save();
             }
-            catch {}
+            catch { }
         }
 
     }

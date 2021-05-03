@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using System.Collections;
-using UnityEngine;
-using UWE;
-
-namespace IslandCloudRemoval.Patches
+﻿namespace IslandCloudRemoval.Patches
 {
+    using HarmonyLib;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
     public static class Patch
     {
@@ -18,13 +18,13 @@ namespace IslandCloudRemoval.Patches
         {
             GameObject x_Clouds = GameObject.Find("x_Clouds(Clone)");
 
-            yield return new WaitUntil(() => (x_Clouds = x_Clouds ?? GameObject.Find("x_Clouds(Clone)")) != null);
+            yield return new WaitUntil(() => (x_Clouds ??= GameObject.Find("x_Clouds(Clone)")) != null);
 
             MeshRenderer[] renderers = x_Clouds.GetComponentsInChildren<MeshRenderer>();
 
-            foreach (MeshRenderer renderer in renderers)
+            foreach(MeshRenderer renderer in renderers)
             {
-                if (renderer.name.Contains("x_IslandClouds"))
+                if(renderer.name.Contains("x_IslandClouds"))
                     renderer.gameObject.SetActive(false);
             }
 

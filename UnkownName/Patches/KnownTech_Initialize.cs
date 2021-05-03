@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+
     [HarmonyPatch(typeof(KnownTech), nameof(KnownTech.Initialize))]
     public class KnownTech_Initialize
     {
@@ -13,7 +13,7 @@ namespace UnKnownName.Patches
             foreach(TechType techType in types)
             {
                 PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
-                if (entryData != null && entryData.locked)
+                if(entryData != null && entryData.locked)
                 {
                     data.defaultTech.Remove(techType);
                 }

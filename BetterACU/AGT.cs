@@ -1,20 +1,20 @@
-﻿using FCS_AlterraHub.Interfaces;
-using UnityEngine;
-using System.Collections;
-using UWE;
-
-namespace BetterACU
+﻿namespace BetterACU
 {
+    using FCS_AlterraHub.Interfaces;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     public static class AGT
     {
         public static bool TryBreedIntoAlterraGen(WaterPark waterPark, TechType parkCreatureTechType, WaterParkCreature parkCreature)
         {
-            var AlterraGens = waterPark?.gameObject?.GetComponentInParent<SubRoot>()?.gameObject?.GetComponentsInChildren<IFCSStorage>();
+            IFCSStorage[] AlterraGens = waterPark?.gameObject?.GetComponentInParent<SubRoot>()?.gameObject?.GetComponentsInChildren<IFCSStorage>();
 
-            if (AlterraGens is null)
+            if(AlterraGens is null)
                 return false;
 
-            foreach (IFCSStorage storage in AlterraGens)
+            foreach(IFCSStorage storage in AlterraGens)
             {
                 if(storage.GetType().Name.Contains("AlterraGen") && storage.IsAllowedToAdd(parkCreature.pickupable, false))
                 {
@@ -34,7 +34,7 @@ namespace BetterACU
             GameObject prefab = task.GetResult();
             prefab.SetActive(false);
 
-            while (!container.CanBeStored(1, parkCreatureTechType))
+            while(!container.CanBeStored(1, parkCreatureTechType))
                 yield return new WaitForSecondsRealtime(1);
 
             GameObject gameObject = GameObject.Instantiate(prefab);

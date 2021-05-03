@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using System.Linq;
-
-namespace ImprovedPowerNetwork.Patches
+﻿namespace ImprovedPowerNetwork.Patches
 {
+    using HarmonyLib;
+    using System.Linq;
+
     [HarmonyPatch(typeof(PowerSource), nameof(PowerSource.FindRelay))]
     public static class PowerSource_FindRelay_Patch
     {
@@ -12,17 +12,17 @@ namespace ImprovedPowerNetwork.Patches
             PowerControl powerControl;
             bool isCyclops = __result?.gameObject.name.Contains("Cyclops") ?? false;
 
-            if (__result != null && (__result is BasePowerRelay || isCyclops))
+            if(__result != null && (__result is BasePowerRelay || isCyclops))
             {
                 IPowerInterface powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay)?.FirstOrFallback(null);
 
-                if (powerInterface is null)
+                if(powerInterface is null)
                 {
                     powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
 
-                    if (powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
+                    if(powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
                     {
-                        if (isCyclops)
+                        if(isCyclops)
                         {
                             __result.AddInboundPower(powerControl.powerRelay);
                         }
@@ -36,9 +36,9 @@ namespace ImprovedPowerNetwork.Patches
 
                 if(baseInboundRelay.gameObject.TryGetComponent(out powerControl))
                 {
-                    if (powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
+                    if(powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
                     {
-                        if (isCyclops)
+                        if(isCyclops)
                         {
                             __result.AddInboundPower(powerControl.powerRelay);
                         }

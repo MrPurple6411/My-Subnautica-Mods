@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+
     [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
     public class TooltipFactory_WriteIngredients
     {
@@ -11,27 +11,27 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
         {
-	        if (data == null)
-	        {
-		        return;
-	        }
+            if(data == null)
+            {
+                return;
+            }
             int ingredientCount = data.ingredientCount;
-            for (int i = 0; i < ingredientCount; i++)
+            for(int i = 0; i < ingredientCount; i++)
             {
                 IIngredient ingredient = data.GetIngredient(i);
                 TechType techType = ingredient.techType;
-                if (!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
+                if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
                     KnownTech.Add(techType);
                     continue;
                 }
-                if (!CrafterLogic.IsCraftRecipeUnlocked(techType))
+                if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
                 {
                     TooltipIcon icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
-                    if (icons.Contains(icon))
+                    if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.config.UnKnownTitle };
+                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }
@@ -62,7 +62,7 @@ namespace UnKnownName.Patches
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.config.UnKnownTitle };
+                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }

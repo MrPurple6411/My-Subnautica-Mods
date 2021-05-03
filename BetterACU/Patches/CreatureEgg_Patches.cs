@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace BetterACU.Patches
+﻿namespace BetterACU.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(CreatureEgg), nameof(CreatureEgg.Hatch))]
     internal class CreatureEgg_Hatch_Prefix
     {

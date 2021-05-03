@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace WarpersNoWarping.Patches
+﻿namespace WarpersNoWarping.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Warper), nameof(Warper.OnKill))]
     public class Warper_OnKill
     {

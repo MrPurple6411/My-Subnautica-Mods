@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(Base), nameof(Base.Start))]
     public static class Base_Start_Patch
     {
@@ -14,12 +14,12 @@ namespace BuildingTweaks.Patches
                 __instance.RebuildGeometry();
             }
 
-            if (!__instance.TryGetComponent(out Rigidbody rigidbody))
+            if(!__instance.TryGetComponent(out Rigidbody rigidbody))
                 return;
 
             Vehicle vehicle = __instance.GetComponentInParent<Vehicle>();
 
-            if (vehicle != null)
+            if(vehicle != null)
             {
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 return;
@@ -27,7 +27,7 @@ namespace BuildingTweaks.Patches
 
             Creature creature = __instance.GetComponentInParent<Creature>();
 
-            if (creature != null)
+            if(creature != null)
             {
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 return;
@@ -50,7 +50,7 @@ namespace BuildingTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Base __instance)
         {
-            if (__instance.waitingForWorld)
+            if(__instance.waitingForWorld)
             {
                 __instance.waitingForWorld = false;
                 __instance.RebuildGeometry();

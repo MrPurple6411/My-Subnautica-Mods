@@ -1,12 +1,11 @@
-﻿using HarmonyLib;
-using QModManager.Utility;
-using SMLHelper.V2.Options;
-using System;
-using System.Linq;
-
-namespace PowerOrder.Configuration
+﻿namespace PowerOrder.Configuration
 {
-    internal class Options : ModOptions
+    using QModManager.Utility;
+    using SMLHelper.V2.Options;
+    using System;
+    using System.Linq;
+
+    internal class Options: ModOptions
     {
         private readonly Config config = Main.config;
 
@@ -20,7 +19,7 @@ namespace PowerOrder.Configuration
             {
                 Logger.Log(Logger.Level.Error, $"Failed to load Config file. Generating fresh file.", e);
             }
-            
+
             config.Order = config.Order.OrderBy(p => p.Key).ThenBy(p => p.Value).ToDictionary(t => t.Key, t => t.Value);
             config.Save();
 
@@ -30,7 +29,7 @@ namespace PowerOrder.Configuration
 
         private void Options_ChoiceChanged(object sender, ChoiceChangedEventArgs e)
         {
-            if (!e.Id.Contains("PowerOrder_"))
+            if(!e.Id.Contains("PowerOrder_"))
             {
                 return;
             }
@@ -62,7 +61,7 @@ namespace PowerOrder.Configuration
             string[] choices = config.Order.Values.ToArray();
             foreach(int key in config.Order.Keys)
             {
-                AddChoiceOption($"PowerOrder_{key}", key.ToString(), choices, key-1);
+                AddChoiceOption($"PowerOrder_{key}", key.ToString(), choices, key - 1);
             }
         }
     }

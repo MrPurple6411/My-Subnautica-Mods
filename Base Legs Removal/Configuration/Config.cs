@@ -1,11 +1,11 @@
-﻿using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using UnityEngine;
-
-namespace Base_Legs_Removal.Configuration
+﻿namespace Base_Legs_Removal.Configuration
 {
+    using SMLHelper.V2.Json;
+    using SMLHelper.V2.Options.Attributes;
+    using UnityEngine;
+
     [Menu("Base Legs Removal")]
-    public class Config : ConfigFile
+    public class Config: ConfigFile
     {
         [Toggle("Foundation"), OnChange(nameof(RegenLegs))]
         public bool FoundationLegs = false;

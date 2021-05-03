@@ -1,48 +1,47 @@
-﻿using Base_Legs_Removal.Configuration;
-using HarmonyLib;
-
-namespace Base_Legs_Removal.Patches
+﻿namespace Base_Legs_Removal.Patches
 {
+    using HarmonyLib;
+
 #if SN1
     [HarmonyPatch(typeof(BaseFoundationPiece), nameof(BaseFoundationPiece.OnGenerate))]
     public static class BaseFoundationPiece_OnGenerate_Patch
     {
         [HarmonyPrefix]
-		public static void Prefix(BaseFoundationPiece __instance)
-		{
-			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
-				return;
+        public static void Prefix(BaseFoundationPiece __instance)
+        {
+            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+                return;
 
-			float maxHeight = 0f;
-			var config = Main.config;
+            float maxHeight = 0f;
+            Configuration.Config config = Main.Config;
 
-			switch (__instance.name)
-			{
-				case "BaseRoomAdjustableSupport(Clone)":
-					maxHeight = config.RoomLegs? 0 : 20f;
-					break;
-				case "BaseMoonpool(Clone)":
-					maxHeight = config.MoonPoolLegs ? 0 : 20f;
-					break;
-				case "BaseFoundationPiece(Clone)":
-					maxHeight = config.FoundationLegs ? 0 : 20f;
-					break;
-				case "BaseCorridorXShapeAdjustableSupport(Clone)":
-					maxHeight = config.XCorridor ? 0 : 20f;
-					break;
-				case "BaseCorridorTShapeAdjustableSupport(Clone)":
-					maxHeight = config.TCorridor ? 0 : 20f;
-					break;
-				case "BaseCorridorLShapeAdjustableSupport(Clone)":
-					maxHeight = config.LCorridor ? 0 : 20f;
-					break;
-				case "BaseCorridorIShapeAdjustableSupport(Clone)":
-					maxHeight = config.ICorridor ? 0 : 20f;
-					break;
-			}
+            switch(__instance.name)
+            {
+                case "BaseRoomAdjustableSupport(Clone)":
+                    maxHeight = config.RoomLegs ? 0 : 20f;
+                    break;
+                case "BaseMoonpool(Clone)":
+                    maxHeight = config.MoonPoolLegs ? 0 : 20f;
+                    break;
+                case "BaseFoundationPiece(Clone)":
+                    maxHeight = config.FoundationLegs ? 0 : 20f;
+                    break;
+                case "BaseCorridorXShapeAdjustableSupport(Clone)":
+                    maxHeight = config.XCorridor ? 0 : 20f;
+                    break;
+                case "BaseCorridorTShapeAdjustableSupport(Clone)":
+                    maxHeight = config.TCorridor ? 0 : 20f;
+                    break;
+                case "BaseCorridorLShapeAdjustableSupport(Clone)":
+                    maxHeight = config.LCorridor ? 0 : 20f;
+                    break;
+                case "BaseCorridorIShapeAdjustableSupport(Clone)":
+                    maxHeight = config.ICorridor ? 0 : 20f;
+                    break;
+            }
 
-			__instance.maxPillarHeight = maxHeight;
-		}
+            __instance.maxPillarHeight = maxHeight;
+        }
     }
 #elif BZ
 
@@ -60,7 +59,7 @@ namespace Base_Legs_Removal.Patches
 				{
 					case BaseFoundationPiece baseFoundationPiece:
 						float maxHeight = 0f;
-						var config = Main.config;
+						var config = Main.Config;
 
 						switch (baseFoundationPiece.name)
 						{

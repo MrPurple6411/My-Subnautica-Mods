@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using QModManager.API;
-using UnityEngine;
-using UWE;
-using Random = UnityEngine.Random;
-
-namespace BetterACU.Patches
+﻿namespace BetterACU.Patches
 {
+    using HarmonyLib;
+    using QModManager.API;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using UWE;
 
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.Update))]
     public static class WaterPark_Update_Postfix
@@ -22,20 +20,20 @@ namespace BetterACU.Patches
         {
             List<WaterParkItem> powerCreatures = new List<WaterParkItem>();
             float maxPower = 0;
-            if (cachedItems.TryGetValue(__instance, out List<WaterParkItem> items) && items.Count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
+            if(cachedItems.TryGetValue(__instance, out List<WaterParkItem> items) && items.Count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
             {
                 powerCreatures.AddRange(cachedPowerCreatures[__instance]);
 
-                foreach(var creature in cachedPowerCreatures[__instance])
+                foreach(WaterParkItem creature in cachedPowerCreatures[__instance])
                 {
-                    if (!creature.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive())
+                    if(!creature.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive())
                         powerCreatures.Remove(creature);
                 }
 
-                foreach (KeyValuePair<TechType, float> pair in Main.config.CreaturePowerGeneration)
+                foreach(KeyValuePair<TechType, float> pair in Main.Config.CreaturePowerGeneration)
                 {
                     List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key) ?? new List<WaterParkItem>();
-                    if (creatures.Count > 0)
+                    if(creatures.Count > 0)
                         maxPower += 500 * pair.Value * creatures.Count;
                 }
 
@@ -43,7 +41,7 @@ namespace BetterACU.Patches
             }
             else
             {
-                foreach (KeyValuePair<TechType, float> pair in Main.config.CreaturePowerGeneration)
+                foreach(KeyValuePair<TechType, float> pair in Main.Config.CreaturePowerGeneration)
                 {
                     List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)) ?? new List<WaterParkItem>();
                     if(creatures.Count > 0)
@@ -58,32 +56,32 @@ namespace BetterACU.Patches
             }
 
             PowerSource powerSource = __instance?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
-            if (powerSource is null)
+            if(powerSource is null)
             {
                 powerSource = __instance?.itemsRoot?.gameObject?.AddComponent<PowerSource>();
                 powerSource.maxPower = maxPower;
-                powerSource.power = Main.config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}",  0f);
+                powerSource.power = Main.Config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}", 0f);
             }
             else
             {
-                if (powerSource.maxPower != maxPower)
+                if(powerSource.maxPower != maxPower)
                     powerSource.maxPower = maxPower;
 
-                if (powerSource.power > powerSource.maxPower)
+                if(powerSource.power > powerSource.maxPower)
                     powerSource.power = powerSource.maxPower;
 
-                Main.config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
+                Main.Config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
             }
 
             timeSinceLastPositionCheck += Time.deltaTime;
             if(timeSinceLastPositionCheck > 0.5f)
             {
-                foreach (WaterParkItem waterParkItem in __instance.items)
+                foreach(WaterParkItem waterParkItem in __instance.items)
                 {
-                    if (!__instance.IsPointInside(waterParkItem.transform.position))
+                    if(!__instance.IsPointInside(waterParkItem.transform.position))
                     {
                         Vector3 position = waterParkItem.transform.position;
-                         __instance.EnsurePointIsInside(ref position);
+                        __instance.EnsurePointIsInside(ref position);
                         waterParkItem.transform.position = position;
                     }
                 }
@@ -101,11 +99,11 @@ namespace BetterACU.Patches
 #if BZ
             if(__instance is LargeRoomWaterPark)
             {
-                __instance.wpPieceCapacity = Main.config.LargeWaterParkSize;
+                __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
             }
             else
 #endif
-                __instance.wpPieceCapacity = Main.config.WaterParkSize;
+            __instance.wpPieceCapacity = Main.Config.WaterParkSize;
         }
     }
 
@@ -120,31 +118,31 @@ namespace BetterACU.Patches
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
             List<WaterParkItem> items = __instance.items;
-            if (!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(creature.pickupable.GetTechType()) == -1)
+            if(!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(creature.pickupable.GetTechType()) == -1)
             {
                 return;
             }
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
-            foreach (WaterParkItem waterParkItem in items)
+            foreach(WaterParkItem waterParkItem in items)
             {
-                var parkCreature = waterParkItem as WaterParkCreature;
+                WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
                 TechType parkCreatureTechType = parkCreature?.pickupable?.GetTechType() ?? TechType.None;
-                if (parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
+                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
                 {
                     if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                     {
-                        if (QModServices.Main.ModPresent("FCSEnergySolutions"))
+                        if(QModServices.Main.ModPresent("FCSEnergySolutions"))
                         {
                             hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                         }
 
-                        if (!hasBred)
+                        if(!hasBred)
                         {
-                            foreach (BaseBioReactor baseBioReactor in baseBioReactors)
+                            foreach(BaseBioReactor baseBioReactor in baseBioReactors)
                             {
-                                if (baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                                if(baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
                                 {
                                     creature.ResetBreedTime();
                                     parkCreature.ResetBreedTime();
@@ -172,16 +170,16 @@ namespace BetterACU.Patches
             GameObject prefab = task.GetResult();
             prefab.SetActive(false);
             GameObject gameObject = GameObject.Instantiate(prefab);
-            
-                Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+
+            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
                 TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
                 yield return pickupable.PickupAsync(taskResult, false);
                 pickupable = taskResult.Get();
 #else
-                pickupable.Pickup(false);
+            pickupable.Pickup(false);
 #endif
-                container.AddItem(pickupable);
+            container.AddItem(pickupable);
 
             yield break;
         }

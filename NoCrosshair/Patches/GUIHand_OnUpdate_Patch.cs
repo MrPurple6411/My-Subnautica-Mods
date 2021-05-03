@@ -1,20 +1,20 @@
-﻿using HarmonyLib;
-
-namespace NoCrosshair.Patches
+﻿namespace NoCrosshair.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(GUIHand), nameof(GUIHand.OnUpdate))]
     public static class GUIHand_OnUpdate_Patch
     {
         public static void Postfix(GUIHand __instance)
         {
-            if (GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+            if(GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
             {
                 NoCrosshair.check = !NoCrosshair.check;
             }
 
-            if (HandReticle.main.iconType == HandReticle.IconType.Default)
+            if(HandReticle.main.iconType == HandReticle.IconType.Default)
             {
-                if ((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && NoCrosshair.check)
+                if((__instance.GetActiveTarget() == null || Player.main.IsPiloting()) && NoCrosshair.check)
                 {
                     NoCrosshair.ChangeCrosshair(false);
                 }

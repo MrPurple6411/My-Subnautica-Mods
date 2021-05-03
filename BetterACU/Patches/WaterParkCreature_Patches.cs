@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace BetterACU.Patches
+﻿namespace BetterACU.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+    using UnityEngine;
+
 #if SUBNAUTICA_EXP
     [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.BornAsync))]
     internal class WaterParkCreature_Born_Prefix
@@ -38,19 +38,19 @@ namespace BetterACU.Patches
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if ((__instance.GetComponent<LiveMixin>()?.IsAlive() ?? false) && Main.config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out float powerValue))
+            if((__instance.GetComponent<LiveMixin>()?.IsAlive() ?? false) && Main.Config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out float powerValue))
             {
                 if(!timeLastGenerated.TryGetValue(__instance, out float time))
                 {
                     time = DayNightCycle.main.timePassedAsFloat;
                 }
 
-                float power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.config.PowerGenSpeed;
+                float power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
                 PowerSource powerSource = __instance?.GetWaterPark()?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
 
                 if(powerSource != null)
                 {
-                    if (!powerSource.AddEnergy(power, out float amountStored))
+                    if(!powerSource.AddEnergy(power, out float amountStored))
                         powerSource.connectedRelay?.AddEnergy(power - amountStored, out _);
                 }
 

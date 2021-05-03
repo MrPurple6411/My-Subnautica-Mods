@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using RandomCreatureSize.Configuration;
-using SMLHelper.V2.Handlers;
-using System.Reflection;
-
-namespace RandomCreatureSize
+﻿namespace RandomCreatureSize
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using RandomCreatureSize.Configuration;
+    using SMLHelper.V2.Handlers;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

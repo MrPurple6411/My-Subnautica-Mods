@@ -1,15 +1,14 @@
-﻿using ChargeRequired.Patches;
-using HarmonyLib;
-using QModManager.API.ModLoading;
-using QModManager.Utility;
-using System;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using Logger = QModManager.Utility.Logger;
-
-namespace ChargeRequired
+﻿namespace ChargeRequired
 {
+    using ChargeRequired.Patches;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using UnityEngine;
+    using Logger = QModManager.Utility.Logger;
+
     [QModCore]
     public static class Main
     {
@@ -49,10 +48,15 @@ namespace ChargeRequired
         public static bool BatteryCheck(Pickupable pickupable)
         {
             EnergyMixin energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
-            if (energyMixin != null)
+            if(energyMixin != null)
             {
-                GameObject gameObject = energyMixin.GetBattery();
-                if (gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
+                GameObject gameObject =
+#if !BELOWZERO_EXP
+                    energyMixin.GetBattery();
+#else
+                    energyMixin.GetBatteryGameObject();
+#endif
+                if(gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
                 {
                     IBattery battery = gameObject.GetComponent<IBattery>();
                     return battery.capacity == battery.charge;
@@ -65,7 +69,7 @@ namespace ChargeRequired
             }
 
             IBattery b2 = pickupable.GetComponent<IBattery>();
-            return b2 != null ? b2.capacity == b2.charge : true;
+            return b2 == null || b2.capacity == b2.charge;
         }
     }
 }

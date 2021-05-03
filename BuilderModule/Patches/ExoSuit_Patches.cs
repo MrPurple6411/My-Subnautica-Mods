@@ -1,11 +1,11 @@
-﻿using BuilderModule.Module;
-using HarmonyLib;
-using System.Collections.Generic;
-
-namespace BuilderModule.Patches
+﻿namespace BuilderModule.Patches
 {
+    using BuilderModule.Module;
+    using HarmonyLib;
+    using System.Collections.Generic;
+
     [HarmonyPatch]
-    class ExoSuit_Patches
+    internal class ExoSuit_Patches
     {
         public static readonly Dictionary<Exosuit, BuilderModuleMono> Exosuits = new Dictionary<Exosuit, BuilderModuleMono>();
 
@@ -18,11 +18,11 @@ namespace BuilderModule.Patches
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.SlotRightUp))]
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.SlotNext))]
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.SlotPrevious))]
-        static bool Prefix(Exosuit __instance)
+        private static bool Prefix(Exosuit __instance)
         {
-            if (!Exosuits.TryGetValue(__instance, out BuilderModuleMono moduleMono))
+            if(!Exosuits.TryGetValue(__instance, out BuilderModuleMono moduleMono))
             {
-                if (!__instance.TryGetComponent(out moduleMono))
+                if(!__instance.TryGetComponent(out moduleMono))
                     return true;
                 else
                     Exosuits[__instance] = moduleMono;

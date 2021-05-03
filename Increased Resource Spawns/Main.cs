@@ -1,23 +1,23 @@
-﻿using System.Linq;
-using System.Reflection;
-using HarmonyLib;
-using Increased_Resource_Spawns.Configuration;
-using QModManager.API.ModLoading;
-using SMLHelper.V2.Handlers;
-
-namespace Increased_Resource_Spawns
+﻿namespace Increased_Resource_Spawns
 {
+    using HarmonyLib;
+    using Increased_Resource_Spawns.Configuration;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.Linq;
+    using System.Reflection;
+
     [QModCore]
     public class Main
     {
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()
         {
-            config.Blacklist = config.Blacklist.Distinct().ToList();
-            config.WhiteList = config.WhiteList.Distinct().ToList();
-            config.Save();
+            Config.Blacklist = Config.Blacklist.Distinct().ToList();
+            Config.WhiteList = Config.WhiteList.Distinct().ToList();
+            Config.Save();
 
 
             Assembly assembly = Assembly.GetExecutingAssembly();

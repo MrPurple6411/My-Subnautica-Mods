@@ -1,14 +1,15 @@
-﻿using HarmonyLib;
-
+﻿#if SN1
 namespace SeamothThermal.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Start))]
     public class Seamoth_Start_Patch
     {
-        static void Prefix(SeaMoth __instance)
+        private static void Prefix(SeaMoth __instance)
         {
             // Get TemperatureDamage class from SeaMoth
-            var tempDamage = __instance.GetComponent<TemperatureDamage>();
+            TemperatureDamage tempDamage = __instance.GetComponent<TemperatureDamage>();
 
             // Set the different fields
             // No need to check for depth because the SeaMoth would already 
@@ -19,3 +20,4 @@ namespace SeamothThermal.Patches
         }
     }
 }
+#endif

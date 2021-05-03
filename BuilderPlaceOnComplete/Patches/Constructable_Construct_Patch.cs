@@ -1,17 +1,18 @@
-﻿using HarmonyLib;
-using System.Collections;
-using UnityEngine;
-using UWE;
-
+﻿#if SN1
 namespace BuilderPlaceOnComplete.Patches
 {
+    using HarmonyLib;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     [HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
     public class Constructable_Construct_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(Constructable __instance)
         {
-            if (__instance.constructed)
+            if(__instance.constructed)
             {
                 CoroutineHost.StartCoroutine(InitializeBuilder(CraftData.GetTechType(__instance.gameObject)));
             }
@@ -29,3 +30,4 @@ namespace BuilderPlaceOnComplete.Patches
         }
     }
 }
+#endif

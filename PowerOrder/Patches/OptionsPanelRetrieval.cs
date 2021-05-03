@@ -1,12 +1,7 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PowerOrder.Patches
+﻿namespace PowerOrder.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(uGUI_OptionsPanel), nameof(uGUI_OptionsPanel.Awake))]
     public static class OptionsPanelRetrieval
     {

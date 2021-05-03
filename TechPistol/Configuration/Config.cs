@@ -1,10 +1,10 @@
-﻿using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-
-namespace TechPistol.Configuration
+﻿namespace TechPistol.Configuration
 {
+    using SMLHelper.V2.Json;
+    using SMLHelper.V2.Options.Attributes;
+
     [Menu("TechPistol")]
-    public class Config : ConfigFile
+    public class Config: ConfigFile
     {
         [Slider("Targeting Range", 1, 200, DefaultValue = 40, Step = 1)]
         public float TargetingRange = 40f;

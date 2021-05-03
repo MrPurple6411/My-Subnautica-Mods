@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace NoCrosshair.Patches
+﻿namespace NoCrosshair.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch]
     public static class HandReticle_Patches
     {

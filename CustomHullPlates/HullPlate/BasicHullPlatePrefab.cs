@@ -1,18 +1,18 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
-using System.Collections;
-using UnityEngine;
+﻿namespace CustomHullPlates.HullPlate
+{
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using SMLHelper.V2.Utility;
+    using System.Collections;
+    using UnityEngine;
 #if SN1
-using Data = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
-#elif BZ
-using Data = SMLHelper.V2.Crafting.RecipeData;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
 #endif
 
-namespace CustomHullPlates.HullPlate
-{
-    public class BasicHullPlatePrefab : Buildable
+
+
+    public class BasicHullPlatePrefab: Buildable
     {
         private readonly Texture2D hullPlateIcon;
         private readonly Texture2D hullPlateTexture;
@@ -36,7 +36,7 @@ namespace CustomHullPlates.HullPlate
 
             MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
-            _GameObject.name = this.ClassID;
+            _GameObject.name = ClassID;
 
             return _GameObject;
         }
@@ -50,18 +50,18 @@ namespace CustomHullPlates.HullPlate
 
             MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
-            _GameObject.name = this.ClassID;
+            _GameObject.name = ClassID;
 
             gameObject.Set(_GameObject);
             yield break;
         }
 
         /// <summary>
-        /// This provides the <see cref="Data"/> instance used to designate how this item is crafted or constructed.
+        /// This provides the <see cref="RecipeData"/> instance used to designate how this item is crafted or constructed.
         /// </summary>
-        protected override Data GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new Data(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1));
+            return new RecipeData(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1));
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace Base_Deconstruct_Fix.Patches
+﻿namespace Base_Deconstruct_Fix.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(BaseDeconstructable), nameof(BaseDeconstructable.Deconstruct))]
     public static class BaseDeconstructable_Patches
     {
@@ -10,7 +10,7 @@ namespace Base_Deconstruct_Fix.Patches
         {
             if(__instance.recipe == TechType.BaseCorridor || __instance.recipe == TechType.BaseCorridorGlass)
             {
-                switch (__instance.name)
+                switch(__instance.name)
                 {
                     case "BaseCorridorIShape(Clone)":
                         __instance.recipe = TechType.BaseCorridorI;

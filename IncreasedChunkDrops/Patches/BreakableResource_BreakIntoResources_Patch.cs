@@ -1,16 +1,13 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections;
-using UnityEngine;
-using Random = UnityEngine.Random;
-
+﻿namespace IncreasedChunkDrops.Patches
+{
+    using HarmonyLib;
+    using UnityEngine;
+    using Random = UnityEngine.Random;
 #if !SUBNAUTICA_STABLE
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
+    using UnityEngine.AddressableAssets;
+    using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
 
-namespace IncreasedChunkDrops.Patches
-{
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     internal class BreakableResource_BreakIntoResources_Patch
     {
@@ -18,23 +15,23 @@ namespace IncreasedChunkDrops.Patches
         public static void Postfix(BreakableResource __instance)
         {
             Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
-            int extraSpawns = Random.Range(Main.config.ExtraCount, Main.config.ExtraCountMax +1);
-            while (extraSpawns > 0)
+            int extraSpawns = Random.Range(Main.Config.ExtraCount, Main.Config.ExtraCountMax + 1);
+            while(extraSpawns > 0)
             {
 #if SUBNAUTICA_STABLE
                 Rigidbody rigidbody = null;
                 bool flag = false;
-                for (int i = 0; i < __instance.numChances; i++)
+                for(int i = 0; i < __instance.numChances; i++)
                 {
                     GameObject prefab = __instance.ChooseRandomResource();
-                    if (prefab != null)
+                    if(prefab != null)
                     {
                         rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                         flag = true;
                         break;
                     }
                 }
-                if (!flag)
+                if(!flag)
                 {
                     rigidbody = GameObject.Instantiate(__instance.defaultPrefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                 }

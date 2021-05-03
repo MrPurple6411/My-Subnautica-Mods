@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
+﻿#if SN1
 namespace UnobtaniumBatteries.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
     public static class Inventory_Pickup_Patch
     {
@@ -22,3 +22,4 @@ namespace UnobtaniumBatteries.Patches
         }
     }
 }
+#endif

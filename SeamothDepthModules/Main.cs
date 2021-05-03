@@ -1,11 +1,12 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using SMLHelper.V2.Handlers;
-using System;
-using System.Reflection;
-
+﻿#if SN1
 namespace MoreSeamothDepth
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {
@@ -28,7 +29,7 @@ namespace MoreSeamothDepth
                 Console.WriteLine("[MoreSeamothDepth] Succesfully patched!");
             }
 
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine("[MoreSeamothDepth] Caught exception! " + e.InnerException.Message);
                 Console.WriteLine(e.InnerException.StackTrace);
@@ -36,3 +37,4 @@ namespace MoreSeamothDepth
         }
     }
 }
+#endif

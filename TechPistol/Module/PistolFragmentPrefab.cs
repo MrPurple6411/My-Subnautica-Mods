@@ -1,27 +1,23 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UWE;
-using Random = UnityEngine.Random;
+﻿namespace TechPistol.Module
+{
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Utility;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UWE;
 #if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
+    using Sprite = Atlas.Sprite;
 #endif
 
-namespace TechPistol.Module
-{
-    internal class PistolFragmentPrefab : Spawnable
+    internal class PistolFragmentPrefab: Spawnable
     {
 
         private static GameObject processedPrefab;
 
         public PistolFragmentPrefab() : base(
-            "TechPistolFragment", 
-            "Damaged Pistol Fragment", 
+            "TechPistolFragment",
+            "Damaged Pistol Fragment",
             "Incomplete or Broken fragment of an advanced pistol of unknown origins."
             )
         {
@@ -69,7 +65,7 @@ namespace TechPistol.Module
             return biomeDatas;
         }
 
-        public override WorldEntityInfo EntityInfo => new WorldEntityInfo() {cellLevel = LargeWorldEntity.CellLevel.Medium, classId = ClassID, localScale = Vector3.one, prefabZUp = false, slotType = EntitySlot.Type.Small, techType = TechType };
+        public override WorldEntityInfo EntityInfo => new WorldEntityInfo() { cellLevel = LargeWorldEntity.CellLevel.Medium, classId = ClassID, localScale = Vector3.one, prefabZUp = false, slotType = EntitySlot.Type.Small, techType = TechType };
 
         public override GameObject GetGameObject()
         {
@@ -81,12 +77,12 @@ namespace TechPistol.Module
                 prefab.SetActive(false);
 
                 gameObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-                gameObject.transform.localPosition += Vector3.up*2;
+                gameObject.transform.localPosition += Vector3.up * 2;
 
                 Renderer[] componentsInChildren = gameObject.transform.Find("HandGun").gameObject.GetComponentsInChildren<Renderer>();
-                foreach (Renderer renderer in componentsInChildren)
+                foreach(Renderer renderer in componentsInChildren)
                 {
-                    if (renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
+                    if(renderer.name.StartsWith("Gun") || renderer.name.StartsWith("Target"))
                     {
                         Texture emissionMap = renderer.material.GetTexture("_EmissionMap");
                         Texture specMap = renderer.material.GetTexture("_MetallicGlossMap");
@@ -109,16 +105,16 @@ namespace TechPistol.Module
                 GameObject.Destroy(gameObject.GetComponent<VFXFabricating>());
 
                 PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
-                prefabIdentifier.ClassId = this.ClassID;
+                prefabIdentifier.ClassId = ClassID;
                 gameObject.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.VeryFar;
-                gameObject.GetComponent<TechTag>().type = this.TechType;
+                gameObject.GetComponent<TechTag>().type = TechType;
 
                 Pickupable pickupable = gameObject.GetComponent<Pickupable>();
                 pickupable.isPickupable = false;
 
                 ResourceTracker resourceTracker = gameObject.EnsureComponent<ResourceTracker>();
                 resourceTracker.prefabIdentifier = prefabIdentifier;
-                resourceTracker.techType = this.TechType;
+                resourceTracker.techType = TechType;
                 resourceTracker.overrideTechType = TechType.Fragment;
                 resourceTracker.rb = gameObject.GetComponent<Rigidbody>();
                 resourceTracker.pickupable = pickupable;

@@ -1,21 +1,23 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System.Reflection;
-using System.IO;
-using CustomBatteries.API;
-using SMLHelper.V2.Handlers;
-using System.Collections.Generic;
-using System;
-using SMLHelper.V2.Utility;
-using UnityEngine;
-using UnobtaniumBatteries.MonoBehaviours;
-
-#if SN1
-using Sprite = Atlas.Sprite;
-#endif
-
+﻿#if SN1
 namespace UnobtaniumBatteries
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+    using System.IO;
+    using CustomBatteries.API;
+    using SMLHelper.V2.Handlers;
+    using System.Collections.Generic;
+    using System;
+    using SMLHelper.V2.Utility;
+    using UnityEngine;
+    using UnobtaniumBatteries.MonoBehaviours;
+
+#if SN1
+    using Sprite = Atlas.Sprite;
+#endif
+
+
     [QModCore]
     public static class Main
     {
@@ -31,10 +33,7 @@ namespace UnobtaniumBatteries
 
         public static CbBattery UnobtaniumBattery
         {
-            get
-            {
-                return _UnobtaniumBattery;
-            }
+            get => _UnobtaniumBattery;
             private set
             {
                 _UnobtaniumBattery = value;
@@ -43,10 +42,7 @@ namespace UnobtaniumBatteries
         }
         public static CbPowerCell UnobtaniumCell
         {
-            get
-            {
-                return _UnobtaniumCell;
-            }
+            get => _UnobtaniumCell;
             private set
             {
                 _UnobtaniumCell = value;
@@ -79,15 +75,15 @@ namespace UnobtaniumBatteries
             LanguageHandler.SetTechTypeTooltip(TechType.GhostLeviathan, "While the Ghost Leviathan is bigger then a Reaper Leviathan its aggression is territorial in nature, not predatory");
 
             Sprite reaper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "reaper_icon.png"));
-            if (reaper != null)
+            if(reaper != null)
                 SpriteHandler.RegisterSprite(TechType.ReaperLeviathan, reaper);
 
             Sprite ghost = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ghost_icon.png"));
-            if (ghost != null)
+            if(ghost != null)
                 SpriteHandler.RegisterSprite(TechType.GhostLeviathan, ghost);
 
             Sprite warper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "warper_icon.png"));
-            if (warper != null)
+            if(warper != null)
                 SpriteHandler.RegisterSprite(TechType.Warper, warper);
 
             CraftDataHandler.SetItemSize(TechType.ReaperLeviathan, new Vector2int(5, 5));
@@ -152,3 +148,4 @@ namespace UnobtaniumBatteries
         }
     }
 }
+#endif

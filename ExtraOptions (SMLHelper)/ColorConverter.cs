@@ -1,18 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿namespace ExtraOptions
+{
+    using System;
+    using UnityEngine;
 #if SUBNAUTICA_STABLE
-using Oculus.Newtonsoft.Json;
+    using Oculus.Newtonsoft.Json;
 #else
 using Newtonsoft.Json;
 #endif
 
-namespace ExtraOptions
-{
-    public class ColorConverter : JsonConverter
+
+    public class ColorConverter: JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var c = (Color)value;
+            Color c = (Color)value;
             serializer.Serialize(writer, new float[3] { c.r, c.g, c.b });
         }
 
@@ -22,6 +23,9 @@ namespace ExtraOptions
             return new Color(v[0], v[1], v[2]);
         }
 
-        public override bool CanConvert(Type objectType) => objectType == typeof(Color);
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(Color);
+        }
     }
 }

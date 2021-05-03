@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace WarpersNoWarping.Patches
+﻿namespace WarpersNoWarping.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(WarpOut), nameof(WarpOut.Evaluate))]
     public class WarpOut_Evaluate
     {

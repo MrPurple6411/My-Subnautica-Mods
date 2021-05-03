@@ -1,27 +1,26 @@
-﻿using HarmonyLib;
-using System.Collections;
-using System.Reflection;
-using UnityEngine;
-using UWE;
-
-namespace ToolInspection.Patches
+﻿namespace ToolInspection.Patches
 {
+    using HarmonyLib;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     [HarmonyPatch(typeof(QuickSlots), nameof(QuickSlots.UpdateState))]
-    class QuickSlots_UpdateState
+    internal class QuickSlots_UpdateState
     {
-        static float timeCheck = 0;
+        private static float timeCheck = 0;
 
         [HarmonyPrefix]
-        static void Prefix(QuickSlots __instance)
+        private static void Prefix(QuickSlots __instance)
         {
-            if (Input.GetKeyDown(KeyCode.I) && timeCheck == 0)
+            if(Input.GetKeyDown(KeyCode.I) && timeCheck == 0)
             {
                 InventoryItem item = __instance.heldItem;
                 TechType techType = item?.item?.GetTechType() ?? TechType.None;
                 PlayerTool tool = item?.item?.gameObject?.GetComponent<PlayerTool>();
-                if (!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
+                if(!GameOptions.GetVrAnimationMode() && tool != null && tool.hasFirstUseAnimation)
                 {
-                    if (Player.main.usedTools.Contains(techType))
+                    if(Player.main.usedTools.Contains(techType))
                         Player.main.usedTools.Remove(techType);
 
                     int slot = __instance.GetSlotByItem(item);
@@ -35,7 +34,7 @@ namespace ToolInspection.Patches
             }
         }
 
-        static IEnumerator SelectDelay(QuickSlots quickSlots, int slot)
+        private static IEnumerator SelectDelay(QuickSlots quickSlots, int slot)
         {
             while(Time.time < timeCheck)
             {

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
-namespace ImprovedPowerNetwork
+﻿namespace ImprovedPowerNetwork
 {
-    internal class PowerControl : MonoBehaviour, IHandTarget 
+    using System.Collections.Generic;
+    using System.Text;
+    using UnityEngine;
+
+    internal class PowerControl: MonoBehaviour, IHandTarget
     {
         public PowerRelay powerRelay;
         public Constructable constructable;
@@ -22,14 +21,15 @@ namespace ImprovedPowerNetwork
 
         public void OnHandClick(GUIHand hand)
         {
-            if (!hand.IsTool())
+            if(!hand.IsTool())
             {
                 powerRelay.dontConnectToRelays = !powerRelay.dontConnectToRelays;
-                if (powerRelay.dontConnectToRelays)
+                if(powerRelay.dontConnectToRelays)
                 {
                     baseInboundRelay.dontConnectToRelays = powerRelay.dontConnectToRelays;
                     baseInboundRelay.DisconnectFromRelay();
-                    otherConnectionRelays.ForEach((x) => {
+                    otherConnectionRelays.ForEach((x) =>
+                    {
                         x.dontConnectToRelays = powerRelay.dontConnectToRelays;
                         x.DisconnectFromRelay();
                     });
@@ -38,7 +38,8 @@ namespace ImprovedPowerNetwork
                 {
                     baseInboundRelay.dontConnectToRelays = baseConnectionsDisabled;
                     baseInboundRelay.DisconnectFromRelay();
-                    otherConnectionRelays.ForEach((x) => {
+                    otherConnectionRelays.ForEach((x) =>
+                    {
                         x.dontConnectToRelays = otherConnectionsDisabled;
                         x.DisconnectFromRelay();
                     });
@@ -50,7 +51,7 @@ namespace ImprovedPowerNetwork
 
         public void OnHandHover(GUIHand hand)
         {
-            if (!hand.IsTool())
+            if(!hand.IsTool())
             {
                 StringBuilder stringBuilder = new StringBuilder();
 
@@ -70,10 +71,11 @@ namespace ImprovedPowerNetwork
                 HandReticle.main.SetText(HandReticle.TextType.HandSubscript, stringBuilder2.ToString(), false);
 #endif
 
-                if (GameInput.GetButtonDown(GameInput.Button.Deconstruct) && !powerRelay.dontConnectToRelays)
+                if(GameInput.GetButtonDown(GameInput.Button.Deconstruct) && !powerRelay.dontConnectToRelays)
                 {
                     otherConnectionsDisabled = !otherConnectionsDisabled;
-                    otherConnectionRelays.ForEach((x) => {
+                    otherConnectionRelays.ForEach((x) =>
+                    {
                         x.dontConnectToRelays = otherConnectionsDisabled;
                         x.DisconnectFromRelay();
                     });
@@ -85,14 +87,14 @@ namespace ImprovedPowerNetwork
         public void Start()
         {
             powerRelay = gameObject.GetComponent<PowerRelay>();
-            powerRelay.maxOutboundDistance = Main.config.BlueBeamRange;
+            powerRelay.maxOutboundDistance = Main.Config.BlueBeamRange;
             constructable = gameObject.GetComponent<Constructable>();
 
             vehicle = gameObject.GetComponentInParent<Vehicle>();
             subRoot = gameObject.GetComponentInParent<SubRoot>();
-            if (subRoot != null)
+            if(subRoot != null)
             {
-                if (!subRoot.name.Contains("Cyclops"))
+                if(!subRoot.name.Contains("Cyclops"))
                 {
                     baseConnectionsDisabled = false;
                 }
@@ -102,31 +104,33 @@ namespace ImprovedPowerNetwork
 #endif
 
 
-            if ((vehicle != null || subRoot != null
+            if((vehicle != null || subRoot != null
 #if BZ
                 || truckSegment != null
 #endif
                 ) && gameObject.TryGetComponent(out Rigidbody rigidbody))
+            {
                 GameObject.Destroy(rigidbody);
+            }
         }
 
         public void LateUpdate()
         {
 #if SN1
-            if (subRoot != null && subRoot.name.Contains("Cyclops") && GameModeUtils.RequiresPower())
+            if(subRoot != null && subRoot.name.Contains("Cyclops") && GameModeUtils.RequiresPower())
             {
-                float chargeNeeded = (subRoot.powerRelay.GetMaxPower() - subRoot.powerRelay.GetPower());
+                float chargeNeeded = subRoot.powerRelay.GetMaxPower() - subRoot.powerRelay.GetPower();
                 subRoot.powerRelay.AddEnergy(chargeNeeded, out float amountStored);
                 powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
 
-                if (amountStored > amountConsumed)
+                if(amountStored > amountConsumed)
                     subRoot.powerRelay.ConsumeEnergy(amountStored - amountConsumed, out _);
             }
 
 #elif BZ
             if(truckSegment?.relay != null && GameModeUtils.RequiresPower())
             {
-                float chargeNeeded = (truckSegment.relay.GetMaxPower() - truckSegment.relay.GetPower());
+                float chargeNeeded = truckSegment.relay.GetMaxPower() - truckSegment.relay.GetPower();
                 truckSegment.relay.AddEnergy(chargeNeeded, out float amountStored);
                 powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
 
@@ -134,32 +138,32 @@ namespace ImprovedPowerNetwork
                     truckSegment.relay.ConsumeEnergy(amountStored - amountConsumed, out _);
             }
 #endif
-            if (vehicle?.energyInterface != null && GameModeUtils.RequiresPower())
+            if(vehicle?.energyInterface != null && GameModeUtils.RequiresPower())
             {
                 vehicle.energyInterface.GetValues(out float charge, out float capacity);
-                float chargeNeeded = (capacity - charge);
+                float chargeNeeded = capacity - charge;
                 float amountStored = vehicle.energyInterface.AddEnergy(chargeNeeded);
                 powerRelay.GetEndpoint().ConsumeEnergy(amountStored, out float amountConsumed);
 
-                if (amountStored > amountConsumed)
+                if(amountStored > amountConsumed)
                     vehicle.energyInterface.ConsumeEnergy(amountStored - amountConsumed);
             }
 
 
-            powerRelay.maxOutboundDistance = Main.config.BlueBeamRange;
+            powerRelay.maxOutboundDistance = Main.Config.BlueBeamRange;
 
-            if (powerRelay.outboundRelay != null)
+            if(powerRelay.outboundRelay != null)
             {
                 Vector3 position1 = powerRelay.GetConnectPoint(powerRelay.outboundRelay.GetConnectPoint(powerRelay.GetConnectPoint(powerRelay.outboundRelay.GetConnectPoint())));
                 Vector3 position2 = powerRelay.outboundRelay.GetConnectPoint(position1);
 
-                if (Vector3.Distance(position1, position2) > powerRelay.maxOutboundDistance)
+                if(Vector3.Distance(position1, position2) > powerRelay.maxOutboundDistance)
                 {
                     powerRelay.DisconnectFromRelay();
                     return;
                 }
 
-                if (Main.config.LOSBlue && Physics.Linecast(position1, position2, Voxeland.GetTerrainLayerMask()))
+                if(Main.Config.LOSBlue && Physics.Linecast(position1, position2, Voxeland.GetTerrainLayerMask()))
                 {
                     powerRelay.DisconnectFromRelay();
                     return;
@@ -171,7 +175,7 @@ namespace ImprovedPowerNetwork
             }
 
             GameObject target = powerRelay?.powerFX?.target;
-            if (target != null)
+            if(target != null)
             {
                 powerRelay.powerFX.SetTarget(target);
             }
@@ -179,15 +183,15 @@ namespace ImprovedPowerNetwork
 
             bool openOtherConnector = false;
 
-            foreach (OtherConnectionRelay otherConnectionRelay in otherConnectionRelays)
+            foreach(OtherConnectionRelay otherConnectionRelay in otherConnectionRelays)
             {
-                if (otherConnectionRelay.outboundRelay == null)
+                if(otherConnectionRelay.outboundRelay == null)
                 {
                     openOtherConnector = true;
                 }
             }
 
-            if (!openOtherConnector)
+            if(!openOtherConnector)
             {
                 OtherConnectionRelay.AddNewOtherConnectionRelay(powerRelay, this);
             }
@@ -200,9 +204,9 @@ namespace ImprovedPowerNetwork
 
         public void OnDisable()
         {
-            if (!constructable?.constructed ?? false)
+            if(!constructable?.constructed ?? false)
             {
-                if (powerRelay?.outboundRelay != null)
+                if(powerRelay?.outboundRelay != null)
                 {
                     powerRelay.outboundRelay.RemoveInboundPower(powerRelay);
                     powerRelay.outboundRelay = null;
@@ -216,7 +220,7 @@ namespace ImprovedPowerNetwork
 
         public void OnEnable()
         {
-            if (constructable?.constructed ?? false)
+            if(constructable?.constructed ?? false)
             {
                 PowerRelay.MarkRelaySystemDirty();
             }

@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System.Reflection;
-
-namespace Base_Deconstruct_Fix
+﻿namespace Base_Deconstruct_Fix
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

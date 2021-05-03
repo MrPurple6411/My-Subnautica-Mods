@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
-using PowerOrder.Configuration;
-using QModManager.API.ModLoading;
-using QModManager.Utility;
-using SMLHelper.V2.Handlers;
-using System.Reflection;
-
-namespace PowerOrder
+﻿namespace PowerOrder
 {
+    using HarmonyLib;
+    using PowerOrder.Configuration;
+    using QModManager.API.ModLoading;
+    using QModManager.Utility;
+    using SMLHelper.V2.Handlers;
+    using System.Reflection;
+
     [QModCore]
     public partial class Main
     {

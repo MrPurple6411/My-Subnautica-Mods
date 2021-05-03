@@ -1,27 +1,27 @@
-﻿using FCS_AlterraHub.Interfaces;
-using QModManager.API;
-using System.Collections;
-using UnityEngine;
-using UWE;
-
-namespace AquariumOverflow
+﻿namespace AquariumOverflow
 {
+    using FCS_AlterraHub.Interfaces;
+    using QModManager.API;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     public static class AGCompat
     {
         public static bool TryOverflowIntoAlterraGens(SubRoot subRoot, TechType fishType, ref int breedCount)
         {
             IFCSStorage[] AlterraGens = subRoot?.gameObject?.GetComponentsInChildren<IFCSStorage>() ?? new IFCSStorage[0];
 
-            if (AlterraGens.Length == 0)
+            if(AlterraGens.Length == 0)
                 return breedCount > 0;
 
             int failCount = 0;
 
             while(failCount < AlterraGens.Length && breedCount > 0)
             {
-                foreach (IFCSStorage storage in AlterraGens)
+                foreach(IFCSStorage storage in AlterraGens)
                 {
-                    if (breedCount > 0 && storage.GetType().Name.Contains("AlterraGen") && storage.CanBeStored(1, fishType))
+                    if(breedCount > 0 && storage.GetType().Name.Contains("AlterraGen") && storage.CanBeStored(1, fishType))
                     {
                         CoroutineHost.StartCoroutine(AddItemToAlterraGen(subRoot, fishType, storage));
                         breedCount--;
@@ -47,18 +47,18 @@ namespace AquariumOverflow
             prefab.SetActive(false);
 
             int breedCount = 1;
-            if (!container.CanBeStored(breedCount, fishType))
+            if(!container.CanBeStored(breedCount, fishType))
             {
-                if (QModServices.Main.ModPresent("CyclopsBioReactor"))
+                if(QModServices.Main.ModPresent("CyclopsBioReactor"))
                     CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);
 
-                if (breedCount > 0)
+                if(breedCount > 0)
                     Main.TryOverflowIntoBioreactors(subRoot, fishType, ref breedCount);
 
                 yield break;
             }
 
-            if (breedCount == 0)
+            if(breedCount == 0)
                 yield break;
 
             GameObject gameObject = GameObject.Instantiate(prefab);

@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
-
-namespace ExtraOptions.Patches
+﻿namespace ExtraOptions.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(WaterscapeVolume), nameof(WaterscapeVolume.RenderImage))]
     public static class WaterscapeVolume_Patches
     {
         [HarmonyPrefix]
         public static void Patch_RenderImage(ref bool cameraInside)
         {
-            if (Main.config.FogFix)
+            if(Main.Config.FogFix)
                 cameraInside = false;
         }
     }
@@ -19,10 +19,7 @@ namespace ExtraOptions.Patches
         [HarmonyPrefix]
         public static void Prefix(WaterscapeVolume __instance)
         {
-            if(Main.config.ClearSurface)
-                __instance.aboveWaterDensityScale = 1f;
-            else
-                __instance.aboveWaterDensityScale = 10f;
+            __instance.aboveWaterDensityScale = Main.Config.ClearSurface ? 1f : 10f;
 
         }
     }

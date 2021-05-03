@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace TechPistol.Patches
+﻿namespace TechPistol.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnPilotModeBegin))]
     public static class Vehicle_OnPilotModeBegin_Patches
     {

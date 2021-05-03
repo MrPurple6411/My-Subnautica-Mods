@@ -1,36 +1,35 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace PersistentCommands.Patches
+﻿namespace PersistentCommands.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
     public static class Player_Awake_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-            if (Main.config.NoAggression)
+            if(Main.Config.NoAggression)
                 GameModeUtils.ActivateCheat(GameModeOption.NoAggression);
 
-            if (Main.config.NoBlueprints)
+            if(Main.Config.NoBlueprints)
                 GameModeUtils.ActivateCheat(GameModeOption.NoBlueprints);
 
-            if (Main.config.NoCost)
+            if(Main.Config.NoCost)
                 GameModeUtils.ActivateCheat(GameModeOption.NoCost);
 
-            if (Main.config.NoEnergy)
+            if(Main.Config.NoEnergy)
                 GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
 
-            if (Main.config.NoOxygen)
+            if(Main.Config.NoOxygen)
                 GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
 
-            if (Main.config.NoPressure)
+            if(Main.Config.NoPressure)
                 GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
 
-            if (Main.config.NoRadiation)
+            if(Main.Config.NoRadiation)
                 GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
 #if BZ
-            if (Main.config.NoCold)
+            if (Main.Config.NoCold)
                 GameModeUtils.ActivateCheat(GameModeOption.NoCold);
 #endif
 

@@ -1,8 +1,7 @@
 ﻿#if BZ
-using HarmonyLib;
-
 namespace BuildingTweaks.Patches
 {
+    using HarmonyLib;
 
     [HarmonyPatch(typeof(PowerConsumer), nameof(PowerConsumer.IsPowered))]
     public static class PowerConsumer_IsPowered_Patch

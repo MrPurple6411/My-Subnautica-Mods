@@ -1,8 +1,8 @@
-﻿using System;
-using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+    using System;
+
     [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Scan), new Type[] { })]
     public class PDAScanner_Scan
     {
@@ -10,7 +10,7 @@ namespace UnKnownName.Patches
         [HarmonyPrefix]
         public static void Prefix()
         {
-            if (PDAScanner.scanTarget.techType != TechType.None)
+            if(PDAScanner.scanTarget.techType != TechType.None)
             {
                 techType = PDAScanner.scanTarget.techType;
             }
@@ -19,7 +19,7 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if (PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
+            if(PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
             {
                 if(techType == TechType.ScrapMetal && !KnownTech.Contains(TechType.Titanium))
                 {
@@ -33,12 +33,12 @@ namespace UnKnownName.Patches
                 }
 
                 PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
-                
-                if (entryData != null && entryData.locked)
+
+                if(entryData != null && entryData.locked)
                 {
                     PDAScanner.Unlock(entryData, true, true, true);
 
-                    if (!KnownTech.Contains(entryData.blueprint))
+                    if(!KnownTech.Contains(entryData.blueprint))
                     {
                         KnownTech.Add(entryData.blueprint);
                     }
@@ -48,19 +48,19 @@ namespace UnKnownName.Patches
 #elif BZ
                 TechType techType2 = TechData.GetHarvestOutput(techType);
 #endif
-                if (techType2 != TechType.None)
+                if(techType2 != TechType.None)
                 {
-                    if (!KnownTech.Contains(techType2))
+                    if(!KnownTech.Contains(techType2))
                     {
                         KnownTech.Add(techType2);
                     }
 
                     PDAScanner.EntryData entryData2 = PDAScanner.GetEntryData(techType2);
-                    if (entryData2 != null && entryData2.locked)
+                    if(entryData2 != null && entryData2.locked)
                     {
                         PDAScanner.Unlock(entryData, true, true, true);
 
-                        if (!KnownTech.Contains(entryData2.blueprint))
+                        if(!KnownTech.Contains(entryData2.blueprint))
                         {
                             KnownTech.Add(entryData2.blueprint);
                         }

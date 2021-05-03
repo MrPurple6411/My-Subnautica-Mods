@@ -1,11 +1,11 @@
-﻿using CyclopsBioReactor;
-using QModManager.API;
-using System.Collections;
-using UnityEngine;
-using UWE;
-
-namespace AquariumOverflow
+﻿namespace AquariumOverflow
 {
+    using CyclopsBioReactor;
+    using QModManager.API;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
     public static class CBRCompat
     {
         public static bool TryOverflowIntoCyclopsBioreactors(SubRoot subRoot, TechType fishType, ref int breedCount)
@@ -15,13 +15,18 @@ namespace AquariumOverflow
             if(cyBioReactors.Length == 0)
                 return breedCount > 0;
 
-            Vector2int sizePerFish = CraftData.GetItemSize(fishType);
+            Vector2int sizePerFish =
+#if SN1
+                CraftData.GetItemSize(fishType);
+#else
+                TechData.GetItemSize(fishType);
+#endif
             int failCount = 0;
-            while (failCount < cyBioReactors.Length && breedCount > 0)
+            while(failCount < cyBioReactors.Length && breedCount > 0)
             {
-                foreach (CyBioReactorMono reactor in cyBioReactors)
+                foreach(CyBioReactorMono reactor in cyBioReactors)
                 {
-                    if (breedCount > 0 && reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
+                    if(breedCount > 0 && reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
                     {
                         CoroutineHost.StartCoroutine(AddToReactor(subRoot, fishType, sizePerFish, reactor));
                         breedCount--;
@@ -31,7 +36,7 @@ namespace AquariumOverflow
                         failCount++;
                     }
                 }
-                if (failCount < cyBioReactors.Length)
+                if(failCount < cyBioReactors.Length)
                     failCount = 0;
             }
             return breedCount > 0;
@@ -45,14 +50,14 @@ namespace AquariumOverflow
             GameObject prefab = task.GetResult();
             prefab.SetActive(false);
 
-            if (!reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
+            if(!reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
             {
                 int breedCount = 1;
 
-                if (QModServices.Main.ModPresent("FCSEnergySolutions"))
+                if(QModServices.Main.ModPresent("FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
 
-                if (breedCount > 0)
+                if(breedCount > 0)
                     Main.TryOverflowIntoBioreactors(subRoot, fishType, ref breedCount);
 
                 yield break;

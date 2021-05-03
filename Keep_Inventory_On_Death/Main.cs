@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System.Reflection;
-
-namespace Keep_Inventory_On_Death
+﻿namespace Keep_Inventory_On_Death
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

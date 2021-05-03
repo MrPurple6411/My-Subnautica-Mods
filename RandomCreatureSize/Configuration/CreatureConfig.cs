@@ -1,13 +1,9 @@
-﻿using SMLHelper.V2.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RandomCreatureSize.Configuration
+﻿namespace RandomCreatureSize.Configuration
 {
-    internal class CreatureConfig : ConfigFile
+    using SMLHelper.V2.Json;
+    using System.Collections.Generic;
+
+    internal class CreatureConfig: ConfigFile
     {
         public CreatureConfig() : base("CreatureConfig")
         {

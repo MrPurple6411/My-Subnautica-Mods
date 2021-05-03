@@ -1,15 +1,15 @@
-﻿using System.Reflection;
-using BuildingTweaks.Configuration;
-using HarmonyLib;
-using QModManager.API.ModLoading;
-using SMLHelper.V2.Handlers;
-
-namespace BuildingTweaks
+﻿namespace BuildingTweaks
 {
+    using BuildingTweaks.Configuration;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()

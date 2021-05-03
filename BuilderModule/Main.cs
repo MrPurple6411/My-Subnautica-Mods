@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using BuilderModule.Module;
-using HarmonyLib;
-using QModManager.API.ModLoading;
-
-namespace BuilderModule
+﻿namespace BuilderModule
 {
+    using BuilderModule.Module;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

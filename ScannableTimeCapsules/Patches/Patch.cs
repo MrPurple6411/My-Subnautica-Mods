@@ -1,13 +1,9 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
+﻿#if SN1
 namespace ScannableTimeCapsules.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(TimeCapsule))]
     public static class TimeCapsule_Patches
     {
@@ -37,3 +33,4 @@ namespace ScannableTimeCapsules.Patches
         }
     }
 }
+#endif

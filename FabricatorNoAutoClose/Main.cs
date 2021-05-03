@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System.Reflection;
-
-namespace FabricatorNoAutoClose
+﻿namespace FabricatorNoAutoClose
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

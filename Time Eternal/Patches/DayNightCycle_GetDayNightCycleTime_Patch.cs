@@ -1,21 +1,21 @@
-﻿using HarmonyLib;
-
-namespace Time_Eternal.Patches
+﻿namespace Time_Eternal.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(DayNightCycle), nameof(DayNightCycle.GetDayNightCycleTime))]
     internal class DayNightCycle_GetDayNightCycleTime_Patch
     {
         [HarmonyPrefix]
         private static bool Prefix(DayNightCycle __instance)
         {
-            if (Main.config.freezeTimeChoice == 1)
+            if(Main.Config.freezeTimeChoice == 1)
             {
                 //always day
                 __instance.sunRiseTime = -1000.0f;
                 __instance.sunSetTime = 1000.0f;
                 return true;
             }
-            else if (Main.config.freezeTimeChoice == 2)
+            else if(Main.Config.freezeTimeChoice == 2)
             {
                 //always night
                 __instance.sunRiseTime = 1000.0f;

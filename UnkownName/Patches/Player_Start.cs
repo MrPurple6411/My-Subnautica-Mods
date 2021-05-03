@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Player), nameof(Player.Start))]
     public class Player_Start
     {
         [HarmonyPrefix]
         public static void Prefix()
         {
-            Main.config.Load();
+            Main.Config.Load();
         }
     }
 

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using UnityEngine;
-
+﻿#if SN1
 namespace MoreSeamothDepth.Modules
 {
-    public class SeamothHullModule5 : Equipable
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class SeamothHullModule5: Equipable
     {
         public SeamothHullModule5() : base(
             classId: "SeamothHullModule5",
@@ -31,13 +32,13 @@ namespace MoreSeamothDepth.Modules
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            var path = "WorldEntities/Tools/SeamothElectricalDefense";
-            var prefab = Resources.Load<GameObject>(path);
-            var obj = GameObject.Instantiate(prefab);
+            string path = "WorldEntities/Tools/SeamothElectricalDefense";
+            GameObject prefab = Resources.Load<GameObject>(path);
+            GameObject obj = GameObject.Instantiate(prefab);
 
             // Get the TechTags and PrefabIdentifiers
-            var techTag = obj.GetComponent<TechTag>();
-            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+            TechTag techTag = obj.GetComponent<TechTag>();
+            PrefabIdentifier prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
             // Change them so they fit to our requirements.
             techTag.type = TechType;
@@ -45,7 +46,6 @@ namespace MoreSeamothDepth.Modules
 
             return obj;
         }
-#if SN1
         protected override TechData GetBlueprintRecipe()
         {
             return new TechData()
@@ -66,27 +66,6 @@ namespace MoreSeamothDepth.Modules
         {
             return SpriteManager.Get(TechType.VehicleHullModule3);
         }
-#elif BZ
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return new RecipeData()
-            {
-                Ingredients = new List<Ingredient>()
-                {
-                    new Ingredient(Main.moduleMK4.TechType, 1),
-                    new Ingredient(TechType.Titanium, 5),
-                    new Ingredient(TechType.Lithium, 2),
-                    new Ingredient(TechType.Kyanite, 4),
-                    new Ingredient(TechType.Aerogel, 2)
-                },
-                craftAmount = 1
-            };
-        }
-
-        protected override Sprite GetItemSprite()
-        {
-            return SpriteManager.Get(TechType.VehicleHullModule3);
-        }
-#endif
     }
 }
+#endif

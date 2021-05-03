@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using HarmonyLib;
-using UnityEngine;
-using Logger = QModManager.Utility.Logger;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection.Emit;
+    using UnityEngine;
+    using Logger = QModManager.Utility.Logger;
+
     [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
     internal class BaseGhost_Finish_Patch
     {
@@ -19,13 +19,13 @@ namespace BuildingTweaks.Patches
             List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
             bool found = false;
 
-            for (int i = 0; i < instructions.Count() - 2; i++)
+            for(int i = 0; i < instructions.Count() - 2; i++)
             {
                 CodeInstruction currentInstruction = codeInstructions[i];
                 CodeInstruction secondInstruction = codeInstructions[i + 1];
                 CodeInstruction thirdInstruction = codeInstructions[i + 2];
 
-                if (currentInstruction.opcode == OpCodes.Callvirt 
+                if(currentInstruction.opcode == OpCodes.Callvirt
                     && secondInstruction.opcode == OpCodes.Call
 #if SN1
                     && thirdInstruction.opcode == OpCodes.Stloc_2)
@@ -41,7 +41,7 @@ namespace BuildingTweaks.Patches
                 continue;
             }
 
-            if (found is false)
+            if(found is false)
                 Logger.Log(Logger.Level.Error, $"Cannot find patch location in BaseGhost.Finish");
             else
                 Logger.Log(Logger.Level.Info, "Transpiler for BaseGhost.Finish completed");
@@ -57,9 +57,9 @@ namespace BuildingTweaks.Patches
         }
 
         [HarmonyPostfix]
-        public static void Postfix(BaseGhost __instance)
+        public static void Postfix()
         {
-            if (gameObject != null && parentObject != null)
+            if(gameObject != null && parentObject != null)
             {
                 gameObject.transform.SetParent(parentObject.transform);
             }

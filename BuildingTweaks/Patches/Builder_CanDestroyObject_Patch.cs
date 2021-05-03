@@ -1,23 +1,23 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
-    [HarmonyPatch(typeof(Builder),nameof(Builder.CanDestroyObject))]
+    using HarmonyLib;
+    using UnityEngine;
+
+    [HarmonyPatch(typeof(Builder), nameof(Builder.CanDestroyObject))]
     public static class Builder_CanDestroyObject_Patch
     {
         [HarmonyPostfix]
         public static void Postfix(GameObject go, ref bool __result)
         {
-            if (__result)
+            if(__result)
             {
-                if (go.GetComponentInParent<Creature>() != null)
+                if(go.GetComponentInParent<Creature>() != null)
                 {
                     __result = false;
                     return;
                 }
-                
-                if (go.GetComponentInParent<BaseGhost>() != null)
+
+                if(go.GetComponentInParent<BaseGhost>() != null)
                 {
                     __result = false;
                     return;

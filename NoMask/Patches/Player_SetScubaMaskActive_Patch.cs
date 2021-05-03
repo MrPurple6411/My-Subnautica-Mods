@@ -1,12 +1,7 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoMask.Patches
+﻿namespace NoMask.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Player), nameof(Player.SetScubaMaskActive))]
     public static class Player_SetScubaMaskActive_Patch
     {

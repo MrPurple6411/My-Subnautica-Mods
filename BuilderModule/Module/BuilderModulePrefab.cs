@@ -1,21 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
-using UnityEngine;
+﻿namespace BuilderModule.Module
+{
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using SMLHelper.V2.Utility;
+    using UnityEngine;
 
 #if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
 #endif
 
 
-namespace BuilderModule.Module
-{
-    internal class BuilderModulePrefab : Equipable
+    internal class BuilderModulePrefab: Equipable
     {
         public BuilderModulePrefab() : base("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.")
         {
@@ -23,7 +23,7 @@ namespace BuilderModule.Module
 
         public override EquipmentType EquipmentType => EquipmentType.VehicleModule;
 
-        public override Vector2int SizeInInventory => new Vector2int(1,1);
+        public override Vector2int SizeInInventory => new Vector2int(1, 1);
 
         public override TechType RequiredForUnlock => TechType.BaseUpgradeConsole;
 
@@ -46,7 +46,8 @@ namespace BuilderModule.Module
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.SeamothSonarModule, false);
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
+
             yield return task;
             GameObject gameObject1 = GameObject.Instantiate(task.GetResult());
             gameObject.Set(gameObject1);

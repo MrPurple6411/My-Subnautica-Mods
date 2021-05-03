@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using UnityEngine;
-using UWE;
-
+﻿#if BZ
 namespace DropUpgradesOnDestroy.Patches
 {
-#if BZ
+    using HarmonyLib;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(SeaTruckSegment), nameof(SeaTruckSegment.OnKill))]
     public class SeaTruckSegment_OnKill
     {
@@ -25,5 +24,5 @@ namespace DropUpgradesOnDestroy.Patches
             }
         }
     }
-#endif
 }
+#endif

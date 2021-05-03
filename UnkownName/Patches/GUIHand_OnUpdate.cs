@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(GUIHand), nameof(GUIHand.OnUpdate))]
     public class GUIHand_OnUpdate
     {
@@ -13,14 +13,14 @@ namespace UnKnownName.Patches
             TechType key = entryData?.key ?? TechType.None;
             TechType blueprint = entryData?.blueprint ?? TechType.None;
 
-            if (scanTarget.techType != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint)) || (key != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints())
+            if(scanTarget.techType != TechType.None && (CrafterLogic.IsCraftRecipeUnlocked(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint)) || (key != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints()))
             {
                 return;
             }
 #if SN1
-            HandReticle.main.SetInteractText(Main.config.UnKnownLabel, false, HandReticle.Hand.None);
+            HandReticle.main.SetInteractText(Main.Config.UnKnownLabel, false, HandReticle.Hand.None);
 #elif BZ
-            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.config.UnKnownLabel, true, GameInput.Button.None);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }
     }

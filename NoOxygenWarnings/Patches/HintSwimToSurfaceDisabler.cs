@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace NoOxygenWarnings.Patches
+﻿namespace NoOxygenWarnings.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(HintSwimToSurface), nameof(HintSwimToSurface.ShouldShowWarning))]
     internal class HintSwimToSurfaceDisabler
     {

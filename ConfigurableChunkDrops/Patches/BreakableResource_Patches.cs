@@ -1,13 +1,8 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UWE;
-
-namespace ConfigurableChunkDrops.Patches
+﻿namespace ConfigurableChunkDrops.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_ChooseRandomResource
     {
@@ -18,7 +13,7 @@ namespace ConfigurableChunkDrops.Patches
         {
             TechType Breakable = CraftData.GetTechType(__instance.gameObject);
 
-            if (prefabs.TryGetValue(Breakable, out List<BreakableResource.RandomPrefab> randomPrefabs))
+            if(prefabs.TryGetValue(Breakable, out List<BreakableResource.RandomPrefab> randomPrefabs))
             {
                 __instance.prefabList = randomPrefabs;
                 return;

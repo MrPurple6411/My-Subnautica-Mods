@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using UnityEngine;
-
-namespace SeamothThermal.Modules
+﻿namespace SeamothThermal.Modules
 {
-    public class SeamothThermalModule : Equipable
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class SeamothThermalModule: Equipable
     {
         public SeamothThermalModule() : base(
             "SeamothThermalModule",
@@ -31,13 +31,13 @@ namespace SeamothThermal.Modules
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            var path = "WorldEntities/Tools/SeamothElectricalDefense";
-            var prefab = Resources.Load<GameObject>(path);
-            var obj = GameObject.Instantiate(prefab);
+            string path = "WorldEntities/Tools/SeamothElectricalDefense";
+            GameObject prefab = Resources.Load<GameObject>(path);
+            GameObject obj = GameObject.Instantiate(prefab);
 
             // Get the TechTags and PrefabIdentifiers
-            var techTag = obj.GetComponent<TechTag>();
-            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+            TechTag techTag = obj.GetComponent<TechTag>();
+            PrefabIdentifier prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
             // Change them so they fit to our requirements.
             techTag.type = TechType;

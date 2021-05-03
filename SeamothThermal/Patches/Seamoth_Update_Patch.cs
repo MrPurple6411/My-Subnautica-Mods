@@ -1,27 +1,28 @@
-﻿using HarmonyLib;
-using System.Reflection;
-using UnityEngine;
-
+﻿#if SN1
 namespace SeamothThermal.Patches
 {
+    using HarmonyLib;
+    using System.Reflection;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update))]
     public class Seamoth_Update_Patch
     {
         // Reflection Method: AddEnergy
-        static MethodInfo AddEnergyMethod = 
+        private static MethodInfo AddEnergyMethod =
             typeof(Vehicle).GetMethod("AddEnergy", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        static AnimationCurve ExosuitThermalReactorCharge { get; } = Resources.Load<GameObject>("WorldEntities/Tools/Exosuit").GetComponent<Exosuit>().thermalReactorCharge;
+        private static AnimationCurve ExosuitThermalReactorCharge { get; } = Resources.Load<GameObject>("WorldEntities/Tools/Exosuit").GetComponent<Exosuit>().thermalReactorCharge;
 
-        static void Prefix(SeaMoth __instance)
+        private static void Prefix(SeaMoth __instance)
         {
             // If we have the SeamothThermalModule equipped.
-            var count = __instance.modules.GetCount(Main.thermalModule.TechType);
-            if (count > 0)
+            int count = __instance.modules.GetCount(Main.thermalModule.TechType);
+            if(count > 0)
             {
                 // Evaluate the energy to add based on temperature
-                var temperature = __instance.GetTemperature();
-                var energyToAdd = ExosuitThermalReactorCharge.Evaluate(temperature);
+                float temperature = __instance.GetTemperature();
+                float energyToAdd = ExosuitThermalReactorCharge.Evaluate(temperature);
 
                 // Add the energy by invoking private method using Reflection.
                 AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime });
@@ -29,3 +30,4 @@ namespace SeamothThermal.Patches
         }
     }
 }
+#endif

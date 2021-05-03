@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(ScannerTool), nameof(ScannerTool.OnHover))]
     public class ScannerTool_OnHover
     {
@@ -16,14 +16,14 @@ namespace UnKnownName.Patches
 #endif
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
-            if ((entryData != null && (CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint) || CrafterLogic.IsCraftRecipeUnlocked(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
+            if((entryData != null && (CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint) || CrafterLogic.IsCraftRecipeUnlocked(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan || !GameModeUtils.RequiresBlueprints())
             {
                 return;
             }
 #if SN1
-            HandReticle.main.SetInteractText(Main.config.UnKnownLabel, false, HandReticle.Hand.None);
+            HandReticle.main.SetInteractText(Main.Config.UnKnownLabel, false, HandReticle.Hand.None);
 #elif BZ
-            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.config.UnKnownLabel, true, GameInput.Button.None);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true, GameInput.Button.None);
 #endif
         }
 

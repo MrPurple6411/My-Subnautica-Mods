@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
-using UnityEngine;
-
-namespace CustomPosters.Poster
+﻿namespace CustomPosters.Poster
 {
-    public class BasicPostersPrefab : Equipable
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using SMLHelper.V2.Utility;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class BasicPostersPrefab: Equipable
     {
         private readonly Texture2D posterIcon;
         private readonly Texture2D posterTexture;
@@ -41,7 +41,7 @@ namespace CustomPosters.Poster
 
 
             GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
-            _GameObject.name = this.ClassID;
+            _GameObject.name = ClassID;
 
             Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
             material.SetTexture("_MainTex", posterTexture);
@@ -59,7 +59,7 @@ namespace CustomPosters.Poster
             yield return task;
 
             GameObject _GameObject = GameObject.Instantiate(task.GetResult());
-            _GameObject.name = this.ClassID;
+            _GameObject.name = ClassID;
 
             Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
             material.SetTexture("_MainTex", posterTexture);

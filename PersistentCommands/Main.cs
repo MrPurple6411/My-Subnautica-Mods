@@ -1,15 +1,15 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using PersistentCommands.Configuration;
-using SMLHelper.V2.Handlers;
-using System.Reflection;
-
-namespace PersistentCommands
+﻿namespace PersistentCommands
 {
+    using HarmonyLib;
+    using PersistentCommands.Configuration;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {
-        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
         [QModPatch]

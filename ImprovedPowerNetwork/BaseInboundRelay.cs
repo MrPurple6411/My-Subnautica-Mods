@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-
-namespace ImprovedPowerNetwork
+﻿namespace ImprovedPowerNetwork
 {
-    public class BaseInboundRelay : PowerRelay
+    using UnityEngine;
+
+    public class BaseInboundRelay: PowerRelay
     {
         internal static BaseInboundRelay AddNewBaseConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
@@ -14,7 +11,7 @@ namespace ImprovedPowerNetwork
             additionalRelay.maxOutboundDistance = 10000;
             additionalRelay.constructable = originalRelay.constructable;
 
-            if (originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
+            if(originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
             {
                 BaseInboundRelayPowerFX powerFX = originalRelay.gameObject.AddComponent<BaseInboundRelayPowerFX>();
                 powerFX.attachPoint = originalRelay.powerFX.attachPoint;
@@ -32,7 +29,7 @@ namespace ImprovedPowerNetwork
 
         public void LateUpdate()
         {
-            if (outboundRelay is null && (constructable?.constructed ?? false))
+            if(outboundRelay is null && (constructable?.constructed ?? false))
             {
                 UpdateConnection();
             }
@@ -40,7 +37,7 @@ namespace ImprovedPowerNetwork
 
         public void OnEnable()
         {
-            if (constructable?.constructed ?? false)
+            if(constructable?.constructed ?? false)
             {
                 PowerRelay.MarkRelaySystemDirty();
             }
@@ -48,7 +45,7 @@ namespace ImprovedPowerNetwork
 
         public void OnDisable()
         {
-            if (outboundRelay != null)
+            if(outboundRelay != null)
             {
                 outboundRelay.RemoveInboundPower(this);
                 outboundRelay = null;
@@ -57,15 +54,15 @@ namespace ImprovedPowerNetwork
             }
         }
 
-        new public void OnDestroy()
+        public new void OnDestroy()
         {
-            if (!constructable?.constructed ?? false)
+            if(!constructable?.constructed ?? false)
             {
                 DisconnectFromRelay();
             }
             base.OnDestroy();
         }
 
-        public class BaseInboundRelayPowerFX : PowerFX { }
+        public class BaseInboundRelayPowerFX: PowerFX { }
     }
 }

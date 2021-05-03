@@ -1,23 +1,23 @@
-﻿using System.Reflection;
-using HarmonyLib;
-using QModManager.API.ModLoading;
-using SMLHelper.V2.Handlers;
-using BetterACU.Configuration;
-
-namespace BetterACU
+﻿namespace BetterACU
 {
+    using BetterACU.Configuration;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using SMLHelper.V2.Handlers;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {
-        internal static Config config { get; private set; } 
+        internal static Config Config { get; private set; }
 
         [QModPatch]
         public static void Load()
         {
-            config = OptionsPanelHandler.RegisterModOptions<Config>();
-            IngameMenuHandler.RegisterOnSaveEvent(config.Save);
+            Config = OptionsPanelHandler.RegisterModOptions<Config>();
+            IngameMenuHandler.RegisterOnSaveEvent(Config.Save);
 
-            var assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }

@@ -1,21 +1,23 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Handlers;
-using System.Collections.Generic;
-using UnityEngine;
+﻿namespace BaseKits.Prefabs
+{
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Handlers;
+    using System.Collections.Generic;
+    using UnityEngine;
 #if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
+#else
+    using SMLHelper.V2.Crafting;
 #endif
 
-namespace BaseKits.Prefabs
-{
-    internal class KitFabricator : CustomFabricator
+
+    internal class KitFabricator: CustomFabricator
     {
         private CraftTree craftTree;
-		private readonly List<TechType> ClonedRoomKits;
-		private readonly List<TechType> ClonedCorridorKits;
-		private readonly List<TechType> ClonedModuleKits;
+        private readonly List<TechType> ClonedRoomKits;
+        private readonly List<TechType> ClonedCorridorKits;
+        private readonly List<TechType> ClonedModuleKits;
         private readonly List<TechType> ClonedUtilityKits;
         private const string LangFormat = "{0}Menu_{1}";
         private const string SpriteFormat = "{0}_{1}";
@@ -23,13 +25,13 @@ namespace BaseKits.Prefabs
 
         internal KitFabricator(List<TechType> clonedRoomKits, List<TechType> clonedCorridorKits, List<TechType> clonedModuleKits, List<TechType> clonedUtilityKits) : base("PurpleKitFabricator", "Base Kit Fabricator", "Used to compress Base construction materials into a Construction Kit")
         {
-			ClonedRoomKits = clonedRoomKits;
-			ClonedCorridorKits = clonedCorridorKits;
-			ClonedModuleKits = clonedModuleKits;
+            ClonedRoomKits = clonedRoomKits;
+            ClonedCorridorKits = clonedCorridorKits;
+            ClonedModuleKits = clonedModuleKits;
             ClonedUtilityKits = clonedUtilityKits;
 
-            OnFinishedPatching += () => 
-            { 
+            OnFinishedPatching += () =>
+            {
                 Root.CraftTreeCreation += CreateCraftingTree;
 
                 LanguageHandler.SetLanguageLine(string.Format(LangFormat, KitFab, "RoomsMenu"), "Rooms");
@@ -46,27 +48,27 @@ namespace BaseKits.Prefabs
 
         private CraftTree CreateCraftingTree()
         {
-            if (craftTree != null)
+            if(craftTree != null)
                 return craftTree;
 
-			List<CraftNode> roomNodes = new List<CraftNode>();
-			List<CraftNode> corridorNodes = new List<CraftNode>();
-			List<CraftNode> moduleNodes = new List<CraftNode>();
+            List<CraftNode> roomNodes = new List<CraftNode>();
+            List<CraftNode> corridorNodes = new List<CraftNode>();
+            List<CraftNode> moduleNodes = new List<CraftNode>();
             List<CraftNode> utilityNodes = new List<CraftNode>();
 
-			foreach(TechType techType in ClonedRoomKits)
-				roomNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
+            foreach(TechType techType in ClonedRoomKits)
+                roomNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-			foreach (TechType techType in ClonedCorridorKits)
-				corridorNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
+            foreach(TechType techType in ClonedCorridorKits)
+                corridorNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-			foreach (TechType techType in ClonedModuleKits)
-				moduleNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
+            foreach(TechType techType in ClonedModuleKits)
+                moduleNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-            foreach (TechType techType in ClonedUtilityKits)
+            foreach(TechType techType in ClonedUtilityKits)
                 utilityNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-            craftTree = new CraftTree("PurpleKitFabricator", 
+            craftTree = new CraftTree("PurpleKitFabricator",
                 new CraftNode("Root", TreeAction.None, TechType.None).AddNode(new CraftNode[]
                     {
                         new CraftNode("RoomsMenu", TreeAction.Expand, TechType.None).AddNode(roomNodes.ToArray()),
@@ -76,7 +78,7 @@ namespace BaseKits.Prefabs
                     })
                 );
 
-			return craftTree;
+            return craftTree;
         }
 
         public override Models Model => Models.Fabricator;
@@ -105,11 +107,7 @@ namespace BaseKits.Prefabs
 
         protected override RecipeData GetBlueprintRecipe()
         {
-#if SN1
             return CraftDataHandler.GetTechData(TechType.Fabricator);
-#elif BZ
-            return CraftDataHandler.GetRecipeData(TechType.Fabricator);
-#endif
         }
 
 

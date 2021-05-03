@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
-using QModManager.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace PowerOrder.Patches
+﻿namespace PowerOrder.Patches
 {
+    using HarmonyLib;
+    using QModManager.Utility;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
     [HarmonyPatch(typeof(PowerRelay), nameof(PowerRelay.AddInboundPower))]
     internal class PowerRelay_AddInboundPower
     {
@@ -15,23 +15,23 @@ namespace PowerOrder.Patches
         {
             try
             {
-                if (__instance is null || (__instance.inboundPowerSources?.Contains(powerInterface) ?? true))
+                if(__instance is null || (__instance.inboundPowerSources?.Contains(powerInterface) ?? true))
                     return;
                 Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                Logger.Log(Logger.Level.Error , ex: e);
+                Logger.Log(Logger.Level.Error, ex: e);
             }
         }
 
         [HarmonyPostfix]
-        private static void Postfix(PowerRelay __instance, IPowerInterface powerInterface)
+        private static void Postfix(PowerRelay __instance)
         {
             try
             {
-                if (!Main.config.doSort)
+                if(!Main.config.doSort)
                     return;
                 List<IPowerInterface> info = __instance.inboundPowerSources;
                 List<IPowerInterface> test = new List<IPowerInterface>(info);
@@ -53,13 +53,13 @@ namespace PowerOrder.Patches
         }
         private static int GetOrderNumber(string name)
         {
-            for (int x = 0; x < Main.config.Order.Count; x++)
+            for(int x = 0; x < Main.config.Order.Count; x++)
             {
-                var kvp = Main.config.Order.ElementAt(x);
-                if (name.ToLower().Contains(kvp.Value.ToLower()))
+                KeyValuePair<int, string> kvp = Main.config.Order.ElementAt(x);
+                if(name.ToLower().Contains(kvp.Value.ToLower()))
                 {
                     int order = kvp.Key;
-                    if (order > Main.config.Order.Count || order < 1)
+                    if(order > Main.config.Order.Count || order < 1)
                     {
                         Logger.Log(Logger.Level.Error, kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")", showOnScreen: true);
                         throw new Exception();

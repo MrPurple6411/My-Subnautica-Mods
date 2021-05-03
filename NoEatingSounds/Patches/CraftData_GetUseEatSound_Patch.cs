@@ -1,7 +1,8 @@
-﻿using HarmonyLib;
-
+﻿#if SN1
 namespace NoEatingSounds.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(CraftData), nameof(CraftData.GetUseEatSound))]
     internal class Data_GetUseEatSound_Patch
     {
@@ -12,3 +13,4 @@ namespace NoEatingSounds.Patches
         }
     }
 }
+#endif

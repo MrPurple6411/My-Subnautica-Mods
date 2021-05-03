@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace WarpersNoWarping.Patches
+﻿namespace WarpersNoWarping.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(WarperInspectPlayer), nameof(WarperInspectPlayer.Perform))]
     public class WarperInspectPlayer_Perform
     {

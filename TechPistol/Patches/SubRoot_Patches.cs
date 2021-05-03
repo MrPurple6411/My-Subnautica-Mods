@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace TechPistol.Patches
+﻿namespace TechPistol.Patches
 {
+    using HarmonyLib;
+    using UnityEngine;
+
     [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnPlayerEntered))]
     public static class SubRoot_OnPlayerEntered_Patches
     {
@@ -10,7 +10,7 @@ namespace TechPistol.Patches
         public static void Postfix(SubRoot __instance)
         {
             GameObject rootObject = UWE.Utils.GetEntityRoot(__instance.gameObject);
-            if (rootObject.transform.localScale.x < Vector3.one.x || rootObject.transform.localScale.y < Vector3.one.y || rootObject.transform.localScale.z < Vector3.one.z)
+            if(rootObject.transform.localScale.x < Vector3.one.x || rootObject.transform.localScale.y < Vector3.one.y || rootObject.transform.localScale.z < Vector3.one.z)
                 Player.main.gameObject.transform.localScale = rootObject.transform.localScale;
         }
     }

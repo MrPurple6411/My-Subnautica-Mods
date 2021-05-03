@@ -1,9 +1,8 @@
-﻿using HarmonyLib;
-using UnityEngine;
-
-namespace ImprovedPowerNetwork.Patches
+﻿namespace ImprovedPowerNetwork.Patches
 {
-    [HarmonyPatch(typeof(PowerRelay),nameof(PowerRelay.IsUnderConstruction))]
+    using HarmonyLib;
+
+    [HarmonyPatch(typeof(PowerRelay), nameof(PowerRelay.IsUnderConstruction))]
     public static class PowerRelay_IsUnderConstruction_Patch
     {
         [HarmonyPostfix]

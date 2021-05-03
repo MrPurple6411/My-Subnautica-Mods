@@ -1,18 +1,18 @@
-﻿using System;
-using UnityEngine;
+﻿namespace ExtraOptions
+{
+    using System;
+    using UnityEngine;
 #if SUBNAUTICA_STABLE
-using Oculus.Newtonsoft.Json;
+    using Oculus.Newtonsoft.Json;
 #else
-using Newtonsoft.Json;
+    using Newtonsoft.Json;
 #endif
 
-namespace ExtraOptions
-{
-    public class Vector3Converter : JsonConverter
+    public class Vector3Converter: JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var c = (Vector3)value;
+            Vector3 c = (Vector3)value;
             serializer.Serialize(writer, new float[3] { c.x, c.y, c.z });
         }
 
@@ -22,6 +22,9 @@ namespace ExtraOptions
             return new Vector3(v[0], v[1], v[2]);
         }
 
-        public override bool CanConvert(Type objectType) => objectType == typeof(Vector3);
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(Vector3);
+        }
     }
 }

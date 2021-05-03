@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace NoCrosshair
+﻿namespace NoCrosshair
 {
+    using System.Collections.Generic;
+
     public static class NoCrosshair
     {
         internal static bool check = true;
@@ -13,16 +13,16 @@ namespace NoCrosshair
         {
             if(icons != null)
             {
-                if (!show)
+                if(!show)
                 {
-                    if (icon == null)
+                    if(icon == null)
                     {
                         icon = icons[HandReticle.IconType.Default];
                     }
                     if(icons.ContainsKey(HandReticle.IconType.Default))
                         icons.Remove(HandReticle.IconType.Default);
                 }
-                else if (icon)
+                else if(icon)
                 {
                     icons[HandReticle.IconType.Default] = icon;
                 }

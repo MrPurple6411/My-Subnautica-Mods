@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using System.Collections;
-using UnityEngine;
-using UWE;
-
-namespace UnKnownName.Patches
+﻿namespace UnKnownName.Patches
 {
+    using HarmonyLib;
+    using System.Collections;
+    using UnityEngine;
+    using UWE;
+
 #if SUBNAUTICA_EXP
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.PickupAsync))]
 #else
@@ -17,7 +17,7 @@ namespace UnKnownName.Patches
         [HarmonyPostfix]
         public static void Postfix(Pickupable pickupable)
         {
-            if (newgame && Main.config.Hardcore && !Utils.GetContinueMode() && pickupable.GetTechType() != TechType.FireExtinguisher)
+            if(newgame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
             {
                 CoroutineHost.StartCoroutine(GiveHardcoreScanner());
                 newgame = false;
@@ -27,20 +27,20 @@ namespace UnKnownName.Patches
             TechType techType = pickupable.GetTechType();
             PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
             GameObject gameObject = pickupable.gameObject;
-            if (Main.config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+            if(Main.Config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
             {
-                if (!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
+                if(!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
                 {
                     entry = PDAScanner.Add(techType, 1);
                 }
-                if (entry != null)
+                if(entry != null)
                 {
                     PDAScanner.partial.Remove(entry);
                     PDAScanner.complete.Add(entry.techType);
                     PDAScanner.NotifyRemove(entry);
                     PDAScanner.Unlock(entryData, true, true, true);
                     KnownTech.Add(techType, false);
-                    if (gameObject != null)
+                    if(gameObject != null)
                     {
                         gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
                     }
@@ -50,7 +50,7 @@ namespace UnKnownName.Patches
                 }
             }
 
-            if (!Main.config.Hardcore && entryData == null)
+            if(!Main.Config.Hardcore && entryData == null)
             {
                 KnownTech.Add(techType, true);
             }

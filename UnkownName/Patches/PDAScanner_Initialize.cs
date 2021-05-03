@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using HarmonyLib;
-using QModManager.Utility;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Handlers;
-using UnityEngine;
-using Logger = QModManager.Utility.Logger;
-#if SUBNAUTICA_STABLE
-using Oculus.Newtonsoft.Json;
-#else
-using Newtonsoft.Json;
-#endif
+﻿namespace UnKnownName.Patches
+{
+    using System;
+    using System.Collections.Generic;
+    using HarmonyLib;
+    using SMLHelper.V2.Handlers;
 
 #if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+#else
+    using SMLHelper.V2.Crafting;
 #endif
 
-namespace UnKnownName.Patches
-{
+
     [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Initialize))]
     public class PDAScanner_Initialize
     {
@@ -25,22 +19,22 @@ namespace UnKnownName.Patches
         [HarmonyAfter(new string[] { "com.ahk1221.smlhelper" })]
         public static void Postfix()
         {
-            if (Main.config.Hardcore)
+            if(Main.Config.Hardcore)
             {
                 Dictionary<TechType, PDAScanner.EntryData> map = PDAScanner.mapping;
-                foreach (TechType techType in Enum.GetValues(typeof(TechType)))
+                foreach(TechType techType in Enum.GetValues(typeof(TechType)))
                 {
-                    RecipeData data = Main.GetData(techType);
+                    RecipeData data = CraftDataHandler.GetTechData(techType);
                     map.TryGetValue(techType, out PDAScanner.EntryData entryData);
 
-                    if (data is null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None)
+                    if(data is null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None)
                     {
                         entryData.blueprint = techType;
                         entryData.locked = true;
                         continue;
                     }
 
-                    if (data != null && entryData is null && (data.ingredientCount == 0 || techType == TechType.Titanium))
+                    if(data != null && entryData is null && (data.ingredientCount == 0 || techType == TechType.Titanium))
                     {
                         map[techType] = new PDAScanner.EntryData()
                         {
@@ -55,14 +49,14 @@ namespace UnKnownName.Patches
                         continue;
                     }
 
-                    if (data != null && entryData !=  null && !entryData.isFragment && entryData.blueprint == TechType.None && (data.ingredientCount == 0 || techType == TechType.Titanium))
+                    if(data != null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None && (data.ingredientCount == 0 || techType == TechType.Titanium))
                     {
                         entryData.blueprint = techType;
                         entryData.locked = true;
                         continue;
                     }
 
-                    if (data is null && entryData is null)
+                    if(data is null && entryData is null)
                     {
                         map[techType] = new PDAScanner.EntryData()
                         {

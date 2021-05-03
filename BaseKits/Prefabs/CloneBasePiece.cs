@@ -1,16 +1,17 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿namespace BaseKits.Prefabs
+{
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 #if SN1
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-using Sprite = Atlas.Sprite;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
 #endif
 
-namespace BaseKits.Prefabs
-{
-    internal class CloneBasePiece : Buildable
+
+    internal class CloneBasePiece: Buildable
     {
         private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
         private GameObject processedPrefab;
@@ -37,7 +38,7 @@ namespace BaseKits.Prefabs
         public override GameObject GetGameObject()
         {
             GameObject go;
-            if (processedPrefab != null)
+            if(processedPrefab != null)
             {
                 go = GameObject.Instantiate(processedPrefab);
                 go.SetActive(true);
@@ -45,8 +46,8 @@ namespace BaseKits.Prefabs
             }
 
             GameObject prefab = CraftData.GetPrefabForTechType(TypeToClone);
-            
-            if (prefab != null)
+
+            if(prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
                 processedPrefab.SetActive(false);
@@ -61,7 +62,7 @@ namespace BaseKits.Prefabs
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             GameObject go;
-            if (processedPrefab != null)
+            if(processedPrefab != null)
             {
                 go = GameObject.Instantiate(processedPrefab);
                 go.SetActive(true);
@@ -73,7 +74,7 @@ namespace BaseKits.Prefabs
             yield return task;
 
             GameObject prefab = task.GetResult();
-            if (prefab != null)
+            if(prefab != null)
             {
                 processedPrefab = GameObject.Instantiate(prefab);
                 processedPrefab.SetActive(false);

@@ -1,16 +1,16 @@
-﻿using ConfigurableChunkDrops.Configuration;
-using HarmonyLib;
-using QModManager.API.ModLoading;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using UnityEngine;
-using Logger = QModManager.Utility.Logger;
-
-namespace ConfigurableChunkDrops
+﻿namespace ConfigurableChunkDrops
 {
+    using ConfigurableChunkDrops.Configuration;
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using UnityEngine;
+    using Logger = QModManager.Utility.Logger;
+
     [QModCore]
     public static class Main
     {
@@ -40,13 +40,13 @@ namespace ConfigurableChunkDrops
                 GameObject prefab = prefabForTechTypeAsync?.GetResult();
 
                 // if techtype has no prefab no need to check further.
-                if (prefab is null)
+                if(prefab is null)
                     continue;
 
                 BreakableResource breakableResource = prefab.GetComponentInChildren<BreakableResource>();
 
                 // if techtype has no BreakableResource no need to check further.
-                if (breakableResource is null)
+                if(breakableResource is null)
                     continue;
 
                 Dictionary<TechType, float> prefabs = defaultValues.Breakables[techType] = new Dictionary<TechType, float>();

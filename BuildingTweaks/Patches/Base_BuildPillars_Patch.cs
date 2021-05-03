@@ -1,51 +1,51 @@
-﻿using HarmonyLib;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
-#if SN1 
-	[HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
+    using HarmonyLib;
+
+#if SN1
+    [HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
     {
         [HarmonyPrefix]
-		public static void Prefix(Base __instance)
-		{
-			if (__instance.isGhost)
-				return;
+        public static void Prefix(Base __instance)
+        {
+            if(__instance.isGhost)
+                return;
 
-			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
-			{
-				Int3.Bounds bounds = __instance.Bounds;
-				Int3 mins = bounds.mins;
-				Int3 maxs = bounds.maxs;
-				Int3 cell = default(Int3);
-				for (int i = mins.z; i <= maxs.z; i++)
-				{
-					cell.z = i;
-					for (int j = mins.x; j <= maxs.x; j++)
-					{
-						cell.x = j;
-						int k = mins.y;
-						while (k <= maxs.y)
-						{
-							cell.y = k;
-							if (__instance.GetCell(cell) != Base.CellType.Empty)
-							{
-								BaseFoundationPiece componentInChildren = __instance.GetCellObject(cell).GetComponentInChildren<BaseFoundationPiece>();
-								if (componentInChildren != null)
-								{
-									componentInChildren.maxPillarHeight = 0f;
-									break;
-								}
-								break;
-							}
-							else
-							{
-								k++;
-							}
-						}
-					}
-				}
-			}
+            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+            {
+                Int3.Bounds bounds = __instance.Bounds;
+                Int3 mins = bounds.mins;
+                Int3 maxs = bounds.maxs;
+                Int3 cell = default;
+                for(int i = mins.z; i <= maxs.z; i++)
+                {
+                    cell.z = i;
+                    for(int j = mins.x; j <= maxs.x; j++)
+                    {
+                        cell.x = j;
+                        int k = mins.y;
+                        while(k <= maxs.y)
+                        {
+                            cell.y = k;
+                            if(__instance.GetCell(cell) != Base.CellType.Empty)
+                            {
+                                BaseFoundationPiece componentInChildren = __instance.GetCellObject(cell).GetComponentInChildren<BaseFoundationPiece>();
+                                if(componentInChildren != null)
+                                {
+                                    componentInChildren.maxPillarHeight = 0f;
+                                    break;
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                k++;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 #elif BZ

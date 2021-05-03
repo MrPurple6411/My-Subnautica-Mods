@@ -1,11 +1,10 @@
-﻿using HarmonyLib;
-using QModManager.API.ModLoading;
-using System;
-using System.Reflection;
-using UnityEngine;
-
-namespace SeamothThermal
+﻿namespace SeamothThermal
 {
+    using HarmonyLib;
+    using QModManager.API.ModLoading;
+    using System;
+    using System.Reflection;
+
     [QModCore]
     public static class Main
     {

@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(Builder), nameof(Builder.ValidateOutdoor))]
     internal class Builder_ValidateOutdoor_Patch
     {

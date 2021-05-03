@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-
-namespace BetterACU.Configuration
+﻿namespace BetterACU.Configuration
 {
+    using SMLHelper.V2.Json;
+    using SMLHelper.V2.Options.Attributes;
+    using System.Collections.Generic;
+
     [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]
-    public class Config : ConfigFile
+    public class Config: ConfigFile
     {
         [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
         public int WaterParkSize = 10;
@@ -30,7 +28,7 @@ namespace BetterACU.Configuration
             { TechType.Jellyfish, 2f },
             { TechType.SquidShark, 1f }
 #endif
-        }; 
+        };
 
         public Dictionary<string, float> PowerValues = new Dictionary<string, float>();
     }

@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
-
-namespace ImprovedPowerNetwork.Patches
+﻿namespace ImprovedPowerNetwork.Patches
 {
+    using HarmonyLib;
+
     [HarmonyPatch(typeof(PowerRelay), nameof(PowerRelay.GetMaxPower))]
     public static class PowerRelay_GetMaxPower_Patch
     {
@@ -10,10 +10,10 @@ namespace ImprovedPowerNetwork.Patches
         {
             IPowerInterface powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
 
-            if (powerInterface != null)
+            if(powerInterface != null)
             {
                 PowerControl powerControl = null;
-                switch (powerInterface)
+                switch(powerInterface)
                 {
                     case BaseInboundRelay baseConnectionRelay:
                         powerControl = baseConnectionRelay.gameObject.GetComponent<PowerControl>();
@@ -28,7 +28,7 @@ namespace ImprovedPowerNetwork.Patches
                 float endPower = endRelay.GetMaxPower();
                 float powerHere = powerInterface.GetMaxPower();
 
-                if (endPower > powerHere)
+                if(endPower > powerHere)
                 {
                     __result += endPower - powerHere;
                 }

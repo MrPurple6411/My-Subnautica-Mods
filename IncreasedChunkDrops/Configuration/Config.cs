@@ -1,9 +1,9 @@
-﻿using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using UnityEngine.UI;
-
-namespace IncreasedChunkDrops.Configuration
+﻿namespace IncreasedChunkDrops.Configuration
 {
+    using SMLHelper.V2.Json;
+    using SMLHelper.V2.Options.Attributes;
+    using UnityEngine.UI;
+
     [Menu("Increased Chunk Drop Settings")]
     public class Config: ConfigFile
     {

@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using HarmonyLib;
-using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using Logger = QModManager.Utility.Logger;
-
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
+    using HarmonyLib;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection.Emit;
+    using UnityEngine;
+    using Logger = QModManager.Utility.Logger;
+
     [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
     internal class Builder_TryPlace_Patch
     {
@@ -19,13 +18,13 @@ namespace BuildingTweaks.Patches
             bool found2 = false;
             List<OpCode> opCodes = new List<OpCode>() { OpCodes.Ldloc_2, OpCodes.Ldloc_3 };
 
-            for (int i = 0; i < instructions.Count() - 2; i++)
+            for(int i = 0; i < instructions.Count() - 2; i++)
             {
                 CodeInstruction currentInstruction = codeInstructions[i];
                 CodeInstruction secondInstruction = codeInstructions[i + 1];
                 CodeInstruction thirdInstruction = codeInstructions[i + 2];
 
-                if (!found && currentInstruction.opcode == OpCodes.Ldloc_0 && secondInstruction.opcode == OpCodes.Ldc_I4_0 && thirdInstruction.opcode == OpCodes.Ldc_I4_1)
+                if(!found && currentInstruction.opcode == OpCodes.Ldloc_0 && secondInstruction.opcode == OpCodes.Ldc_I4_0 && thirdInstruction.opcode == OpCodes.Ldc_I4_1)
                 {
 
                     codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(Builder_TryPlace_Patch.SetBaseParent))));
@@ -33,7 +32,7 @@ namespace BuildingTweaks.Patches
                     continue;
                 }
 
-                if (opCodes.Contains(currentInstruction.opcode) && secondInstruction.opcode == OpCodes.Callvirt && thirdInstruction.opcode == OpCodes.Dup)
+                if(opCodes.Contains(currentInstruction.opcode) && secondInstruction.opcode == OpCodes.Callvirt && thirdInstruction.opcode == OpCodes.Dup)
                 {
                     codeInstructions[i + 1] = new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(Builder_TryPlace_Patch.SetParent)));
                     found2 = true;
@@ -42,7 +41,7 @@ namespace BuildingTweaks.Patches
                 continue;
             }
 
-            if (found is false || found2 is false)
+            if(found is false || found2 is false)
                 Logger.Log(Logger.Level.Error, $"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
             else
                 Logger.Log(Logger.Level.Info, "Transpiler for Builder.TryPlace completed");
@@ -53,10 +52,10 @@ namespace BuildingTweaks.Patches
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)
         {
             BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
-            if (Main.config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
+            if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
                 GameObject placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
-                if (placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
+                if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
                 {
                     largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
                     largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
@@ -64,9 +63,9 @@ namespace BuildingTweaks.Patches
                     LargeWorldStreamer.main.cellManager.RegisterEntity(largeWorldEntity);
                 }
 
-                if (constructableBase.gameObject.TryGetComponent(out Collider builtCollider))
+                if(constructableBase.gameObject.TryGetComponent(out Collider builtCollider))
                 {
-                    foreach (Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                    foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                     {
                         Physics.IgnoreCollision(collider, builtCollider);
                     }
@@ -81,25 +80,25 @@ namespace BuildingTweaks.Patches
         public static Transform SetParent(GameObject builtObject)
         {
             LargeWorldEntity largeWorldEntity = builtObject.GetComponent<LargeWorldEntity>();
-            if (largeWorldEntity is null)
+            if(largeWorldEntity is null)
             {
                 largeWorldEntity = builtObject.AddComponent<LargeWorldEntity>();
                 largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Medium;
             }
-            else if (builtObject.name.Contains("Transmitter"))
+            else if(builtObject.name.Contains("Transmitter"))
             {
                 largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if (Main.config.AttachToTarget)
+            if(Main.Config.AttachToTarget)
             {
                 GameObject placementTarget = Builder.placementTarget ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
-                if (placementTarget != null)
+                if(placementTarget != null)
                 {
-                    if (builtObject.TryGetComponent(out Collider builtCollider))
+                    if(builtObject.TryGetComponent(out Collider builtCollider))
                     {
-                        foreach (Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                        foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                         {
                             Physics.IgnoreCollision(collider, builtCollider);
                         }
