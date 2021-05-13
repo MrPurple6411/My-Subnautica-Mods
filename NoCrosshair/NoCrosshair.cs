@@ -15,11 +15,11 @@
             {
                 if(!show)
                 {
-                    if(icon == null)
+                    if(icon == null && icons.ContainsKey(HandReticle.IconType.Default))
                     {
                         icon = icons[HandReticle.IconType.Default];
                     }
-                    if(icons.ContainsKey(HandReticle.IconType.Default))
+                    else if(icons.ContainsKey(HandReticle.IconType.Default))
                         icons.Remove(HandReticle.IconType.Default);
                 }
                 else if(icon)

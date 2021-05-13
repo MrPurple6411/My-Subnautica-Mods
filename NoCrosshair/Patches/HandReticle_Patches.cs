@@ -5,11 +5,10 @@
     [HarmonyPatch]
     public static class HandReticle_Patches
     {
-        [HarmonyPatch(typeof(HandReticle), nameof(HandReticle.LateUpdate))]
+        [HarmonyPatch(typeof(HandReticle), nameof(HandReticle.Awake))]
         public static void Postfix(HandReticle __instance)
         {
-            if(NoCrosshair.icons is null)
-                NoCrosshair.icons = __instance._icons;
+            NoCrosshair.icons = __instance._icons;
         }
     }
 }
