@@ -15,7 +15,18 @@
 
             if(prefabs.TryGetValue(Breakable, out List<BreakableResource.RandomPrefab> randomPrefabs))
             {
-                __instance.prefabList = randomPrefabs;
+                var Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs);
+#if SUBNAUTICA_STABLE
+                var last = randomPrefabs.GetLast();
+                Prefabs.Remove(last);
+                __instance.defaultPrefab = last.prefab;
+#else
+                var last = randomPrefabs.GetLast();
+                Prefabs.Remove(last);
+                __instance.defaultPrefabTechType = last.prefabTechType;
+                __instance.defaultPrefabReference = last.prefabReference;
+#endif
+                __instance.prefabList = Prefabs;
                 return;
             }
         }
