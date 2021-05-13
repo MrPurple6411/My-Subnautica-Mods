@@ -102,7 +102,7 @@
 #if SUBNAUTICA_STABLE
         protected void Start()
         {
-            if(LaserParticles is null)
+            if(repulsionCannonFireSound is null)
             {
                 if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
                 {
@@ -530,72 +530,11 @@
         public void OnProtoSerialize(ProtobufSerializer serializer)
         {
 
-            GameObject battery =
-#if !BELOWZERO_EXP
-                    energyMixin.GetBattery();
-#else
-                    energyMixin.GetBatteryGameObject();
-#endif
-            if(battery != null)
-            {
-                TechType batteryTech = CraftData.GetTechType(battery);
-                File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", batteryTech.AsString());
-                File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", energyMixin.charge.ToString());
-            }
-            else
-            {
-                File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type", "None");
-                File.WriteAllText(SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge", "0");
-            }
         }
 
         public void OnProtoDeserialize(ProtobufSerializer serializer)
         {
-            if(energyMixin == null)
-            {
-                energyMixin = base.GetComponent<EnergyMixin>();
-            }
-            string typeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".type";
-            string chargeFile = SaveUtils.GetCurrentSaveDataDir() + "/" + base.GetComponent<PrefabIdentifier>().Id + ".charge";
 
-            bool flag2 = File.Exists(typeFile);
-            if(flag2)
-            {
-                string a = File.ReadAllText(typeFile);
-                float num = float.Parse(File.ReadAllText(chargeFile));
-                if(a != "None" && TechTypeExtensions.FromString(a, out TechType batteryTech, true))
-                {
-#if !SUBNAUTICA_STABLE
-					CoroutineHost.StartCoroutine(SetBattery(batteryTech, num));
-				}
-			}
-		}
-
-		private IEnumerator SetBattery(TechType techType, float num)
-		{
-			TaskResult<GameObject> result = new TaskResult<GameObject>();
-			yield return CraftData.InstantiateFromPrefabAsync(techType, result);
-
-			Battery battery = result.Get().GetComponent<Battery>();
-
-			if(battery != null)
-			{
-				TaskResult<InventoryItem> task = new TaskResult<InventoryItem>();
-				yield return energyMixin.SetBatteryAsync(techType, num / battery.capacity, task);
-			}
-
-			yield break;
-		}
-#else
-
-                    Battery battery = CraftData.InstantiateFromPrefab(batteryTech).GetComponent<Battery>();
-                    if(battery != null)
-                    {
-                        energyMixin.SetBattery(batteryTech, num / battery.capacity);
-                    }
-                }
-            }
         }
-#endif
     }
 }

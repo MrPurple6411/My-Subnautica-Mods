@@ -97,11 +97,10 @@
 
                     if(model.TryGetComponent<PrefabIdentifier>(out PrefabIdentifier prefabIdentifier))
                     {
-                        string classId = prefabIdentifier.ClassId;
                         GameObject.DestroyImmediate(prefabIdentifier);
-                        ChildObjectIdentifier childObjectIdentifier = model.EnsureComponent<ChildObjectIdentifier>();
-                        childObjectIdentifier.ClassId = classId;
                     }
+                    ChildObjectIdentifier childObjectIdentifier = model.EnsureComponent<ChildObjectIdentifier>();
+                    childObjectIdentifier.ClassId = this.ClassID;
 
                     model.SetActive(false);
 
@@ -127,7 +126,10 @@
                 energyMixin.batteryModels = batteryModels.ToArray();
 
                 gameObject.GetComponent<Rigidbody>().detectCollisions = false;
-                gameObject.GetComponent<PrefabIdentifier>().ClassId = base.ClassID;
+
+                foreach(UniqueIdentifier uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
+                    uniqueIdentifier.classId = this.ClassID;
+
                 gameObject.GetComponent<TechTag>().type = base.TechType;
                 gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
 
