@@ -63,7 +63,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreSeamothDepth", "Seamoth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeamothThermal", "SeamothThermal\SeamothThermal.csproj", "{BD784AF4-B1AA-48A6-B868-E395CA3A0B10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraOptions (SMLHelper)", "ExtraOptions (SMLHelper)\ExtraOptions (SMLHelper).csproj", "{AED78450-9AA7-4B26-9B72-FB6F83339350}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraOptions", "ExtraOptions (SMLHelper)\ExtraOptions.csproj", "{AED78450-9AA7-4B26-9B72-FB6F83339350}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCommands", "CustomCommands\CustomCommands.csproj", "{89314C48-600C-4276-B0E6-460C30519A1D}"
 EndProject
