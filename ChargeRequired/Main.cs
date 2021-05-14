@@ -51,7 +51,7 @@
             if(energyMixin != null)
             {
                 GameObject gameObject =
-#if !BELOWZERO_EXP
+#if !BZ
                     energyMixin.GetBattery();
 #else
                     energyMixin.GetBatteryGameObject();
