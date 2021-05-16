@@ -134,6 +134,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Patches\BaseGhost_Finish_Patch.cs" />
     <Compile Include="Patches\Base_BuildPillars_Patch.cs" />
+    <Compile Include="Patches\BuilderInputHandler_Patch.cs" />
     <Compile Include="Patches\Builder_CanDestroyObject_Patch.cs" />
     <Compile Include="Patches\Builder_GetSurfaceType_Patch.cs" />
     <Compile Include="Main.cs" />

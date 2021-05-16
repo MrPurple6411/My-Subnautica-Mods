@@ -1,6 +1,7 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
+    using System.Collections.Generic;
     using UnityEngine;
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.CanDestroyObject))]
@@ -23,15 +24,38 @@
                     return;
                 }
 
-                GameObject target = UWE.Utils.GetEntityRoot(go) ?? go;
-
-                if(target.name.ToLower().Contains("override") || target.name.ToLower().Contains("aurora") || target.name.ToLower().Contains("crashedship") || target.name.ToLower().Contains("starship"))
+                if(go.GetComponentInParent<Constructable>() != null)
+                {
+                    __result = false;
+                    return;
+                }
+#if SN1
+                if(go.GetComponentInParent<EscapePod>() != null)
                 {
                     __result = false;
                     return;
                 }
 
+#elif BZ
+                if(go.GetComponentInParent<LifepodDrop>() != null)
+                {
+                    __result = false;
+                    return;
+                }
+#endif
 
+                GameObject target = UWE.Utils.GetEntityRoot(go) ?? go;
+
+                List<string> blacklist = new List<string>() { "override", "aurora", "crashedship", "starship" };
+
+                foreach(string name in blacklist)
+                {
+                    if(target.name.ToLower().Contains(name))
+                    {
+                        __result = false;
+                        return;
+                    }
+                }
             }
         }
     }

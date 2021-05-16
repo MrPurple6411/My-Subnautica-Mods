@@ -94,22 +94,14 @@
                     GameObject.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
                     GameObject.DestroyImmediate(model.GetComponentInChildren<Collider>());
                     GameObject.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
+                    GameObject.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
 
-                    if(model.TryGetComponent<PrefabIdentifier>(out PrefabIdentifier prefabIdentifier))
-                    {
-                        GameObject.DestroyImmediate(prefabIdentifier);
-                    }
-                    ChildObjectIdentifier childObjectIdentifier = model.EnsureComponent<ChildObjectIdentifier>();
-                    childObjectIdentifier.ClassId = this.ClassID;
+                    bool cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
 
-                    model.SetActive(false);
-
-                    bool cellCheck = techType.AsString().ToLower().Contains("cell");
-
-                    Vector3 position = cellCheck ? new Vector3(0f, 1.45f, 0.95f) : new Vector3(0f, 1.46f, 0.95f);
+                    Vector3 position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
                     Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
 
-                    model.transform.SetParent(energyMixin.storageRoot.transform);
+                    model.transform.SetParent(gameObject.transform);
                     model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
                     model.transform.localPosition = position;
                     model.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
@@ -135,8 +127,11 @@
 
                 processedPrefab = gameObject;
                 GameObject.DontDestroyOnLoad(processedPrefab);
+                processedPrefab.EnsureComponent<SceneCleanerPreserve>();
             }
-            return GameObject.Instantiate(processedPrefab);
+            var copy = GameObject.Instantiate(processedPrefab);
+            GameObject.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
+            return copy;
         }
 
 #endif
@@ -189,23 +184,14 @@
                     GameObject.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
                     GameObject.DestroyImmediate(model.GetComponentInChildren<Collider>());
                     GameObject.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
+                    GameObject.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
 
-                    if(model.TryGetComponent<PrefabIdentifier>(out PrefabIdentifier prefabIdentifier))
-                    {
-                        string classId = prefabIdentifier.ClassId;
-                        GameObject.DestroyImmediate(prefabIdentifier);
-                        ChildObjectIdentifier childObjectIdentifier = model.EnsureComponent<ChildObjectIdentifier>();
-                        childObjectIdentifier.ClassId = classId;
-                    }
+                    bool cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
 
-                    model.SetActive(false);
-
-                    bool cellCheck = techType.AsString().ToLower().Contains("cell");
-
-                    Vector3 position = cellCheck ? new Vector3(0f, 1.45f, 0.95f) : new Vector3(0f, 1.46f, 0.95f);
+                    Vector3 position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
                     Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
 
-                    model.transform.SetParent(energyMixin.storageRoot.transform);
+                    model.transform.SetParent(gameObject.transform);
                     model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
                     model.transform.localPosition = position;
                     model.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
@@ -222,15 +208,19 @@
                 energyMixin.batteryModels = batteryModels.ToArray();
 
                 gameObject.GetComponent<Rigidbody>().detectCollisions = false;
-                gameObject.GetComponent<PrefabIdentifier>().ClassId = base.ClassID;
+                foreach(UniqueIdentifier uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
+                    uniqueIdentifier.classId = this.ClassID;
                 gameObject.GetComponent<TechTag>().type = base.TechType;
                 gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
 
                 processedPrefab = gameObject;
                 GameObject.DontDestroyOnLoad(processedPrefab);
+                processedPrefab.EnsureComponent<SceneCleanerPreserve>();
             }
 
-            pistol.Set(GameObject.Instantiate(processedPrefab));
+            var copy = GameObject.Instantiate(processedPrefab);
+            GameObject.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
+            pistol.Set(copy);
             yield break;
         }
 

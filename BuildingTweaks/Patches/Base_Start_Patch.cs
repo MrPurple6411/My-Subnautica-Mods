@@ -32,7 +32,15 @@
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 return;
             }
-#if BZ
+#if SN1
+            SubRoot subRoot = __instance.GetComponentInParent<SubRoot>();
+
+            if(subRoot != null)
+            {
+                rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                return;
+            }
+#elif BZ
             SeaTruckSegment truckSegment = __instance.GetComponentInParent<SeaTruckSegment>();
 
             if (truckSegment != null)

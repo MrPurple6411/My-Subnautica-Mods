@@ -3,7 +3,7 @@
   "DisplayName": "TechPistol",
   "OriginalAuthor": "Coticvo",
   "Author": "MrPurple6411",
-  "Version": "2.0.7",
+  "Version": "2.1.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
