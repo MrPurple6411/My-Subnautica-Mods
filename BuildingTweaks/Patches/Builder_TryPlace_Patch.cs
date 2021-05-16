@@ -91,22 +91,36 @@
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if(Main.Config.AttachToTarget)
+            if(Main.Config.AttachToTarget || (Builder.placementTarget != null && builtObject.GetComponent<ConstructableBase>() is null))
             {
                 GameObject placementTarget = Builder.placementTarget ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+
+                SubRoot component = placementTarget?.GetComponentInParent<SubRoot>();
+                if(component != null)
+                    placementTarget = component.gameObject;
+
+
                 if(placementTarget != null)
                 {
-                    if(builtObject.TryGetComponent(out Collider builtCollider))
+                    foreach(Collider builtCollider in builtObject.GetComponentsInChildren<Collider>()?? new Collider[0])
                     {
                         foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                         {
                             Physics.IgnoreCollision(collider, builtCollider);
                         }
                     }
+
+                    if(builtObject.name.Contains("Transmitter") && Builder.placementTarget.GetComponentInParent<Base>() is null && placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity2))
+                    {
+                        largeWorldEntity2.cellLevel = LargeWorldEntity.CellLevel.Global;
+                        largeWorldEntity2.initialCellLevel = LargeWorldEntity.CellLevel.Global;
+
+                        LargeWorldStreamer.main.cellManager.RegisterEntity(largeWorldEntity2);
+                    }
                     builtObject.transform.SetParent(placementTarget.transform);
                 }
             }
-
+            
 
             return builtObject.transform;
         }

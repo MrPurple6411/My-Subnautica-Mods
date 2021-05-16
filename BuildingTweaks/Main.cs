@@ -15,7 +15,7 @@
         public static void Load()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }
     }
 }

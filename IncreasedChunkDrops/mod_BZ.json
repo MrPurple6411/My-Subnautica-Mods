@@ -2,7 +2,7 @@
   "Id": "IncreasedChunkDrops",
   "DisplayName": "IncreasedChunkDrops",
   "Author": "MrPurple6411 and Desperationfighter",
-  "Version": "1.2.0",
+  "Version": "2.1.0",
   "VersionDependencies": { "SMLHelper": "2.9.3" },
   "Enable": true,
   "Game": "BelowZero",

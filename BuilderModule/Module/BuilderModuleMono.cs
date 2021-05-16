@@ -278,7 +278,7 @@
             {
 #if SUBNAUTICA_EXP || BZ
                 TaskResult<bool> result = new TaskResult<bool>();
-#if !BELOWZERO_EXP
+#if SUBNAUTICA_EXP
                 yield return c.DeconstructAsync(result);
 #else
                 TaskResult<string> reason = new TaskResult<string>();

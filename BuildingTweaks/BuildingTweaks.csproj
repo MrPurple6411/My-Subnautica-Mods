@@ -134,6 +134,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Patches\BaseGhost_Finish_Patch.cs" />
     <Compile Include="Patches\Base_BuildPillars_Patch.cs" />
+    <Compile Include="Patches\BuilderInputHandler_Patch.cs" />
     <Compile Include="Patches\Builder_CanDestroyObject_Patch.cs" />
     <Compile Include="Patches\Builder_GetSurfaceType_Patch.cs" />
     <Compile Include="Main.cs" />
@@ -157,6 +158,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
+
+mkdir $(SolutionDir)..\QModZips\$(Configuration)
+powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(Configuration)\$(TargetName).zip' -Force</PostBuildEvent>
   </PropertyGroup>
 </Project>

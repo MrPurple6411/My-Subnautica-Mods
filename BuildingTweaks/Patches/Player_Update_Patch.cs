@@ -11,68 +11,32 @@
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
+
+            if(Input.GetKeyDown(Main.Config.AttachToTargetToggle))
+            {
+                ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
+                Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
+                ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", true);
+            }
+
+            if(Input.GetKeyDown(Main.Config.FullOverrideToggle))
+            {
+                ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+                Main.Config.FullOverride = !Main.Config.FullOverride;
+                ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
+            }
+
             PlayerTool heldTool = Inventory.main.GetHeldTool();
             Vehicle vehicle = __instance.GetVehicle();
             Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 
-            bool builderCheck = heldTool?.pickupable?.GetTechType() == TechType.Builder;
+            bool builderCheck = heldTool?.pickupable != null && heldTool.pickupable.GetTechType() == TechType.Builder;
             bool builderModuleCheck = module != null && TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module.GetTechType() == modTechType;
 
-            string msg1 = $"Attach as target override = {Main.Config.AttachToTarget}";
-            ErrorMessage._Message emsg = ErrorMessage.main.GetExistingMessage(msg1);
-            string msg2 = $"Full Override = {Main.Config.FullOverride}";
-            ErrorMessage._Message emsg2 = ErrorMessage.main.GetExistingMessage(msg2);
 
-            if(DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
+            if(!builderCheck && !builderModuleCheck && (Main.Config.AttachToTarget || Main.Config.FullOverride))
             {
-                if(Input.GetKeyDown(Main.Config.AttachToTargetToggle))
-                {
-                    Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
-                    msg1 = $"Attach as target override = {Main.Config.AttachToTarget}";
-                }
-
-                if(Input.GetKeyDown(Main.Config.FullOverrideToggle))
-                {
-                    Main.Config.FullOverride = !Main.Config.FullOverride;
-                    msg2 = $"Full Override = {Main.Config.FullOverride}";
-
-                }
-
-                if(emsg != null)
-                {
-                    emsg.messageText = msg1;
-                    emsg.entry.text = msg1;
-                    if(emsg.timeEnd <= Time.time + 1f)
-                        emsg.timeEnd += Time.deltaTime;
-                }
-                else
-                {
-                    ErrorMessage.AddMessage(msg1);
-                }
-
-                if(emsg2 != null)
-                {
-                    emsg2.messageText = msg2;
-                    emsg2.entry.text = msg2;
-
-                    if(emsg2.timeEnd <= Time.time + 1f)
-                        emsg2.timeEnd += Time.deltaTime;
-                }
-                else
-                {
-                    ErrorMessage.AddMessage(msg2);
-                }
-            }
-            else if(Main.Config.AttachToTarget || Main.Config.FullOverride)
-            {
-                Main.Config.AttachToTarget = false;
-                Main.Config.FullOverride = false;
-
-                if(emsg != null)
-                    emsg.timeEnd = Time.time;
-
-                if(emsg2 != null)
-                    emsg2.timeEnd = Time.time;
+                ClearMsgs();
             }
 
             WaterPark waterPark = __instance?.currentWaterPark;
@@ -83,11 +47,6 @@
                 __instance.SetPosition(vector3);
 
                 string msg3 = $"Press {GameInput.GetBinding(GameInput.GetPrimaryDevice(), GameInput.Button.Exit, GameInput.BindingSet.Primary)} to exit waterpark if you cant reach the exit.";
-                ErrorMessage._Message emsg3 = ErrorMessage.main.GetExistingMessage(msg3);
-                if(emsg3 != null && emsg3.timeEnd <= Time.time + 1f)
-                    emsg3.timeEnd += Time.deltaTime;
-                else if(emsg3 is null)
-                    ErrorMessage.AddMessage(msg3);
 
                 if(GameInput.GetButtonDown(GameInput.Button.Exit))
                 {
@@ -117,6 +76,11 @@
                             Inventory.Get().SecureItems(true);
                         }
                     }
+                    ProcessMSG(msg3, false);
+                }
+                else
+                {
+                    ProcessMSG(msg3, true);
                 }
                 return;
             }
@@ -151,6 +115,39 @@
                 }
             }
 #endif
+        }
+
+        private static void ClearMsgs()
+        {
+            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+            Main.Config.AttachToTarget = false;
+            Main.Config.FullOverride = false;
+            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+        }
+
+        private static void ProcessMSG(string msg, bool active)
+        {
+            ErrorMessage._Message emsg = ErrorMessage.main.GetExistingMessage(msg);
+            if(active)
+            {
+                if(emsg != null)
+                {
+                    emsg.messageText = msg;
+                    emsg.entry.text = msg;
+                    if(emsg.timeEnd <= Time.time + 1f)
+                        emsg.timeEnd += Time.deltaTime;
+                }
+                else
+                {
+                    ErrorMessage.AddMessage(msg);
+                }
+            }
+            else if(emsg != null && emsg.timeEnd > Time.time)
+            {
+                emsg.timeEnd = Time.time;
+            }
         }
     }
 }

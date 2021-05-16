@@ -128,12 +128,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patches\GUIHand_OnUpdate_Patch.cs" />
-    <Compile Include="Patches\HandReticle_Patches.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\MapRoomScanner_OnTriggerEnter_Patch.cs" />
-    <Compile Include="Patches\MapRoomScanner_OnTriggerExit_Patch.cs" />
-    <Compile Include="NoCrosshair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +140,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i</PostBuildEvent>
+xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
+
+mkdir $(SolutionDir)..\QModZips\$(Configuration)
+powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(Configuration)\$(TargetName).zip' -Force</PostBuildEvent>
   </PropertyGroup>
 </Project>
