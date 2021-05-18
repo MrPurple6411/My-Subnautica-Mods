@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AGT.cs" />
+    <Compile Include="Patches\ClearerWaterparkGlass.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Patches\CreatureEgg_Patches.cs" />
     <Compile Include="Main.cs" />
