@@ -27,7 +27,7 @@
                 else
                     Exosuits[__instance] = moduleMono;
             }
-            return !moduleMono.isActive;
+            return !moduleMono.isToggle;
         }
     }
 }

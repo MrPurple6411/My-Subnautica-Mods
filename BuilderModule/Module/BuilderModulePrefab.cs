@@ -17,23 +17,33 @@
 
     internal class BuilderModulePrefab: Equipable
     {
-        public BuilderModulePrefab() : base("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.")
+        private EquipmentType _equipmentType;
+        private string[] _fabricatorPath;
+
+        public BuilderModulePrefab(string classId,string friendlyName,string  description, string[] fabricatorPath, EquipmentType equipmentType) : base(classId, friendlyName, description)
         {
+            _fabricatorPath = fabricatorPath;
+            _equipmentType = equipmentType;
         }
 
-        public override EquipmentType EquipmentType => EquipmentType.VehicleModule;
+        public static Sprite Sprite { get; } = ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
 
         public override Vector2int SizeInInventory => new Vector2int(1, 1);
-
-        public override TechType RequiredForUnlock => TechType.BaseUpgradeConsole;
 
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
 
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
 
+#if SN1
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
+#elif BZ
+        public override CraftTree.Type FabricatorType => CraftTree.Type.SeaTruckFabricator;
+#endif
+        public override EquipmentType EquipmentType => _equipmentType;
 
-        public override string[] StepsToFabricatorTab => new string[] { "CommonModules" };
+        public override string[] StepsToFabricatorTab => _fabricatorPath;
+
+        public override TechType RequiredForUnlock => TechType.Builder;
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
@@ -49,11 +59,16 @@
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
 
             yield return task;
-            GameObject gameObject1 = GameObject.Instantiate(task.GetResult());
-            gameObject.Set(gameObject1);
+            GameObject prefab = GameObject.Instantiate(task.GetResult(), default, default, false);
+            prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = ClassID; else GameObject.DestroyImmediate(x.gameObject); });
+            if(prefab.TryGetComponent(out TechTag tag)) tag.type = TechType;
+            GameObject.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
+
+            gameObject.Set(prefab);
 
             yield break;
         }
+
         protected override RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
@@ -69,7 +84,7 @@
 
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/{ClassID}.png");
+            return Sprite;
         }
     }
 }

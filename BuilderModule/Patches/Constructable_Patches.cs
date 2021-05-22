@@ -12,13 +12,16 @@
         [HarmonyPrefix]
         public static bool Prefix(Constructable __instance)
         {
-            if(Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
+            Player player = Player.main;
+            if(player.isPiloting && GameModeUtils.RequiresIngredients())
             {
-                Vehicle thisVehicle = Player.main.GetVehicle();
                 if(__instance._constructed)
-                {
                     return false;
-                }
+#if BZ
+                if(player.GetComponentInParent<Hoverbike>() is not null)
+                    return true;
+#endif
+
                 int count = __instance.resourceMap.Count;
                 int resourceID = __instance.GetResourceID();
                 float backupConstructedAmount = __instance.constructedAmount;
@@ -28,43 +31,61 @@
                 if(resourceID2 != resourceID)
                 {
                     TechType destroyTechType = __instance.resourceMap[resourceID2 - 1];
-                    if(thisVehicle.GetType().Equals(typeof(Exosuit)))
+                    Vehicle thisVehicle = player.GetVehicle();
+                    if(thisVehicle != null)
                     {
-                        StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
+                        switch(thisVehicle)
+                        {
+                            case Exosuit exosuit:
+                                if(!exosuit.storageContainer.container.Contains(destroyTechType) || !exosuit.storageContainer.container.DestroyItem(destroyTechType))
+                                {
+                                    __instance.constructedAmount = backupConstructedAmount;
+                                    return true;
+                                }
+                                break;
 
-                        if(storageContainer.container.Contains(destroyTechType))
-                        {
-                            _ = storageContainer.container.DestroyItem(destroyTechType);
-                        }
-                        else
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
+                            case SeaMoth seaMoth:
+                                bool storageCheck = false;
+                                for(int i = 0; i < 12; i++)
+                                {
+                                    try
+                                    {
+                                        ItemsContainer storage = seaMoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
+                                        if(storage != null && storage.Contains(destroyTechType))
+                                        {
+                                            if(storage.DestroyItem(destroyTechType))
+                                            {
+                                                storageCheck = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    catch{ continue; }
+                                }
+                                if(!storageCheck)
+                                {
+                                    __instance.constructedAmount = backupConstructedAmount;
+                                    return true;
+                                }
+                                break;
                         }
                     }
-#if SN1
-                    else
+#if BZ
+                    SeaTruckUpgrades seaTruck = player.GetComponentInParent<SeaTruckUpgrades>();
+                    if(seaTruck != null)
                     {
-                        SeaMoth seamoth = (SeaMoth)thisVehicle;
                         bool storageCheck = false;
-                        for(int i = 0; i < 12; i++)
+                        foreach(StorageContainer storageContainer in seaTruck.GetComponentsInChildren<StorageContainer>() ?? new StorageContainer[0])
                         {
                             try
                             {
-                                ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if(storage != null && storage.Contains(destroyTechType))
+                                if(storageContainer.container.DestroyItem(destroyTechType))
                                 {
-                                    if(storage.DestroyItem(destroyTechType))
-                                    {
-                                        storageCheck = true;
-                                        break;
-                                    }
+                                    storageCheck = true;
+                                    break;
                                 }
                             }
-                            catch(Exception)
-                            {
-                                continue;
-                            }
+                            catch { continue; }
                         }
                         if(!storageCheck)
                         {
