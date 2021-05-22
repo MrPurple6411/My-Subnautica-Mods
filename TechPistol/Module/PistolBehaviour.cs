@@ -415,7 +415,7 @@
                 par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
                 if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out GameObject gameObject, out float num))
                 {
-                    GameObject entityRoot = UWE.Utils.GetEntityRoot(gameObject);
+                    GameObject entityRoot = UWE.Utils.GetEntityRoot(gameObject) ?? gameObject;
                     entityRoot?.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.Config.LaserDamage, gameObject.transform.position, DamageType.Heat, null);
                     entityRoot?.GetComponentInChildren<BreakableResource>()?.HitResource();
                     entityRoot?.GetComponentInChildren<Drillable>()?.OnDrill(entityRoot.transform.position, null, out GameObject _);
