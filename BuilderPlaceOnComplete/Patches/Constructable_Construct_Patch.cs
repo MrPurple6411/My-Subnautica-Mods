@@ -1,5 +1,4 @@
-﻿#if SN1
-namespace BuilderPlaceOnComplete.Patches
+﻿namespace BuilderPlaceOnComplete.Patches
 {
     using HarmonyLib;
     using System.Collections;
@@ -24,10 +23,12 @@ namespace BuilderPlaceOnComplete.Patches
             yield return task;
 
             GameObject prefab = task.GetResult();
-
+#if SN1
             Builder.Begin(prefab);
+#elif BZ
+            Builder.Begin(techType, prefab);
+#endif
             yield break;
         }
     }
 }
-#endif
