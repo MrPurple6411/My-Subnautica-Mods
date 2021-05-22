@@ -118,10 +118,9 @@
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
             List<WaterParkItem> items = __instance.items;
-            if(!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(creature.pickupable.GetTechType()) == -1)
-            {
+            TechType techType = creature.pickupable.GetTechType();
+            if(!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(techType) <= 0f)
                 return;
-            }
 
             List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
             bool hasBred = false;
@@ -129,7 +128,7 @@
             {
                 WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
                 TechType parkCreatureTechType = parkCreature?.pickupable?.GetTechType() ?? TechType.None;
-                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
+                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == techType && !parkCreatureTechType.ToString().Contains("Egg"))
                 {
                     if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                     {
@@ -147,7 +146,7 @@
                                     creature.ResetBreedTime();
                                     parkCreature.ResetBreedTime();
                                     hasBred = true;
-                                    CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
+                                    CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, baseBioReactor.container));
                                     break;
                                 }
                             }
@@ -162,9 +161,9 @@
             }
         }
 
-        private static IEnumerator SpawnCreature(WaterPark waterPark, WaterParkCreature parkCreature, ItemsContainer container)
+        private static IEnumerator SpawnCreature(WaterPark waterPark, TechType parkCreatureTechType, ItemsContainer container)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreature.pickupable.GetTechType(), false);
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreatureTechType, false);
             yield return task;
 
             GameObject prefab = task.GetResult();
