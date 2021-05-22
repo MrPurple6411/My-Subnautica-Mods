@@ -1,5 +1,4 @@
-﻿#if SN1
-namespace UnobtaniumBatteries.Patches
+﻿namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
     using UnityEngine;
@@ -37,4 +36,3 @@ namespace UnobtaniumBatteries.Patches
         }
     }
 }
-#endif

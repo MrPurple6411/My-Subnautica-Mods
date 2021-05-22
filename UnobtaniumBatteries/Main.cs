@@ -1,5 +1,4 @@
-﻿#if SN1
-namespace UnobtaniumBatteries
+﻿namespace UnobtaniumBatteries
 {
     using HarmonyLib;
     using QModManager.API.ModLoading;
@@ -13,7 +12,7 @@ namespace UnobtaniumBatteries
     using UnityEngine;
     using UnobtaniumBatteries.MonoBehaviours;
 
-#if SN1
+#if SUBNAUTICA_STABLE
     using Sprite = Atlas.Sprite;
 #endif
 
@@ -25,7 +24,12 @@ namespace UnobtaniumBatteries
         private static string ModPath = Path.GetDirectoryName(myAssembly.Location);
         internal static string AssetsFolder = Path.Combine(ModPath, "Assets");
 
+#if SN1
         public static List<Type> typesToMakePickupable = new List<Type>() { typeof(ReaperLeviathan), typeof(GhostLeviathan), typeof(Warper) };
+#endif
+
+
+
         public static List<TechType> unobtaniumBatteries = new List<TechType>();
 
         private static CbPowerCell _UnobtaniumCell = null;
@@ -55,8 +59,8 @@ namespace UnobtaniumBatteries
         public static void Load()
         {
             CreateAndPatchPrefabs();
+#if SN1
             SetupIngredientsInventorySettings();
-            Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
         }
 
         private static void SetupIngredientsInventorySettings()
@@ -89,6 +93,8 @@ namespace UnobtaniumBatteries
             CraftDataHandler.SetItemSize(TechType.ReaperLeviathan, new Vector2int(5, 5));
             CraftDataHandler.SetItemSize(TechType.GhostLeviathan, new Vector2int(6, 6));
             CraftDataHandler.SetItemSize(TechType.Warper, new Vector2int(3, 3));
+#endif
+            Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
         }
 
         private static void CreateAndPatchPrefabs()
@@ -99,8 +105,13 @@ namespace UnobtaniumBatteries
                 Name = "Unobtanium Battery",
                 FlavorText = "Battery that constantly keeps 1 Million Power",
                 EnergyCapacity = 1000000,
+#if SN1
                 CraftingMaterials = new List<TechType>() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper },
                 UnlocksWith = TechType.Warper,
+#elif BZ
+                CraftingMaterials = new List<TechType>() { TechType.SquidShark, TechType.Jellyfish, TechType.LilyPaddler },
+                UnlocksWith = TechType.TeleportationTool,
+#endif
 
                 CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "battery_icon.png")),
                 CBModelData = new CBModelData()
@@ -124,7 +135,7 @@ namespace UnobtaniumBatteries
                 Name = "Unobtanium Cell",
                 FlavorText = "Power Cell that constantly keeps 1 Million Power",
                 CraftingMaterials = new List<TechType>() { Main.UnobtaniumBattery.TechType },
-                UnlocksWith = TechType.Warper,
+                UnlocksWith = Main.UnobtaniumBattery.TechType,
 
                 CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png")),
                 CBModelData = new CBModelData()
@@ -148,4 +159,3 @@ namespace UnobtaniumBatteries
         }
     }
 }
-#endif

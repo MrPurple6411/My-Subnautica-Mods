@@ -1,5 +1,4 @@
-﻿#if SN1
-namespace UnobtaniumBatteries.Patches
+﻿namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;
@@ -29,4 +28,3 @@ namespace UnobtaniumBatteries.Patches
         }
     }
 }
-#endif

@@ -3,12 +3,12 @@ namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
 
-    [HarmonyPatch(typeof(Creature), nameof(Creature.OnTakeDamage))]
+    [HarmonyPatch(typeof(CreatureDeath), nameof(CreatureDeath.OnTakeDamage))]
     public static class Creature_OnTakeDamage_Patch
     {
 
         [HarmonyPostfix]
-        public static void Postfix(Creature __instance)
+        public static void Postfix(CreatureDeath __instance)
         {
             if(__instance.TryGetComponent(out WaterParkCreature waterParkCreature) && waterParkCreature.IsInsideWaterPark())
                 return;
