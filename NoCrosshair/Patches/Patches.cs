@@ -16,7 +16,7 @@
                 check = !check;
 
             if(HandReticle.main.iconType == HandReticle.IconType.Default && HandReticle.main._icons.TryGetValue(HandReticle.IconType.Default, out uGUI_HandReticleIcon icon))
-                icon.SetActive(__instance.GetActiveTarget() != null && (!Player.main.IsPiloting() || !check), 0.1f);
+                icon.SetActive((__instance.GetActiveTarget() != null && !Player.main.IsPiloting()) || !check, 0.1f);
         }
 
         [HarmonyPatch(typeof(uGUI_MapRoomScanner), nameof(uGUI_MapRoomScanner.OnTriggerEnter))]
