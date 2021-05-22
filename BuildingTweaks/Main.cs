@@ -6,10 +6,10 @@
     using SMLHelper.V2.Handlers;
     using System.Reflection;
 
-    [QModCore]
+    [QModCore][HarmonyPatch]
     public static class Main
     {
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Load()

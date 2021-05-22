@@ -73,7 +73,6 @@
                 return;
 
             SeaTruckSegment s = c.gameObject.GetComponentInParent<SeaTruckSegment>();
-            ErrorMessage.AddMessage($"{s.gameObject.name}");
             if(s != null)
                 __result = true;
         }

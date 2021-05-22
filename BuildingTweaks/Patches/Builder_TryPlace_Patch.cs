@@ -52,9 +52,20 @@
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)
         {
             BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
+
+            if(Freeze_Patches.Freeze && Builder.ghostModel.transform.parent is null)
+            {
+                Transform aimTransform = Builder.GetAimTransform();
+                if(Physics.Raycast(aimTransform.position, aimTransform.forward, out RaycastHit hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
+                {
+                    Collider hitCollider = hit.collider;
+                    Builder.placementTarget = hitCollider.gameObject;
+                }
+            }
+
             if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
-                GameObject placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
+                GameObject placementTarget = Builder.ghostModel.transform.parent?.gameObject ?? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
                 if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
                 {
                     largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
@@ -91,9 +102,20 @@
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if(Main.Config.AttachToTarget || (Builder.placementTarget != null && builtObject.GetComponent<ConstructableBase>() is null))
+            if(Main.Config.AttachToTarget && Freeze_Patches.Freeze && Builder.ghostModel.transform.parent is null)
             {
-                GameObject placementTarget = Builder.placementTarget ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+                Transform aimTransform = Builder.GetAimTransform();
+                if(Physics.Raycast(aimTransform.position, aimTransform.forward, out RaycastHit hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
+                {
+                    Collider hitCollider = hit.collider;
+                    Builder.placementTarget = hitCollider.gameObject;
+                }
+            }
+
+            if(Main.Config.AttachToTarget || Builder.ghostModel.transform.parent is not null || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
+            {
+                GameObject placementTarget = Builder.ghostModel.transform.parent?.gameObject
+                                             ?? Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
 
                 SubRoot component = placementTarget?.GetComponentInParent<SubRoot>();
                 if(component != null)

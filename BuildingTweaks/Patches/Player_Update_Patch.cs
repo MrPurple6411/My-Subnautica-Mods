@@ -2,6 +2,8 @@
 {
     using HarmonyLib;
     using SMLHelper.V2.Handlers;
+    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using Debug = UnityEngine.Debug;
 
@@ -23,18 +25,46 @@
             {
                 ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
                 Main.Config.FullOverride = !Main.Config.FullOverride;
+                if(Main.Config.FullOverride && Builder.prefab != null && !Builder.canPlace)
+                {
+                    Builder.canPlace = true;
+                    Color value = Builder.placeColorAllow;
+                    IBuilderGhostModel[] components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
+                    for(int i = 0; i < components.Length; i++)
+                    {
+                        components[i].UpdateGhostModelColor(true, ref value);
+                    }
+                    Builder.ghostStructureMaterial.SetColor(ShaderPropertyID._Tint, value);
+                }
                 ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
             }
 
             PlayerTool heldTool = Inventory.main.GetHeldTool();
-            Vehicle vehicle = __instance.GetVehicle();
-            Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 
             bool builderCheck = heldTool?.pickupable != null && heldTool.pickupable.GetTechType() == TechType.Builder;
-            bool builderModuleCheck = module != null && TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module.GetTechType() == modTechType;
+            bool builderModuleCheck = false;
 
+            if(!builderCheck && Builder.prefab != null)
+            {
+                if(__instance.GetVehicle()!= null)
+                    builderModuleCheck = true;
+#if BZ
+                else if(Player.main.IsPilotingSeatruck())
+                    builderModuleCheck = true;
+                else if(Player.main.inHovercraft)
+                    builderModuleCheck = true;
+#endif
+            }
 
-            if(!builderCheck && !builderModuleCheck && (Main.Config.AttachToTarget || Main.Config.FullOverride))
+            if(builderCheck || builderModuleCheck)
+            {
+                if(Input.GetMouseButtonDown(2))
+                    Freeze_Patches.Freeze = !Freeze_Patches.Freeze;
+
+                if(Freeze_Patches.Freeze && Input.GetKeyDown(KeyCode.H))
+                    Builder.UpdateAllowed();
+            }
+            else
             {
                 ClearMsgs();
             }
@@ -127,7 +157,7 @@
             ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
         }
 
-        private static void ProcessMSG(string msg, bool active)
+        internal static void ProcessMSG(string msg, bool active)
         {
             ErrorMessage._Message emsg = ErrorMessage.main.GetExistingMessage(msg);
             if(active)

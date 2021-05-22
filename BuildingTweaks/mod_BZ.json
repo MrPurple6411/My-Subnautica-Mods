@@ -5,6 +5,7 @@
   "Version": "2.1.1",
   "Enable": true,
   "Game": "BelowZero",
+  "LoadBefore": [ "BuilderModule" ],
   "NexusId": {
     "BelowZero": "47"
   },
