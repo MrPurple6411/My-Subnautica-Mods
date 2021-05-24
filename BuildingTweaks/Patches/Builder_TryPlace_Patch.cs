@@ -53,19 +53,9 @@
         {
             BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
 
-            if(Freeze_Patches.Freeze && Builder.ghostModel.transform.parent is null)
-            {
-                Transform aimTransform = Builder.GetAimTransform();
-                if(Physics.Raycast(aimTransform.position, aimTransform.forward, out RaycastHit hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
-                {
-                    Collider hitCollider = hit.collider;
-                    Builder.placementTarget = hitCollider.gameObject;
-                }
-            }
-
             if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
-                GameObject placementTarget = Builder.ghostModel.transform.parent?.gameObject ?? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
+                GameObject placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
                 if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
                 {
                     largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
@@ -102,7 +92,7 @@
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if(Main.Config.AttachToTarget && Freeze_Patches.Freeze && Builder.ghostModel.transform.parent is null)
+            if(Main.Config.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
             {
                 Transform aimTransform = Builder.GetAimTransform();
                 if(Physics.Raycast(aimTransform.position, aimTransform.forward, out RaycastHit hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
@@ -112,34 +102,84 @@
                 }
             }
 
-            if(Main.Config.AttachToTarget || Builder.ghostModel.transform.parent is not null || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
+            if(Main.Config.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
             {
-                GameObject placementTarget = Builder.ghostModel.transform.parent?.gameObject
-                                             ?? Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
-
-                SubRoot component = placementTarget?.GetComponentInParent<SubRoot>();
-                if(component != null)
-                    placementTarget = component.gameObject;
-
+                GameObject placementTarget = Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+                GameObject finalTarget = null;
 
                 if(placementTarget != null)
                 {
+                    Pickupable pickupable = placementTarget.GetComponentInParent<Pickupable>();
+                    if(pickupable != null)
+                    {
+                        finalTarget = pickupable.gameObject;
+                    }
+                    else
+                    {
+                        Creature creature = placementTarget.GetComponentInParent<Creature>();
+                        if(creature != null)
+                        {
+                            finalTarget = creature.gameObject;
+                        }
+                        else
+                        {
+                            SubRoot subRoot = placementTarget.GetComponentInParent<SubRoot>();
+                            if(subRoot != null)
+                            {
+                                finalTarget = subRoot.modulesRoot.gameObject;
+                            }
+                            else
+                            {
+                                Vehicle vehicle = placementTarget.GetComponentInParent<Vehicle>();
+                                if(vehicle != null)
+                                {
+                                    finalTarget = vehicle.modulesRoot.gameObject;
+                                }
+                                else
+                                {
+
+                                    Component lifepod =
+#if SN1
+                            placementTarget.GetComponentInParent<EscapePod>();
+#elif BZ
+                            placementTarget.GetComponentInParent<LifepodDrop>();
+#endif
+                                    if(lifepod != null)
+                                    {
+                                        finalTarget = lifepod.gameObject;
+                                    }
+#if BZ
+                                    else
+                                    {
+                                        SeaTruckSegment seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
+                                        if(seaTruck != null)
+                                            finalTarget = seaTruck.gameObject;
+                                    }
+#endif
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(finalTarget != null)
+                {
                     foreach(Collider builtCollider in builtObject.GetComponentsInChildren<Collider>()?? new Collider[0])
                     {
-                        foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                        foreach(Collider collider in finalTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                         {
                             Physics.IgnoreCollision(collider, builtCollider);
                         }
                     }
 
-                    if(builtObject.name.Contains("Transmitter") && Builder.placementTarget.GetComponentInParent<Base>() is null && placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity2))
+                    if(builtObject.name.Contains("Transmitter") && Builder.placementTarget.GetComponentInParent<Base>() is null && finalTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity2))
                     {
                         largeWorldEntity2.cellLevel = LargeWorldEntity.CellLevel.Global;
                         largeWorldEntity2.initialCellLevel = LargeWorldEntity.CellLevel.Global;
 
                         LargeWorldStreamer.main.cellManager.RegisterEntity(largeWorldEntity2);
                     }
-                    builtObject.transform.SetParent(placementTarget.transform);
+                    builtObject.transform.SetParent(finalTarget.transform);
                 }
             }
             

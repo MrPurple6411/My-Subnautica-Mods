@@ -25,7 +25,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Patches\Builder_TryPlace_Patch.cs" />
     <Compile Include="Patches\Builder_UpdateAllowed_Patch.cs" />
-    <Compile Include="Patches\Freeze_Patches.cs" />
+    <Compile Include="Patches\Builder_Update_Patches.cs" />
     <Compile Include="Patches\Builder_ValidateOutdoor_Patch.cs" />
     <Compile Include="Patches\Base_Start_Patch.cs" />
     <Compile Include="Patches\Constructable_Start_Patch.cs" />

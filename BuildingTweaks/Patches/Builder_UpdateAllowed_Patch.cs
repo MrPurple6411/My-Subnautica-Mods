@@ -32,7 +32,7 @@
                     return;
             }
 
-            if(Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null))
+            if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
             {
 #if SN1
                 __result = Builder.CheckAsSubModule();

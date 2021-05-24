@@ -17,9 +17,9 @@
             if(!__result)
                 return;
 
-            if(Main.Config.AttachToTarget && Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.LeftHand))
+            if(Main.Config.AttachToTarget && Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.LeftHand) && GameInput.GetButtonHeldTime(GameInput.Button.LeftHand) > 1)
             {
-                Freeze_Patches.Freeze = true;
+                Builder_Update_Patches.Freeze = true;
                 return;
             }
 

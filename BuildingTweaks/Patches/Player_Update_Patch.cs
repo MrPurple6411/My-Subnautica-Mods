@@ -13,7 +13,6 @@
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-
             if(Input.GetKeyDown(Main.Config.AttachToTargetToggle))
             {
                 ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
@@ -59,9 +58,9 @@
             if(builderCheck || builderModuleCheck)
             {
                 if(Input.GetMouseButtonDown(2))
-                    Freeze_Patches.Freeze = !Freeze_Patches.Freeze;
+                    Builder_Update_Patches.Freeze = !Builder_Update_Patches.Freeze;
 
-                if(Freeze_Patches.Freeze && Input.GetKeyDown(KeyCode.H))
+                if(Builder_Update_Patches.Freeze && Input.GetKeyDown(KeyCode.H))
                     Builder.UpdateAllowed();
             }
             else
