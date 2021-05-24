@@ -59,9 +59,6 @@
             {
                 if(Input.GetMouseButtonDown(2))
                     Builder_Update_Patches.Freeze = !Builder_Update_Patches.Freeze;
-
-                if(Builder_Update_Patches.Freeze && Input.GetKeyDown(KeyCode.H))
-                    Builder.UpdateAllowed();
             }
             else
             {

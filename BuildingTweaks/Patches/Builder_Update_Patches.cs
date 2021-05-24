@@ -14,9 +14,7 @@
             set 
             { 
                 if(freeze != value)
-                {
                     Time.timeScale = value ? 0.0f : 1;
-                }
 
                 freeze = value;
             } 

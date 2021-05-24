@@ -197,10 +197,17 @@
                 }
 
                 Vector3 spawnPoint = waterPark.transform.position + (Random.insideUnitSphere * 50);
-                while(Vector3.Distance(waterPark.hostBase.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
+                Base @base =
+#if SN1
+                    waterPark.GetComponentInParent<Base>();
+#elif BZ
+                    waterPark.hostBase;
+#endif
+
+                while(Vector3.Distance(@base.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
                 {
                     yield return null;
-                    spawnPoint = waterPark.hostBase.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
+                    spawnPoint = @base.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
                 }
 
                 gameObject.transform.SetPositionAndRotation(spawnPoint, Quaternion.identity);
