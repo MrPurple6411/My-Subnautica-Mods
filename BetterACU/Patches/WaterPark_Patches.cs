@@ -96,16 +96,20 @@
         [HarmonyPrefix]
         public static void Prefix(WaterPark __instance)
         {
-#if BZ
-            if(__instance is LargeRoomWaterPark)
-            {
-                __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
-            }
-            else
-#endif
             __instance.wpPieceCapacity = Main.Config.WaterParkSize;
         }
     }
+#if BZ
+    [HarmonyPatch(typeof(LargeRoomWaterPark), nameof(LargeRoomWaterPark.HasFreeSpace))]
+    internal class LargeRoomWaterPark_HasFreeSpace_Postfix
+    {
+        [HarmonyPrefix]
+        public static void Prefix(WaterPark __instance)
+        {
+            __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
+        }
+    }
+#endif
 
 #if SN1
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
@@ -150,7 +154,12 @@
                                     break;
                                 }
                             }
+                        }
 
+                        if(!hasBred && __instance.transform.position.y < 0 && Main.Config.OceanBreeding)
+                        {
+                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, null));
+                            hasBred = true;
                         }
                     }
 
@@ -167,19 +176,37 @@
             yield return task;
 
             GameObject prefab = task.GetResult();
-            prefab.SetActive(false);
-            GameObject gameObject = GameObject.Instantiate(prefab);
+            if(prefab != null)
+            {
+                prefab.SetActive(false);
+                GameObject gameObject = GameObject.Instantiate(prefab);
 
-            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+                if(container is not null)
+                {
+                    Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
-                TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
-                yield return pickupable.PickupAsync(taskResult, false);
-                pickupable = taskResult.Get();
+                    TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
+                    yield return pickupable.PickupAsync(taskResult, false);
+                    pickupable = taskResult.Get();
 #else
-            pickupable.Pickup(false);
+                    pickupable.Pickup(false);
 #endif
-            container.AddItem(pickupable);
+                    gameObject.SetActive(false);
+                    container.AddItem(pickupable);
+                    yield break;
+                }
 
+                Vector3 spawnPoint = waterPark.transform.position + (Random.insideUnitSphere * 50);
+                while(Vector3.Distance(waterPark.hostBase.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
+                {
+                    yield return null;
+                    spawnPoint = waterPark.hostBase.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
+                }
+
+                gameObject.transform.SetPositionAndRotation(spawnPoint, Quaternion.identity);
+                gameObject.SetActive(true);
+
+            }
             yield break;
         }
     }

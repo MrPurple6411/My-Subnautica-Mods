@@ -7,6 +7,9 @@
     [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]
     public class Config: ConfigFile
     {
+        [Toggle("Breed Into Ocean")]
+        public bool OceanBreeding = false;
+
         [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
         public int WaterParkSize = 10;
 
