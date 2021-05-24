@@ -45,7 +45,7 @@
 
             if(prefab != null)
             {
-                processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab = prefab;
                 processedPrefab.SetActive(false);
             }
 
@@ -68,7 +68,7 @@
             GameObject prefab = Utils.CreateGenericLoot(TechType);
             if(prefab != null)
             {
-                processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab = prefab;
                 processedPrefab.SetActive(false);
             }
 
