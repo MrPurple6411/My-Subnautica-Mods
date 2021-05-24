@@ -40,13 +40,13 @@
 #if BZ
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "HoverbikeUpgrades", "Snowfox Upgrades", SpriteManager.Get(TechType.Hoverbike), new string[] { "Upgrades" });
             var builderModuleSeaTruck = new BuilderModulePrefab("BuilderModuleSeaTruck", "SeaTruck Builder Module", "Allows you to build bases while in your vehicle.", new string[] { "Upgrades", "SeatruckUpgrades" }, EquipmentType.SeaTruckModule);
-            var builderModuleHoverBike = new BuilderModulePrefab("BuilderModuleHoverBike", "Snowfox Builder Module", "Allows you to build bases while in your vehicle.", new string[] { "Upgrades", "HoverbikeUpgrades" }, EquipmentType.HoverbikeModule);
+            //var builderModuleHoverBike = new BuilderModulePrefab("BuilderModuleHoverBike", "Snowfox Builder Module", "Allows you to build bases while in your vehicle.", new string[] { "Upgrades", "HoverbikeUpgrades" }, EquipmentType.HoverbikeModule);
 
             builderModuleSeaTruck.Patch();
-            builderModuleHoverBike.Patch();
+            //builderModuleHoverBike.Patch();
 
             builderModules.Add(builderModuleSeaTruck.TechType);
-            builderModules.Add(builderModuleHoverBike.TechType);
+            //builderModules.Add(builderModuleHoverBike.TechType);
 #endif
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "MrPurple6411_BuilderModule");
         }
