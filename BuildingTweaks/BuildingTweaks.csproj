@@ -20,7 +20,7 @@
     <Compile Include="Patches\Base_BuildPillars_Patch.cs" />
     <Compile Include="Patches\BuilderInputHandler_Patch.cs" />
     <Compile Include="Patches\Builder_CanDestroyObject_Patch.cs" />
-    <Compile Include="Patches\Builder_CheckSpace_Patch.cs" />
+    <Compile Include="Patches\Builder_ObsticleChecks_Patches.cs" />
     <Compile Include="Patches\Builder_GetSurfaceType_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\Builder_TryPlace_Patch.cs" />
