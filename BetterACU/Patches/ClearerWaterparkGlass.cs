@@ -15,7 +15,7 @@
             var waterParkGeometries = __instance.gameObject.GetComponentsInChildren<Renderer>()?.ToList() ?? new List<Renderer>();
             foreach(var largeRoomWaterPark in waterParkGeometries)
             {
-                Material material = largeRoomWaterPark?.material;
+                var material = largeRoomWaterPark?.material;
                 if(material != null && material.name.StartsWith("Large_Aquarium_Room_generic_glass"))
                 {
                     material.SetColor("_Color", new Color(0f, 0.609009f, 0.8088291f, 0.15f));

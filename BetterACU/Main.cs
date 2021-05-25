@@ -17,7 +17,7 @@
             Config = OptionsPanelHandler.RegisterModOptions<Config>();
             IngameMenuHandler.RegisterOnSaveEvent(Config.Save);
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }
