@@ -3,7 +3,6 @@
     using HarmonyLib;
     using System.Collections.Generic;
     using UnityEngine;
-    using UnityEngine.Rendering;
 
     [HarmonyPatch]
     public static class Builder_Update_Patches
