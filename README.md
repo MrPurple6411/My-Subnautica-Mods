@@ -14,7 +14,7 @@ My Batch files are as follows.
 
 switching to Stable:
 
-
+```cmd
 @echo off
 setlocal
 set BRANCH=Stable
@@ -34,10 +34,11 @@ mklink /j %GAME% %GAME%.%BRANCH%
 :: Swap the steam manifest
 del ..\appmanifest_848450.acf
 mklink /h ..\appmanifest_848450.acf ..\appmanifest_848450.acf.%BRANCH%
-
+```
 
 switching to Experimental branches
 
+```cmd
 @echo off
 setlocal
 set BRANCH=Exp
@@ -57,3 +58,4 @@ mklink /j %GAME% %GAME%.%BRANCH%
 :: Swap the steam manifest
 del ..\appmanifest_848450.acf
 mklink /h ..\appmanifest_848450.acf ..\appmanifest_848450.acf.%BRANCH%
+```
