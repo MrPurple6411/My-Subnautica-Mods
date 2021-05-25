@@ -33,12 +33,7 @@
     <Optimize>true</Optimize>
     <LangVersion>preview</LangVersion>
     <ReferencePath>
-      $(GameDir)\BepInEx\core;
-      $(GameDir)\BepInEx\plugins\QModManager;
-      $(GameDir)\Qmods\$(SMLHelperFolder);
-      $(GameDir)\$(DataFolder)\Managed\publicized_assemblies;
-      $(GameDir)\$(DataFolder)\Managed;
-      $(SolutionDir)\Libs
+      $(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs
     </ReferencePath>
   </PropertyGroup>
 </Project>
