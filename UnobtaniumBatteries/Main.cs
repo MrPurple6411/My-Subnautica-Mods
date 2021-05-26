@@ -10,7 +10,7 @@
     using System;
     using SMLHelper.V2.Utility;
     using UnityEngine;
-    using UnobtaniumBatteries.MonoBehaviours;
+    using MonoBehaviours;
 
 #if SUBNAUTICA_STABLE
     using Sprite = Atlas.Sprite;
@@ -20,41 +20,14 @@
     [QModCore]
     public static class Main
     {
-        private static Assembly myAssembly = Assembly.GetExecutingAssembly();
-        private static string ModPath = Path.GetDirectoryName(myAssembly.Location);
-        internal static string AssetsFolder = Path.Combine(ModPath, "Assets");
-
+        private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();
+        private static readonly string ModPath = Path.GetDirectoryName(myAssembly.Location);
+        private static readonly string AssetsFolder = Path.Combine(ModPath, "Assets");
+        public static readonly List<TechType> unobtaniumBatteries = new();
 #if SN1
-        public static List<Type> typesToMakePickupable = new List<Type>() { typeof(ReaperLeviathan), typeof(GhostLeviathan), typeof(Warper) };
+        public static readonly List<Type> typesToMakePickupable = new() { typeof(ReaperLeviathan), typeof(GhostLeviathan), typeof(Warper) };
 #endif
-
-
-
-        public static List<TechType> unobtaniumBatteries = new List<TechType>();
-
-        private static CbPowerCell _UnobtaniumCell = null;
-        private static CbBattery _UnobtaniumBattery = null;
-
-        public static CbBattery UnobtaniumBattery
-        {
-            get => _UnobtaniumBattery;
-            private set
-            {
-                _UnobtaniumBattery = value;
-                _UnobtaniumBattery.Patch();
-            }
-        }
-        public static CbPowerCell UnobtaniumCell
-        {
-            get => _UnobtaniumCell;
-            private set
-            {
-                _UnobtaniumCell = value;
-                _UnobtaniumCell.Patch();
-            }
-        }
-
-
+        
         [QModPatch]
         public static void Load()
         {
@@ -99,7 +72,7 @@
 
         private static void CreateAndPatchPrefabs()
         {
-            UnobtaniumBattery = new CbBattery()
+            var UnobtaniumBattery = new CbBattery()
             {
                 ID = "UnobtaniumBattery",
                 Name = "Unobtanium Battery",
@@ -124,18 +97,19 @@
                     UseIonModelsAsBase = true
                 },
 
-                EnhanceGameObject = new Action<GameObject>((o) => EnhanceGameObject(o))
+                EnhanceGameObject = EnhanceGameObject
             };
-            unobtaniumBatteries.Add(Main.UnobtaniumBattery.TechType);
+            UnobtaniumBattery.Patch();
+            unobtaniumBatteries.Add(UnobtaniumBattery.TechType);
 
-            UnobtaniumCell = new CbPowerCell()
+            var UnobtaniumCell = new CbPowerCell()
             {
                 EnergyCapacity = 1000000,
                 ID = "UnobtaniumCell",
                 Name = "Unobtanium Cell",
                 FlavorText = "Power Cell that constantly keeps 1 Million Power",
-                CraftingMaterials = new List<TechType>() { Main.UnobtaniumBattery.TechType },
-                UnlocksWith = Main.UnobtaniumBattery.TechType,
+                CraftingMaterials = new List<TechType>() { UnobtaniumBattery.TechType },
+                UnlocksWith = UnobtaniumBattery.TechType,
 
                 CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png")),
                 CBModelData = new CBModelData()
@@ -148,12 +122,13 @@
                     UseIonModelsAsBase = true
                 },
 
-                EnhanceGameObject = new Action<GameObject>((o) => EnhanceGameObject(o))
+                EnhanceGameObject = EnhanceGameObject
             };
-            unobtaniumBatteries.Add(Main.UnobtaniumCell.TechType);
+            UnobtaniumCell.Patch();
+            unobtaniumBatteries.Add(UnobtaniumCell.TechType);
         }
 
-        public static void EnhanceGameObject(GameObject gameObject)
+        private static void EnhanceGameObject(GameObject gameObject)
         {
             gameObject.EnsureComponent<UnobtaniumBehaviour>();
         }

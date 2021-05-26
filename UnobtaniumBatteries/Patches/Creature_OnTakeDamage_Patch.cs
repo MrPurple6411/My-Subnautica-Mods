@@ -13,18 +13,17 @@ namespace UnobtaniumBatteries.Patches
             if(__instance.TryGetComponent(out WaterParkCreature waterParkCreature) && waterParkCreature.IsInsideWaterPark())
                 return;
 
-            if(Main.typesToMakePickupable.Contains(__instance.GetType()) && __instance.liveMixin != null)
+            if (!Main.typesToMakePickupable.Contains(__instance.GetType()) || __instance.liveMixin == null) return;
+
+            if(__instance.liveMixin.IsAlive() && __instance.liveMixin.health <= (__instance.liveMixin.initialHealth / 5))
             {
-                if(__instance.liveMixin.IsAlive() && __instance.liveMixin.health <= (__instance.liveMixin.initialHealth / 5))
-                {
-                    Pickupable pickupable = __instance.gameObject.EnsureComponent<Pickupable>();
-                    pickupable.isPickupable = true;
-                    pickupable.randomizeRotationWhenDropped = true;
-                }
-                else if(__instance.gameObject.TryGetComponent(out Pickupable pickupable))
-                {
-                    pickupable.isPickupable = false;
-                }
+                var pickupable = __instance.gameObject.EnsureComponent<Pickupable>();
+                pickupable.isPickupable = true;
+                pickupable.randomizeRotationWhenDropped = true;
+            }
+            else if(__instance.gameObject.TryGetComponent(out Pickupable pickupable))
+            {
+                pickupable.isPickupable = false;
             }
         }
     }

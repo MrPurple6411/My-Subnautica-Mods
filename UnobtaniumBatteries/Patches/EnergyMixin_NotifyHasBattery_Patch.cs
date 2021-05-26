@@ -2,8 +2,7 @@
 {
     using HarmonyLib;
     using UnityEngine;
-    using UnobtaniumBatteries.MonoBehaviours;
-    using static EnergyMixin;
+    using MonoBehaviours;
 
     [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.NotifyHasBattery))]
     public static class EnergyMixin_NotifyHasBattery_Patch
@@ -13,17 +12,15 @@
         {
             if(item != null)
             {
-                TechType techType = item.item.GetTechType();
+                var techType = item.item.GetTechType();
 
                 if(Main.unobtaniumBatteries.Contains(techType))
                 {
-                    foreach(BatteryModels batteryModel in __instance.batteryModels)
+                    foreach(var batteryModel in __instance.batteryModels)
                     {
-                        if(batteryModel.techType == techType)
-                        {
-                            batteryModel.model.EnsureComponent<UnobtaniumBehaviour>();
-                            return;
-                        }
+                        if (batteryModel.techType != techType) continue;
+                        batteryModel.model.EnsureComponent<UnobtaniumBehaviour>();
+                        return;
                     }
 
                     __instance.gameObject.EnsureComponent<UnobtaniumBehaviour>();
@@ -32,7 +29,7 @@
             }
 
             if(__instance.TryGetComponent(out UnobtaniumBehaviour infinityBehaviour))
-                GameObject.Destroy(infinityBehaviour);
+                Object.Destroy(infinityBehaviour);
         }
     }
 }
