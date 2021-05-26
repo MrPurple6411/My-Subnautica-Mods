@@ -2,7 +2,7 @@
   "Id": "Base_Legs_Removal",
   "DisplayName": "Base_Legs_Removal",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "2.1.1",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",

@@ -1,6 +1,7 @@
 ﻿namespace Base_Legs_Removal.Patches
 {
     using HarmonyLib;
+    using UnityEngine;
 
 #if SN1
     [HarmonyPatch(typeof(BaseFoundationPiece), nameof(BaseFoundationPiece.OnGenerate))]
@@ -9,8 +10,70 @@
         [HarmonyPrefix]
         public static void Prefix(BaseFoundationPiece __instance)
         {
-            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+
+            GameObject target = __instance.GetComponentInParent<Base>().gameObject;
+            GameObject finalTarget = null;
+
+            if(target != null)
+            {
+                Pickupable pickupable = target.GetComponentInParent<Pickupable>();
+                if(pickupable != null)
+                {
+                    finalTarget = pickupable.gameObject;
+                }
+                else
+                {
+                    Creature creature = target.GetComponentInParent<Creature>();
+                    if(creature != null)
+                    {
+                        finalTarget = creature.gameObject;
+                    }
+                    else
+                    {
+                        SubRoot subRoot = target.transform.parent?.GetComponentInParent<SubRoot>();
+                        if(subRoot != null)
+                        {
+                            finalTarget = subRoot.modulesRoot.gameObject;
+                        }
+                        else
+                        {
+                            Vehicle vehicle = target.GetComponentInParent<Vehicle>();
+                            if(vehicle != null)
+                            {
+                                finalTarget = vehicle.modulesRoot.gameObject;
+                            }
+                            else
+                            {
+
+                                Component lifePod =
+#if SN1
+                            target.GetComponentInParent<EscapePod>();
+#elif BZ
+                            placementTarget.GetComponentInParent<LifepodDrop>();
+#endif
+                                if(lifePod != null)
+                                {
+                                    finalTarget = lifePod.gameObject;
+                                }
+#if BZ
+                                    else
+                                    {
+                                        SeaTruckSegment seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
+                                        if(seaTruck != null)
+                                            finalTarget = seaTruck.gameObject;
+                                    }
+#endif
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (finalTarget != null)
+            {
+                ErrorMessage.AddMessage($"{finalTarget.gameObject.name}");
                 return;
+            }
 
             float maxHeight = 0f;
             Configuration.Config config = Main.Config;

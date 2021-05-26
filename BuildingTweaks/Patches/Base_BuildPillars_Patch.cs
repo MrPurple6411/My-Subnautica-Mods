@@ -1,6 +1,7 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
+    using UnityEngine;
 
 #if SN1
     [HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
@@ -11,8 +12,66 @@
         {
             if(__instance.isGhost)
                 return;
+            
+            GameObject target = UWE.Utils.GetEntityRoot(__instance.gameObject) ?? __instance.gameObject;
+            GameObject finalTarget = null;
 
-            if(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
+            if(target != null)
+            {
+                Pickupable pickupable = target.GetComponentInParent<Pickupable>();
+                if(pickupable != null)
+                {
+                    finalTarget = pickupable.gameObject;
+                }
+                else
+                {
+                    Creature creature = target.GetComponentInParent<Creature>();
+                    if(creature != null)
+                    {
+                        finalTarget = creature.gameObject;
+                    }
+                    else
+                    {
+                        SubRoot subRoot = target.GetComponentInParent<SubRoot>();
+                        if(subRoot != null)
+                        {
+                            finalTarget = subRoot.modulesRoot.gameObject;
+                        }
+                        else
+                        {
+                            Vehicle vehicle = target.GetComponentInParent<Vehicle>();
+                            if(vehicle != null)
+                            {
+                                finalTarget = vehicle.modulesRoot.gameObject;
+                            }
+                            else
+                            {
+
+                                Component lifepod =
+#if SN1
+                            target.GetComponentInParent<EscapePod>();
+#elif BZ
+                            placementTarget.GetComponentInParent<LifepodDrop>();
+#endif
+                                if(lifepod != null)
+                                {
+                                    finalTarget = lifepod.gameObject;
+                                }
+#if BZ
+                                    else
+                                    {
+                                        SeaTruckSegment seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
+                                        if(seaTruck != null)
+                                            finalTarget = seaTruck.gameObject;
+                                    }
+#endif
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(finalTarget != null)
             {
                 Int3.Bounds bounds = __instance.Bounds;
                 Int3 mins = bounds.mins;
