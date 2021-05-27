@@ -17,12 +17,12 @@ namespace SeamothThermal.Patches
         private static void Prefix(SeaMoth __instance)
         {
             // If we have the SeamothThermalModule equipped.
-            int count = __instance.modules.GetCount(Main.thermalModule.TechType);
+            var count = __instance.modules.GetCount(Main.thermalModule.TechType);
             if(count > 0)
             {
                 // Evaluate the energy to add based on temperature
-                float temperature = __instance.GetTemperature();
-                float energyToAdd = ExosuitThermalReactorCharge.Evaluate(temperature);
+                var temperature = __instance.GetTemperature();
+                var energyToAdd = ExosuitThermalReactorCharge.Evaluate(temperature);
 
                 // Add the energy by invoking private method using Reflection.
                 AddEnergyMethod.Invoke(__instance, new object[] { energyToAdd * Time.deltaTime });

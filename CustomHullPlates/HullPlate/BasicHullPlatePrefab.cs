@@ -30,11 +30,11 @@
 #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
-            GameObject prefab = CraftData.GetPrefabForTechType(TechType.DioramaHullPlate);
+            var prefab = CraftData.GetPrefabForTechType(TechType.DioramaHullPlate);
 
-            GameObject _GameObject = GameObject.Instantiate(prefab);
+            var _GameObject = Object.Instantiate(prefab);
 
-            MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
+            var meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
             _GameObject.name = ClassID;
 
@@ -43,17 +43,16 @@
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.DioramaHullPlate);
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.DioramaHullPlate);
             yield return task;
 
-            GameObject _GameObject = GameObject.Instantiate(task.GetResult());
+            var _GameObject = Object.Instantiate(task.GetResult());
 
-            MeshRenderer meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
+            var meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = hullPlateTexture;
             _GameObject.name = ClassID;
 
             gameObject.Set(_GameObject);
-            yield break;
         }
 
         /// <summary>
@@ -61,7 +60,7 @@
         /// </summary>
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1));
+            return new(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1));
         }
 
         /// <summary>

@@ -1,4 +1,8 @@
-﻿namespace ChargeRequired.Patches
+﻿// ReSharper disable RedundantAssignment
+
+using System.Linq;
+
+namespace ChargeRequired.Patches
 {
     using System;
     using System.Collections.Generic;
@@ -7,18 +11,12 @@
     {
         public static bool ClosestItemContainers_GetPickupCount_Prefix(TechType techType, ref int __result)
         {
-            int num = 0;
-            foreach(ItemsContainer itemsContainer in Main.containers.GetValue(null) as ItemsContainer[])
+            var num = 0;
+            foreach(var itemsContainer in Main.containers.GetValue(null) as ItemsContainer[] ?? new ItemsContainer[0])
             {
-                List<InventoryItem> items = new List<InventoryItem>();
+                var items = new List<InventoryItem>();
                 itemsContainer.GetItems(techType, items);
-                foreach(InventoryItem item in items)
-                {
-                    if(Main.BatteryCheck(item.item))
-                    {
-                        num++;
-                    }
-                }
+                num += items.Count(item => Main.BatteryCheck(item.item));
             }
             __result = num;
             return false;
@@ -26,12 +24,12 @@
 
         public static bool ClosestItemContainers_DestroyItem_Prefix(TechType techType, ref bool __result, int count = 1)
         {
-            int num = 0;
-            foreach(ItemsContainer itemsContainer in Main.containers.GetValue(null) as ItemsContainer[])
+            var num = 0;
+            foreach(var itemsContainer in Main.containers.GetValue(null) as ItemsContainer[] ?? new ItemsContainer[0])
             {
-                List<InventoryItem> items = new List<InventoryItem>();
+                var items = new List<InventoryItem>();
                 itemsContainer.GetItems(techType, items);
-                foreach(InventoryItem item in items)
+                foreach(var item in items)
                 {
                     if(Main.BatteryCheck(item.item))
                     {
@@ -55,13 +53,13 @@
             }
             if(num < count)
             {
-                Console.WriteLine(string.Format("[EasyCraft] Unable to remove {0} {1}", count, techType));
+                Console.WriteLine($"[EasyCraft] Unable to remove {count} {techType}");
                 __result = false;
                 return false;
             }
 
             __result = true;
-            Console.WriteLine(string.Format("[EasyCraft] removed {0} {1}", count, techType));
+            Console.WriteLine($"[EasyCraft] removed {count} {techType}");
             return false;
         }
 

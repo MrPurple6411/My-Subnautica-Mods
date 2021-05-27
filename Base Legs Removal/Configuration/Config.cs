@@ -36,7 +36,7 @@
 
         private static void RegenLegs()
         {
-            GameObject.FindObjectsOfType<Base>()?.ForEach((x) => x.RebuildGeometry());
+            Object.FindObjectsOfType<Base>()?.ForEach((x) => x.RebuildGeometry());
         }
     }
 }

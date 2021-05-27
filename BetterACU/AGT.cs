@@ -9,18 +9,21 @@
     {
         public static bool TryBreedIntoAlterraGen(WaterPark waterPark, TechType parkCreatureTechType, WaterParkCreature parkCreature)
         {
-            IFCSStorage[] AlterraGens = waterPark?.gameObject?.GetComponentInParent<SubRoot>()?.gameObject?.GetComponentsInChildren<IFCSStorage>();
+            var componentInParent = waterPark != null ? waterPark.gameObject.GetComponentInParent<SubRoot>() : null;
+            var AlterraGens = componentInParent != null
+                ? componentInParent.gameObject.GetComponentsInChildren<IFCSStorage>()
+                : null;
 
             if(AlterraGens is null)
                 return false;
 
-            foreach(IFCSStorage storage in AlterraGens)
+            foreach(var storage in AlterraGens)
             {
-                if(storage.GetType().Name.Contains("AlterraGen") && storage.IsAllowedToAdd(parkCreature.pickupable, false))
-                {
-                    CoroutineHost.StartCoroutine(AddItemToAlterraGen(parkCreatureTechType, storage));
-                    return true;
-                }
+                if (!storage.GetType().Name.Contains("AlterraGen") ||
+                    !storage.IsAllowedToAdd(parkCreature.pickupable, false)) continue;
+                
+                CoroutineHost.StartCoroutine(AddItemToAlterraGen(parkCreatureTechType, storage));
+                return true;
             }
 
             return false;
@@ -28,18 +31,18 @@
 
         private static IEnumerator AddItemToAlterraGen(TechType parkCreatureTechType, IFCSStorage container)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreatureTechType, false);
+            var task = CraftData.GetPrefabForTechTypeAsync(parkCreatureTechType, false);
             yield return task;
 
-            GameObject prefab = task.GetResult();
+            var prefab = task.GetResult();
             prefab.SetActive(false);
 
             while(!container.CanBeStored(1, parkCreatureTechType))
                 yield return new WaitForSecondsRealtime(1);
 
-            GameObject gameObject = GameObject.Instantiate(prefab);
+            var gameObject = Object.Instantiate(prefab);
 
-            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+            var pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
                 TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
                 yield return pickupable.PickupAsync(taskResult, false);
@@ -48,8 +51,6 @@
             pickupable.Pickup(false);
 #endif
             container.AddItemToContainer(new InventoryItem(pickupable));
-
-            yield break;
         }
     }
 }

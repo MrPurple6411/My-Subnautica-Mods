@@ -12,6 +12,8 @@
         private readonly Texture2D posterIcon;
         private readonly Texture2D posterTexture;
         private readonly string orientation;
+        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        private static readonly int SpecTex = Shader.PropertyToID("_SpecTex");
 
         public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation, Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description)
         {
@@ -30,43 +32,42 @@
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
 
-        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new string[] { "Posters", "Landscape" } : new string[] { "Posters", "Portrait" };
+        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new[] { "Posters", "Landscape" } : new[] { "Posters", "Portrait" };
 
 #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
-            GameObject prefab = orientation.ToLower() == "landscape"
+            var prefab = orientation.ToLower() == "landscape"
                 ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
                 : CraftData.GetPrefabForTechType(TechType.PosterKitty);
 
 
-            GameObject _GameObject = UnityEngine.Object.Instantiate(prefab);
+            var _GameObject = Object.Instantiate(prefab);
             _GameObject.name = ClassID;
 
-            Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
-            material.SetTexture("_MainTex", posterTexture);
-            material.SetTexture("_SpecTex", posterTexture);
+            var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
+            material.SetTexture(MainTex, posterTexture);
+            material.SetTexture(SpecTex, posterTexture);
 
             return _GameObject;
         }
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            CoroutineTask<GameObject> task = orientation.ToLower() == "landscape"
+            var task = orientation.ToLower() == "landscape"
                 ? CraftData.GetPrefabForTechTypeAsync(TechType.PosterAurora)
                 : CraftData.GetPrefabForTechTypeAsync(TechType.PosterKitty);
 
             yield return task;
 
-            GameObject _GameObject = GameObject.Instantiate(task.GetResult());
+            var _GameObject = Object.Instantiate(task.GetResult());
             _GameObject.name = ClassID;
 
-            Material material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
-            material.SetTexture("_MainTex", posterTexture);
-            material.SetTexture("_SpecTex", posterTexture);
+            var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
+            material.SetTexture(MainTex, posterTexture);
+            material.SetTexture(SpecTex, posterTexture);
 
             gameObject.Set(_GameObject);
-            yield break;
         }
 
 #if SN1
@@ -75,12 +76,12 @@
         /// </summary>
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(){
-                    new Ingredient(TechType.Titanium, 1),
-                    new Ingredient(TechType.FiberMesh, 1)
+                    new(TechType.Titanium, 1),
+                    new(TechType.FiberMesh, 1)
                 }
             };
         }

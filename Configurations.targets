@@ -31,7 +31,7 @@
     <OutputPath>..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     <ReferencePath>
       $(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs
     </ReferencePath>

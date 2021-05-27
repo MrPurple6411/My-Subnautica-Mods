@@ -1,10 +1,9 @@
 ﻿namespace UnknownName.Patches
 {
     using HarmonyLib;
-    using System;
     using UnKnownName;
 
-    [HarmonyPatch(typeof(KnownTech), nameof(KnownTech.GetTechUnlockState), new Type[] { typeof(TechType), typeof(int), typeof(int) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Out, ArgumentType.Out })]
+    [HarmonyPatch(typeof(KnownTech), nameof(KnownTech.GetTechUnlockState), new[] { typeof(TechType), typeof(int), typeof(int) }, new[] { ArgumentType.Normal, ArgumentType.Out, ArgumentType.Out })]
     public static class KnownTech_GetTechUnlockState
     {
         [HarmonyPostfix]

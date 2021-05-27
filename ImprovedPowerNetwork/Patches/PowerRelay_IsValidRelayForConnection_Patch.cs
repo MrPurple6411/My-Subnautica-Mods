@@ -17,8 +17,8 @@
                     return;
                 }
 
-                SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
-                SubRoot subRoot2 = potentialRelay.gameObject.GetComponentInParent<SubRoot>();
+                var subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
+                var subRoot2 = potentialRelay.gameObject.GetComponentInParent<SubRoot>();
 
                 if(!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
                 {
@@ -91,13 +91,12 @@
                     return;
                 }
 
-                Vector3 position1 = __instance.GetConnectPoint(potentialRelay.GetConnectPoint(__instance.GetConnectPoint(potentialRelay.GetConnectPoint())));
-                Vector3 position2 = potentialRelay.GetConnectPoint(position1);
+                var position1 = __instance.GetConnectPoint(potentialRelay.GetConnectPoint(__instance.GetConnectPoint(potentialRelay.GetConnectPoint())));
+                var position2 = potentialRelay.GetConnectPoint(position1);
 
                 if(Vector3.Distance(position1, position2) > __instance.maxOutboundDistance)
                 {
                     __result = false;
-                    return;
                 }
             }
         }

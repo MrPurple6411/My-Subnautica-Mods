@@ -10,7 +10,7 @@
         [Slider("Resource Multiplier", 1, 10, DefaultValue = 1, Step = 1, Format = "{0:F0}")]
         public int ResourceMultiplier = 1;
 
-        public List<string> Blacklist = new List<string>() 
+        public List<string> Blacklist = new() 
         { 
             TechType.CrashHome.AsString(),
 #if SN1
@@ -18,6 +18,6 @@
 #endif
         };
 
-        public List<string> WhiteList = new List<string>() { };
+        public List<string> WhiteList = new();
     }
 }

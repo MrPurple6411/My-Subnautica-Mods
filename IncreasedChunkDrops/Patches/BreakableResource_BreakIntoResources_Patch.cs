@@ -14,26 +14,25 @@
         [HarmonyPostfix]
         public static void Postfix(BreakableResource __instance)
         {
-            Vector3 position = __instance.gameObject.transform.position + (__instance.gameObject.transform.up * __instance.verticalSpawnOffset);
-            int extraSpawns = Random.Range(Main.Config.ExtraCount, Main.Config.ExtraCountMax + 1);
+            var go = __instance.gameObject;
+            var position = go.transform.position + go.transform.up * __instance.verticalSpawnOffset;
+            var extraSpawns = Random.Range(Main.Config.ExtraCount, Main.Config.ExtraCountMax + 1);
             while(extraSpawns > 0)
             {
 #if SUBNAUTICA_STABLE
                 Rigidbody rigidbody = null;
-                bool flag = false;
-                for(int i = 0; i < __instance.numChances; i++)
+                var flag = false;
+                for(var i = 0; i < __instance.numChances; i++)
                 {
-                    GameObject prefab = __instance.ChooseRandomResource();
-                    if(prefab != null)
-                    {
-                        rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
-                        flag = true;
-                        break;
-                    }
+                    var prefab = __instance.ChooseRandomResource();
+                    if (prefab == null) continue;
+                    rigidbody = Object.Instantiate(prefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
+                    flag = true;
+                    break;
                 }
                 if(!flag)
                 {
-                    rigidbody = GameObject.Instantiate(__instance.defaultPrefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
+                    rigidbody = Object.Instantiate(__instance.defaultPrefab, position, Quaternion.identity).EnsureComponent<Rigidbody>();
                 }
 
                 if(rigidbody != null)
@@ -50,8 +49,8 @@
 
 #else
                 AssetReferenceGameObject assetReferenceGameObject = null;
-                bool flag = false;
-                for (int i = 0; i < __instance.numChances; i++)
+                var flag = false;
+                for (var i = 0; i < __instance.numChances; i++)
                 {
                     assetReferenceGameObject = __instance.ChooseRandomResource();
                     if (assetReferenceGameObject != null)
@@ -69,14 +68,14 @@
 
                 if(assetReferenceGameObject != null)
                 {
-                    AsyncOperationHandle<GameObject> loadPrefab = Addressables.LoadAssetAsync<GameObject>(assetReferenceGameObject.RuntimeKey as string);
+                    var loadPrefab = Addressables.LoadAssetAsync<GameObject>(assetReferenceGameObject.RuntimeKey as string);
                     loadPrefab.Completed += (prefabTask) => {
 
-                        GameObject prefab = prefabTask.Result;
+                        var prefab = prefabTask.Result;
                         if (prefab is null)
                             return;
 
-                        Rigidbody rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).GetComponent<Rigidbody>();
+                        var rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).GetComponent<Rigidbody>();
 
                         if (rigidbody != null)
                         {

@@ -1,6 +1,6 @@
 ﻿namespace BuildingTweaks
 {
-    using BuildingTweaks.Configuration;
+    using Configuration;
     using HarmonyLib;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
@@ -14,7 +14,7 @@
         [QModPatch]
         public static void Load()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }
     }

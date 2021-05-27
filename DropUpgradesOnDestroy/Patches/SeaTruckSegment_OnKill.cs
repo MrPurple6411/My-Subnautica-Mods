@@ -17,9 +17,9 @@ namespace DropUpgradesOnDestroy.Patches
             if(__instance.IsFront() && __instance != lastDestroyed)
             {
                 lastDestroyed = __instance;
-                List<InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+                var equipment = __instance.motor?.upgrades?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
 
-                Vector3 position = __instance.gameObject.transform.position;
+                var position = __instance.gameObject.transform.position;
                 Main.SpawnModuleNearby(equipment, position);
             }
         }

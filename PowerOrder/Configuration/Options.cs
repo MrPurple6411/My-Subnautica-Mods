@@ -34,18 +34,18 @@
                 return;
             }
 
-            int key = int.Parse(e.Id.Replace("PowerOrder_", ""));
+            var key = int.Parse(e.Id.Replace("PowerOrder_", ""));
 
-            config.Order.TryGetValue(key, out string oldValue);
+            config.Order.TryGetValue(key, out var oldValue);
 
-            int otherKey = config.Order.First((x) => x.Value == e.Value).Key;
+            var otherKey = config.Order.First((x) => x.Value == e.Value).Key;
             config.Order[otherKey] = oldValue;
             config.Order[key] = e.Value;
             config.Save();
 
             try
             {
-                int currentTab = Main.optionsPanel.currentTab;
+                var currentTab = Main.optionsPanel.currentTab;
                 Main.optionsPanel.RemoveTabs();
                 Main.optionsPanel.AddTabs();
                 Main.optionsPanel.SetVisibleTab(currentTab);
@@ -58,8 +58,8 @@
 
         public override void BuildModOptions()
         {
-            string[] choices = config.Order.Values.ToArray();
-            foreach(int key in config.Order.Keys)
+            var choices = config.Order.Values.ToArray();
+            foreach(var key in config.Order.Keys)
             {
                 AddChoiceOption($"PowerOrder_{key}", key.ToString(), choices, key - 1);
             }

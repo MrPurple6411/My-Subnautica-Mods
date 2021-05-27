@@ -5,8 +5,8 @@
     using SMLHelper.V2.Handlers;
     using System.IO;
     using System.Reflection;
-    using TechPistol.Configuration;
-    using TechPistol.Module;
+    using Configuration;
+    using Module;
     using UnityEngine;
 
     [QModCore]
@@ -16,8 +16,8 @@
         private static string modPath = Path.GetDirectoryName(assembly.Location);
         internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, "Assets/TechPistol"));
         internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        internal static PistolFragmentPrefab PistolFragment { get; } = new PistolFragmentPrefab();
-        internal static PistolPrefab Pistol { get; } = new PistolPrefab();
+        internal static PistolFragmentPrefab PistolFragment { get; } = new();
+        internal static PistolPrefab Pistol { get; } = new();
 
         [QModPatch]
         public static void Load()

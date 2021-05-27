@@ -10,7 +10,7 @@
         {
             if(Main.Config.Hardcore)
             {
-                PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+                var entryData = PDAScanner.GetEntryData(techType);
                 return !verbose || entryData == null || (entryData != null && PDAScanner.ContainsCompleteEntry(techType));
             }
 

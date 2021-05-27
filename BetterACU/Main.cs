@@ -1,6 +1,6 @@
 ﻿namespace BetterACU
 {
-    using BetterACU.Configuration;
+    using Configuration;
     using HarmonyLib;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;

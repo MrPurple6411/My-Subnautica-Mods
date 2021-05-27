@@ -25,7 +25,7 @@
         [HarmonyPostfix]
         public static void Postfix(bool locked, ref string tooltipText)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             if(locked && GameModeUtils.RequiresBlueprints())
             {
                 TooltipFactory.WriteTitle(stringBuilder, Main.Config.UnKnownTitle);

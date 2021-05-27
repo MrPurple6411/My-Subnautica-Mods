@@ -10,7 +10,7 @@
         {
             if(!__result)
             {
-                IPowerInterface powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
+                var powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
 
                 if(powerInterface != null)
                 {
@@ -25,11 +25,11 @@
                             break;
                     }
 
-                    PowerRelay endRelay = powerControl.powerRelay.GetEndpoint();
+                    var endRelay = powerControl.powerRelay.GetEndpoint();
 
                     if(endRelay.GetMaxPower() > powerInterface.GetMaxPower())
                     {
-                        __result = endRelay.ModifyPowerFromInbound(amount, out float newModified);
+                        __result = endRelay.ModifyPowerFromInbound(amount, out var newModified);
                         modified += newModified;
                     }
                 }

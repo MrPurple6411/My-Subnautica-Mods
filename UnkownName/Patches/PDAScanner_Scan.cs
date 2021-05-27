@@ -32,11 +32,11 @@
                     KnownTech.Add(techType);
                 }
 
-                PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+                var entryData = PDAScanner.GetEntryData(techType);
 
                 if(entryData != null && entryData.locked)
                 {
-                    PDAScanner.Unlock(entryData, true, true, true);
+                    PDAScanner.Unlock(entryData, true, true);
 
                     if(!KnownTech.Contains(entryData.blueprint))
                     {
@@ -44,9 +44,9 @@
                     }
                 }
 #if SN1
-                TechType techType2 = CraftData.GetHarvestOutputData(techType);
+                var techType2 = CraftData.GetHarvestOutputData(techType);
 #elif BZ
-                TechType techType2 = TechData.GetHarvestOutput(techType);
+                var techType2 = TechData.GetHarvestOutput(techType);
 #endif
                 if(techType2 != TechType.None)
                 {
@@ -55,10 +55,10 @@
                         KnownTech.Add(techType2);
                     }
 
-                    PDAScanner.EntryData entryData2 = PDAScanner.GetEntryData(techType2);
+                    var entryData2 = PDAScanner.GetEntryData(techType2);
                     if(entryData2 != null && entryData2.locked)
                     {
-                        PDAScanner.Unlock(entryData, true, true, true);
+                        PDAScanner.Unlock(entryData, true, true);
 
                         if(!KnownTech.Contains(entryData2.blueprint))
                         {

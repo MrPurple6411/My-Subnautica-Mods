@@ -10,7 +10,7 @@
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-            SubRoot lastValidSub = __instance.lastValidSub;
+            var lastValidSub = __instance.lastValidSub;
 
             if(lastValidSub != null && __instance.CheckSubValid(lastValidSub))
             {
@@ -25,14 +25,12 @@
                 yield return CoroutineUtils.waitForNextFrame;
             }
 
-            RespawnPoint componentInChildren = lastValidSub.gameObject.GetComponentInChildren<RespawnPoint>();
+            var componentInChildren = lastValidSub.gameObject.GetComponentInChildren<RespawnPoint>();
             if(componentInChildren)
             {
                 __instance.SetPosition(componentInChildren.GetSpawnPosition());
                 __instance.SetCurrentSub(lastValidSub);
             }
-
-            yield break;
         }
     }
 }

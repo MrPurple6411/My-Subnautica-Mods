@@ -15,7 +15,7 @@
             if(GameInput.GetButtonHeld(GameInput.Button.AltTool) && GameInput.GetButtonDown(GameInput.Button.LeftHand))
                 check = !check;
 
-            if(HandReticle.main.iconType == HandReticle.IconType.Default && HandReticle.main._icons.TryGetValue(HandReticle.IconType.Default, out uGUI_HandReticleIcon icon))
+            if(HandReticle.main.iconType == HandReticle.IconType.Default && HandReticle.main._icons.TryGetValue(HandReticle.IconType.Default, out var icon))
                 icon.SetActive((__instance.GetActiveTarget() != null && !Player.main.IsPiloting()) || !check, 0.1f);
         }
 

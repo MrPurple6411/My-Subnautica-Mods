@@ -16,19 +16,17 @@
 
         private static IEnumerator NewMethod()
         {
-            GameObject x_Clouds = GameObject.Find("x_Clouds(Clone)");
+            var x_Clouds = GameObject.Find("x_Clouds(Clone)");
 
             yield return new WaitUntil(() => (x_Clouds ??= GameObject.Find("x_Clouds(Clone)")) != null);
 
-            MeshRenderer[] renderers = x_Clouds.GetComponentsInChildren<MeshRenderer>();
+            var renderers = x_Clouds.GetComponentsInChildren<MeshRenderer>();
 
-            foreach(MeshRenderer renderer in renderers)
+            foreach(var renderer in renderers)
             {
                 if(renderer.name.Contains("x_IslandClouds"))
                     renderer.gameObject.SetActive(false);
             }
-
-            yield break;
         }
     }
 }

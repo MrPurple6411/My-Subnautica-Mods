@@ -1,8 +1,10 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
-    using System.Collections.Generic;
     using UnityEngine;
+#if BZ
+    using System.Collections.Generic;
+#endif
 
     [HarmonyPatch]
     public static class Builder_Update_Patches

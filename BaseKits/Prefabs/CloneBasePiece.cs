@@ -13,7 +13,7 @@
 
     internal class CloneBasePiece: Buildable
     {
-        private static readonly List<TechType> UnlockRequired = new List<TechType>() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
+        private static readonly List<TechType> UnlockRequired = new() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
         private GameObject processedPrefab;
         private readonly TechType TypeToClone;
         private readonly TechType KitTechType;
@@ -40,20 +40,20 @@
             GameObject go;
             if(processedPrefab != null)
             {
-                go = GameObject.Instantiate(processedPrefab);
+                go = Object.Instantiate(processedPrefab);
                 go.SetActive(true);
                 return go;
             }
 
-            GameObject prefab = CraftData.GetPrefabForTechType(TypeToClone);
+            var prefab = CraftData.GetPrefabForTechType(TypeToClone);
 
             if(prefab != null)
             {
-                processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab = Object.Instantiate(prefab);
                 processedPrefab.SetActive(false);
             }
 
-            go = GameObject.Instantiate(processedPrefab);
+            go = Object.Instantiate(processedPrefab);
             go.SetActive(true);
             return go;
         }
@@ -64,31 +64,30 @@
             GameObject go;
             if(processedPrefab != null)
             {
-                go = GameObject.Instantiate(processedPrefab);
+                go = Object.Instantiate(processedPrefab);
                 go.SetActive(true);
                 gameObject.Set(go);
                 yield break;
             }
 
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TypeToClone);
+            var task = CraftData.GetPrefabForTechTypeAsync(TypeToClone);
             yield return task;
 
-            GameObject prefab = task.GetResult();
+            var prefab = task.GetResult();
             if(prefab != null)
             {
-                processedPrefab = GameObject.Instantiate(prefab);
+                processedPrefab = Object.Instantiate(prefab);
                 processedPrefab.SetActive(false);
             }
 
-            go = GameObject.Instantiate(processedPrefab);
+            go = Object.Instantiate(processedPrefab);
             go.SetActive(true);
             gameObject.Set(go);
-            yield break;
         }
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData() { craftAmount = 1, Ingredients = new List<Ingredient>() { new Ingredient(KitTechType, 1) } };
+            return new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(KitTechType, 1) } };
         }
 
         protected override Sprite GetItemSprite()

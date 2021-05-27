@@ -33,32 +33,30 @@
 #endif
     internal class WaterParkCreatureUpdatePrefix
     {
-        public static Dictionary<WaterParkCreature, float> TimeLastGenerated = new();
+        private static readonly Dictionary<WaterParkCreature, float> TimeLastGenerated = new();
 
         [HarmonyPrefix]
         public static void Prefix(WaterParkCreature __instance)
         {
-            if(Main.Config.EnablePowerGeneration)
+            if (!Main.Config.EnablePowerGeneration) return;
+            if ((!(__instance.GetComponent<LiveMixin>() == null || !__instance.GetComponent<LiveMixin>().IsAlive())) ||
+                !Main.Config.CreaturePowerGeneration.TryGetValue(__instance.pickupable != null ? __instance.pickupable.GetTechType() : TechType.None,
+                    out var powerValue)) return;
+            if(!TimeLastGenerated.TryGetValue(__instance, out var time))
             {
-                if((__instance.GetComponent<LiveMixin>()?.IsAlive() ?? false) && Main.Config.CreaturePowerGeneration.TryGetValue(__instance?.pickupable?.GetTechType() ?? TechType.None, out var powerValue))
-                {
-                    if(!TimeLastGenerated.TryGetValue(__instance, out var time))
-                    {
-                        time = DayNightCycle.main.timePassedAsFloat;
-                    }
-
-                    var power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
-                    var powerSource = __instance?.GetWaterPark()?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
-
-                    if(powerSource != null)
-                    {
-                        if(!powerSource.AddEnergy(power, out var amountStored))
-                            powerSource.connectedRelay?.AddEnergy(power - amountStored, out _);
-                    }
-
-                    TimeLastGenerated[__instance] = DayNightCycle.main.timePassedAsFloat;
-                }
+                time = DayNightCycle.main.timePassedAsFloat;
             }
+
+            var power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
+            var powerSource = __instance.GetWaterPark() != null ? __instance.GetWaterPark().itemsRoot.gameObject.GetComponent<PowerSource>() : null;
+
+            if(powerSource != null)
+            {
+                if(!powerSource.AddEnergy(power, out var amountStored) && powerSource.connectedRelay != null)
+                    powerSource.connectedRelay.AddEnergy(power - amountStored, out _);
+            }
+
+            TimeLastGenerated[__instance] = DayNightCycle.main.timePassedAsFloat;
         }
     }
 }

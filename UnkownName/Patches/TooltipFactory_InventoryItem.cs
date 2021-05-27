@@ -9,7 +9,7 @@
         [HarmonyPostfix]
         public static void Postfix(ref StringBuilder sb, TechType techType)
         {
-            PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+            var entryData = PDAScanner.GetEntryData(techType);
             if(entryData == null || PDAScanner.ContainsCompleteEntry(techType) || CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
                 return;

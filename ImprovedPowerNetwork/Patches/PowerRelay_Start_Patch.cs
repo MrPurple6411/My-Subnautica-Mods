@@ -12,7 +12,7 @@
 
             if(__instance.transform.position == Vector3.zero && __instance.gameObject.name.Contains("Transmitter"))
             {
-                GameObject.Destroy(__instance.gameObject);
+                Object.Destroy(__instance.gameObject);
                 return;
             }
 

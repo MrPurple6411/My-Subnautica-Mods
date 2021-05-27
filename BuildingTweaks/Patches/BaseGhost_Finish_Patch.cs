@@ -10,20 +10,21 @@
     [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
     internal class BaseGhost_Finish_Patch
     {
-        public static GameObject gameObject;
-        public static GameObject parentObject;
+        private static GameObject gameObject;
+        private static GameObject parentObject;
 
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
-            bool found = false;
+            var collection = instructions.ToList();
+            var codeInstructions = new List<CodeInstruction>(collection);
+            var found = false;
 
-            for(int i = 0; i < instructions.Count() - 2; i++)
+            for(var i = 0; i < collection.Count() - 2; i++)
             {
-                CodeInstruction currentInstruction = codeInstructions[i];
-                CodeInstruction secondInstruction = codeInstructions[i + 1];
-                CodeInstruction thirdInstruction = codeInstructions[i + 2];
+                var currentInstruction = codeInstructions[i];
+                var secondInstruction = codeInstructions[i + 1];
+                var thirdInstruction = codeInstructions[i + 2];
 
                 if(currentInstruction.opcode == OpCodes.Callvirt
                     && secondInstruction.opcode == OpCodes.Call
@@ -34,11 +35,10 @@
 #endif
                 {
                     codeInstructions.Insert(i + 2, new CodeInstruction(OpCodes.Ldarg_0));
-                    codeInstructions.Insert(i + 3, new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(BaseGhost_Finish_Patch.CacheObject))));
+                    codeInstructions.Insert(i + 3, new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject))));
                     found = true;
                     break;
                 }
-                continue;
             }
 
             if(found is false)
@@ -51,7 +51,9 @@
 
         public static GameObject CacheObject(GameObject builtObject, BaseGhost baseGhost)
         {
-            parentObject = baseGhost.GetComponentInParent<ConstructableBase>()?.transform?.parent?.gameObject;
+            var constructableBase = baseGhost.GetComponentInParent<ConstructableBase>();
+            var parent = constructableBase != null ? constructableBase.transform.parent : null;
+            parentObject = parent != null ? parent.gameObject : null;
             gameObject = builtObject;
             return builtObject;
         }

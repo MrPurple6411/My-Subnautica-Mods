@@ -44,11 +44,11 @@
                 }
 #endif
 
-                GameObject target = UWE.Utils.GetEntityRoot(go) ?? go;
+                var target = UWE.Utils.GetEntityRoot(go) ?? go;
 
-                List<string> blacklist = new List<string>() { "override", "aurora", "crashedship", "starship" };
+                var blacklist = new List<string>() { "override", "aurora", "crashedship", "starship" };
 
-                foreach(string name in blacklist)
+                foreach(var name in blacklist)
                 {
                     if(target.name.ToLower().Contains(name))
                     {

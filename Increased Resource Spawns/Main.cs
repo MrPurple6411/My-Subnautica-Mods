@@ -1,7 +1,7 @@
 ﻿namespace Increased_Resource_Spawns
 {
     using HarmonyLib;
-    using Increased_Resource_Spawns.Configuration;
+    using Configuration;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using System.Linq;
@@ -20,7 +20,7 @@
             Config.Save();
 
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }

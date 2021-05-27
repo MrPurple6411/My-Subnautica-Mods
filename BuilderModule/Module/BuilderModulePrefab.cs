@@ -17,18 +17,15 @@
 
     internal class BuilderModulePrefab: Equipable
     {
-        private EquipmentType _equipmentType;
-        private string[] _fabricatorPath;
-
         public BuilderModulePrefab(string classId,string friendlyName,string  description, string[] fabricatorPath, EquipmentType equipmentType) : base(classId, friendlyName, description)
         {
-            _fabricatorPath = fabricatorPath;
-            _equipmentType = equipmentType;
+            StepsToFabricatorTab = fabricatorPath;
+            EquipmentType = equipmentType;
         }
 
-        public static Sprite Sprite { get; } = ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
+        private static Sprite Sprite { get; } = ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
 
-        public override Vector2int SizeInInventory => new Vector2int(1, 1);
+        public override Vector2int SizeInInventory => new(1, 1);
 
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
 
@@ -39,9 +36,9 @@
 #elif BZ
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeaTruckFabricator;
 #endif
-        public override EquipmentType EquipmentType => _equipmentType;
+        public override EquipmentType EquipmentType { get; }
 
-        public override string[] StepsToFabricatorTab => _fabricatorPath;
+        public override string[] StepsToFabricatorTab { get; }
 
         public override TechType RequiredForUnlock => TechType.Builder;
 
@@ -50,34 +47,32 @@
 #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
-            GameObject gameobject = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
-            return GameObject.Instantiate(gameobject);
+            var prefab = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
+            return Object.Instantiate(prefab);
         }
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
 
             yield return task;
-            GameObject prefab = GameObject.Instantiate(task.GetResult(), default, default, false);
-            prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = ClassID; else GameObject.DestroyImmediate(x.gameObject); });
+            var prefab = Object.Instantiate(task.GetResult(), default, default, false);
+            prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = ClassID; else Object.DestroyImmediate(x.gameObject); });
             if(prefab.TryGetComponent(out TechTag tag)) tag.type = TechType;
-            GameObject.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
+            Object.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
 
             gameObject.Set(prefab);
-
-            yield break;
         }
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData()
+            return new()
             {
                 craftAmount = 1,
-                Ingredients = new List<Ingredient>(new Ingredient[2]
+                Ingredients = new List<Ingredient>(new Ingredient[]
                 {
-                    new Ingredient(TechType.Builder, 1),
-                    new Ingredient(TechType.AdvancedWiringKit, 1)
+                    new(TechType.Builder, 1),
+                    new(TechType.AdvancedWiringKit, 1)
                 })
             };
         }

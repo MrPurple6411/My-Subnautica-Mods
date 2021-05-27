@@ -11,33 +11,34 @@
         public static void Prefix(BaseFoundationPiece __instance)
         {
 
-            GameObject target = __instance.GetComponentInParent<Base>().gameObject;
+            var target = __instance.GetComponentInParent<Base>().gameObject;
             GameObject finalTarget = null;
 
             if(target != null)
             {
-                Pickupable pickupable = target.GetComponentInParent<Pickupable>();
+                var pickupable = target.GetComponentInParent<Pickupable>();
                 if(pickupable != null)
                 {
                     finalTarget = pickupable.gameObject;
                 }
                 else
                 {
-                    Creature creature = target.GetComponentInParent<Creature>();
+                    var creature = target.GetComponentInParent<Creature>();
                     if(creature != null)
                     {
                         finalTarget = creature.gameObject;
                     }
                     else
                     {
-                        SubRoot subRoot = target.transform.parent?.GetComponentInParent<SubRoot>();
+	                    var parent = target.transform.parent;
+	                    var subRoot = parent != null ? parent.GetComponentInParent<SubRoot>() : null;
                         if(subRoot != null)
                         {
                             finalTarget = subRoot.modulesRoot.gameObject;
                         }
                         else
                         {
-                            Vehicle vehicle = target.GetComponentInParent<Vehicle>();
+                            var vehicle = target.GetComponentInParent<Vehicle>();
                             if(vehicle != null)
                             {
                                 finalTarget = vehicle.modulesRoot.gameObject;
@@ -75,8 +76,8 @@
                 return;
             }
 
-            float maxHeight = 0f;
-            Configuration.Config config = Main.Config;
+            var maxHeight = 0f;
+            var config = Main.Config;
 
             switch(__instance.name)
             {
@@ -114,16 +115,16 @@
 		[HarmonyPrefix]
 		public static void Prefix(Base __instance)
 		{
-			IBaseAccessoryGeometry[] componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
-			for (int i = 0; i < componentsInChildren.Length; i++)
+			var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
+			for (var i = 0; i < componentsInChildren.Length; i++)
 			{
-				IBaseAccessoryGeometry baseAccessoryGeometry = componentsInChildren[i];
+				var baseAccessoryGeometry = componentsInChildren[i];
 				switch (baseAccessoryGeometry)
 				{
 					case BaseFoundationPiece baseFoundationPiece:
-						float maxHeight = 0f;
+						var maxHeight = 0f;
 						var config = Main.Config;
-						bool buildTweaksCheck = __instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false;
+						var buildTweaksCheck = __instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false;
 
 						if(!buildTweaksCheck)
 						{

@@ -6,15 +6,18 @@
     internal class CraftData_AddToInventory_Patch
     {
         [HarmonyPrefix]
-        private static bool Prefix(TechType techType, int num = 1, bool noMessage = false, bool spawnIfCantAdd = true)
+        private static bool Prefix(TechType techType, int num, bool noMessage, bool spawnIfCantAdd)
         {
-            if(techType == TechType.Titanium && num == 2 && noMessage == false && spawnIfCantAdd == true)
-            {
-                CraftData.AddToInventory(TechType.Titanium);
-                CraftData.AddToInventory(TechType.Copper);
-                return false;
-            }
-            return true;
+            if (QModManager.API.QModServices.Main.ModPresent("IngredientsFromScanning") ||
+                techType != TechType.Titanium ||
+                num != 2 ||
+                noMessage ||
+                !spawnIfCantAdd)
+                return true;
+            
+            CraftData.AddToInventory(TechType.Titanium);
+            CraftData.AddToInventory(TechType.Copper);
+            return false;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace BuildingTweaks.Patches
 {
-    using System;
     using System.Collections.Generic;
     using HarmonyLib;
     using UnityEngine;
@@ -10,7 +9,7 @@
     {
 
 #if SN1
-        [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new Type[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider) })]
+        [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider) })]
         [HarmonyPrefix]
         public static bool CheckSpace_Postfix(ref bool __result)
         {

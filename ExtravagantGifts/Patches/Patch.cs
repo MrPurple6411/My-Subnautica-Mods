@@ -90,7 +90,7 @@ namespace ExtravagantGifts.Patches
                     __result = 0f;
                     return;
                 }
-                Player main = Player.main;
+                var main = Player.main;
                 if(main.IsInside() || !main.IsUnderwater())
                 {
                     __result = 0f;

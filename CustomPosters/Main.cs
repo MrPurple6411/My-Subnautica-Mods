@@ -6,20 +6,20 @@
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using SMLHelper.V2.Utility;
-    using UnityEngine;
-    using CustomPosters.Poster;
+    using Poster;
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
 #else
     using Newtonsoft.Json;
     using UWE;
     using System.Collections;
+    using UnityEngine;
 #endif
 
     [QModCore]
     public class Main
     {
-        private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Posters"));
+        private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
         [QModPatch]
@@ -49,28 +49,28 @@
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
             CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
 
-            foreach(string directory in Directory.GetDirectories(PosterFolder.FullName))
+            foreach(var directory in Directory.GetDirectories(PosterFolder.FullName))
             {
-                string info = Path.Combine(directory, "info.json");
-                string icon = Path.Combine(directory, "icon.png");
-                string texture = Path.Combine(directory, "texture.png");
+                var info = Path.Combine(directory, "info.json");
+                var icon = Path.Combine(directory, "icon.png");
+                var texture = Path.Combine(directory, "texture.png");
                 if(File.Exists(info) && File.Exists(icon) && File.Exists(texture))
                 {
                     try
                     {
                         PosterInfo poster;
-                        using(StreamReader reader = new StreamReader(info))
+                        using(var reader = new StreamReader(info))
                         {
-                            JsonSerializer serializer = new JsonSerializer();
+                            var serializer = new JsonSerializer();
                             poster = serializer.Deserialize(reader, typeof(PosterInfo)) as PosterInfo;
                         }
 
-                        Texture2D icontexture = ImageUtils.LoadTextureFromFile(icon);
-                        Texture2D posterTexture = ImageUtils.LoadTextureFromFile(texture);
+                        var iconTexture = ImageUtils.LoadTextureFromFile(icon);
+                        var posterTexture = ImageUtils.LoadTextureFromFile(texture);
 
-                        if(poster != null && icontexture != null && posterTexture != null)
+                        if(poster != null && iconTexture != null && posterTexture != null)
                         {
-                            BasicPostersPrefab prefab = new BasicPostersPrefab(poster.InternalName, poster.DisplayName, poster.Description, poster.Orientation, icontexture, posterTexture);
+                            var prefab = new BasicPostersPrefab(poster.InternalName, poster.DisplayName, poster.Description, poster.Orientation, iconTexture, posterTexture);
                             prefab.Patch();
                         }
                         else

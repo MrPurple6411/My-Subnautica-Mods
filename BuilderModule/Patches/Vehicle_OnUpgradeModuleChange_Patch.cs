@@ -1,6 +1,6 @@
 ﻿namespace BuilderModule.Patches
 {
-    using BuilderModule.Module;
+    using Module;
     using HarmonyLib;
     using UnityEngine;
 
@@ -15,18 +15,18 @@
         [HarmonyPostfix]
         public static void Postfix(object __instance, int slotID, TechType techType, bool added)
         {
-            bool validTech = Main.builderModules.Contains(techType);
+            var validTech = Main.builderModules.Contains(techType);
             if(!validTech)
                 return;
 
-            bool noneEquipped = true;
-            bool foundMono = false;
+            var noneEquipped = true;
+            var foundMono = false;
             BuilderModuleMono builderModule = null;
 
             switch(__instance)
             {
                 case Vehicle vehicle:
-                    noneEquipped = !vehicle.modules.equippedCount.TryGetValue(techType, out int count);
+                    noneEquipped = !vehicle.modules.equippedCount.TryGetValue(techType, out _);
                     foundMono = vehicle.gameObject.TryGetComponent(out builderModule);
                     if(added && !foundMono)
                     {
@@ -65,7 +65,7 @@
             }
 
             if(!added && noneEquipped && foundMono)
-                GameObject.Destroy(builderModule);
+                Object.Destroy(builderModule);
         }
     }
 }

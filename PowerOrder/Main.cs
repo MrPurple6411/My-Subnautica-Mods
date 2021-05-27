@@ -1,16 +1,16 @@
 ﻿namespace PowerOrder
 {
     using HarmonyLib;
-    using PowerOrder.Configuration;
+    using Configuration;
     using QModManager.API.ModLoading;
     using QModManager.Utility;
     using SMLHelper.V2.Handlers;
     using System.Reflection;
 
     [QModCore]
-    public partial class Main
+    public class Main
     {
-        internal static Config config = new Config();
+        internal static Config config = new();
         internal static uGUI_OptionsPanel optionsPanel;
 
         [QModPatch]

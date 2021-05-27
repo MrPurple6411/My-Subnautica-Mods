@@ -1,13 +1,14 @@
 ﻿namespace BuilderModule.Patches
 {
-    using BuilderModule.Module;
     using HarmonyLib;
-    using QModManager.Utility;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection.Emit;
-    using UnityEngine;
     using Logger = QModManager.Utility.Logger;
+#if BZ
+    using Module;
+    using UnityEngine;
+#endif
 
     [HarmonyPatch]
     internal class Builder_Patches
@@ -16,19 +17,19 @@
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            int codepoint = -1;
+            var codepoint = -1;
 
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-            for(int i = 0; i < instructions.Count(); i++)
+            var codeInstructions = instructions.ToList();
+            var codes = new List<CodeInstruction>(codeInstructions);
+            for(var i = 0; i < codeInstructions.Count(); i++)
             {
-                CodeInstruction currentCode = codes[i];
+                var currentCode = codes[i];
                 if(codepoint == -1)
                 {
-                    if(currentCode.opcode == OpCodes.Ldsfld && currentCode.operand.ToString().Contains("inputHandler"))
-                    {
-                        codepoint = i;
-                        codes[i] = new CodeInstruction(OpCodes.Call, typeof(Builder_Patches).GetMethod("VehicleCheck"));
-                    }
+                    if (currentCode.opcode != OpCodes.Ldsfld ||
+                        !currentCode.operand.ToString().Contains("inputHandler")) continue;
+                    codepoint = i;
+                    codes[i] = new CodeInstruction(OpCodes.Call, typeof(Builder_Patches).GetMethod("VehicleCheck"));
                 }
                 else if(i == (codepoint + 1) || i == (codepoint + 2) || i == (codepoint + 3) || i == (codepoint + 4) || i == (codepoint + 5))
                 {
@@ -67,15 +68,15 @@
         {
             if(Main.btConfig != null)
             {
-                bool attach = (bool)Main.AttachToTargetField.GetValue(Main.btConfig);
+                var attach = (bool)Main.AttachToTargetField.GetValue(Main.btConfig);
                 if(!attach)
                     return;
             }
-            BuilderModuleMono builderModule = Player.main.GetComponentInParent<BuilderModuleMono>();
+            var builderModule = Player.main.GetComponentInParent<BuilderModuleMono>();
             if(builderModule != null && builderModule.isToggle)
             {
-                Light[] lights = builderModule.gameObject.GetComponentsInChildren<Light>()?? new Light[0];
-                foreach(Light light in lights)
+                var lights = builderModule.gameObject.GetComponentsInChildren<Light>()?? new Light[0];
+                foreach(var light in lights)
                 {
                     if(light.gameObject.name == "light_center")
                     {

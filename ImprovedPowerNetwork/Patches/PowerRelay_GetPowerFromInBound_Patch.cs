@@ -8,7 +8,7 @@
         [HarmonyPostfix]
         public static void Postfix(PowerRelay __instance, ref float __result)
         {
-            IPowerInterface powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
+            var powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
 
             if(powerInterface != null)
             {
@@ -23,10 +23,10 @@
                         break;
                 }
 
-                PowerRelay endRelay = powerControl.powerRelay.GetEndpoint();
+                var endRelay = powerControl.powerRelay.GetEndpoint();
 
-                float endPower = endRelay.GetPower();
-                float powerHere = powerInterface.GetPower();
+                var endPower = endRelay.GetPower();
+                var powerHere = powerInterface.GetPower();
 
                 if(endPower > powerHere)
                 {

@@ -1,7 +1,7 @@
 ﻿namespace PersistentCommands
 {
     using HarmonyLib;
-    using PersistentCommands.Configuration;
+    using Configuration;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using System.Reflection;

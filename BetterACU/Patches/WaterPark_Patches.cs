@@ -45,7 +45,7 @@
             {
                 foreach(var pair in Main.Config.CreaturePowerGeneration)
                 {
-                    var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false));
+                    var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key && item.GetComponent<LiveMixin>() != null && item.GetComponent<LiveMixin>().IsAlive());
                     if (creatures.Count <= 0) continue;
 
                     maxPower += 50 * pair.Value * creatures.Count;
@@ -56,8 +56,7 @@
                 CachedPowerCreatures[__instance] = powerCreatures;
             }
 
-            var rootObject = __instance.itemsRoot?.gameObject;
-            if (rootObject is null) return;
+            var rootObject = __instance.itemsRoot.gameObject;
 
             var powerSource = rootObject.GetComponent<PowerSource>();
             if(powerSource is null)
@@ -120,7 +119,7 @@
             foreach(var waterParkItem in items)
             {
                 var parkCreature = waterParkItem as WaterParkCreature;
-                var parkCreatureTechType = parkCreature?.pickupable?.GetTechType() ?? TechType.None;
+                var parkCreatureTechType = parkCreature is not null && parkCreature.pickupable != null ? parkCreature.pickupable.GetTechType() : TechType.None;
                 if (parkCreature == null || parkCreature == creature || !parkCreature.GetCanBreed() ||
                     parkCreatureTechType != techType || parkCreatureTechType.ToString().Contains("Egg"))
                 {

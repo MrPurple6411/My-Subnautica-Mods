@@ -13,7 +13,7 @@
     using MonoBehaviours;
 
 #if SUBNAUTICA_STABLE
-    using Sprite = Atlas.Sprite;
+
 #endif
 
 
@@ -51,15 +51,15 @@
             LanguageHandler.SetTechTypeName(TechType.GhostLeviathan, "Ghost Leviathan");
             LanguageHandler.SetTechTypeTooltip(TechType.GhostLeviathan, "While the Ghost Leviathan is bigger then a Reaper Leviathan its aggression is territorial in nature, not predatory");
 
-            Sprite reaper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "reaper_icon.png"));
+            var reaper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "reaper_icon.png"));
             if(reaper != null)
                 SpriteHandler.RegisterSprite(TechType.ReaperLeviathan, reaper);
 
-            Sprite ghost = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ghost_icon.png"));
+            var ghost = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ghost_icon.png"));
             if(ghost != null)
                 SpriteHandler.RegisterSprite(TechType.GhostLeviathan, ghost);
 
-            Sprite warper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "warper_icon.png"));
+            var warper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "warper_icon.png"));
             if(warper != null)
                 SpriteHandler.RegisterSprite(TechType.Warper, warper);
 
@@ -86,13 +86,13 @@
                 UnlocksWith = TechType.TeleportationTool,
 #endif
 
-                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "battery_icon.png")),
+                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "battery_icon.png")),
                 CBModelData = new CBModelData()
                 {
-                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_skin.png")),
-                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_normal.png")),
-                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_spec.png")),
-                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_illum.png")),
+                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_skin.png")),
+                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_normal.png")),
+                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_spec.png")),
+                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_illum.png")),
                     CustomIllumStrength = 1f,
                     UseIonModelsAsBase = true
                 },
@@ -111,13 +111,13 @@
                 CraftingMaterials = new List<TechType>() { UnobtaniumBattery.TechType },
                 UnlocksWith = UnobtaniumBattery.TechType,
 
-                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png")),
+                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cell_icon.png")),
                 CBModelData = new CBModelData()
                 {
-                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_skin.png")),
-                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_normal.png")),
-                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_spec.png")),
-                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_illum.png")),
+                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_skin.png")),
+                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_normal.png")),
+                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_spec.png")),
+                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_illum.png")),
                     CustomIllumStrength = 1f,
                     UseIonModelsAsBase = true
                 },

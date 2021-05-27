@@ -8,7 +8,8 @@
         [HarmonyPrefix]
         private static void Prefix(FleeOnDamage __instance, DamageInfo damageInfo)
         {
-            if(damageInfo.damage < ((__instance.creature.liveMixin?.health ?? 0) / 2))
+            var liveMixin = __instance.creature.liveMixin;
+            if(liveMixin != null && damageInfo.damage < liveMixin.health / 2)
             {
                 damageInfo.damage = 0f;
             }

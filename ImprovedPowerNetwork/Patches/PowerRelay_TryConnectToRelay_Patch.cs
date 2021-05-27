@@ -15,8 +15,8 @@
                 return true;
             }
 
-            SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
-            SubRoot subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
+            var subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
+            var subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
 
             if(!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
             {

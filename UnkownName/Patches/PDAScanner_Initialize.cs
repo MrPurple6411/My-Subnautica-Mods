@@ -1,7 +1,6 @@
 ﻿namespace UnKnownName.Patches
 {
     using System;
-    using System.Collections.Generic;
     using HarmonyLib;
     using SMLHelper.V2.Handlers;
 
@@ -16,16 +15,16 @@
     public class PDAScanner_Initialize
     {
         [HarmonyPostfix]
-        [HarmonyAfter(new string[] { "com.ahk1221.smlhelper" })]
+        [HarmonyAfter(new[] { "com.ahk1221.smlhelper" })]
         public static void Postfix()
         {
             if(Main.Config.Hardcore)
             {
-                Dictionary<TechType, PDAScanner.EntryData> map = PDAScanner.mapping;
+                var map = PDAScanner.mapping;
                 foreach(TechType techType in Enum.GetValues(typeof(TechType)))
                 {
-                    RecipeData data = CraftDataHandler.GetTechData(techType);
-                    map.TryGetValue(techType, out PDAScanner.EntryData entryData);
+                    var data = CraftDataHandler.GetTechData(techType);
+                    map.TryGetValue(techType, out var entryData);
 
                     if(data is null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None)
                     {
@@ -68,7 +67,6 @@
                             scanTime = 2f,
                             totalFragments = 1
                         };
-                        continue;
                     }
                 }
             }
