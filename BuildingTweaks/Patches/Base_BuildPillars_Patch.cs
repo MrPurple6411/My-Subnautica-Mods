@@ -1,8 +1,10 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
+#if SN1
     using UnityEngine;
-
+#endif
+    
 #if SN1
     [HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
@@ -114,27 +116,20 @@
 		[HarmonyPrefix]
 		[HarmonyPriority(Priority.Last)]
 		public static void Prefix(Base __instance)
-		{
-			if (__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)
-			{
-				if (!__instance.isGhost)
-				{
-					var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
-					for (var i = 0; i < componentsInChildren.Length; i++)
-					{
-						var baseAccessoryGeometry = componentsInChildren[i];
-
-						switch (baseAccessoryGeometry)
-						{
-							case BaseFoundationPiece baseFoundationPiece:
-								baseFoundationPiece.maxPillarHeight = 0f;
-								break;
-						}
-					}
-					return;
-				}
-			}
-		}
+        {
+            if (!(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)) return;
+            if (__instance.isGhost) return;
+            var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
+            foreach (var baseAccessoryGeometry in componentsInChildren)
+            {
+                switch (baseAccessoryGeometry)
+                {
+                    case BaseFoundationPiece baseFoundationPiece:
+                        baseFoundationPiece.maxPillarHeight = 0f;
+                        break;
+                }
+            }
+        }
 	}
 #endif
 }

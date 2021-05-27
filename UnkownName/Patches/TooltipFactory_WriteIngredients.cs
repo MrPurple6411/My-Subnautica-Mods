@@ -54,18 +54,15 @@
                 var techType = ingredients[i].techType;
                 if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
-                    KnownTech.Add(techType, true);
+                    KnownTech.Add(techType);
                 }
-                if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
-                {
-                    var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
-                    if(icons.Contains(icon))
-                    {
-                        icons.Remove(icon);
-                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
-                        icons.Add(tooltipIcon);
-                    }
-                }
+
+                if (KnownTech.Contains(techType) || !GameModeUtils.RequiresBlueprints()) continue;
+                var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
+                if (!icons.Contains(icon)) continue;
+                icons.Remove(icon);
+                var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
+                icons.Add(tooltipIcon);
             }
         }
 

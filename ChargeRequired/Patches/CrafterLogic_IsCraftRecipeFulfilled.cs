@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿
 
 namespace ChargeRequired.Patches
 {
     using HarmonyLib;
+    using System.Linq;
+#if BZ
+    using System.Collections.Generic;
+#endif
 
     [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.IsCraftRecipeFulfilled))]
     internal class CrafterLogic_IsCraftRecipeFulfilled

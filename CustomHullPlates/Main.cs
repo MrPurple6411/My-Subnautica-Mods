@@ -11,7 +11,6 @@ namespace CustomHullPlates
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
 #else
-    using UnityEngine;
     using Newtonsoft.Json;
 #endif
 

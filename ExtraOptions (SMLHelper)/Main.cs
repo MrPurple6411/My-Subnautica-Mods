@@ -7,10 +7,6 @@
     using System.IO;
     using System.Reflection;
     using UnityEngine;
-#if SUBNAUTICA_STABLE
-#else
-    using Newtonsoft.Json;
-#endif
 
     [QModCore]
     public static class Main

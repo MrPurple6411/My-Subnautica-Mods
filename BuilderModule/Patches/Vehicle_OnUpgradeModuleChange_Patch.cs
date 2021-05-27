@@ -39,7 +39,7 @@
                     break;
 #if BZ
                 case SeaTruckUpgrades seaTruck:
-                    noneEquipped = !seaTruck.modules.equippedCount.TryGetValue(techType, out count);
+                    noneEquipped = !seaTruck.modules.equippedCount.TryGetValue(techType, out _);
                     foundMono = seaTruck.gameObject.TryGetComponent(out builderModule);
                     if(added && !foundMono)
                     {
@@ -51,7 +51,7 @@
                     }
                     break;
                 case Hoverbike hoverbike:
-                    noneEquipped = !hoverbike.modules.equippedCount.TryGetValue(techType, out count);
+                    noneEquipped = !hoverbike.modules.equippedCount.TryGetValue(techType, out _);
                     foundMono = hoverbike.gameObject.TryGetComponent(out builderModule);
                     if(added && !foundMono)
                     {

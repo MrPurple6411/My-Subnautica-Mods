@@ -72,7 +72,6 @@
             var gameObject = task.GetResult();
             if (gameObject != null && PrefabDatabase.TryGetPrefabFilename(gameObject.GetComponent<PrefabIdentifier>().ClassId, out var filename))
                 BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefabTechType = techType, prefabReference = new AssetReferenceGameObject(filename), chance = chance });
-            yield break;
 #endif
         }
     }

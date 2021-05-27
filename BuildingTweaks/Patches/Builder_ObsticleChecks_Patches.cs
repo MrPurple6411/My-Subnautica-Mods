@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using HarmonyLib;
     using UnityEngine;
+#if BZ
+    using System;
+#endif
 
     [HarmonyPatch]
     public static class Builder_ObsticleChecks_Patches

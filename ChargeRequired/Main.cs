@@ -7,9 +7,6 @@
     using System.Linq;
     using System.Reflection;
     using Logger = QModManager.Utility.Logger;
-#if BZ
-    using UnityEngine;
-#endif
 
     [QModCore]
     public static class Main
@@ -26,25 +23,17 @@
                                                         .Where((x) => x.FullName.StartsWith("EasyCraft"))
                                                         .FirstOrFallback(null);
 
-            if(EasyCraft != null)
-            {
-                var ClosestItemContainers = AccessTools.TypeByName("ClosestItemContainers");
-                if(ClosestItemContainers != null)
-                {
-                    containers = AccessTools.Property(ClosestItemContainers, "containers");
-                    if(containers != null)
-                    {
-                        var ClosestItemContainers_GetPickupCount = AccessTools.Method(ClosestItemContainers, "GetPickupCount");
-                        var ClosestItemContainers_DestroyItem = AccessTools.Method(ClosestItemContainers, "DestroyItem");
-                        if(ClosestItemContainers_GetPickupCount != null && ClosestItemContainers_DestroyItem != null)
-                        {
-                            harmony.Patch(ClosestItemContainers_GetPickupCount, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_GetPickupCount_Prefix)));
-                            harmony.Patch(ClosestItemContainers_DestroyItem, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_DestroyItem_Prefix)));
-                            Logger.Log(Logger.Level.Info, "Successfully Patched EasyCraft Methods.");
-                        }
-                    }
-                }
-            }
+            if (EasyCraft == null) return;
+            var ClosestItemContainers = AccessTools.TypeByName("ClosestItemContainers");
+            if (ClosestItemContainers == null) return;
+            containers = AccessTools.Property(ClosestItemContainers, "containers");
+            if (containers == null) return;
+            var ClosestItemContainers_GetPickupCount = AccessTools.Method(ClosestItemContainers, "GetPickupCount");
+            var ClosestItemContainers_DestroyItem = AccessTools.Method(ClosestItemContainers, "DestroyItem");
+            if (ClosestItemContainers_GetPickupCount == null || ClosestItemContainers_DestroyItem == null) return;
+            harmony.Patch(ClosestItemContainers_GetPickupCount, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_GetPickupCount_Prefix)));
+            harmony.Patch(ClosestItemContainers_DestroyItem, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_DestroyItem_Prefix)));
+            Logger.Log(Logger.Level.Info, "Successfully Patched EasyCraft Methods.");
         }
 
         public static bool BatteryCheck(Pickupable pickupable)

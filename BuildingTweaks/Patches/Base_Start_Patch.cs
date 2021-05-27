@@ -42,11 +42,8 @@
 #elif BZ
             var truckSegment = __instance.GetComponentInParent<SeaTruckSegment>();
 
-            if (truckSegment != null)
-            {
-                rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                return;
-            }
+            if (truckSegment == null) return;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
 #endif
         }
     }

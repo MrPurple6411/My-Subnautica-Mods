@@ -2,9 +2,6 @@
 {
     using HarmonyLib;
     using UnityEngine;
-#if BZ
-    using System.Collections.Generic;
-#endif
 
     [HarmonyPatch]
     public static class Builder_Update_Patches
@@ -39,69 +36,66 @@
                 OriginRotation = ___placeRotation;
             }
 
-            if(!UpdatePlacement && Builder.ghostModel != null)
+            if (UpdatePlacement || Builder.ghostModel == null) return;
+            var dist = Origin - PlayerOrigin;
+            dist = new Vector3(dist.x, 0f, dist.z).normalized;
+            var speed = Time.deltaTime * 10;
+            var forward = dist * speed;
+            var up = Vector3.Cross(Vector3.right, dist) * speed;
+            var right = Vector3.Cross(Vector3.up, dist) * speed;
+
+            if(Input.GetKey(KeyCode.Keypad8))
             {
-                
-                var dist = Origin - PlayerOrigin;
-                dist = new Vector3(dist.x, 0f, dist.z).normalized;
-                var speed = Time.deltaTime * 10;
-                var forward = dist * speed;
-                var up = Vector3.Cross(Vector3.right, dist) * speed;
-                var right = Vector3.Cross(Vector3.up, dist) * speed;
-
-                if(Input.GetKey(KeyCode.Keypad8))
-                {
-                    Origin += forward;
-                    PlayerOrigin += forward;
-                }
-                if(Input.GetKey(KeyCode.Keypad2))
-                {
-                    Origin -= forward;
-                    PlayerOrigin -= forward;
-                }
-                if(Input.GetKey(KeyCode.KeypadMinus))
-                {
-                    Origin -= up;
-                    PlayerOrigin -= up;
-
-                }
-                if(Input.GetKey(KeyCode.KeypadPlus))
-                {
-                    Origin += up;
-                    PlayerOrigin += up;
-                }
-                if(Input.GetKey(KeyCode.Keypad4))
-                {
-                    Origin -= right;
-                    PlayerOrigin -= right;
-
-                }
-                if(Input.GetKey(KeyCode.Keypad6))
-                {
-                    Origin += right;
-                    PlayerOrigin += right;
-                }
-
-                if(Builder.forceUpright)
-                {
-                    forward = Builder.ghostModel.transform.forward;
-                    forward.y = 0f;
-                    forward.Normalize();
-                    up = Vector3.up;
-                }
-                else
-                {
-                    forward = Builder.ghostModel.transform.forward;
-                    up = Builder.ghostModel.transform.up;
-                }
-                OriginRotation = Quaternion.LookRotation(forward, up);
-                if(Builder.rotationEnabled)
-                {
-                    OriginRotation = Quaternion.AngleAxis(Builder.additiveRotation, up) * OriginRotation;
-                }
-                Builder.placePosition = Origin;
-                Builder.placeRotation = OriginRotation;
+                Origin += forward;
+                PlayerOrigin += forward;
             }
+            if(Input.GetKey(KeyCode.Keypad2))
+            {
+                Origin -= forward;
+                PlayerOrigin -= forward;
+            }
+            if(Input.GetKey(KeyCode.KeypadMinus))
+            {
+                Origin -= up;
+                PlayerOrigin -= up;
+
+            }
+            if(Input.GetKey(KeyCode.KeypadPlus))
+            {
+                Origin += up;
+                PlayerOrigin += up;
+            }
+            if(Input.GetKey(KeyCode.Keypad4))
+            {
+                Origin -= right;
+                PlayerOrigin -= right;
+
+            }
+            if(Input.GetKey(KeyCode.Keypad6))
+            {
+                Origin += right;
+                PlayerOrigin += right;
+            }
+
+            if(Builder.forceUpright)
+            {
+                forward = Builder.ghostModel.transform.forward;
+                forward.y = 0f;
+                forward.Normalize();
+                up = Vector3.up;
+            }
+            else
+            {
+                forward = Builder.ghostModel.transform.forward;
+                up = Builder.ghostModel.transform.up;
+            }
+            OriginRotation = Quaternion.LookRotation(forward, up);
+            if(Builder.rotationEnabled)
+            {
+                OriginRotation = Quaternion.AngleAxis(Builder.additiveRotation, up) * OriginRotation;
+            }
+            Builder.placePosition = Origin;
+            Builder.placeRotation = OriginRotation;
         }
 
 
@@ -109,14 +103,11 @@
         [HarmonyPrefix]
         public static bool Prefix(ref bool geometryChanged, ref bool __result)
         {
-            if(!UpdatePlacement)
-            {
-                __result = true;
-                geometryChanged = false;
-                return UpdatePlacement;
-            }
-
+            if (UpdatePlacement) return UpdatePlacement;
+            __result = true;
+            geometryChanged = false;
             return UpdatePlacement;
+
         }
 
 
@@ -131,25 +122,21 @@
         [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
         public static void Postfix(bool __result)
         {
-            if(__result)
-            {
-                if(Freeze)
-                    Freeze = !Freeze;
+            if (!__result) return;
+            if(Freeze)
+                Freeze = !Freeze;
 
-                if(!UpdatePlacement)
-                    UpdatePlacement = !UpdatePlacement;
-            }
+            if(!UpdatePlacement)
+                UpdatePlacement = !UpdatePlacement;
         }
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Builder), nameof(Builder.End))]
         public static void End_Prefix()
         {
-            if(Builder.prefab != null)
-            {
-                Freeze = false;
-                UpdatePlacement = true;
-            }
+            if (Builder.prefab == null) return;
+            Freeze = false;
+            UpdatePlacement = true;
         }
     }
 }

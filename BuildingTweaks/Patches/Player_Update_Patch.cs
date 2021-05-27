@@ -1,15 +1,11 @@
-﻿using System.Linq;
+﻿
 
 namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
     using UnityEngine;
     using Debug = UnityEngine.Debug;
-#if BZ
-    using SMLHelper.V2.Handlers;
-    using System.Collections.Generic;
     using System.Linq;
-#endif
 
     [HarmonyPatch(typeof(Player), nameof(Player.Update))]
     public static class Player_Update_Patch
@@ -104,15 +100,10 @@ namespace BuildingTweaks.Patches
             __instance.SetPosition(transform.position, transform.rotation);
 #elif BZ
             var interiorSpace = __instance.currentInterior;
-            if (interiorSpace != null && __instance.playerController.velocity.y < -20f)
-            {
-                var respawnPoint = interiorSpace.GetRespawnPoint();
-                if (respawnPoint)
-                {
-                    __instance.SetPosition(respawnPoint.GetSpawnPosition());
-                    return;
-                }
-            }
+            if (interiorSpace == null || !(__instance.playerController.velocity.y < -20f)) return;
+            var respawnPoint = interiorSpace.GetRespawnPoint();
+            if (!respawnPoint) return;
+            __instance.SetPosition(respawnPoint.GetSpawnPosition());
 #endif
         }
 

@@ -1,8 +1,7 @@
 ﻿namespace UnKnownName.Patches
 {
     using HarmonyLib;
-    using System.Text;
-
+    
 #if BZ
     [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.CraftRecipe))]
     public class TooltipFactory_Recipe
@@ -19,6 +18,7 @@
         }
     }
 #else
+    using System.Text;    
     [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.Recipe))]
     public class TooltipFactory_Recipe
     {
@@ -26,12 +26,10 @@
         public static void Postfix(bool locked, ref string tooltipText)
         {
             var stringBuilder = new StringBuilder();
-            if(locked && GameModeUtils.RequiresBlueprints())
-            {
-                TooltipFactory.WriteTitle(stringBuilder, Main.Config.UnKnownTitle);
-                TooltipFactory.WriteDescription(stringBuilder, Main.Config.UnKnownDescription);
-                tooltipText = stringBuilder.ToString();
-            }
+            if (!locked || !GameModeUtils.RequiresBlueprints()) return;
+            TooltipFactory.WriteTitle(stringBuilder, Main.Config.UnKnownTitle);
+            TooltipFactory.WriteDescription(stringBuilder, Main.Config.UnKnownDescription);
+            tooltipText = stringBuilder.ToString();
         }
     }
 #endif

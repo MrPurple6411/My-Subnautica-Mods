@@ -6,9 +6,7 @@
     using System.Linq;
 
 #if BZ
-    using FMOD;
     using UnityEngine;
-    using UnityEngine.Rendering;
 #endif
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
@@ -71,7 +69,7 @@
         [HarmonyPostfix]
         public static void Postfix(Collider c, ref bool __result)
         {
-            if(__result || c is null || c.gameObject is null)
+            if(__result || c?.gameObject is null)
                 return;
 
             var s = c.gameObject.GetComponentInParent<SeaTruckSegment>();

@@ -5,15 +5,14 @@
     using System.Reflection;
     using System.IO;
     using CustomBatteries.API;
-    using SMLHelper.V2.Handlers;
     using System.Collections.Generic;
-    using System;
     using SMLHelper.V2.Utility;
     using UnityEngine;
     using MonoBehaviours;
 
 #if SUBNAUTICA_STABLE
-
+    using System;
+    using SMLHelper.V2.Handlers;
 #endif
 
 

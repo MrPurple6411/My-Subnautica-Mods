@@ -2,8 +2,8 @@
 {
     using MonoBehaviours;
     using QModManager.API.ModLoading;
-    using System.Collections.Generic;
 #if SN1
+    using System.Collections.Generic;
     using QModManager.Utility;
     using System;
 #endif

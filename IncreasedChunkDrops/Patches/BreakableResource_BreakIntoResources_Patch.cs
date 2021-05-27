@@ -5,7 +5,6 @@
     using Random = UnityEngine.Random;
 #if !SUBNAUTICA_STABLE
     using UnityEngine.AddressableAssets;
-    using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
 
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
@@ -66,28 +65,24 @@
                     extraSpawns--;
                 }
 
-                if(assetReferenceGameObject != null)
-                {
-                    var loadPrefab = Addressables.LoadAssetAsync<GameObject>(assetReferenceGameObject.RuntimeKey as string);
-                    loadPrefab.Completed += (prefabTask) => {
+                if (assetReferenceGameObject == null) continue;
+                var loadPrefab = Addressables.LoadAssetAsync<GameObject>(assetReferenceGameObject.RuntimeKey as string);
+                loadPrefab.Completed += (prefabTask) => {
 
-                        var prefab = prefabTask.Result;
-                        if (prefab is null)
-                            return;
+                    var prefab = prefabTask.Result;
+                    if (prefab is null)
+                        return;
 
-                        var rigidbody = GameObject.Instantiate(prefab, position, Quaternion.identity).GetComponent<Rigidbody>();
+                    var rigidbody = Object.Instantiate(prefab, position, Quaternion.identity).GetComponent<Rigidbody>();
 
-                        if (rigidbody != null)
-                        {
-                            rigidbody.isKinematic = false;
-                            rigidbody.maxDepenetrationVelocity = 0.5f;
-                            rigidbody.maxAngularVelocity = 1f;
-                            rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
-                            rigidbody.AddForce(position * 0.2f);
-                        }
+                    if (rigidbody == null) return;
+                    rigidbody.isKinematic = false;
+                    rigidbody.maxDepenetrationVelocity = 0.5f;
+                    rigidbody.maxAngularVelocity = 1f;
+                    rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
+                    rigidbody.AddForce(position * 0.2f);
 
-                    };
-                }
+                };
             }
         }
 #endif

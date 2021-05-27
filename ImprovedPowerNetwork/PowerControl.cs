@@ -20,7 +20,9 @@ namespace ImprovedPowerNetwork
 
         public bool baseConnectionsDisabled = true;
         public bool otherConnectionsDisabled;
+#if SN1
         private bool _isCyclops;
+#endif
         private bool _vehicleAndEnergyInterfaceNotNull;
         private bool powerFXNotNull;
 
@@ -98,11 +100,12 @@ namespace ImprovedPowerNetwork
                 {
                     baseConnectionsDisabled = false;
                 }
+#if SN1
                 else
                 {
                     _isCyclops = true;
                 }
-                    
+#endif
             }
 #if BZ
             truckSegment = gameObject.GetComponentInParent<SeaTruckSegment>();

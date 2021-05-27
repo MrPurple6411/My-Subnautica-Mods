@@ -1,8 +1,5 @@
 ﻿namespace TechPistol.Module
 {
-#if !SUBNAUTICA_STABLE
-    using System.Collections;
-#endif
     using System.Linq;
     using UnityEngine;
     using UWE;
@@ -153,50 +150,51 @@
 		{
 #pragma warning disable CS0612 // Type or member is obsolete
             if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out var RCFilename))
-           {
-				AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
-				{
-					var gameObject1 = x.Result;
-					var component = gameObject1?.GetComponent<RepulsionCannon>();
-					repulsionCannonFireSound = component?.shootSound;
-				};
-			}
+            {
+                AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
+                {
+                    var gameObject1 = x.Result;
+                    var component = gameObject1?.GetComponent<RepulsionCannon>();
+                    repulsionCannonFireSound = component?.shootSound;
+                };
+            }
 
-			if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out var SRFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
-				{
-					var gameObject2 = x.Result;
-					var component2 = gameObject2?.GetComponent<StasisRifle>();
-					stasisRifleFireSound = component2?.fireSound;
-					stasisRifleEvent = component2?.chargeBegin;
-				};
-			}
+            if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out var SRFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
+                {
+                    var gameObject2 = x.Result;
+                    var component2 = gameObject2?.GetComponent<StasisRifle>();
+                    stasisRifleFireSound = component2?.fireSound;
+                    stasisRifleEvent = component2?.chargeBegin;
+                };
+            }
 
-			if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out var PCFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
-				{
-					var gameObject3 = x.Result;
-					var component3 = gameObject3?.GetComponent<PropulsionCannon>();
-					modeChangeSound = component3?.shootSound;
-				};
-			}
+            if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out var PCFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
+                {
+                    var gameObject3 = x.Result;
+                    var component3 = gameObject3?.GetComponent<PropulsionCannon>();
+                    modeChangeSound = component3?.shootSound;
+                };
+            }
 
-			if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out var WFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
-				{
-					var gameObject4 = x.Result;
-					var component4 = gameObject4?.GetComponent<Welder>();
-					laserShootSound = component4?.weldSound;
-				};
-			}
+            if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out var WFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
+                {
+                    var gameObject4 = x.Result;
+                    var component4 = gameObject4?.GetComponent<Welder>();
+                    laserShootSound = component4?.weldSound;
+                };
+            }
 #pragma warning restore CS0612 // Type or member is obsolete
 
             if(LaserParticles is null)
 			{
-				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+                Transform transform1;
+                LaserParticles = Instantiate(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), (transform1 = transform).position, transform1.rotation);
                 laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
                 scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
 			}

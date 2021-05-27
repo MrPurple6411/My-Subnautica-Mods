@@ -23,7 +23,7 @@
 #if SN1
             HandReticle.main.SetInteractText(Main.Config.UnKnownLabel, false);
 #elif BZ
-            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true, GameInput.Button.None);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true);
 #endif
         }
 

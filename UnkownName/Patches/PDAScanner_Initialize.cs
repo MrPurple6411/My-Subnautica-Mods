@@ -6,8 +6,6 @@
 
 #if SN1
     using RecipeData = SMLHelper.V2.Crafting.TechData;
-#else
-    using SMLHelper.V2.Crafting;
 #endif
 
 
@@ -26,7 +24,7 @@
                     var data = CraftDataHandler.GetTechData(techType);
                     map.TryGetValue(techType, out var entryData);
 
-                    if(data is null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None)
+                    if(data is null && entryData is {isFragment: false} && entryData.blueprint == TechType.None)
                     {
                         entryData.blueprint = techType;
                         entryData.locked = true;
@@ -48,7 +46,7 @@
                         continue;
                     }
 
-                    if(data != null && entryData != null && !entryData.isFragment && entryData.blueprint == TechType.None && (data.ingredientCount == 0 || techType == TechType.Titanium))
+                    if(data != null && entryData is {isFragment: false} && entryData.blueprint == TechType.None && (data.ingredientCount == 0 || techType == TechType.Titanium))
                     {
                         entryData.blueprint = techType;
                         entryData.locked = true;

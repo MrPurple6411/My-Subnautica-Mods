@@ -73,19 +73,14 @@
                     return;
             }
             var builderModule = Player.main.GetComponentInParent<BuilderModuleMono>();
-            if(builderModule != null && builderModule.isToggle)
+            if (builderModule == null || !builderModule.isToggle) return;
+            var lights = builderModule.gameObject.GetComponentsInChildren<Light>()?? new Light[0];
+            foreach(var light in lights)
             {
-                var lights = builderModule.gameObject.GetComponentsInChildren<Light>()?? new Light[0];
-                foreach(var light in lights)
-                {
-                    if(light.gameObject.name == "light_center")
-                    {
-                        __result = light.gameObject.transform;
-                        return;
-                    }
-                }
+                if (light.gameObject.name != "light_center") continue;
+                __result = light.gameObject.transform;
+                return;
             }
-            return;
         }
 #endif
     }

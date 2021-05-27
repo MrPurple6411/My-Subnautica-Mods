@@ -9,11 +9,13 @@
     using Poster;
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
-#else
+#elif  SUBNAUTICA_EXP
     using Newtonsoft.Json;
+#elif  BZ
     using UWE;
     using System.Collections;
     using UnityEngine;
+    using Newtonsoft.Json;
 #endif
 
     [QModCore]
@@ -39,7 +41,6 @@
                 yield return new WaitForSecondsRealtime(1);
 
             CreateTabsAndLoadFiles();
-            yield break;
         }
 #endif
 
