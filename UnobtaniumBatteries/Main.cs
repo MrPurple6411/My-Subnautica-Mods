@@ -11,7 +11,6 @@
     using MonoBehaviours;
 
 #if SUBNAUTICA_STABLE
-    using System;
     using SMLHelper.V2.Handlers;
 #endif
 
