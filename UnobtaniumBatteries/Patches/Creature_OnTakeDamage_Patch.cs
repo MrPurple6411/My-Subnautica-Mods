@@ -13,7 +13,7 @@ namespace UnobtaniumBatteries.Patches
             if(__instance.TryGetComponent(out WaterParkCreature waterParkCreature) && waterParkCreature.IsInsideWaterPark())
                 return;
 
-            if (!Main.typesToMakePickupable.Contains(__instance.GetType()) || __instance.liveMixin == null) return;
+            if (__instance.liveMixin == null || !Main.typesToMakePickupable.Contains(CraftData.GetTechType(__instance.gameObject))) return;
 
             if(__instance.liveMixin.IsAlive() && __instance.liveMixin.health <= (__instance.liveMixin.initialHealth / 5))
             {

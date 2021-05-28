@@ -24,7 +24,7 @@
         private static readonly string AssetsFolder = Path.Combine(ModPath, "Assets");
         public static readonly List<TechType> unobtaniumBatteries = new();
 #if SN1
-        public static readonly List<Type> typesToMakePickupable = new() { typeof(ReaperLeviathan), typeof(GhostLeviathan), typeof(Warper) };
+        public static readonly List<TechType> typesToMakePickupable = new() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper };
 #endif
         
         [QModPatch]
