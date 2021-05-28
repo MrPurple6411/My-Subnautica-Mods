@@ -1,4 +1,6 @@
-﻿namespace ImprovedPowerNetwork.Patches
+﻿using UnityEngine;
+
+namespace ImprovedPowerNetwork.Patches
 {
     using HarmonyLib;
     using System.Linq;
@@ -9,7 +11,7 @@
         [HarmonyPostfix]
         public static void Postfix(ref PowerRelay __result)
         {
-            if (__result == null) return;
+            if (__result is null) return;
             var isCyclops = __result.gameObject.name.Contains("Cyclops");
             if(__result is not BasePowerRelay && !isCyclops) return;
             var powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay).FirstOrFallback(null);
@@ -18,9 +20,10 @@
             PowerControl powerControl;
             if(powerInterface is null)
             {
-                powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
+                GameObject entityRoot = UWE.Utils.GetEntityRoot(__result.gameObject) ?? __result.gameObject;
+                powerControl = entityRoot.GetComponentInChildren<PowerControl>();
 
-                if (powerControl.powerRelay == null || powerControl.powerRelay.dontConnectToRelays) return;
+                if (powerControl?.powerRelay is null || powerControl.powerRelay.dontConnectToRelays) return;
                 
                 if(isCyclops)
                     __result.AddInboundPower(powerControl.powerRelay);
