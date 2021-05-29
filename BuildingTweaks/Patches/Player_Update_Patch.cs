@@ -35,9 +35,8 @@ namespace BuildingTweaks.Patches
                 ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
             }
 
-            if (Builder.prefab == null)
-                ClearMsgs();
-            else if (Input.GetMouseButtonDown(2))
+            
+            if (Input.GetMouseButtonDown(2))
                 Builder_Update_Patches.Freeze = !Builder_Update_Patches.Freeze;
 
             var waterPark = __instance.currentWaterPark;
