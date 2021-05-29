@@ -22,7 +22,7 @@
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
     <Compile Include="Patches\Inventory_Pickup_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Reference Include="CustomBatteries_publicized">
+    <Reference Include="CustomBatteries">
       <Private>False</Private>
     </Reference>
     <None Include="mod_BZ.EXP.json" />
