@@ -72,7 +72,6 @@
 
             if (finalTarget != null)
             {
-                ErrorMessage.AddMessage($"{finalTarget.gameObject.name}");
                 return;
             }
 
@@ -169,7 +168,6 @@
 
             if (finalTarget != null)
             {
-                ErrorMessage.AddMessage($"{finalTarget.gameObject.name}");
                 return;
             }
 			var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
