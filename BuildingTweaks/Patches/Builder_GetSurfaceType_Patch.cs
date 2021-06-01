@@ -104,7 +104,7 @@ namespace BuildingTweaks.Patches
         public static void Postfix(GrowingPlant __instance, Transform tr, float progress)
         {
             if (Math.Abs(progress - 1f) > 0.01f || tr == __instance.growingTransform ||
-                !(__instance.seed.currentPlanter.transform.localScale.y < 0)) return;
+                __instance.seed?.currentPlanter?.transform is null || __instance.seed?.currentPlanter?.transform?.localScale.y >= 0 || tr?.localScale.y < 0) return;
 
             var localScale = tr.localScale;
             localScale = new Vector3(localScale.x, localScale.y*-1, localScale.z);

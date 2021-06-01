@@ -2,7 +2,7 @@
   "Id": "BuildingTweaks",
   "DisplayName": "BuildingTweaks",
   "Author": "MrPurple6411",
-  "Version": "2.1.2",
+  "Version": "2.1.3",
   "Enable": true,
   "Game": "BelowZero",
   "LoadBefore": [ "BuilderModule" ],
