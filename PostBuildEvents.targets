@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <PostBuildEvent>
-      mkdir $(SolutionDir)..\QModZips\$(GameName)
+      mkdir "$(SolutionDir)..\QModZips\$(GameName)"
       powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(GameName)\$(ProjectName)$(Configuration).zip' -Force
 
       mkdir "$(GameDir)\QMods\$(ProjectName)"
