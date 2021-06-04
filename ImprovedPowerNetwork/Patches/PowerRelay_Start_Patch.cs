@@ -18,7 +18,8 @@
 
             if(__instance.gameObject.name.Contains("Transmitter"))
             {
-                __instance.gameObject.EnsureComponent<PowerControl>();
+                PowerControl pc = __instance.gameObject.EnsureComponent<PowerControl>();
+                pc.powerRelay = __instance;
             }
         }
     }
