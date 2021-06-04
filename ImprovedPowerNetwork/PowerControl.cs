@@ -88,7 +88,6 @@ namespace ImprovedPowerNetwork
         public void Start()
         {
             powerFXNotNull = powerRelay.powerFX != null;
-            powerRelay = gameObject.GetComponent<PowerRelay>();
             powerRelay.maxOutboundDistance = Main.Config.BlueBeamRange;
             constructable = gameObject.GetComponent<Constructable>();
 
