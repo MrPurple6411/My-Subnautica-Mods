@@ -7,7 +7,7 @@
         internal static BaseInboundRelay AddNewBaseConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
             var additionalRelay = originalRelay.gameObject.AddComponent<BaseInboundRelay>();
-            additionalRelay.dontConnectToRelays = powerControl.baseConnectionsDisabled;
+            additionalRelay.dontConnectToRelays = powerControl.BaseConnectionsDisabled;
             additionalRelay.maxOutboundDistance = 10000;
             additionalRelay.constructable = originalRelay.constructable;
 

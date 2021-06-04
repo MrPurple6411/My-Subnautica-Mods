@@ -7,7 +7,7 @@
         internal static void AddNewOtherConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
             var additionalRelay = originalRelay.gameObject.AddComponent<OtherConnectionRelay>();
-            additionalRelay.dontConnectToRelays = powerControl.otherConnectionsDisabled;
+            additionalRelay.dontConnectToRelays = powerControl.OtherConnectionsDisabled;
             additionalRelay.maxOutboundDistance = Main.Config.GreenBeamRange;
             additionalRelay.constructable = originalRelay.constructable;
 

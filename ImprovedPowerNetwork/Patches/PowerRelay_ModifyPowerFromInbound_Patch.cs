@@ -25,7 +25,7 @@
                             break;
                     }
 
-                    var endRelay = powerControl.powerRelay.GetEndpoint();
+                    var endRelay = powerControl.Relay.GetEndpoint();
 
                     if(endRelay.GetMaxPower() > powerInterface.GetMaxPower())
                     {

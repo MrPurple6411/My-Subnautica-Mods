@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace ImprovedPowerNetwork.Patches
+﻿namespace ImprovedPowerNetwork.Patches
 {
     using HarmonyLib;
     using System.Linq;
@@ -20,28 +18,27 @@ namespace ImprovedPowerNetwork.Patches
             PowerControl powerControl;
             if(powerInterface is null)
             {
-                GameObject entityRoot = UWE.Utils.GetEntityRoot(__result.gameObject) ?? __result.gameObject;
+                var entityRoot = UWE.Utils.GetEntityRoot(__result.gameObject) ?? __result.gameObject;
                 powerControl = entityRoot.GetComponentInChildren<PowerControl>();
 
-                if (powerControl?.powerRelay is null || powerControl.powerRelay.dontConnectToRelays) return;
+                if (powerControl?.Relay is null || powerControl.Relay.dontConnectToRelays) return;
                 
                 if(isCyclops)
-                    __result.AddInboundPower(powerControl.powerRelay);
+                    __result.AddInboundPower(powerControl.Relay);
                 
-                __result = powerControl.powerRelay;
+                __result = powerControl.Relay;
                 return;
             }
 
-            if (powerInterface is not BaseInboundRelay baseInboundRelay ||
-                !baseInboundRelay.gameObject.TryGetComponent(out powerControl)) return;
+            if (powerInterface is not BaseInboundRelay baseInboundRelay || !baseInboundRelay.gameObject.TryGetComponent(out powerControl)) return;
 
-            if (powerControl.powerRelay == null || powerControl.powerRelay.dontConnectToRelays) return;
+            if (powerControl.Relay == null || powerControl.Relay.dontConnectToRelays) return;
             
             if(isCyclops)
             {
-                __result.AddInboundPower(powerControl.powerRelay);
+                __result.AddInboundPower(powerControl.Relay);
             }
-            __result = powerControl.powerRelay;
+            __result = powerControl.Relay;
         }
     }
 }

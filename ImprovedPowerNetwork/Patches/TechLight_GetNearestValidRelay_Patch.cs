@@ -15,7 +15,11 @@
             {
                 if (powerRelay is not OtherConnectionRelay || !powerRelay.gameObject.activeInHierarchy ||
                     !powerRelay.enabled || powerRelay.dontConnectToRelays ||
-                    Builder.GetGhostModel() == powerRelay.gameObject) continue;
+                    Builder.GetGhostModel() == powerRelay.gameObject)
+                {
+                    continue;
+                }
+
                 var position = fromObject.transform.position;
                 var magnitude = (powerRelay.GetConnectPoint(position) - position).magnitude;
                 if (!(magnitude <= TechLight.connectionDistance) || !(magnitude < num)) continue;
