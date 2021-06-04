@@ -1,10 +1,8 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
-#if SN1
     using UnityEngine;
-#endif
-    
+
 #if SN1
     [HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
@@ -34,7 +32,7 @@
                     }
                     else
                     {
-                        var subRoot = target.GetComponentInParent<SubRoot>();
+                        var subRoot = target.transform.parent?.gameObject.GetComponentInParent<SubRoot>();
                         if(subRoot != null)
                         {
                             finalTarget = subRoot.modulesRoot.gameObject;
@@ -49,24 +47,11 @@
                             else
                             {
 
-                                Component lifepod =
-#if SN1
-                            target.GetComponentInParent<EscapePod>();
-#elif BZ
-                            placementTarget.GetComponentInParent<LifepodDrop>();
-#endif
+                                Component lifepod = target.GetComponentInParent<EscapePod>();
                                 if(lifepod != null)
                                 {
                                     finalTarget = lifepod.gameObject;
                                 }
-#if BZ
-                                    else
-                                    {
-                                        SeaTruckSegment seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
-                                        if(seaTruck != null)
-                                            finalTarget = seaTruck.gameObject;
-                                    }
-#endif
                             }
                         }
                     }
@@ -110,23 +95,77 @@
     }
 #elif BZ
 
-	[HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
+    [HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
 	public static class Base_BuildPillars_Patch
 	{
 		[HarmonyPrefix]
 		[HarmonyPriority(Priority.Last)]
 		public static void Prefix(Base __instance)
         {
-            if (!(__instance.gameObject.transform.parent?.name.Contains("(Clone)") ?? false)) return;
             if (__instance.isGhost) return;
-            var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
-            foreach (var baseAccessoryGeometry in componentsInChildren)
+
+            var target = UWE.Utils.GetEntityRoot(__instance.gameObject) ?? __instance.gameObject;
+            GameObject finalTarget = null;
+
+            if(target != null)
             {
-                switch (baseAccessoryGeometry)
+                var pickupable = target.GetComponentInParent<Pickupable>();
+                if(pickupable != null)
                 {
-                    case BaseFoundationPiece baseFoundationPiece:
-                        baseFoundationPiece.maxPillarHeight = 0f;
-                        break;
+                    finalTarget = pickupable.gameObject;
+                }
+                else
+                {
+                    var creature = target.GetComponentInParent<Creature>();
+                    if(creature != null)
+                    {
+                        finalTarget = creature.gameObject;
+                    }
+                    else
+                    {
+                        var subRoot = target.transform.parent?.gameObject.GetComponentInParent<SubRoot>();
+                        if(subRoot != null)
+                        {
+                            finalTarget = subRoot.modulesRoot.gameObject;
+                        }
+                        else
+                        {
+                            var vehicle = target.GetComponentInParent<Vehicle>();
+                            if(vehicle != null)
+                            {
+                                finalTarget = vehicle.modulesRoot.gameObject;
+                            }
+                            else
+                            {
+
+                                Component lifepod = target.GetComponentInParent<LifepodDrop>();
+                                if(lifepod != null)
+                                {
+                                    finalTarget = lifepod.gameObject;
+                                }
+                                else
+                                {
+                                    SeaTruckSegment seaTruck = target.GetComponentInParent<SeaTruckSegment>();
+                                    if(seaTruck != null)
+                                        finalTarget = seaTruck.gameObject;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (finalTarget != null)
+            {
+                var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
+                foreach (var baseAccessoryGeometry in componentsInChildren)
+                {
+                    switch (baseAccessoryGeometry)
+                    {
+                        case BaseFoundationPiece baseFoundationPiece:
+                            baseFoundationPiece.maxPillarHeight = 0f;
+                            break;
+                    }
                 }
             }
         }
