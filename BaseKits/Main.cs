@@ -1,6 +1,6 @@
 ﻿namespace BaseKits
 {
-    using BaseKits.Prefabs;
+    using Prefabs;
     using QModManager.API.ModLoading;
     using System.Collections;
     using System.Collections.Generic;
@@ -10,26 +10,26 @@
     [QModCore]
     public static class Main
     {
-        private static readonly List<TechType> RoomsToClone = new List<TechType>()
+        private static readonly List<TechType> RoomsToClone = new()
         {
             TechType.BaseFoundation, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseObservatory, TechType.BaseRoom
         };
 
-        private static readonly List<TechType> CorridorsToClone = new List<TechType>()
+        private static readonly List<TechType> CorridorsToClone = new()
         {
             TechType.BaseCorridorGlassI, TechType.BaseCorridorGlassL,
             TechType.BaseCorridorI, TechType.BaseCorridorL, TechType.BaseCorridorT, TechType.BaseCorridorX
 
         };
 
-        private static readonly List<TechType> ModulesToClone = new List<TechType>()
+        private static readonly List<TechType> ModulesToClone = new()
         {
             TechType.BaseBioReactor, TechType.BaseFiltrationMachine,
             TechType.BaseNuclearReactor, TechType.BaseUpgradeConsole, TechType.BaseWaterPark
         };
 
-        private static readonly List<TechType> UtilitiesToClone = new List<TechType>()
+        private static readonly List<TechType> UtilitiesToClone = new()
         {
             TechType.BaseConnector, TechType.BaseBulkhead, TechType.BaseHatch,
             TechType.BaseLadder, TechType.BaseReinforcement, TechType.BaseWindow
@@ -46,16 +46,16 @@
             if(Language.main is null)
                 yield return new WaitWhile(() => Language.main is null);
 
-            List<TechType> ClonedRoomKits = new List<TechType>();
+            var ClonedRoomKits = new List<TechType>();
             ProcessTypes(RoomsToClone, ref ClonedRoomKits);
 
-            List<TechType> ClonedCorridorKits = new List<TechType>();
+            var ClonedCorridorKits = new List<TechType>();
             ProcessTypes(CorridorsToClone, ref ClonedCorridorKits);
 
-            List<TechType> ClonedModuleKits = new List<TechType>();
+            var ClonedModuleKits = new List<TechType>();
             ProcessTypes(ModulesToClone, ref ClonedModuleKits);
 
-            List<TechType> ClonedUtilityKits = new List<TechType>();
+            var ClonedUtilityKits = new List<TechType>();
             ProcessTypes(UtilitiesToClone, ref ClonedUtilityKits);
 
 
@@ -64,14 +64,14 @@
 
         private static void ProcessTypes(List<TechType> typesToClone, ref List<TechType> clonedKits)
         {
-            foreach(TechType techType in typesToClone)
+            foreach(var techType in typesToClone)
             {
-                CloneBaseKit cbk = new CloneBaseKit(techType);
+                var cbk = new CloneBaseKit(techType);
                 cbk.Patch();
 
                 clonedKits.Add(cbk.TechType);
 
-                CloneBasePiece cbp = new CloneBasePiece(techType, cbk.TechType);
+                var cbp = new CloneBasePiece(techType, cbk.TechType);
                 cbp.Patch();
             }
         }

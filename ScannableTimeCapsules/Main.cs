@@ -15,8 +15,8 @@ namespace ScannableTimeCapsules
         public static void Load()
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
-            string classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
-            if(WorldEntityDatabase.TryGetInfo(classid, out WorldEntityInfo worldEntityInfo))
+            var classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
+            if(WorldEntityDatabase.TryGetInfo(classid, out var worldEntityInfo))
             {
                 worldEntityInfo.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
 

@@ -1,25 +1,29 @@
 ﻿namespace BuilderModule.Module
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Text;
     using UnityEngine;
+    using UWE;
 
     public class BuilderModuleMono: MonoBehaviour
     {
-        public BuilderModuleMono Instance { get; private set; }
-        public int ModuleSlotID { get; set; }
-        private Vehicle ThisVehicle { get; set; }
-        private Player PlayerMain { get; set; }
-        private EnergyMixin EnergyMixin { get; set; }
+        public int ModuleSlotID;
+
+        public Vehicle vehicle;
+#if BZ
+        public SeaTruckUpgrades seaTruck;
+        public SeaTruckLights lights;
+        public Hoverbike hoverbike;
+#endif
+        public EnergyMixin energyMixin;
+        public EnergyInterface energyInterface;
+        public PowerRelay powerRelay;
 
         public bool isToggle;
-        public bool isActive;
 
         public float powerConsumptionConstruct = 0.5f;
         public float powerConsumptionDeconstruct = 0.5f;
-        public FMOD_CustomLoopingEmitter buildSound;
-        private FMODAsset completeSound;
+        private static FMODAsset completeSound;
         private int handleInputFrame = -1;
         private string deconstructText;
         private string constructText;
@@ -27,99 +31,135 @@
 
         public void Awake()
         {
-            Instance = this;
-            ThisVehicle = Instance.GetComponent<Vehicle>();
-            EnergyMixin = ThisVehicle.GetComponent<EnergyMixin>();
-            PlayerMain = Player.main;
-            BuilderTool builderPrefab = Resources.Load<GameObject>("WorldEntities/Tools/Builder").GetComponent<BuilderTool>();
-            completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
-        }
-
-        protected void Start()
-        {
-            ThisVehicle.onToggle += OnToggle;
-            ThisVehicle.modules.onAddItem += OnAddItem;
-            ThisVehicle.modules.onRemoveItem += OnRemoveItem;
-        }
-
-        private void OnRemoveItem(InventoryItem item)
-        {
-            if(item.item.GetTechType() == Main.buildermodule.TechType)
+            if(completeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Builder), out var BuilderFilename))
             {
-                ModuleSlotID = -1;
-                Instance.enabled = false;
-            }
-        }
-
-        private void OnAddItem(InventoryItem item)
-        {
-            if(item.item.GetTechType() == Main.buildermodule.TechType)
-            {
-                ModuleSlotID = ThisVehicle.GetSlotByItem(item);
-                Instance.enabled = true;
-            }
-        }
-
-        private void OnToggle(int slotID, bool state)
-        {
-            if(ThisVehicle.GetSlotBinding(slotID) == Main.buildermodule.TechType)
-            {
-                isToggle = state;
-
-                if(isToggle)
+#if SUBNAUTICA_STABLE
+                var builderPrefab = Resources.Load<GameObject>(BuilderFilename).GetComponent<BuilderTool>();
+                completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
+#else
+                AddressablesUtility.LoadAsync<GameObject>(BuilderFilename).Completed += (x) =>
                 {
-                    OnEnable();
-                }
-                else
-                {
-                    OnDisable();
-                }
+                    var gameObject1 = x.Result;
+                    var builderPrefab = gameObject1 != null ? gameObject1.GetComponent<BuilderTool>() : null;
+                    if (builderPrefab is not null)
+                        completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
+                };
+#endif
             }
         }
 
-        public void OnEnable()
+        public void OnToggle(int slotID, bool state)
         {
-            isActive = PlayerMain.isPiloting && isToggle && ModuleSlotID > -1;
+            var techType = TechType.None;
+
+            if(vehicle != null)
+                techType = vehicle.GetSlotBinding(slotID);
+
+            if (!Main.builderModules.Contains(techType)) return;
+            isToggle = state;
+            if(!isToggle)
+                OnDisable();
+        }
+
+        public void Toggle()
+        {
+            while (true)
+            {
+                isToggle = !isToggle;
+                if (isToggle)
+                {
+                    if (energyMixin != null && energyMixin.charge > 0f || powerRelay != null && powerRelay.GetPower() > 0f || energyInterface != null && energyInterface.TotalCanProvide(out _) > 0f)
+                    {
+                        ErrorMessage.AddMessage($"BuilderModule Enabled");
+                        Player.main.GetPDA().Close();
+                        uGUI_BuilderMenu.Show();
+                        handleInputFrame = Time.frameCount;
+                        return;
+                    }
+                    else
+                    {
+                        ErrorMessage.AddMessage($"Insufficient Power");
+                        continue;
+                    }
+                }
+
+                ErrorMessage.AddMessage($"BuilderModule Disabled");
+                OnDisable();
+                break;
+            }
         }
 
         public void OnDisable()
         {
-            isActive = false;
-            uGUI_BuilderMenu.Hide();
-            Builder.End();
+            if(uGUI_BuilderMenu.IsOpen())
+                uGUI_BuilderMenu.Hide();
+            if(Builder.prefab != null)
+                Builder.End();
         }
+
 
         protected void Update()
         {
-            UpdateText();
-            if(isActive)
+            if(isToggle && !(Player.main.GetVehicle() != null
+#if BZ
+                || Player.main.IsPilotingSeatruck() || Player.main.inHovercraft
+#endif
+                ))
             {
-                if(ThisVehicle.GetActiveSlotID() != ModuleSlotID)
+                Toggle();
+                return;
+            }
+
+#if BZ
+            if(isToggle && lights != null && powerRelay.IsPowered())
+            {
+                lights.lightsActive = true;
+                lights.floodLight.SetActive(true);
+            }
+#endif
+
+
+
+            if(VehicleCheck())
+            {
+                if(GameInput.GetButtonDown(GameInput.Button.Reload))
                 {
-                    ThisVehicle.SlotKeyDown(ThisVehicle.GetActiveSlotID());
-                    ThisVehicle.SlotKeyUp(ThisVehicle.GetActiveSlotID());
+                    Toggle();
+                    return;
                 }
-                if(GameInput.GetButtonDown(GameInput.Button.RightHand) && !Player.main.GetPDA().isOpen && !Builder.isPlacing)
+            }
+
+
+            UpdateText();
+            if(isToggle)
+            {
+                if(GameInput.GetButtonDown(GameInput.Button.RightHand) && !Player.main.GetPDA().isOpen)
                 {
-                    if(EnergyMixin.charge > 0f)
-                    {
-                        Player.main.GetPDA().Close();
-                        uGUI_BuilderMenu.Show();
-                        handleInputFrame = Time.frameCount;
-                    }
+                    if(Builder.isPlacing)
+                        Builder.End();
+
+                    if (!(energyMixin != null && energyMixin.charge > 0f) &&
+                        !(powerRelay != null && powerRelay.GetPower() > 0f) &&
+                        !(energyInterface != null && energyInterface.TotalCanProvide(out _) > 0f))
+                        return;
+                    
+                    Player.main.GetPDA().Close();
+                    uGUI_BuilderMenu.Show();
+                    handleInputFrame = Time.frameCount;
+                    return;
                 }
                 if(Builder.isPlacing)
                 {
                     if(GameInput.GetButtonDown(GameInput.Button.LeftHand))
                     {
                         if(Builder.TryPlace())
-                        {
                             Builder.End();
-                        }
+                        return;
                     }
-                    else if(handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.RightHand))
+                    else if(handleInputFrame != Time.frameCount && GameInput.GetButtonDown(GameInput.Button.Exit))
                     {
                         Builder.End();
+                        return;
                     }
                     FPSInputModule.current.EscapeMenu();
                     Builder.Update();
@@ -131,69 +171,78 @@
             }
         }
 
+        private bool VehicleCheck()
+        {
+            if(vehicle is not null && vehicle == Player.main.GetVehicle())
+            {
+                return true;
+            }
+#if BZ
+            else if(hoverbike is not null && hoverbike == Player.main.GetComponentInParent<Hoverbike>())
+            {
+                return true;
+            }
+            else if(seaTruck is not null && seaTruck == Player.main.GetComponentInParent<SeaTruckUpgrades>())
+            {
+                return true;
+            }
+#endif
+            return false;
+        }
+
         private void HandleInput()
         {
             if(handleInputFrame == Time.frameCount)
-            {
                 return;
-            }
+
             handleInputFrame = Time.frameCount;
-            if(!AvatarInputHandler.main.IsEnabled())
-            {
+
+            if(!AvatarInputHandler.main.IsEnabled() || TryDisplayNoPowerTooltip())
                 return;
-            }
-            bool flag = TryDisplayNoPowerTooltip();
-            if(flag)
-            {
-                return;
-            }
+
             Targeting.AddToIgnoreList(Player.main.gameObject);
-            Targeting.GetTarget(60f, out GameObject gameObject, out float num);
-            if(gameObject == null)
-            {
+            GameObject Object = null;
+            float num = 9000;
+            if(vehicle != null)
+                Targeting.GetTarget(vehicle.gameObject, 60f, out Object, out num);
+#if BZ
+            if(seaTruck != null)
+                Targeting.GetTarget(seaTruck.gameObject, 60f, out Object, out num);
+            if(hoverbike != null)
+                Targeting.GetTarget(hoverbike.gameObject, 60f, out Object, out num);
+#endif
+
+            if(Object is null)
                 return;
-            }
-            bool buttonHeld = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
-            bool buttonDown = GameInput.GetButtonDown(GameInput.Button.Deconstruct);
-            bool buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
-            bool quickbuild = GameInput.GetButtonHeld(GameInput.Button.Sprint);
-            Constructable constructable = gameObject.GetComponentInParent<Constructable>();
+
+            var buttonHeld = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
+            var buttonDown = GameInput.GetButtonDown(GameInput.Button.Deconstruct);
+            var buttonHeld2 = GameInput.GetButtonHeld(GameInput.Button.Deconstruct);
+            var constructable = Object.GetComponentInParent<Constructable>();
             if(constructable != null && num > constructable.placeMaxDistance * 2)
-            {
                 constructable = null;
-            }
+
             if(constructable != null)
             {
                 OnHover(constructable);
                 if(buttonHeld)
                 {
                     Construct(constructable, true);
-                    if(quickbuild)
-                    {
-                        Construct(constructable, true);
-                        Construct(constructable, true);
-                        Construct(constructable, true);
-                    }
+                    Construct(constructable, true);
+                    Construct(constructable, true);
                 }
-                else if(constructable.DeconstructionAllowed(out string text))
+                else if(constructable.DeconstructionAllowed(out var text))
                 {
-                    if(buttonHeld2)
+                    if (!buttonHeld2) return;
+                    if(!constructable.constructed)
                     {
-                        if(constructable.constructed)
-                        {
-                            constructable.SetState(false, false);
-                        }
-                        else
-                        {
-                            Construct(constructable, false);
-                            if(quickbuild)
-                            {
-                                Construct(constructable, false);
-                                Construct(constructable, false);
-                                Construct(constructable, false);
-                            }
-                        }
+                        Construct(constructable, false);
+                        Construct(constructable, false);
+                        Construct(constructable, false);
+                        return;
                     }
+
+                    constructable.SetState(false, false);
                 }
                 else if(buttonDown && !string.IsNullOrEmpty(text))
                 {
@@ -202,107 +251,106 @@
             }
             else
             {
-                BaseDeconstructable baseDeconstructable = gameObject.GetComponentInParent<BaseDeconstructable>();
-                if(baseDeconstructable == null)
+                var baseDeconstructable = Object.GetComponentInParent<BaseDeconstructable>() ?? Object.GetComponentInParent<BaseExplicitFace>()?.parent;
+
+                if (baseDeconstructable is null) return;
+                if(!baseDeconstructable.DeconstructionAllowed(out var text))
                 {
-                    BaseExplicitFace componentInParent = gameObject.GetComponentInParent<BaseExplicitFace>();
-                    if(componentInParent != null)
-                    {
-                        baseDeconstructable = componentInParent.parent;
-                    }
-                }
-                else
-                {
-                    if(baseDeconstructable.DeconstructionAllowed(out string text))
-                    {
-                        OnHover(baseDeconstructable);
-                        if(buttonDown)
-                        {
-                            baseDeconstructable.Deconstruct();
-                        }
-                    }
-                    else if(buttonDown && !string.IsNullOrEmpty(text))
-                    {
+                    if(buttonDown && !string.IsNullOrEmpty(text))
                         ErrorMessage.AddMessage(text);
-                    }
+                    return;
                 }
+
+                OnHover(baseDeconstructable);
+                if(buttonDown)
+                    baseDeconstructable.Deconstruct();
             }
         }
 
         private bool TryDisplayNoPowerTooltip()
         {
-            if(EnergyMixin.charge <= 0f)
-            {
-                HandReticle main = HandReticle.main;
+            if (!((energyInterface != null ? energyInterface.TotalCanProvide(out _) : 0f) <= 0f) || 
+                !((powerRelay != null ? powerRelay.GetPower() : 0f) <= 0f) ||
+                !((energyMixin != null ? energyMixin.charge : 0f) <= 0f)) return false;
+            
+            var main = HandReticle.main;
 #if SN1
-                main.SetInteractText(noPowerText, false, HandReticle.Hand.None);
+                main.SetInteractText(noPowerText, false);
 #elif BZ
-                main.SetText(HandReticle.TextType.Hand, this.noPowerText, true);
+            main.SetText(HandReticle.TextType.Hand, this.noPowerText, true);
 #endif
-                main.SetIcon(HandReticle.IconType.Default, 1f);
-                return true;
-            }
-            return false;
+            main.SetIcon(HandReticle.IconType.Default);
+            return true;
         }
 
         private void UpdateText()
         {
-            string buttonFormat = LanguageCache.GetButtonFormat("ConstructFormat", GameInput.Button.LeftHand);
-            string buttonFormat2 = LanguageCache.GetButtonFormat("DeconstructFormat", GameInput.Button.Deconstruct);
-            constructText = Language.main.GetFormat<string, string>("ConstructDeconstructFormat", buttonFormat, buttonFormat2);
+            var buttonFormat = LanguageCache.GetButtonFormat("ConstructFormat", GameInput.Button.LeftHand);
+            var buttonFormat2 = LanguageCache.GetButtonFormat("DeconstructFormat", GameInput.Button.Deconstruct);
+            constructText = Language.main.GetFormat("ConstructDeconstructFormat", buttonFormat, buttonFormat2);
             deconstructText = buttonFormat2;
             noPowerText = Language.main.Get("NoPower");
         }
 
         private void Construct(Constructable c, bool state)
         {
-            if(c != null && !c.constructed && EnergyMixin.charge > 0f)
-            {
-
-                base.StartCoroutine(ConstructAsync(c, state));
-            }
+            if (c != null &&
+                !c.constructed &&
+                ((energyInterface != null ? energyInterface.TotalCanProvide(out _) : 0f) > 0f ||
+                 (powerRelay != null ? powerRelay.GetPower() : 0f) > 0f ||
+                 (energyMixin != null ? energyMixin.charge : 0f) > 0f))
+                StartCoroutine(ConstructAsync(c, state));
         }
 
         private IEnumerator ConstructAsync(Constructable c, bool state)
         {
-            float amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
-            EnergyMixin.ConsumeEnergy(amount);
-            bool constructed = c.constructed;
-            bool wasConstructed = c.constructed;
-            bool flag;
-            if(state)
+            var amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
+            var consumed = energyInterface != null ? energyInterface.ConsumeEnergy(amount) : 0f;
+            var energyMixinConsumed = energyMixin != null && energyMixin.ConsumeEnergy(amount);
+            if(energyMixinConsumed || consumed > 0f || (powerRelay != null && powerRelay.ConsumeEnergy(amount, out consumed)))
             {
-                flag = c.Construct();
-            }
-            else
-            {
-#if SUBNAUTICA_EXP || BZ
-                TaskResult<bool> result = new TaskResult<bool>();
-#if SUBNAUTICA_EXP
-                yield return c.DeconstructAsync(result);
-#else
-                TaskResult<string> reason = new TaskResult<string>();
-                yield return c.DeconstructAsync(result, reason);
-#endif
-                flag = result.Get();
-                result = null;
-#elif SUBNAUTICA_STABLE
-                flag = c.Deconstruct();
-#endif
-            }
 
-            if(!flag && state && !wasConstructed)
-            {
-                Utils.PlayFMODAsset(completeSound, c.transform, 20f);
+                if(!energyMixinConsumed && consumed < amount)
+                {
+                    if(energyInterface is not null)
+                        energyInterface.AddEnergy(consumed);
+                    else if(powerRelay is not null)
+                        powerRelay.AddEnergy(consumed, out _);
+                    yield break;
+                }
+
+                var wasConstructed = c.constructed;
+                bool flag;
+#if SUBNAUTICA_EXP || BZ
+                if(state)
+                {
+                    flag = c.Construct();
+                }
+                else
+                {
+                    var result = new TaskResult<bool>();
+#if SUBNAUTICA_EXP
+                    yield return c.DeconstructAsync(result);
+#else
+                    var reason = new TaskResult<string>();
+                    yield return c.DeconstructAsync(result, reason);
+#endif
+                    flag = result.Get();
+                }
+#elif SUBNAUTICA_STABLE
+                flag = state ? c.Construct() : c.Deconstruct();
+#endif
+
+                if(!flag && state && !wasConstructed)
+                    FMODUWE.PlayOneShot(completeSound, c.transform.position, 20f);
             }
-            yield break;
         }
 
         private void OnHover(Constructable constructable)
         {
-            if(isActive)
+            if(isToggle)
             {
-                HandReticle main = HandReticle.main;
+                var main = HandReticle.main;
                 if(constructable.constructed)
                 {
 #if SN1
@@ -313,21 +361,16 @@
                 }
                 else
                 {
-                    StringBuilder stringBuilder = new StringBuilder();
+                    var stringBuilder = new StringBuilder();
                     stringBuilder.AppendLine(constructText);
-                    foreach(KeyValuePair<TechType, int> keyValuePair in constructable.GetRemainingResources())
+                    foreach(var keyValuePair in constructable.GetRemainingResources())
                     {
-                        TechType key = keyValuePair.Key;
-                        string text = Language.main.Get(key);
-                        int value = keyValuePair.Value;
-                        if(value > 1)
-                        {
-                            stringBuilder.AppendLine(Language.main.GetFormat<string, int>("RequireMultipleFormat", text, value));
-                        }
-                        else
-                        {
-                            stringBuilder.AppendLine(text);
-                        }
+                        var key = keyValuePair.Key;
+                        var text = Language.main.Get(key);
+                        var value = keyValuePair.Value;
+                        stringBuilder.AppendLine(value > 1
+                            ? Language.main.GetFormat("RequireMultipleFormat", text, value)
+                            : text);
                     }
 #if SN1
                     main.SetInteractText(Language.main.Get(constructable.techType), stringBuilder.ToString(), false, false, HandReticle.Hand.Left);
@@ -340,25 +383,23 @@
             }
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void OnHover(BaseDeconstructable deconstructable)
         {
-            if(isActive)
-            {
-                HandReticle main = HandReticle.main;
+            if (!isToggle) return;
+            var main = HandReticle.main;
 #if SN1
                 main.SetInteractText(deconstructable.Name, deconstructText);
 #elif BZ
-                main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
+            main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
 #endif
-            }
         }
 
         protected void OnDestroy()
         {
             OnDisable();
-            ThisVehicle.onToggle -= OnToggle;
-            ThisVehicle.modules.onAddItem -= OnAddItem;
-            ThisVehicle.modules.onRemoveItem -= OnRemoveItem;
+            if(vehicle is not null)
+                vehicle.onToggle -= OnToggle;
         }
     }
 }

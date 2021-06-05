@@ -9,6 +9,6 @@
         {
         }
 
-        public Dictionary<TechType, Dictionary<TechType, float>> Breakables = new Dictionary<TechType, Dictionary<TechType, float>>();
+        public Dictionary<TechType, Dictionary<TechType, float>> Breakables = new();
     }
 }

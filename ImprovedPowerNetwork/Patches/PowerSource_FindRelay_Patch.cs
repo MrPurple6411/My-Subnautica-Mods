@@ -9,44 +9,36 @@
         [HarmonyPostfix]
         public static void Postfix(ref PowerRelay __result)
         {
+            if (__result is null) return;
+            var isCyclops = __result.gameObject.name.Contains("Cyclops");
+            if(__result is not BasePowerRelay && !isCyclops) return;
+            var powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay).FirstOrFallback(null);
+
+
             PowerControl powerControl;
-            bool isCyclops = __result?.gameObject.name.Contains("Cyclops") ?? false;
-
-            if(__result != null && (__result is BasePowerRelay || isCyclops))
+            if(powerInterface is null)
             {
-                IPowerInterface powerInterface = __result.inboundPowerSources.Where((x) => x is BaseInboundRelay)?.FirstOrFallback(null);
+                var entityRoot = UWE.Utils.GetEntityRoot(__result.gameObject) ?? __result.gameObject;
+                powerControl = entityRoot.GetComponentInChildren<PowerControl>();
 
-                if(powerInterface is null)
-                {
-                    powerControl = UWE.Utils.GetEntityRoot(__result.gameObject).GetComponentInChildren<PowerControl>();
-
-                    if(powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
-                    {
-                        if(isCyclops)
-                        {
-                            __result.AddInboundPower(powerControl.powerRelay);
-                        }
-                        __result = powerControl.powerRelay;
-                        return;
-                    }
-                    return;
-                }
-
-                BaseInboundRelay baseInboundRelay = powerInterface as BaseInboundRelay;
-
-                if(baseInboundRelay.gameObject.TryGetComponent(out powerControl))
-                {
-                    if(powerControl?.powerRelay != null && !powerControl.powerRelay.dontConnectToRelays)
-                    {
-                        if(isCyclops)
-                        {
-                            __result.AddInboundPower(powerControl.powerRelay);
-                        }
-                        __result = powerControl.powerRelay;
-                        return;
-                    }
-                }
+                if (powerControl?.Relay is null || powerControl.Relay.dontConnectToRelays) return;
+                
+                if(isCyclops)
+                    __result.AddInboundPower(powerControl.Relay);
+                
+                __result = powerControl.Relay;
+                return;
             }
+
+            if (powerInterface is not BaseInboundRelay baseInboundRelay || !baseInboundRelay.gameObject.TryGetComponent(out powerControl)) return;
+
+            if (powerControl.Relay == null || powerControl.Relay.dontConnectToRelays) return;
+            
+            if(isCyclops)
+            {
+                __result.AddInboundPower(powerControl.Relay);
+            }
+            __result = powerControl.Relay;
         }
     }
 }

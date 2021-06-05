@@ -25,20 +25,20 @@ namespace MoreSeamothDepth.Modules
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
 
-        public override string[] StepsToFabricatorTab => new string[] { "EDM" };
+        public override string[] StepsToFabricatorTab => new[] { "EDM" };
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            string path = "WorldEntities/Tools/SeamothElectricalDefense";
-            GameObject prefab = Resources.Load<GameObject>(path);
-            GameObject obj = GameObject.Instantiate(prefab);
+            var path = "WorldEntities/Tools/SeamothElectricalDefense";
+            var prefab = Resources.Load<GameObject>(path);
+            var obj = Object.Instantiate(prefab);
 
             // Get the TechTags and PrefabIdentifiers
-            TechTag techTag = obj.GetComponent<TechTag>();
-            PrefabIdentifier prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+            var techTag = obj.GetComponent<TechTag>();
+            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
             // Change them so they fit to our requirements.
             techTag.type = TechType;
@@ -48,15 +48,15 @@ namespace MoreSeamothDepth.Modules
         }
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new()
             {
                 Ingredients = new List<Ingredient>()
                 {
-                    new Ingredient(Main.moduleMK4.TechType, 1),
-                    new Ingredient(TechType.Titanium, 5),
-                    new Ingredient(TechType.Lithium, 2),
-                    new Ingredient(TechType.Kyanite, 4),
-                    new Ingredient(TechType.Aerogel, 2)
+                    new(Main.moduleMK4.TechType, 1),
+                    new(TechType.Titanium, 5),
+                    new(TechType.Lithium, 2),
+                    new(TechType.Kyanite, 4),
+                    new(TechType.Aerogel, 2)
                 },
                 craftAmount = 1
             };

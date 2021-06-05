@@ -9,16 +9,13 @@ namespace UnobtaniumBatteries.Patches
         [HarmonyPostfix]
         public static void Postfix(Pickupable pickupable)
         {
-            if(pickupable.GetTechType() == TechType.Warper)
-            {
-                Warper warper = pickupable.GetComponent<Warper>();
-                if(warper != null && warper.spawner != null)
-                {
-                    warper.spawner.warper = null;
-                    warper.spawner.OnWarpOut();
-                    warper.spawner = null;
-                }
-            }
+            if (pickupable.GetTechType() != TechType.Warper) return;
+            var warper = pickupable.GetComponent<Warper>();
+            if (warper == null || warper.spawner == null) return;
+
+            warper.spawner.warper = null;
+            warper.spawner.OnWarpOut();
+            warper.spawner = null;
         }
     }
 }

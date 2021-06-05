@@ -11,66 +11,9 @@
     <RootNamespace>FabricatorNoAutoClose</RootNamespace>
     <AssemblyName>FabricatorNoAutoClose</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ|AnyCPU'">
-    <DefineConstants>BZ;BELOWZERO</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
-    <DataFolder>SubnauticaZero_Data</DataFolder>
-    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ.EXP|AnyCPU'">
-    <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)SubnauticaZero.Exp</GameDir>
-    <DataFolder>SubnauticaZero_Data</DataFolder>
-    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1|AnyCPU'">
-    <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
-    <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1.EXP|AnyCPU'">
-    <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
-    <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="QModInstaller">
-      <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+  <Import Project="..\Configurations.targets" />
+  <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Patches\Crafter_OnCraftingBegin_Patch.cs" />
@@ -83,11 +26,5 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
-
-mkdir $(SolutionDir)..\QModZips\$(Configuration)
-powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(Configuration)\$(TargetName).zip' -Force</PostBuildEvent>
-  </PropertyGroup>
+  <Import Project="..\PostBuildEvents.targets" />
 </Project>

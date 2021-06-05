@@ -2,9 +2,10 @@
   "Id": "BuildingTweaks",
   "DisplayName": "BuildingTweaks",
   "Author": "MrPurple6411",
-  "Version": "2.1.1",
+  "Version": "2.1.6",
   "Enable": true,
   "Game": "BelowZero",
+  "LoadBefore": [ "BuilderModule" ],
   "NexusId": {
     "BelowZero": "47"
   },

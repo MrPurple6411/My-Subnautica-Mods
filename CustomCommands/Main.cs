@@ -1,9 +1,9 @@
 ﻿namespace CustomCommands
 {
-    using CustomCommands.MonoBehaviours;
+    using MonoBehaviours;
     using QModManager.API.ModLoading;
-    using System.Collections.Generic;
 #if SN1
+    using System.Collections.Generic;
     using QModManager.Utility;
     using System;
 #endif
@@ -12,7 +12,7 @@
     public static class Main
     {
 #if SN1
-        internal static Dictionary<TechType, WaterParkCreatureParameters> CreatureParameters = new Dictionary<TechType, WaterParkCreatureParameters>()
+        private static readonly Dictionary<TechType, WaterParkCreatureParameters> CreatureParameters = new()
         {
             { TechType.ReaperLeviathan, new WaterParkCreatureParameters(0.01f, 0.05f, 1f, 3f, false) },
             { TechType.SeaDragon, new WaterParkCreatureParameters(0.01f, 0.05f, 1f, 3f, false) },
@@ -28,7 +28,7 @@
         public static void Load()
         {
 #if SN1
-            foreach(KeyValuePair<TechType, WaterParkCreatureParameters> pair in CreatureParameters)
+            foreach(var pair in CreatureParameters)
             {
                 try
                 {

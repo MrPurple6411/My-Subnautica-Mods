@@ -10,7 +10,7 @@
         {
             if(Main.Config.Hardcore && __result && Builder.prefab != null)
             {
-                TechType techType = CraftData.GetTechType(Builder.prefab);
+                var techType = CraftData.GetTechType(Builder.prefab);
                 __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
             }
         }

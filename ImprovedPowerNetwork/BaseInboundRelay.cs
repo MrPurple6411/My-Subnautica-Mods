@@ -6,16 +6,16 @@
     {
         internal static BaseInboundRelay AddNewBaseConnectionRelay(PowerRelay originalRelay, PowerControl powerControl)
         {
-            BaseInboundRelay additionalRelay = originalRelay.gameObject.AddComponent<BaseInboundRelay>();
-            additionalRelay.dontConnectToRelays = powerControl.baseConnectionsDisabled;
+            var additionalRelay = originalRelay.gameObject.AddComponent<BaseInboundRelay>();
+            additionalRelay.dontConnectToRelays = powerControl.BaseConnectionsDisabled;
             additionalRelay.maxOutboundDistance = 10000;
             additionalRelay.constructable = originalRelay.constructable;
 
             if(originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
             {
-                BaseInboundRelayPowerFX powerFX = originalRelay.gameObject.AddComponent<BaseInboundRelayPowerFX>();
+                var powerFX = originalRelay.gameObject.AddComponent<BaseInboundRelayPowerFX>();
                 powerFX.attachPoint = originalRelay.powerFX.attachPoint;
-                powerFX.vfxPrefab = GameObject.Instantiate(originalRelay.powerFX.vfxPrefab);
+                powerFX.vfxPrefab = Instantiate(originalRelay.powerFX.vfxPrefab);
                 powerFX.vfxPrefab.SetActive(false);
                 powerFX.vfxPrefab.GetComponent<LineRenderer>().material.SetColor(ShaderPropertyID._Color, Color.magenta);
 
@@ -29,7 +29,7 @@
 
         public void LateUpdate()
         {
-            if(outboundRelay is null && (constructable?.constructed ?? false))
+            if(outboundRelay is null && constructable != null && constructable.constructed)
             {
                 UpdateConnection();
             }
@@ -37,9 +37,9 @@
 
         public void OnEnable()
         {
-            if(constructable?.constructed ?? false)
+            if(constructable != null && constructable.constructed)
             {
-                PowerRelay.MarkRelaySystemDirty();
+                MarkRelaySystemDirty();
             }
         }
 
@@ -50,13 +50,13 @@
                 outboundRelay.RemoveInboundPower(this);
                 outboundRelay = null;
                 powerFX.target = null;
-                GameObject.Destroy(powerFX.vfxEffectObject);
+                Destroy(powerFX.vfxEffectObject);
             }
         }
 
         public new void OnDestroy()
         {
-            if(!constructable?.constructed ?? false)
+            if(constructable != null && !constructable.constructed)
             {
                 DisconnectFromRelay();
             }

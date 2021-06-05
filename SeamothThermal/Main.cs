@@ -8,12 +8,12 @@
     [QModCore]
     public static class Main
     {
-        internal static Modules.SeamothThermalModule thermalModule = new Modules.SeamothThermalModule();
+        internal static Modules.SeamothThermalModule thermalModule = new();
 
         [QModPatch]
         public static void Load()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
 
             thermalModule.Patch();

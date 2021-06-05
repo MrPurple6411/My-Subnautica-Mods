@@ -15,11 +15,11 @@
             {
                 return;
             }
-            int ingredientCount = data.ingredientCount;
-            for(int i = 0; i < ingredientCount; i++)
+            var ingredientCount = data.ingredientCount;
+            for(var i = 0; i < ingredientCount; i++)
             {
-                IIngredient ingredient = data.GetIngredient(i);
-                TechType techType = ingredient.techType;
+                var ingredient = data.GetIngredient(i);
+                var techType = ingredient.techType;
                 if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
                     KnownTech.Add(techType);
@@ -27,11 +27,11 @@
                 }
                 if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
                 {
-                    TooltipIcon icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
+                    var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
+                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }
@@ -48,24 +48,21 @@
                 return;
             }
 
-            int ingredientCount = ingredients.Count;
-            for(int i = 0; i < ingredientCount; i++)
+            var ingredientCount = ingredients.Count;
+            for(var i = 0; i < ingredientCount; i++)
             {
-                TechType techType = ingredients[i].techType;
+                var techType = ingredients[i].techType;
                 if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
-                    KnownTech.Add(techType, true);
+                    KnownTech.Add(techType);
                 }
-                if(!KnownTech.Contains(techType) && GameModeUtils.RequiresBlueprints())
-                {
-                    TooltipIcon icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
-                    if(icons.Contains(icon))
-                    {
-                        icons.Remove(icon);
-                        TooltipIcon tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
-                        icons.Add(tooltipIcon);
-                    }
-                }
+
+                if (KnownTech.Contains(techType) || !GameModeUtils.RequiresBlueprints()) continue;
+                var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
+                if (!icons.Contains(icon)) continue;
+                icons.Remove(icon);
+                var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
+                icons.Add(tooltipIcon);
             }
         }
 

@@ -9,7 +9,7 @@
         {
         }
 
-        public Dictionary<string, float> CreatureSizes = new Dictionary<string, float>();
+        public Dictionary<string, float> CreatureSizes = new();
 
     }
 }

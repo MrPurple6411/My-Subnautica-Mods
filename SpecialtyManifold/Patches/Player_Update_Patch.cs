@@ -27,29 +27,29 @@
 
             if(scubaManifold != TechType.None && photosynthesisSmall != TechType.None && photosynthesisTank != TechType.None && chemosynthesisTank != TechType.None)
             {
-                TechType tankSlot = Inventory.main.equipment.GetTechTypeInSlot("Tank");
+                var tankSlot = Inventory.main.equipment.GetTechTypeInSlot("Tank");
                 if(GameModeUtils.RequiresOxygen() && Player.main.IsSwimming() && tankSlot == scubaManifold)
                 {
-                    int photosynthesisTanks = Inventory.main.container.GetCount(photosynthesisSmall) + Inventory.main.container.GetCount(photosynthesisTank);
-                    int chemosynthesisTanks = Inventory.main.container.GetCount(chemosynthesisTank);
+                    var photosynthesisTanks = Inventory.main.container.GetCount(photosynthesisSmall) + Inventory.main.container.GetCount(photosynthesisTank);
+                    var chemosynthesisTanks = Inventory.main.container.GetCount(chemosynthesisTank);
 
                     if(photosynthesisTanks > 0)
                     {
-                        float playerDepth =
+                        var playerDepth =
 #if SN1
                             Ocean.main.GetDepthOf(Player.main.gameObject);
 #else
                             Ocean.GetDepthOf(Player.main.gameObject);
 #endif
-                        float currentLight = DayNightCycle.main.GetLocalLightScalar();
-                        float photosynthesisDepthCalc = (currentLight > 0.9f ? 0.9f : currentLight) * Time.deltaTime * (Main.Config.multipleTanks ? photosynthesisTanks : 1) * (200f - playerDepth > 0f ? ((200 - playerDepth) / 200f) : 0);
+                        var currentLight = DayNightCycle.main.GetLocalLightScalar();
+                        var photosynthesisDepthCalc = (currentLight > 0.9f ? 0.9f : currentLight) * Time.deltaTime * (Main.Config.multipleTanks ? photosynthesisTanks : 1) * (200f - playerDepth > 0f ? ((200 - playerDepth) / 200f) : 0);
                         Player.main.oxygenMgr.AddOxygen(photosynthesisDepthCalc);
                     }
 
                     if(chemosynthesisTanks > 0)
                     {
-                        float waterTemp = WaterTemperatureSimulation.main.GetTemperature(Player.main.transform.position);
-                        float chemosynthesisTempCalc = (waterTemp > 30f ? waterTemp : 0) * Time.deltaTime * 0.01f * (Main.Config.multipleTanks ? chemosynthesisTanks : 1);
+                        var waterTemp = WaterTemperatureSimulation.main.GetTemperature(Player.main.transform.position);
+                        var chemosynthesisTempCalc = (waterTemp > 30f ? waterTemp : 0) * Time.deltaTime * 0.01f * (Main.Config.multipleTanks ? chemosynthesisTanks : 1);
                         Player.main.oxygenMgr.AddOxygen(chemosynthesisTempCalc);
                     }
                 }

@@ -12,7 +12,7 @@
             if(!__instance.TryGetComponent(out Rigidbody rigidbody))
                 return;
 
-            Vehicle vehicle = __instance.GetComponentInParent<Vehicle>();
+            var vehicle = __instance.GetComponentInParent<Vehicle>();
 
             if(vehicle != null)
             {
@@ -20,21 +20,17 @@
                 return;
             }
 
-            Creature creature = __instance.GetComponentInParent<Creature>();
+            var creature = __instance.GetComponentInParent<Creature>();
 
             if(creature != null)
             {
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                return;
             }
 #if BZ
-            SeaTruckSegment truckSegment = __instance.GetComponentInParent<SeaTruckSegment>();
+            var truckSegment = __instance.GetComponentInParent<SeaTruckSegment>();
 
-            if (truckSegment != null)
-            {
-                rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                return;
-            }
+            if (truckSegment == null) return;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
 #endif
         }
     }

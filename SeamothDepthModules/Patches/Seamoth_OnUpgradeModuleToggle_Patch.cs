@@ -10,7 +10,7 @@ namespace MoreSeamothDepth.Patches
         private static void Postfix(SeaMoth __instance)
         {
             // Dictionary of TechTypes and their depth additions.
-            Dictionary<TechType, float> dictionary = new Dictionary<TechType, float>
+            var dictionary = new Dictionary<TechType, float>
             {
                 {
                     TechType.SeamothReinforcementModule,
@@ -39,15 +39,15 @@ namespace MoreSeamothDepth.Patches
             };
 
             // Depth upgrade to add.
-            float depthUpgrade = 0f;
+            var depthUpgrade = 0f;
 
             // Loop through available depth module upgrades
-            foreach(KeyValuePair<TechType, float> entry in dictionary)
+            foreach(var entry in dictionary)
             {
-                TechType depthTechType = entry.Key;
-                float depthAddition = entry.Value;
+                var depthTechType = entry.Key;
+                var depthAddition = entry.Value;
 
-                int count = __instance.modules.GetCount(depthTechType);
+                var count = __instance.modules.GetCount(depthTechType);
 
                 // If you have at least 1 such depth module
                 if(count > 0)

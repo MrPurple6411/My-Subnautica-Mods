@@ -8,30 +8,25 @@
         [HarmonyPostfix]
         public static void Postfix(PowerRelay __instance, ref float __result)
         {
-            IPowerInterface powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay || x is OtherConnectionRelay);
+            var powerInterface = __instance.inboundPowerSources.Find((x) => x is BaseInboundRelay or OtherConnectionRelay);
 
-            if(powerInterface != null)
+            var powerControl = powerInterface switch
             {
-                PowerControl powerControl = null;
-                switch(powerInterface)
-                {
-                    case BaseInboundRelay baseConnectionRelay:
-                        powerControl = baseConnectionRelay.gameObject.GetComponent<PowerControl>();
-                        break;
-                    case OtherConnectionRelay otherConnectionRelay:
-                        powerControl = otherConnectionRelay.gameObject.GetComponent<PowerControl>();
-                        break;
-                }
+                BaseInboundRelay baseConnectionRelay => baseConnectionRelay.gameObject.GetComponent<PowerControl>(),
+                OtherConnectionRelay otherConnectionRelay =>
+                    otherConnectionRelay.gameObject.GetComponent<PowerControl>(),
+                _ => null
+            };
 
-                PowerRelay endRelay = powerControl.powerRelay.GetEndpoint();
+            if(powerControl == null) return;
 
-                float endPower = endRelay.GetPower();
-                float powerHere = powerInterface.GetPower();
+            var endRelay = powerControl.Relay.GetEndpoint();
+            var endPower = endRelay.GetPower();
+            var powerHere = powerInterface.GetPower();
 
-                if(endPower > powerHere)
-                {
-                    __result += endPower - powerHere;
-                }
+            if(endPower > powerHere)
+            {
+                __result += endPower - powerHere;
             }
         }
     }

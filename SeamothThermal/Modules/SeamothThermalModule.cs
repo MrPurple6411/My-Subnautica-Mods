@@ -24,20 +24,20 @@
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
 
-        public override string[] StepsToFabricatorTab => new string[] { "SeamothModules" };
+        public override string[] StepsToFabricatorTab => new[] { "SeamothModules" };
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            string path = "WorldEntities/Tools/SeamothElectricalDefense";
-            GameObject prefab = Resources.Load<GameObject>(path);
-            GameObject obj = GameObject.Instantiate(prefab);
+            var path = "WorldEntities/Tools/SeamothElectricalDefense";
+            var prefab = Resources.Load<GameObject>(path);
+            var obj = Object.Instantiate(prefab);
 
             // Get the TechTags and PrefabIdentifiers
-            TechTag techTag = obj.GetComponent<TechTag>();
-            PrefabIdentifier prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+            var techTag = obj.GetComponent<TechTag>();
+            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
             // Change them so they fit to our requirements.
             techTag.type = TechType;
@@ -48,14 +48,14 @@
 #if SN1
         protected override TechData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>()
                 {
-                    new Ingredient(TechType.Kyanite, 1),
-                    new Ingredient(TechType.Polyaniline, 2),
-                    new Ingredient(TechType.WiringKit, 1)
+                    new(TechType.Kyanite, 1),
+                    new(TechType.Polyaniline, 2),
+                    new(TechType.WiringKit, 1)
                 }
             };
         }

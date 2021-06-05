@@ -2,7 +2,7 @@
   "Id": "BetterACU",
   "DisplayName": "Better Alien Containment Unit",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "2.1.2",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

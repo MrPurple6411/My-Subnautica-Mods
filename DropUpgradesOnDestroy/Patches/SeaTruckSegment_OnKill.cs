@@ -4,24 +4,24 @@ namespace DropUpgradesOnDestroy.Patches
     using HarmonyLib;
     using System.Collections.Generic;
     using System.Linq;
+#if SN1
     using UnityEngine;
+#endif
 
     [HarmonyPatch(typeof(SeaTruckSegment), nameof(SeaTruckSegment.OnKill))]
     public class SeaTruckSegment_OnKill
     {
-        public static SeaTruckSegment lastDestroyed;
+        private static SeaTruckSegment lastDestroyed;
 
         [HarmonyPrefix]
         public static void Prefix(SeaTruckSegment __instance)
         {
-            if(__instance.IsFront() && __instance != lastDestroyed)
-            {
-                lastDestroyed = __instance;
-                List<InventoryItem> equipment = __instance.motor?.upgrades?.modules?.equipment?.Values?.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
+            if (!__instance.IsFront() || __instance == lastDestroyed) return;
+            lastDestroyed = __instance;
+            var equipment = __instance.motor?.upgrades?.modules?.equipment?.Values.Where((e) => e != null).ToList() ?? new List<InventoryItem>();
 
-                Vector3 position = __instance.gameObject.transform.position;
-                Main.SpawnModuleNearby(equipment, position);
-            }
+            var position = __instance.gameObject.transform.position;
+            Main.SpawnModuleNearby(equipment, position);
         }
     }
 }

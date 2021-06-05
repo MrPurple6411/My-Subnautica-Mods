@@ -4,7 +4,7 @@
     using QModManager.API.ModLoading;
 
     [QModCore]
-    public class Main
+    public static class Main
     {
         [QModPatch]
         public static void Load()

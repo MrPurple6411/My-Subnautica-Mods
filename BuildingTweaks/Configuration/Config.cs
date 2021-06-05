@@ -7,9 +7,8 @@
     [Menu("BuildingTweaks")]
     public class Config: ConfigFile
     {
-
-        internal bool AttachToTarget = false;
-        internal bool FullOverride = false;
+        public bool AttachToTarget = false;
+        public bool FullOverride = false;
 
         [Keybind("Attach to Target Toggle Key")]
         public KeyCode AttachToTargetToggle = KeyCode.T;

@@ -3,7 +3,7 @@
     using HarmonyLib;
 
     [HarmonyPatch(typeof(CreatureEgg), nameof(CreatureEgg.Hatch))]
-    internal class CreatureEgg_Hatch_Prefix
+    internal class CreatureEggHatchPrefix
     {
         [HarmonyPostfix]
         public static void Postfix(CreatureEgg __instance)

@@ -1,9 +1,7 @@
-﻿#if SN1
-namespace BuilderPlaceOnComplete.Patches
+﻿namespace BuilderPlaceOnComplete.Patches
 {
     using HarmonyLib;
     using System.Collections;
-    using UnityEngine;
     using UWE;
 
     [HarmonyPatch(typeof(Constructable), nameof(Constructable.Construct))]
@@ -13,21 +11,20 @@ namespace BuilderPlaceOnComplete.Patches
         public static void Postfix(Constructable __instance)
         {
             if(__instance.constructed)
-            {
                 CoroutineHost.StartCoroutine(InitializeBuilder(CraftData.GetTechType(__instance.gameObject)));
-            }
         }
 
         private static IEnumerator InitializeBuilder(TechType techType)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(techType);
+            var task = CraftData.GetPrefabForTechTypeAsync(techType);
             yield return task;
 
-            GameObject prefab = task.GetResult();
-
+            var prefab = task.GetResult();
+#if SN1
             Builder.Begin(prefab);
-            yield break;
+#elif BZ
+            Builder.Begin(techType, prefab);
+#endif
         }
     }
 }
-#endif

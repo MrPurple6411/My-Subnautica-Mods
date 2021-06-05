@@ -15,24 +15,27 @@
 
     internal class PistolPrefab: Equipable
     {
-        private static List<TechType> modelsToMake = new List<TechType> { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
+        private static readonly List<TechType> modelsToMake = new() { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
 
         public PistolPrefab() : base("TechPistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
         {
         }
 
         private static GameObject processedPrefab;
+        private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
+        private static readonly int MetallicGlossMap = Shader.PropertyToID("_MetallicGlossMap");
+        private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
 
         private static HashSet<TechType> BatteryChargerCompatibleTech => BatteryCharger.compatibleTech;
         private static HashSet<TechType> PowerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
         private static List<TechType> CompatibleTech => BatteryChargerCompatibleTech.Concat(PowerCellChargerCompatibleTech).ToList();
 
         public override EquipmentType EquipmentType => EquipmentType.Hand;
-        public override Vector2int SizeInInventory => new Vector2int(2, 2);
+        public override Vector2int SizeInInventory => new(2, 2);
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Tools;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Tools" };
+        public override string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
         public override float CraftingTime => 5f;
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
 
@@ -54,58 +57,51 @@
         {
             if(processedPrefab is null)
             {
-                GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-                GameObject gameObject = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
+                var prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
+                var gameObject = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
 
-                MeshRenderer[] componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
-                foreach(MeshRenderer meshRenderer in componentsInChildren)
+                var componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
+                foreach(var meshRenderer in componentsInChildren)
                 {
-                    if(meshRenderer.name.StartsWith("Gun") || meshRenderer.name.StartsWith("Target"))
-                    {
-                        Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
-                        Texture specMap = meshRenderer.material.GetTexture("_MetallicGlossMap");
+                    if (!meshRenderer.name.StartsWith("Gun") && !meshRenderer.name.StartsWith("Target")) continue;
+                    var emissionMap = meshRenderer.material.GetTexture(EmissionMap);
+                    var specMap = meshRenderer.material.GetTexture(MetallicGlossMap);
 
-                        meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-                        meshRenderer.material.EnableKeyword("MARMO_EMISSION");
-                        meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
-                        meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-                        meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-                        meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
-                        meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-                        meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
-                    }
+                    meshRenderer.material.shader = Shader.Find("MarmosetUBER");
+                    meshRenderer.material.EnableKeyword("MARMO_EMISSION");
+                    meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
+                    meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+                    meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
+                    meshRenderer.material.SetColor(GlowColor, new Color(1f, 1f, 1f));
+                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
                 }
 
-                EnergyMixin energyMixin = gameObject.GetComponent<EnergyMixin>();
-                List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
-                foreach(TechType techType in modelsToMake)
+                var energyMixin = gameObject.GetComponent<EnergyMixin>();
+                var batteryModels = new List<EnergyMixin.BatteryModels>();
+                foreach(var techType in modelsToMake)
                 {
-                    GameObject batteryprefab = CraftData.GetPrefabForTechType(techType, false);
-                    GameObject model = GameObject.Instantiate(batteryprefab);
-                    batteryprefab.SetActive(false);
-                    model.SetActive(false);
+                    var cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
 
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<WorldForces>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Rigidbody>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Battery>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<LargeWorldEntity>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<TechTag>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<EntityTag>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Collider>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
+                    var position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
+                    var scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
 
-                    bool cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
+                    var batteryPrefab = CraftData.GetPrefabForTechType(techType, false);
+                    var model = Object.Instantiate(batteryPrefab, gameObject.transform, position, gameObject.transform.rotation, scale, false);
+                    batteryPrefab.SetActive(false);
 
-                    Vector3 position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
-                    Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
+                    Object.DestroyImmediate(model.GetComponentInChildren<WorldForces>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Rigidbody>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Battery>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<LargeWorldEntity>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<TechTag>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<EntityTag>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Collider>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
 
-                    model.transform.SetParent(gameObject.transform);
-                    model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
-                    model.transform.localPosition = position;
                     model.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
-                    model.transform.localScale = scale;
 
                     batteryModels.Add(new EnergyMixin.BatteryModels
                     {
@@ -119,18 +115,18 @@
 
                 gameObject.GetComponent<Rigidbody>().detectCollisions = false;
 
-                foreach(UniqueIdentifier uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
-                    uniqueIdentifier.classId = this.ClassID;
+                foreach(var uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
+                    uniqueIdentifier.classId = ClassID;
 
-                gameObject.GetComponent<TechTag>().type = base.TechType;
+                gameObject.GetComponent<TechTag>().type = TechType;
                 gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
 
                 processedPrefab = gameObject;
-                GameObject.DontDestroyOnLoad(processedPrefab);
+                Object.DontDestroyOnLoad(processedPrefab);
                 processedPrefab.EnsureComponent<SceneCleanerPreserve>();
             }
-            var copy = GameObject.Instantiate(processedPrefab);
-            GameObject.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
+            var copy = Object.Instantiate(processedPrefab);
+            Object.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
             return copy;
         }
 
@@ -139,63 +135,56 @@
         {
             if(processedPrefab is null)
             {
-                GameObject prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-                GameObject gameObject = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
-                GameObject.DestroyImmediate(prefab);
+                var prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
+                var gameObject = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
+                Object.DestroyImmediate(prefab);
 
-                MeshRenderer[] componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
-                foreach(MeshRenderer meshRenderer in componentsInChildren)
+                var componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
+                foreach(var meshRenderer in componentsInChildren)
                 {
-                    if(meshRenderer.name.StartsWith("Gun") || meshRenderer.name.StartsWith("Target"))
-                    {
-                        Texture emissionMap = meshRenderer.material.GetTexture("_EmissionMap");
-                        Texture specMap = meshRenderer.material.GetTexture("_MetallicGlossMap");
+                    if (!meshRenderer.name.StartsWith("Gun") && !meshRenderer.name.StartsWith("Target")) continue;
+                    var emissionMap = meshRenderer.material.GetTexture(EmissionMap);
+                    var specMap = meshRenderer.material.GetTexture(MetallicGlossMap);
 
-                        meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-                        meshRenderer.material.EnableKeyword("MARMO_EMISSION");
-                        meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
-                        meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-                        meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-                        meshRenderer.material.SetColor("_GlowColor", new Color(1f, 1f, 1f));
-                        meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-                        meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
-                    }
+                    meshRenderer.material.shader = Shader.Find("MarmosetUBER");
+                    meshRenderer.material.EnableKeyword("MARMO_EMISSION");
+                    meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
+                    meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
+                    meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
+                    meshRenderer.material.SetColor(GlowColor, new Color(1f, 1f, 1f));
+                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
                 }
 
-                EnergyMixin energyMixin = gameObject.GetComponent<EnergyMixin>();
-                List<EnergyMixin.BatteryModels> batteryModels = new List<EnergyMixin.BatteryModels>();
+                var energyMixin = gameObject.GetComponent<EnergyMixin>();
+                var batteryModels = new List<EnergyMixin.BatteryModels>();
 
-                foreach(TechType techType in modelsToMake)
+                foreach(var techType in modelsToMake)
                 {
-                    CoroutineTask<GameObject> batteryTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
+                    var cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
+
+                    var position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
+                    var scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
+                    
+                    var batteryTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
                     yield return batteryTask;
 
-                    GameObject batteryprefab = batteryTask.GetResult();
-                    GameObject model = GameObject.Instantiate(batteryprefab);
-                    batteryprefab.SetActive(false);
-                    model.SetActive(false);
+                    var batteryPrefab = batteryTask.GetResult();
+                    var model = Object.Instantiate(batteryPrefab, gameObject.transform, position, gameObject.transform.rotation, scale, false);
+                    batteryPrefab.SetActive(false);
 
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<WorldForces>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Rigidbody>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Battery>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<LargeWorldEntity>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<TechTag>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<EntityTag>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<Collider>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
-                    GameObject.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<WorldForces>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Rigidbody>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Battery>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<LargeWorldEntity>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<TechTag>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<EntityTag>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Pickupable>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<Collider>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<SkyApplier>());
+                    Object.DestroyImmediate(model.GetComponentInChildren<UniqueIdentifier>());
 
-                    bool cellCheck = PowerCellCharger.compatibleTech.Contains(techType);
-
-                    Vector3 position = cellCheck ? new Vector3(-0.11f, 0f, 0f) : new Vector3(-0.11f, 0.02f, 0f);
-                    Vector3 scale = cellCheck ? new Vector3(0.15f, 0.15f, 0.15f) : new Vector3(0.3f, 0.3f, 0.3f);
-
-                    model.transform.SetParent(gameObject.transform);
-                    model.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
-                    model.transform.localPosition = position;
                     model.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
-                    model.transform.localScale = scale;
 
                     batteryModels.Add(new EnergyMixin.BatteryModels
                     {
@@ -208,33 +197,32 @@
                 energyMixin.batteryModels = batteryModels.ToArray();
 
                 gameObject.GetComponent<Rigidbody>().detectCollisions = false;
-                foreach(UniqueIdentifier uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
-                    uniqueIdentifier.classId = this.ClassID;
-                gameObject.GetComponent<TechTag>().type = base.TechType;
+                foreach(var uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
+                    uniqueIdentifier.classId = ClassID;
+                gameObject.GetComponent<TechTag>().type = TechType;
                 gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
 
                 processedPrefab = gameObject;
-                GameObject.DontDestroyOnLoad(processedPrefab);
+                Object.DontDestroyOnLoad(processedPrefab);
                 processedPrefab.EnsureComponent<SceneCleanerPreserve>();
             }
 
-            var copy = GameObject.Instantiate(processedPrefab);
-            GameObject.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
+            var copy = Object.Instantiate(processedPrefab);
+            Object.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
             pistol.Set(copy);
-            yield break;
         }
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new RecipeData
+            return new()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>
                 {
-                    new Ingredient(TechType.TitaniumIngot, 1),
-                    new Ingredient(TechType.Lubricant, 1),
-                    new Ingredient(TechType.AdvancedWiringKit, 1),
-                    new Ingredient(TechType.EnameledGlass, 1)
+                    new(TechType.TitaniumIngot, 1),
+                    new(TechType.Lubricant, 1),
+                    new(TechType.AdvancedWiringKit, 1),
+                    new(TechType.EnameledGlass, 1)
                 }
             };
         }

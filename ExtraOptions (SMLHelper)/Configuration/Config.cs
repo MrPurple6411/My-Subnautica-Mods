@@ -12,13 +12,13 @@
         [Slider("LODGroupBias", 1, 10, Step = 1f, Tooltip = "In simple terms how far you can see objects and terrain.\nIncreaseing `can` decrease performance."), OnChange(nameof(ApplyOptions))]
         public int LODGroupBias = 1;
 
-        [Choice("Texture Quality", new string[] { "0", "1", "2", "3", "4" }, Tooltip = "Will effect performance."), OnChange(nameof(ApplyOptions))]
+        [Choice("Texture Quality", new[] { "0", "1", "2", "3", "4" }, Tooltip = "Will effect performance."), OnChange(nameof(ApplyOptions))]
         public int TextureQuality = 3;
 
         [Slider("Shadow LOD", 200, 1000, Step = 100, Tooltip = "This affects all of the light particles or shaders on plants/terrain.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
         public int ShaderLOD = 400;
 
-        [Choice("Shadow Cascades", new string[] { "1", "2", "4" }, Tooltip = "How perfect the edges of shadows are shaped.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
+        [Choice("Shadow Cascades", new[] { "1", "2", "4" }, Tooltip = "How perfect the edges of shadows are shaped.\nDecreasing `can` increase performance."), OnChange(nameof(ApplyOptions))]
         public int ShadowCascades = 2;
 
         [Toggle("AmbientParticles", Tooltip = "The small, clear, spherical particles hovering in the water which can be seen during the daytime.\nDisabling `can` increase performance.")]

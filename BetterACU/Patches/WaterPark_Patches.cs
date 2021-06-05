@@ -9,179 +9,205 @@
     using UWE;
 
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.Update))]
-    public static class WaterPark_Update_Postfix
+    public static class WaterParkUpdatePostfix
     {
-        public static Dictionary<WaterPark, List<WaterParkItem>> cachedItems = new Dictionary<WaterPark, List<WaterParkItem>>();
-        public static Dictionary<WaterPark, List<WaterParkItem>> cachedPowerCreatures = new Dictionary<WaterPark, List<WaterParkItem>>();
-        public static float timeSinceLastPositionCheck = 0;
+        private static readonly Dictionary<WaterPark, List<WaterParkItem>> CachedItems = new();
+        private static readonly Dictionary<WaterPark, List<WaterParkItem>> CachedPowerCreatures = new();
 
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance)
         {
-            List<WaterParkItem> powerCreatures = new List<WaterParkItem>();
-            float maxPower = 0;
-            if(cachedItems.TryGetValue(__instance, out List<WaterParkItem> items) && items.Count == __instance.items.Count && cachedPowerCreatures.ContainsKey(__instance))
-            {
-                powerCreatures.AddRange(cachedPowerCreatures[__instance]);
+            if (!Main.Config.EnablePowerGeneration) return;
 
-                foreach(WaterParkItem creature in cachedPowerCreatures[__instance])
+            var powerCreatures = new List<WaterParkItem>();
+            float maxPower = 0;
+            if(CachedItems.TryGetValue(__instance, out var items) && items.Count == __instance.items.Count && CachedPowerCreatures.ContainsKey(__instance))
+            {
+                powerCreatures.AddRange(CachedPowerCreatures[__instance]);
+
+                foreach(var creature in CachedPowerCreatures[__instance])
                 {
                     if(!creature.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive())
                         powerCreatures.Remove(creature);
                 }
 
-                foreach(KeyValuePair<TechType, float> pair in Main.Config.CreaturePowerGeneration)
-                {
-                    List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key) ?? new List<WaterParkItem>();
-                    if(creatures.Count > 0)
-                        maxPower += 500 * pair.Value * creatures.Count;
-                }
+                maxPower += Main.Config.CreaturePowerGeneration
+                    .Select(pair => new
+                    {
+                        pair, creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key)
+                    })
+                    .Where(t => t.creatures.Count > 0)
+                    .Select(selector: t => 50 * t.pair.Value * t.creatures.Count).Sum();
 
-                cachedPowerCreatures[__instance] = powerCreatures;
+                CachedPowerCreatures[__instance] = powerCreatures;
             }
             else
             {
-                foreach(KeyValuePair<TechType, float> pair in Main.Config.CreaturePowerGeneration)
+                foreach(var pair in Main.Config.CreaturePowerGeneration)
                 {
-                    List<WaterParkItem> creatures = __instance.items.FindAll((WaterParkItem item) => item.pickupable.GetTechType() == pair.Key && (item.GetComponent<LiveMixin>()?.IsAlive() ?? false)) ?? new List<WaterParkItem>();
-                    if(creatures.Count > 0)
-                    {
-                        maxPower += 500 * pair.Value * creatures.Count;
-                        powerCreatures.AddRange(creatures);
-                    }
+                    var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key && item.GetComponent<LiveMixin>() != null && item.GetComponent<LiveMixin>().IsAlive());
+                    if (creatures.Count <= 0) continue;
+
+                    maxPower += 50 * pair.Value * creatures.Count;
+                    powerCreatures.AddRange(creatures);
                 }
 
-                cachedItems[__instance] = __instance.items;
-                cachedPowerCreatures[__instance] = powerCreatures;
+                CachedItems[__instance] = __instance.items;
+                CachedPowerCreatures[__instance] = powerCreatures;
             }
 
-            PowerSource powerSource = __instance?.itemsRoot?.gameObject?.GetComponent<PowerSource>();
+            var rootObject = __instance.itemsRoot.gameObject;
+
+            var powerSource = rootObject.GetComponent<PowerSource>();
             if(powerSource is null)
             {
-                powerSource = __instance?.itemsRoot?.gameObject?.AddComponent<PowerSource>();
+                powerSource = rootObject.AddComponent<PowerSource>();
                 powerSource.maxPower = maxPower;
                 powerSource.power = Main.Config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}", 0f);
             }
             else
             {
-                if(powerSource.maxPower != maxPower)
-                    powerSource.maxPower = maxPower;
+                powerSource.maxPower = maxPower;
 
                 if(powerSource.power > powerSource.maxPower)
                     powerSource.power = powerSource.maxPower;
 
                 Main.Config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
             }
-
-            timeSinceLastPositionCheck += Time.deltaTime;
-            if(timeSinceLastPositionCheck > 0.5f)
-            {
-                foreach(WaterParkItem waterParkItem in __instance.items)
-                {
-                    if(!__instance.IsPointInside(waterParkItem.transform.position))
-                    {
-                        Vector3 position = waterParkItem.transform.position;
-                        __instance.EnsurePointIsInside(ref position);
-                        waterParkItem.transform.position = position;
-                    }
-                }
-                timeSinceLastPositionCheck = 0;
-            }
         }
     }
 
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.HasFreeSpace))]
-    internal class WaterPark_HasFreeSpace_Postfix
+    internal class WaterParkHasFreeSpacePostfix
     {
         [HarmonyPrefix]
         public static void Prefix(WaterPark __instance)
         {
-#if BZ
-            if(__instance is LargeRoomWaterPark)
-            {
-                __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
-            }
-            else
-#endif
             __instance.wpPieceCapacity = Main.Config.WaterParkSize;
         }
     }
+#if BZ
+    [HarmonyPatch(typeof(LargeRoomWaterPark), nameof(LargeRoomWaterPark.HasFreeSpace))]
+    internal class LargeRoomWaterPark_HasFreeSpace_Postfix
+    {
+        [HarmonyPrefix]
+        public static void Prefix(WaterPark __instance)
+        {
+            __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
+        }
+    }
+#endif
 
 #if SN1
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
 #elif BZ
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
 #endif
-    internal class WaterPark_Breed_Postfix
+    internal class WaterParkBreedPostfix
     {
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            List<WaterParkItem> items = __instance.items;
-            if(!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(creature.pickupable.GetTechType()) == -1)
-            {
+            if (!Main.Config.AlterraGenOverflow && !Main.Config.BioReactorOverflow && !Main.Config.OceanBreeding) return;
+
+            var items = __instance.items;
+            var techType = creature.pickupable.GetTechType();
+            if(!items.Contains(creature) || __instance.HasFreeSpace() || BaseBioReactor.GetCharge(techType) <= 0f)
                 return;
-            }
 
-            List<BaseBioReactor> baseBioReactors = __instance.gameObject.GetComponentInParent<SubRoot>().gameObject.GetComponentsInChildren<BaseBioReactor>().ToList();
-            bool hasBred = false;
-            foreach(WaterParkItem waterParkItem in items)
+            var hasBred = false;
+            foreach(var waterParkItem in items)
             {
-                WaterParkCreature parkCreature = waterParkItem as WaterParkCreature;
-                TechType parkCreatureTechType = parkCreature?.pickupable?.GetTechType() ?? TechType.None;
-                if(parkCreature != null && parkCreature != creature && parkCreature.GetCanBreed() && parkCreatureTechType == creature.pickupable.GetTechType() && !parkCreatureTechType.ToString().Contains("Egg"))
+                var parkCreature = waterParkItem as WaterParkCreature;
+                var parkCreatureTechType = parkCreature is not null && parkCreature.pickupable != null ? parkCreature.pickupable.GetTechType() : TechType.None;
+                if (parkCreature == null || parkCreature == creature || !parkCreature.GetCanBreed() ||
+                    parkCreatureTechType != techType || parkCreatureTechType.ToString().Contains("Egg"))
                 {
-                    if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
+                    continue;
+                }
+
+                if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
+                {
+                    if(Main.Config.AlterraGenOverflow && !Main.Config.AlterraGenBlackList.Contains(parkCreatureTechType) && QModServices.Main.ModPresent("FCSEnergySolutions"))
                     {
-                        if(QModServices.Main.ModPresent("FCSEnergySolutions"))
-                        {
-                            hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
-                        }
+                        hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
+                    }
 
-                        if(!hasBred)
-                        {
-                            foreach(BaseBioReactor baseBioReactor in baseBioReactors)
-                            {
-                                if(baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
-                                {
-                                    creature.ResetBreedTime();
-                                    parkCreature.ResetBreedTime();
-                                    hasBred = true;
-                                    CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreature, baseBioReactor.container));
-                                    break;
-                                }
-                            }
+                    if(Main.Config.BioReactorOverflow && !Main.Config.BioReactorBlackList.Contains(parkCreatureTechType) && !hasBred)
+                    {
+                        var baseBioReactors =
+                            __instance.gameObject.GetComponentInParent<SubRoot>()?.gameObject
+                                .GetComponentsInChildren<BaseBioReactor>()
+                                ?.Where(baseBioReactor => baseBioReactor.container.HasRoomFor(parkCreature.pickupable))
+                                .ToList() ?? new List<BaseBioReactor>();
 
+                        if (baseBioReactors.Count > 0)
+                        {
+                            hasBred = true;
+                            baseBioReactors.Shuffle();
+                            var baseBioReactor = baseBioReactors.First();
+                            CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, baseBioReactor.container));
                         }
                     }
 
+                    if(Main.Config.OceanBreeding && Main.Config.OceanBreedWhiteList.Contains(parkCreatureTechType) && !hasBred && __instance.transform.position.y < 0)
+                    {
+                        CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, null));
+                        hasBred = true;
+                    }
+                }
+
+                if (hasBred)
+                {
                     creature.ResetBreedTime();
                     parkCreature.ResetBreedTime();
-                    break;
                 }
+                break;
             }
         }
 
-        private static IEnumerator SpawnCreature(WaterPark waterPark, WaterParkCreature parkCreature, ItemsContainer container)
+        private static IEnumerator SpawnCreature(WaterPark waterPark, TechType parkCreatureTechType, ItemsContainer container)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(parkCreature.pickupable.GetTechType(), false);
+            var task = CraftData.GetPrefabForTechTypeAsync(parkCreatureTechType, false);
             yield return task;
 
-            GameObject prefab = task.GetResult();
+            var prefab = task.GetResult();
+            if (prefab == null) yield break;
+
             prefab.SetActive(false);
-            GameObject gameObject = GameObject.Instantiate(prefab);
+            var gameObject = Object.Instantiate(prefab);
 
-            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+            if(container is not null)
+            {
+                var pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
-                TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
-                yield return pickupable.PickupAsync(taskResult, false);
-                pickupable = taskResult.Get();
+                    TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
+                    yield return pickupable.PickupAsync(taskResult, false);
+                    pickupable = taskResult.Get();
 #else
-            pickupable.Pickup(false);
+                pickupable.Pickup(false);
 #endif
-            container.AddItem(pickupable);
+                gameObject.SetActive(false);
+                container.AddItem(pickupable);
+                yield break;
+            }
 
-            yield break;
+            var spawnPoint = waterPark.transform.position + (Random.insideUnitSphere * 50);
+            var @base =
+#if SN1
+                waterPark.GetComponentInParent<Base>();
+#elif BZ
+                    waterPark.hostBase;
+#endif
+
+            while(Vector3.Distance(@base.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
+            {
+                yield return null;
+                spawnPoint = @base.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
+            }
+
+            gameObject.transform.SetPositionAndRotation(spawnPoint, Quaternion.identity);
+            gameObject.SetActive(true);
         }
     }
 }

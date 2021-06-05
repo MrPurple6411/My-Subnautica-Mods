@@ -11,114 +11,9 @@
     <RootNamespace>IslandCloudRemoval</RootNamespace>
     <AssemblyName>IslandCloudRemoval</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <OutputPath>$(SolutionDir)..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ|AnyCPU'">
-    <DefineConstants>BZ;BELOWZERO</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
-    <DataFolder>SubnauticaZero_Data</DataFolder>
-    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ.EXP|AnyCPU'">
-    <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)SubnauticaZero.Exp</GameDir>
-    <DataFolder>SubnauticaZero_Data</DataFolder>
-    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1|AnyCPU'">
-    <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
-    <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1.EXP|AnyCPU'">
-    <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
-    <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\publicized_assemblies\Assembly-CSharp-firstpass_publicized.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="QModInstaller">
-      <HintPath>$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SMLHelper">
-      <HintPath>$(GameDir)\QMods\$(SMLHelperFolder)\SMLHelper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.AudioModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.InputModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>$(GameDir)\$(DataFolder)\Managed\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+  <Import Project="..\Configurations.targets" />
+  <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Patches\Patch.cs" />
@@ -131,10 +26,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(OutDir)mod.json" /y
-xcopy "$(TargetDir)" "$(GameDir)\QMods\$(ProjectName)\" /q /s /y /i
-
-mkdir $(SolutionDir)..\QModZips\$(Configuration)
-powershell Compress-Archive -Path '$(TargetDir)' -DestinationPath '$(SolutionDir)..\QModZips\$(Configuration)\$(TargetName).zip' -Force</PostBuildEvent>
+    <PreBuildEvent>
+    copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
+    </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="..\PostBuildEvents.targets" />
 </Project>

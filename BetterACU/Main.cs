@@ -1,6 +1,6 @@
 ﻿namespace BetterACU
 {
-    using BetterACU.Configuration;
+    using Configuration;
     using HarmonyLib;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
@@ -17,7 +17,7 @@
             Config = OptionsPanelHandler.RegisterModOptions<Config>();
             IngameMenuHandler.RegisterOnSaveEvent(Config.Save);
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
     }

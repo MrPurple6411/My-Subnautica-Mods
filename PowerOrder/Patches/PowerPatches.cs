@@ -15,7 +15,7 @@
         {
             try
             {
-                if(__instance is null || (__instance.inboundPowerSources?.Contains(powerInterface) ?? true))
+                if(__instance?.inboundPowerSources == null || __instance.inboundPowerSources.Contains(powerInterface))
                     return;
                 Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
@@ -33,14 +33,14 @@
             {
                 if(!Main.config.doSort)
                     return;
-                List<IPowerInterface> info = __instance.inboundPowerSources;
-                List<IPowerInterface> test = new List<IPowerInterface>(info);
+                var info = __instance.inboundPowerSources;
+                var test = new List<IPowerInterface>(info);
                 test.Sort((i, i2) =>
                 {
-                    UnityEngine.MonoBehaviour p = (UnityEngine.MonoBehaviour)i;
-                    UnityEngine.MonoBehaviour p2 = (UnityEngine.MonoBehaviour)i2;
-                    int pn = GetOrderNumber(p.gameObject.name);
-                    int p2n = GetOrderNumber(p2.gameObject.name);
+                    var p = (UnityEngine.MonoBehaviour)i;
+                    var p2 = (UnityEngine.MonoBehaviour)i2;
+                    var pn = GetOrderNumber(p.gameObject.name);
+                    var p2n = GetOrderNumber(p2.gameObject.name);
                     return Math.Sign(pn - p2n);
                 });
                 __instance.inboundPowerSources = test;
@@ -53,12 +53,12 @@
         }
         private static int GetOrderNumber(string name)
         {
-            for(int x = 0; x < Main.config.Order.Count; x++)
+            for(var x = 0; x < Main.config.Order.Count; x++)
             {
-                KeyValuePair<int, string> kvp = Main.config.Order.ElementAt(x);
+                var kvp = Main.config.Order.ElementAt(x);
                 if(name.ToLower().Contains(kvp.Value.ToLower()))
                 {
-                    int order = kvp.Key;
+                    var order = kvp.Key;
                     if(order > Main.config.Order.Count || order < 1)
                     {
                         Logger.Log(Logger.Level.Error, kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")", showOnScreen: true);

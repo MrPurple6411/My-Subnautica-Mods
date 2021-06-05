@@ -13,32 +13,32 @@
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
-            bool found = false;
-            bool found2 = false;
-            List<OpCode> opCodes = new List<OpCode>() { OpCodes.Ldloc_2, OpCodes.Ldloc_3 };
+            var collection = instructions.ToList();
+            var codeInstructions = new List<CodeInstruction>(collection);
+            var found = false;
+            var found2 = false;
+            var opCodes = new List<OpCode>() { OpCodes.Ldloc_2, OpCodes.Ldloc_3 };
 
-            for(int i = 0; i < instructions.Count() - 2; i++)
+            for(var i = 0; i < collection.Count() - 2; i++)
             {
-                CodeInstruction currentInstruction = codeInstructions[i];
-                CodeInstruction secondInstruction = codeInstructions[i + 1];
-                CodeInstruction thirdInstruction = codeInstructions[i + 2];
+                var currentInstruction = codeInstructions[i];
+                var secondInstruction = codeInstructions[i + 1];
+                var thirdInstruction = codeInstructions[i + 2];
 
                 if(!found && currentInstruction.opcode == OpCodes.Ldloc_0 && secondInstruction.opcode == OpCodes.Ldc_I4_0 && thirdInstruction.opcode == OpCodes.Ldc_I4_1)
                 {
 
-                    codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(Builder_TryPlace_Patch.SetBaseParent))));
+                    codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetBaseParent))));
                     found = true;
                     continue;
                 }
 
                 if(opCodes.Contains(currentInstruction.opcode) && secondInstruction.opcode == OpCodes.Callvirt && thirdInstruction.opcode == OpCodes.Dup)
                 {
-                    codeInstructions[i + 1] = new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(Builder_TryPlace_Patch.SetParent)));
+                    codeInstructions[i + 1] = new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetParent)));
                     found2 = true;
                     break;
                 }
-                continue;
             }
 
             if(found is false || found2 is false)
@@ -51,10 +51,11 @@
 
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)
         {
-            BaseGhost baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
+            var baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
+
             if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
-                GameObject placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
+                var placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
                 if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
                 {
                     largeWorldEntity.cellLevel = LargeWorldEntity.CellLevel.Global;
@@ -65,7 +66,7 @@
 
                 if(constructableBase.gameObject.TryGetComponent(out Collider builtCollider))
                 {
-                    foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                    foreach(var collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                     {
                         Physics.IgnoreCollision(collider, builtCollider);
                     }
@@ -79,7 +80,7 @@
 
         public static Transform SetParent(GameObject builtObject)
         {
-            LargeWorldEntity largeWorldEntity = builtObject.GetComponent<LargeWorldEntity>();
+            var largeWorldEntity = builtObject.GetComponent<LargeWorldEntity>();
             if(largeWorldEntity is null)
             {
                 largeWorldEntity = builtObject.AddComponent<LargeWorldEntity>();
@@ -91,33 +92,94 @@
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if(Main.Config.AttachToTarget || (Builder.placementTarget != null && builtObject.GetComponent<ConstructableBase>() is null))
+            if(Main.Config.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
             {
-                GameObject placementTarget = Builder.placementTarget ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+                var aimTransform = Builder.GetAimTransform();
+                if(Physics.Raycast(aimTransform.position, aimTransform.forward, out var hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
+                {
+                    var hitCollider = hit.collider;
+                    Builder.placementTarget = hitCollider.gameObject;
+                }
+            }
 
-                SubRoot component = placementTarget?.GetComponentInParent<SubRoot>();
-                if(component != null)
-                    placementTarget = component.gameObject;
-
+            if(Main.Config.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
+            {
+                var placementTarget = Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
+                GameObject finalTarget = null;
 
                 if(placementTarget != null)
                 {
-                    foreach(Collider builtCollider in builtObject.GetComponentsInChildren<Collider>()?? new Collider[0])
+                    var pickupable = placementTarget.GetComponentInParent<Pickupable>();
+                    if(pickupable != null)
                     {
-                        foreach(Collider collider in placementTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                        finalTarget = pickupable.gameObject;
+                    }
+                    else
+                    {
+                        var creature = placementTarget.GetComponentInParent<Creature>();
+                        if(creature != null)
+                        {
+                            finalTarget = creature.gameObject;
+                        }
+                        else
+                        {
+                            var subRoot = placementTarget.GetComponentInParent<SubRoot>();
+                            if(subRoot != null)
+                            {
+                                finalTarget = subRoot.modulesRoot.gameObject;
+                            }
+                            else
+                            {
+                                var vehicle = placementTarget.GetComponentInParent<Vehicle>();
+                                if(vehicle != null)
+                                {
+                                    finalTarget = vehicle.modulesRoot.gameObject;
+                                }
+                                else
+                                {
+
+                                    Component lifepod =
+#if SN1
+                            placementTarget.GetComponentInParent<EscapePod>();
+#elif BZ
+                            placementTarget.GetComponentInParent<LifepodDrop>();
+#endif
+                                    if(lifepod != null)
+                                    {
+                                        finalTarget = lifepod.gameObject;
+                                    }
+#if BZ
+                                    else
+                                    {
+                                        var seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
+                                        if(seaTruck != null)
+                                            finalTarget = seaTruck.gameObject;
+                                    }
+#endif
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(finalTarget != null)
+                {
+                    foreach(var builtCollider in builtObject.GetComponentsInChildren<Collider>()?? new Collider[0])
+                    {
+                        foreach(var collider in finalTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
                         {
                             Physics.IgnoreCollision(collider, builtCollider);
                         }
                     }
 
-                    if(builtObject.name.Contains("Transmitter") && Builder.placementTarget.GetComponentInParent<Base>() is null && placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity2))
+                    if(builtObject.name.Contains("Transmitter") && Builder.placementTarget.GetComponentInParent<Base>() is null && finalTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity2))
                     {
                         largeWorldEntity2.cellLevel = LargeWorldEntity.CellLevel.Global;
                         largeWorldEntity2.initialCellLevel = LargeWorldEntity.CellLevel.Global;
 
                         LargeWorldStreamer.main.cellManager.RegisterEntity(largeWorldEntity2);
                     }
-                    builtObject.transform.SetParent(placementTarget.transform);
+                    builtObject.transform.SetParent(finalTarget.transform);
                 }
             }
             

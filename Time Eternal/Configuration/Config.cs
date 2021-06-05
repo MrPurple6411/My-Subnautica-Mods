@@ -7,9 +7,9 @@
     [Menu("Time Eternal", LoadOn = MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened)]
     public class Config: ConfigFile
     {
-        public List<string> validOptions = new List<string>() { "0 = Normal", "1 = Noon", "2 = MidNight" };
+        public List<string> validOptions = new() { "0 = Normal", "1 = Noon", "2 = MidNight" };
 
-        [Choice(Label = "Freeze Lighting", Options = new string[] { "Normal", "Noon", "MidNight" })]
+        [Choice(Label = "Freeze Lighting", Options = new[] { "Normal", "Noon", "MidNight" })]
         public int freezeTimeChoice;
     }
 }

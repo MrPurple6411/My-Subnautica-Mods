@@ -1,7 +1,7 @@
-﻿namespace BuilderModule.Patches
+﻿#pragma warning disable 618
+namespace BuilderModule.Patches
 {
     using HarmonyLib;
-    using System;
     using System.Collections;
     using UnityEngine;
     using UWE;
@@ -12,59 +12,54 @@
         [HarmonyPrefix]
         public static bool Prefix(Constructable __instance)
         {
-            if(Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
+            var player = Player.main;
+            if(player.isPiloting && GameModeUtils.RequiresIngredients())
             {
-                Vehicle thisVehicle = Player.main.GetVehicle();
                 if(__instance._constructed)
-                {
                     return false;
-                }
-                int count = __instance.resourceMap.Count;
-                int resourceID = __instance.GetResourceID();
-                float backupConstructedAmount = __instance.constructedAmount;
+#if BZ
+                if(player.GetComponentInParent<Hoverbike>() is not null)
+                    return true;
+#endif
+
+                var count = __instance.resourceMap.Count;
+                var resourceID = __instance.GetResourceID();
+                var backupConstructedAmount = __instance.constructedAmount;
                 __instance.constructedAmount += Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = __instance.GetResourceID();
+                var resourceID2 = __instance.GetResourceID();
                 if(resourceID2 != resourceID)
                 {
-                    TechType destroyTechType = __instance.resourceMap[resourceID2 - 1];
-                    if(thisVehicle.GetType().Equals(typeof(Exosuit)))
+                    var destroyTechType = __instance.resourceMap[resourceID2 - 1];
+                    var thisVehicle = player.GetVehicle();
+                    var storageCheck = false;
+                    if(thisVehicle != null)
                     {
-                        StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
+                        switch(thisVehicle)
+                        {
+                            case Exosuit exosuit:
+                                if (exosuit.storageContainer.container.Contains(destroyTechType) &&
+                                    exosuit.storageContainer.container.DestroyItem(destroyTechType))
+                                    storageCheck = true;
+                                break;
 
-                        if(storageContainer.container.Contains(destroyTechType))
-                        {
-                            _ = storageContainer.container.DestroyItem(destroyTechType);
-                        }
-                        else
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
-                        }
-                    }
-#if SN1
-                    else
-                    {
-                        SeaMoth seamoth = (SeaMoth)thisVehicle;
-                        bool storageCheck = false;
-                        for(int i = 0; i < 12; i++)
-                        {
-                            try
-                            {
-                                ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if(storage != null && storage.Contains(destroyTechType))
+                            case SeaMoth seaMoth:
+                                for(var i = 0; i < 12; i++)
                                 {
-                                    if(storage.DestroyItem(destroyTechType))
+                                    try
                                     {
+                                        var storage = seaMoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
+                                        if (storage == null || !storage.Contains(destroyTechType)) continue;
+                                        if (!storage.DestroyItem(destroyTechType)) continue;
                                         storageCheck = true;
                                         break;
                                     }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
                                 }
-                            }
-                            catch(Exception)
-                            {
-                                continue;
-                            }
+                                break;
                         }
                         if(!storageCheck)
                         {
@@ -72,12 +67,35 @@
                             return true;
                         }
                     }
+#if BZ
+                    var seaTruck = player.GetComponentInParent<SeaTruckUpgrades>();
+                    if(seaTruck != null)
+                    {
+                        foreach(var storageContainer in seaTruck.GetComponentsInChildren<StorageContainer>() ?? new StorageContainer[0])
+                        {
+                            try
+                            {
+                                if (!storageContainer.container.DestroyItem(destroyTechType)) continue;
+                                storageCheck = true;
+                                break;
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    }
+                    if(!storageCheck)
+                    {
+                        __instance.constructedAmount = backupConstructedAmount;
+                        return true;
+                    }
 #endif
                 }
                 __instance.UpdateMaterial();
                 if(__instance.constructedAmount >= 1f)
                 {
-                    _ = __instance.SetState(true, true);
+                    _ = __instance.SetState(true);
                 }
                 return false;
             }
@@ -102,75 +120,99 @@
         public static bool Prefix(Constructable __instance)
         {
 #endif
-            if(Player.main.GetVehicle() != null && GameModeUtils.RequiresIngredients())
+            var player = Player.main;
+            if(player.isPiloting && GameModeUtils.RequiresIngredients())
             {
-
-                Vehicle thisVehicle = Player.main.GetVehicle();
                 if(__instance._constructed)
-                {
                     return true;
-                }
-                int count = __instance.resourceMap.Count;
+#if BZ
+                if(player.GetComponentInParent<Hoverbike>() is not null)
+                    return true;
+#endif
+                var count = __instance.resourceMap.Count;
 
-                int resourceID = __instance.GetResourceID();
-                float backupConstructedAmount = __instance.constructedAmount;
+                var resourceID = __instance.GetResourceID();
+                var backupConstructedAmount = __instance.constructedAmount;
                 __instance.constructedAmount -= Time.deltaTime / (count * Constructable.GetConstructInterval());
                 __instance.constructedAmount = Mathf.Clamp01(__instance.constructedAmount);
-                int resourceID2 = __instance.GetResourceID();
+                var resourceID2 = __instance.GetResourceID();
                 if(resourceID2 != resourceID)
                 {
-                    TechType techType = __instance.resourceMap[resourceID2];
+                    var techType = __instance.resourceMap[resourceID2];
 
-                    Vector2int size =
+                    var size =
 #if SN1
                         CraftData.GetItemSize(techType);
 #elif BZ
                         TechData.GetItemSize(techType);
 #endif
 
-                    if(thisVehicle.GetType().Equals(typeof(Exosuit)))
+                    var storageCheck = false;
+                    var thisVehicle = Player.main.GetVehicle();
+                    if(thisVehicle != null)
                     {
-                        StorageContainer storageContainer = ((Exosuit)thisVehicle).storageContainer;
+                        switch (thisVehicle)
+                        {
+                            case Exosuit exosuit:
+                            {
+                                var storageContainer = exosuit.storageContainer;
 
-                        if(storageContainer.container.HasRoomFor(size.x, size.y))
-                        {
-                            CoroutineHost.StartCoroutine(AddToVehicle(techType, storageContainer.container));
-                        }
-                        else
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
+                                if(storageContainer.container.HasRoomFor(size.x, size.y))
+                                {
+                                    CoroutineHost.StartCoroutine(AddToVehicle(techType, storageContainer.container));
+                                    storageCheck = true;
+                                }
+                                break;
+                            }
+                            case SeaMoth seaMoth:
+                            {
+                                for(var i = 0; i < 12; i++)
+                                {
+                                    try
+                                    {
+                                        var storage = seaMoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
+                                        if (storage == null || !storage.HasRoomFor(size.x, size.y)) continue;
+                                        CoroutineHost.StartCoroutine(AddToVehicle(techType, storage));
+                                        storageCheck = true;
+                                        break;
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
+                                }
+
+                                break;
+                            }
                         }
                     }
-#if SN1
-                    else
+#if BZ
+                    var seaTruck = player.GetComponentInParent<SeaTruckUpgrades>();
+                    if(seaTruck != null)
                     {
-                        SeaMoth seamoth = (SeaMoth)thisVehicle;
-                        bool storageCheck = false;
-                        for(int i = 0; i < 12; i++)
+                        foreach(var storageContainer in seaTruck.GetComponentsInChildren<StorageContainer>() ?? new StorageContainer[0])
                         {
                             try
                             {
-                                ItemsContainer storage = seamoth.GetStorageInSlot(i, TechType.VehicleStorageModule);
-                                if(storage != null && storage.HasRoomFor(size.x, size.y))
-                                {
-                                    CoroutineHost.StartCoroutine(AddToVehicle(techType, storage));
-                                    storageCheck = true;
-                                    break;
-                                }
+                                var storage = storageContainer.container;
+                                if (storage == null || !storage.HasRoomFor(size.x, size.y)) continue;
+                                CoroutineHost.StartCoroutine(AddToVehicle(techType, storage));
+                                storageCheck = true;
+                                break;
                             }
-                            catch(Exception)
+                            catch
                             {
-                                continue;
+                                // ignored
                             }
-                        }
-                        if(!storageCheck)
-                        {
-                            __instance.constructedAmount = backupConstructedAmount;
-                            return true;
                         }
                     }
 #endif
+
+                    if(!storageCheck)
+                    {
+                        __instance.constructedAmount = backupConstructedAmount;
+                        return true;
+                    }
                 }
                 __instance.UpdateMaterial();
 #if SUBNAUTICA_EXP || BZ
@@ -185,16 +227,13 @@
 
         private static IEnumerator AddToVehicle(TechType techType, ItemsContainer itemsContainer)
         {
-            CoroutineTask<GameObject> coroutineTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
+            var coroutineTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
             yield return coroutineTask;
 
-            GameObject prefab = coroutineTask.GetResult();
+            var prefab = coroutineTask.GetResult() ?? global::Utils.CreateGenericLoot(techType);
 
-            if(prefab is null)
-                prefab = global::Utils.CreateGenericLoot(techType);
-
-            GameObject gameObject = GameObject.Instantiate(prefab, null);
-            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+            var gameObject = Object.Instantiate(prefab, null);
+            var pickupable = gameObject.EnsureComponent<Pickupable>();
 
 #if SUBNAUTICA_EXP
             TaskResult<Pickupable> result1 = new TaskResult<Pickupable>();
@@ -203,14 +242,12 @@
 #else
             pickupable.Initialize();
 #endif
-            InventoryItem item = new InventoryItem(pickupable);
+            var item = new InventoryItem(pickupable);
             itemsContainer.UnsafeAdd(item);
-            string name = Language.main.GetOrFallback(techType.AsString(), techType.AsString());
+            var name = Language.main.GetOrFallback(techType.AsString(), techType.AsString());
             ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
-            uGUI_IconNotifier.main.Play(techType, uGUI_IconNotifier.AnimationType.From, null);
+            uGUI_IconNotifier.main.Play(techType, uGUI_IconNotifier.AnimationType.From);
             pickupable.PlayPickupSound();
-
-            yield break;
         }
     }
 }

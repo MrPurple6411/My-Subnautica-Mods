@@ -12,13 +12,13 @@
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            Vector3 c = (Vector3)value;
-            serializer.Serialize(writer, new float[3] { c.x, c.y, c.z });
+            var c = (Vector3)value;
+            serializer.Serialize(writer, new [] { c.x, c.y, c.z });
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            float[] v = (float[])serializer.Deserialize(reader, typeof(float[]));
+            var v = (float[])serializer.Deserialize(reader, typeof(float[]));
             return new Vector3(v[0], v[1], v[2]);
         }
 

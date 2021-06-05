@@ -1,10 +1,13 @@
 ﻿namespace BuildingTweaks.Patches
 {
-    using FMOD;
+    // ReSharper disable RedundantAssignment
     using HarmonyLib;
     using System.Collections.Generic;
+    using System.Linq;
+
+#if BZ
     using UnityEngine;
-    using UnityEngine.Rendering;
+#endif
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
     internal class Builder_UpdateAllowed_Patch
@@ -12,7 +15,7 @@
         [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
-            List<TechType> blacklist = new List<TechType>() {
+            var blacklist = new List<TechType>() {
 #if BZ
                 TechType.BaseGlassDome, TechType.BaseLargeGlassDome,
                 TechType.BasePartition, TechType.BasePartitionDoor,
@@ -26,13 +29,10 @@
             if(blacklist.Contains(Builder.constructableTechType))
                 return;
 
-            foreach(TechType techType in blacklist)
-            {
-                if(Builder.constructableTechType.AsString().EndsWith(techType.AsString()))
-                    return;
-            }
+            if (blacklist.Any(techType => Builder.constructableTechType.AsString().EndsWith(techType.AsString())))
+                return;
 
-            if(Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null))
+            if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
             {
 #if SN1
                 __result = Builder.CheckAsSubModule();
@@ -69,11 +69,10 @@
         [HarmonyPostfix]
         public static void Postfix(Collider c, ref bool __result)
         {
-            if(__result || c is null || c.gameObject is null)
+            if(__result || c?.gameObject is null)
                 return;
 
-            SeaTruckSegment s = c.gameObject.GetComponentInParent<SeaTruckSegment>();
-            ErrorMessage.AddMessage($"{s.gameObject.name}");
+            var s = c.gameObject.GetComponentInParent<SeaTruckSegment>();
             if(s != null)
                 __result = true;
         }

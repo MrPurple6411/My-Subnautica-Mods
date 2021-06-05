@@ -9,10 +9,10 @@
         [HarmonyPrefix]
         public static void Prefix(PDAData data)
         {
-            List<TechType> types = new List<TechType>(data.defaultTech);
-            foreach(TechType techType in types)
+            var types = new List<TechType>(data.defaultTech);
+            foreach(var techType in types)
             {
-                PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+                var entryData = PDAScanner.GetEntryData(techType);
                 if(entryData != null && entryData.locked)
                 {
                     data.defaultTech.Remove(techType);

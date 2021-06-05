@@ -1,7 +1,12 @@
-﻿namespace ChargeRequired.Patches
+﻿
+
+namespace ChargeRequired.Patches
 {
     using HarmonyLib;
+    using System.Linq;
+#if BZ
     using System.Collections.Generic;
+#endif
 
     [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.IsCraftRecipeFulfilled))]
     internal class CrafterLogic_IsCraftRecipeFulfilled
@@ -9,53 +14,44 @@
         [HarmonyPostfix]
         public static void CrafterLogic_IsCraftRecipeFulfilled_Postfix(TechType techType, ref bool __result)
         {
-            if(__result && GameModeUtils.RequiresIngredients())
-            {
-                Inventory main = Inventory.main;
+            if (!__result || !GameModeUtils.RequiresIngredients()) return;
+            var main = Inventory.main;
 #if SN1
-                ITechData techData = CraftData.Get(techType, true);
-                if(techData != null)
+            var techData = CraftData.Get(techType, true);
+            if(techData != null)
+            {
+                var i = 0;
+                var ingredientCount = techData.ingredientCount;
+                while(i < ingredientCount)
                 {
-                    int i = 0;
-                    int ingredientCount = techData.ingredientCount;
-                    while(i < ingredientCount)
-                    {
-                        IIngredient ingredient = techData.GetIngredient(i);
+                    var ingredient = techData.GetIngredient(i);
 #elif BZ
                 IList<Ingredient> ingredients = TechData.GetIngredients(techType);
                 if(ingredients != null)
                 {
-                    int i = 0;
-                    int ingredientCount = ingredients.Count;
+                    var i = 0;
+                    var ingredientCount = ingredients.Count;
                     while(i < ingredientCount)
                     {
-                        Ingredient ingredient = ingredients[i];
+                        var ingredient = ingredients[i];
 #endif
-                        int count = 0;
-                        IList<InventoryItem> inventoryItems = main.container.GetItems(ingredient.techType);
-                        if(inventoryItems != null)
-                        {
-                            foreach(InventoryItem inventoryItem in inventoryItems)
-                            {
-                                if(Main.BatteryCheck(inventoryItem.item))
-                                {
-                                    count++;
-                                }
-                            }
-                        }
-                        if(count < ingredient.amount)
-                        {
-                            __result = false;
-                            return;
-                        }
-                        i++;
+                    var count = 0;
+                    var inventoryItems = main.container.GetItems(ingredient.techType);
+                    if(inventoryItems != null)
+                    {
+                        count += inventoryItems.Count(inventoryItem => Main.BatteryCheck(inventoryItem.item));
                     }
-                    __result = true;
-                    return;
+                    if(count < ingredient.amount)
+                    {
+                        __result = false;
+                        return;
+                    }
+                    i++;
                 }
-                __result = false;
+                __result = true;
                 return;
             }
+            __result = false;
         }
     }
 }

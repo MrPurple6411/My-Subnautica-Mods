@@ -15,10 +15,10 @@
                 return true;
             }
 
-            SubRoot subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
-            SubRoot subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
+            var subRoot1 = __instance.gameObject.GetComponentInParent<SubRoot>();
+            var subRoot2 = relay.gameObject.GetComponentInParent<SubRoot>();
 
-            if(!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
+            if(__instance is not OtherConnectionRelay && __instance is not BaseInboundRelay && !__instance.gameObject.name.Contains("Transmitter") && subRoot1 != null && subRoot1 == subRoot2)
             {
                 __result = false;
                 return false;
@@ -48,7 +48,7 @@
                 return false;
             }
 
-            if(!(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && __instance.gameObject.name.Contains("Transmitter") && !relay.gameObject.name.Contains("Transmitter"))
+            if(__instance is not OtherConnectionRelay && __instance is not BaseInboundRelay && __instance.gameObject.name.Contains("Transmitter") && !relay.gameObject.name.Contains("Transmitter"))
             {
                 __result = false;
                 return false;
@@ -61,25 +61,25 @@
                 return false;
             }
 
-            if(__instance is BaseInboundRelay && !(relay is BasePowerRelay))
+            if(__instance is BaseInboundRelay && relay is not BasePowerRelay)
             {
                 __result = false;
                 return false;
             }
 
-            if(!(__instance is BaseInboundRelay) && relay is BasePowerRelay && __instance.gameObject.name.Contains("Transmitter"))
+            if(__instance is not BaseInboundRelay && relay is BasePowerRelay && __instance.gameObject.name.Contains("Transmitter"))
             {
                 __result = false;
                 return false;
             }
 
-            if(relay != __instance.outboundRelay && (relay.GetType() == typeof(BasePowerRelay) || relay.GetType() == typeof(PowerRelay)) && relay.inboundPowerSources.Where((x) => x.GetType() == typeof(BaseInboundRelay) || x.GetType() == typeof(OtherConnectionRelay)).Any())
+            if(relay != __instance.outboundRelay && (relay.GetType() == typeof(BasePowerRelay) || relay.GetType() == typeof(PowerRelay)) && relay.inboundPowerSources.Any(x => x.GetType() == typeof(BaseInboundRelay) || x.GetType() == typeof(OtherConnectionRelay)))
             {
                 __result = false;
                 return false;
             }
 
-            if(Main.Config.LOSBlue && !(__instance is OtherConnectionRelay) && !(__instance is BaseInboundRelay) && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
+            if(Main.Config.LOSBlue && __instance is not OtherConnectionRelay && __instance is not BaseInboundRelay && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
             {
                 __result = false;
                 return false;

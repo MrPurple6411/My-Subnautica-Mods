@@ -6,14 +6,14 @@
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_ChooseRandomResource
     {
-        public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new Dictionary<TechType, List<BreakableResource.RandomPrefab>>();
+        public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new();
 
         [HarmonyPrefix]
         public static void Prefix(BreakableResource __instance)
         {
-            TechType Breakable = CraftData.GetTechType(__instance.gameObject);
+            var Breakable = CraftData.GetTechType(__instance.gameObject);
 
-            if(prefabs.TryGetValue(Breakable, out List<BreakableResource.RandomPrefab> randomPrefabs))
+            if(prefabs.TryGetValue(Breakable, out var randomPrefabs))
             {
                 var Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs);
 #if SUBNAUTICA_STABLE
@@ -27,7 +27,6 @@
                 __instance.defaultPrefabReference = last.prefabReference;
 #endif
                 __instance.prefabList = Prefabs;
-                return;
             }
         }
     }

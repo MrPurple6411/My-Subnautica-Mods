@@ -1,10 +1,9 @@
-﻿#if SN1
-namespace UnobtaniumBatteries.Patches
+﻿namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;
     using UnityEngine;
-    using UnobtaniumBatteries.MonoBehaviours;
+    using MonoBehaviours;
     using static Charger;
 
     [HarmonyPatch(typeof(Charger), nameof(Charger.OnEquip))]
@@ -13,20 +12,17 @@ namespace UnobtaniumBatteries.Patches
         [HarmonyPostfix]
         private static void Postfix(string slot, InventoryItem item, Dictionary<string, SlotDefinition> ___slots)
         {
-            if(___slots.TryGetValue(slot, out SlotDefinition slotDefinition))
+            if (!___slots.TryGetValue(slot, out var slotDefinition)) return;
+            var battery = slotDefinition.battery;
+            var pickupable = item?.item;
+            if(battery != null && pickupable != null && Main.unobtaniumBatteries.Contains(pickupable.GetTechType()))
             {
-                GameObject battery = slotDefinition.battery;
-                Pickupable pickupable = item?.item;
-                if(battery != null && pickupable != null && Main.unobtaniumBatteries.Contains(pickupable.GetTechType()))
-                {
-                    battery.EnsureComponent<UnobtaniumBehaviour>();
-                }
-                else if(battery != null && battery.TryGetComponent(out UnobtaniumBehaviour unobtaniumBehaviour))
-                {
-                    GameObject.Destroy(unobtaniumBehaviour);
-                }
+                battery.EnsureComponent<UnobtaniumBehaviour>();
+            }
+            else if(battery != null && battery.TryGetComponent(out UnobtaniumBehaviour unobtaniumBehaviour))
+            {
+                Object.Destroy(unobtaniumBehaviour);
             }
         }
     }
 }
-#endif

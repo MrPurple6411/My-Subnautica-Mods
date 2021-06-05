@@ -51,30 +51,30 @@
             if(craftTree != null)
                 return craftTree;
 
-            List<CraftNode> roomNodes = new List<CraftNode>();
-            List<CraftNode> corridorNodes = new List<CraftNode>();
-            List<CraftNode> moduleNodes = new List<CraftNode>();
-            List<CraftNode> utilityNodes = new List<CraftNode>();
+            var roomNodes = new List<CraftNode>();
+            var corridorNodes = new List<CraftNode>();
+            var moduleNodes = new List<CraftNode>();
+            var utilityNodes = new List<CraftNode>();
 
-            foreach(TechType techType in ClonedRoomKits)
+            foreach(var techType in ClonedRoomKits)
                 roomNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-            foreach(TechType techType in ClonedCorridorKits)
+            foreach(var techType in ClonedCorridorKits)
                 corridorNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-            foreach(TechType techType in ClonedModuleKits)
+            foreach(var techType in ClonedModuleKits)
                 moduleNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
-            foreach(TechType techType in ClonedUtilityKits)
+            foreach(var techType in ClonedUtilityKits)
                 utilityNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
 
             craftTree = new CraftTree("PurpleKitFabricator",
-                new CraftNode("Root", TreeAction.None, TechType.None).AddNode(new CraftNode[]
+                new CraftNode("Root").AddNode(new[]
                     {
-                        new CraftNode("RoomsMenu", TreeAction.Expand, TechType.None).AddNode(roomNodes.ToArray()),
-                        new CraftNode("CorridorMenu", TreeAction.Expand, TechType.None).AddNode(corridorNodes.ToArray()),
-                        new CraftNode("ModuleMenu", TreeAction.Expand, TechType.None).AddNode(moduleNodes.ToArray()),
-                        new CraftNode("UtilityMenu", TreeAction.Expand, TechType.None).AddNode(utilityNodes.ToArray())
+                        new CraftNode("RoomsMenu", TreeAction.Expand).AddNode(roomNodes.ToArray()),
+                        new CraftNode("CorridorMenu", TreeAction.Expand).AddNode(corridorNodes.ToArray()),
+                        new CraftNode("ModuleMenu", TreeAction.Expand).AddNode(moduleNodes.ToArray()),
+                        new CraftNode("UtilityMenu", TreeAction.Expand).AddNode(utilityNodes.ToArray())
                     })
                 );
 
@@ -99,7 +99,7 @@
 
         public override bool UseCustomTint => true;
 
-        public override Color ColorTint => new Color(0.33f, 0f, 0.33f, 1f);
+        public override Color ColorTint => new(0.33f, 0f, 0.33f, 1f);
 
         public override TechCategory CategoryForPDA => TechCategory.InteriorModule;
 

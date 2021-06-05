@@ -1,62 +1,37 @@
-﻿#if SN1
-namespace UnobtaniumBatteries
+﻿namespace UnobtaniumBatteries
 {
     using HarmonyLib;
     using QModManager.API.ModLoading;
     using System.Reflection;
     using System.IO;
     using CustomBatteries.API;
-    using SMLHelper.V2.Handlers;
     using System.Collections.Generic;
-    using System;
     using SMLHelper.V2.Utility;
     using UnityEngine;
-    using UnobtaniumBatteries.MonoBehaviours;
+    using MonoBehaviours;
 
-#if SN1
-    using Sprite = Atlas.Sprite;
+#if SUBNAUTICA_STABLE
+    using SMLHelper.V2.Handlers;
 #endif
 
 
     [QModCore]
     public static class Main
     {
-        private static Assembly myAssembly = Assembly.GetExecutingAssembly();
-        private static string ModPath = Path.GetDirectoryName(myAssembly.Location);
-        internal static string AssetsFolder = Path.Combine(ModPath, "Assets");
-
-        public static List<Type> typesToMakePickupable = new List<Type>() { typeof(ReaperLeviathan), typeof(GhostLeviathan), typeof(Warper) };
-        public static List<TechType> unobtaniumBatteries = new List<TechType>();
-
-        private static CbPowerCell _UnobtaniumCell = null;
-        private static CbBattery _UnobtaniumBattery = null;
-
-        public static CbBattery UnobtaniumBattery
-        {
-            get => _UnobtaniumBattery;
-            private set
-            {
-                _UnobtaniumBattery = value;
-                _UnobtaniumBattery.Patch();
-            }
-        }
-        public static CbPowerCell UnobtaniumCell
-        {
-            get => _UnobtaniumCell;
-            private set
-            {
-                _UnobtaniumCell = value;
-                _UnobtaniumCell.Patch();
-            }
-        }
-
-
+        private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();
+        private static readonly string ModPath = Path.GetDirectoryName(myAssembly.Location);
+        private static readonly string AssetsFolder = Path.Combine(ModPath, "Assets");
+        public static readonly List<TechType> unobtaniumBatteries = new();
+#if SN1
+        public static readonly List<TechType> typesToMakePickupable = new() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper };
+#endif
+        
         [QModPatch]
         public static void Load()
         {
             CreateAndPatchPrefabs();
+#if SN1
             SetupIngredientsInventorySettings();
-            Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
         }
 
         private static void SetupIngredientsInventorySettings()
@@ -74,78 +49,86 @@ namespace UnobtaniumBatteries
             LanguageHandler.SetTechTypeName(TechType.GhostLeviathan, "Ghost Leviathan");
             LanguageHandler.SetTechTypeTooltip(TechType.GhostLeviathan, "While the Ghost Leviathan is bigger then a Reaper Leviathan its aggression is territorial in nature, not predatory");
 
-            Sprite reaper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "reaper_icon.png"));
+            var reaper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "reaper_icon.png"));
             if(reaper != null)
                 SpriteHandler.RegisterSprite(TechType.ReaperLeviathan, reaper);
 
-            Sprite ghost = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ghost_icon.png"));
+            var ghost = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ghost_icon.png"));
             if(ghost != null)
                 SpriteHandler.RegisterSprite(TechType.GhostLeviathan, ghost);
 
-            Sprite warper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "warper_icon.png"));
+            var warper = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "warper_icon.png"));
             if(warper != null)
                 SpriteHandler.RegisterSprite(TechType.Warper, warper);
 
             CraftDataHandler.SetItemSize(TechType.ReaperLeviathan, new Vector2int(5, 5));
             CraftDataHandler.SetItemSize(TechType.GhostLeviathan, new Vector2int(6, 6));
             CraftDataHandler.SetItemSize(TechType.Warper, new Vector2int(3, 3));
+#endif
+            Harmony.CreateAndPatchAll(myAssembly, $"MrPurple6411_{myAssembly.GetName().Name}");
         }
 
         private static void CreateAndPatchPrefabs()
         {
-            UnobtaniumBattery = new CbBattery()
+            var UnobtaniumBattery = new CbBattery()
             {
                 ID = "UnobtaniumBattery",
                 Name = "Unobtanium Battery",
                 FlavorText = "Battery that constantly keeps 1 Million Power",
                 EnergyCapacity = 1000000,
+#if SN1
                 CraftingMaterials = new List<TechType>() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper },
                 UnlocksWith = TechType.Warper,
+#elif BZ
+                CraftingMaterials = new List<TechType>() { TechType.SquidShark, TechType.Jellyfish, TechType.LilyPaddler },
+                UnlocksWith = TechType.TeleportationTool,
+#endif
 
-                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "battery_icon.png")),
+                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "battery_icon.png")),
                 CBModelData = new CBModelData()
                 {
-                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_skin.png")),
-                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_normal.png")),
-                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_spec.png")),
-                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "battery_illum.png")),
+                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_skin.png")),
+                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_normal.png")),
+                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_spec.png")),
+                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_illum.png")),
                     CustomIllumStrength = 1f,
                     UseIonModelsAsBase = true
                 },
 
-                EnhanceGameObject = new Action<GameObject>((o) => EnhanceGameObject(o))
+                EnhanceGameObject = EnhanceGameObject
             };
-            unobtaniumBatteries.Add(Main.UnobtaniumBattery.TechType);
+            UnobtaniumBattery.Patch();
+            unobtaniumBatteries.Add(UnobtaniumBattery.TechType);
 
-            UnobtaniumCell = new CbPowerCell()
+            var UnobtaniumCell = new CbPowerCell()
             {
                 EnergyCapacity = 1000000,
                 ID = "UnobtaniumCell",
                 Name = "Unobtanium Cell",
                 FlavorText = "Power Cell that constantly keeps 1 Million Power",
-                CraftingMaterials = new List<TechType>() { Main.UnobtaniumBattery.TechType },
-                UnlocksWith = TechType.Warper,
+                CraftingMaterials = new List<TechType>() { UnobtaniumBattery.TechType },
+                UnlocksWith = UnobtaniumBattery.TechType,
 
-                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(Main.AssetsFolder, "cell_icon.png")),
+                CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cell_icon.png")),
                 CBModelData = new CBModelData()
                 {
-                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_skin.png")),
-                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_normal.png")),
-                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_spec.png")),
-                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(Main.AssetsFolder, "cell_illum.png")),
+                    CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_skin.png")),
+                    CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_normal.png")),
+                    CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_spec.png")),
+                    CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_illum.png")),
                     CustomIllumStrength = 1f,
                     UseIonModelsAsBase = true
                 },
 
-                EnhanceGameObject = new Action<GameObject>((o) => EnhanceGameObject(o))
+                EnhanceGameObject = EnhanceGameObject
             };
-            unobtaniumBatteries.Add(Main.UnobtaniumCell.TechType);
+            UnobtaniumCell.Patch();
+            unobtaniumBatteries.Add(UnobtaniumCell.TechType);
         }
 
-        public static void EnhanceGameObject(GameObject gameObject)
+        private static void EnhanceGameObject(GameObject gameObject)
         {
             gameObject.EnsureComponent<UnobtaniumBehaviour>();
         }
     }
 }
-#endif

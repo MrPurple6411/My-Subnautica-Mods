@@ -1,22 +1,17 @@
-﻿#if SN1
-namespace BuilderModule.Patches
+﻿namespace BuilderModule.Patches
 {
-    using BuilderModule.Module;
+    using Module;
     using HarmonyLib;
 
-    [HarmonyPatch(typeof(ToggleLights), nameof(ToggleLights.SetLightsActive))]
-    internal class Seamoth_CheckLightToggle_Patch
+    [HarmonyPatch]
+    internal class LightToggle_Patches
     {
+        [HarmonyPatch(typeof(ToggleLights), nameof(ToggleLights.SetLightsActive))]
         [HarmonyPrefix]
         private static bool Prefix(ToggleLights __instance)
         {
-            if(!Player.main.inSeamoth)
-                return true;
-
-            SeaMoth seaMoth = __instance.GetComponentInParent<SeaMoth>();
-
-            return seaMoth is null || seaMoth != (Player.main.currentMountedVehicle as SeaMoth) || !seaMoth.TryGetComponent(out BuilderModuleMono moduleMono) || !moduleMono.isActive;
+            var moduleMono = __instance.GetComponentInParent<BuilderModuleMono>();
+            return moduleMono is null || !moduleMono.isToggle;
         }
     }
 }
-#endif

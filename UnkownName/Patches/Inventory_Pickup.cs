@@ -12,24 +12,24 @@
 #endif
     public class Inventory_Pickup
     {
-        public static bool newgame = true;
+        private static bool newGame = true;
 
         [HarmonyPostfix]
         public static void Postfix(Pickupable pickupable)
         {
-            if(newgame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
+            if(newGame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
             {
                 CoroutineHost.StartCoroutine(GiveHardcoreScanner());
-                newgame = false;
-                SMLHelper.V2.Handlers.IngameMenuHandler.RegisterOnQuitEvent(() => newgame = true);
+                newGame = false;
+                SMLHelper.V2.Handlers.IngameMenuHandler.RegisterOnQuitEvent(() => newGame = true);
             }
 
-            TechType techType = pickupable.GetTechType();
-            PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
-            GameObject gameObject = pickupable.gameObject;
+            var techType = pickupable.GetTechType();
+            var entryData = PDAScanner.GetEntryData(techType);
+            var gameObject = pickupable.gameObject;
             if(Main.Config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
             {
-                if(!PDAScanner.GetPartialEntryByKey(techType, out PDAScanner.Entry entry))
+                if(!PDAScanner.GetPartialEntryByKey(techType, out var entry))
                 {
                     entry = PDAScanner.Add(techType, 1);
                 }
@@ -38,7 +38,7 @@
                     PDAScanner.partial.Remove(entry);
                     PDAScanner.complete.Add(entry.techType);
                     PDAScanner.NotifyRemove(entry);
-                    PDAScanner.Unlock(entryData, true, true, true);
+                    PDAScanner.Unlock(entryData, true, true);
                     KnownTech.Add(techType, false);
                     if(gameObject != null)
                     {
@@ -52,24 +52,24 @@
 
             if(!Main.Config.Hardcore && entryData == null)
             {
-                KnownTech.Add(techType, true);
+                KnownTech.Add(techType);
             }
         }
 
         private static IEnumerator GiveHardcoreScanner()
         {
-            CoroutineTask<GameObject> task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
+            var task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
             yield return task1;
-            GameObject scannerPrefab = task1.GetResult();
-            GameObject gameObject1 = GameObject.Instantiate(scannerPrefab);
-            Pickupable pickupable1 = gameObject1.GetComponent<Pickupable>();
+            var scannerPrefab = task1.GetResult();
+            var gameObject1 = Object.Instantiate(scannerPrefab);
+            var pickupable1 = gameObject1.GetComponent<Pickupable>();
             scannerPrefab.SetActive(false);
 
-            CoroutineTask<GameObject> task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
+            var task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
             yield return task2;
-            GameObject batteryPrefab = task2.GetResult();
-            GameObject gameObject2 = GameObject.Instantiate(batteryPrefab);
-            Pickupable pickupable2 = gameObject2.GetComponent<Pickupable>();
+            var batteryPrefab = task2.GetResult();
+            var gameObject2 = Object.Instantiate(batteryPrefab);
+            var pickupable2 = gameObject2.GetComponent<Pickupable>();
             batteryPrefab.SetActive(false);
 
 #if SUBNAUTICA_EXP
@@ -87,11 +87,10 @@
             pickupable1.Pickup(false);
             pickupable2.Pickup(false);
 #endif
-            ScannerTool scannerTool = pickupable1?.GetComponent<ScannerTool>();
+            var scannerTool = pickupable1.GetComponent<ScannerTool>();
             scannerTool?.energyMixin?.batterySlot?.AddItem(pickupable2);
 
             Inventory.main.container.AddItem(pickupable1);
-            yield break;
         }
     }
 

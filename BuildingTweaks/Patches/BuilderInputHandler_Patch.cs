@@ -1,10 +1,5 @@
 ﻿namespace BuildingTweaks.Patches
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using HarmonyLib;
 
     [HarmonyPatch(typeof(BuildModeInputHandler), "IInputHandler.HandleLateInput")]
@@ -16,10 +11,9 @@
             if(!__result)
                 return;
 
-            if(Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.AltTool))
+            if(Main.Config.AttachToTarget && Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.LeftHand) && GameInput.GetButtonHeldTime(GameInput.Button.LeftHand) > 1)
             {
-                    __result = !Builder.TryPlace();
-                return;
+                Builder_Update_Patches.Freeze = true;
             }
         }
     }

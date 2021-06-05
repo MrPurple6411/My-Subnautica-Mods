@@ -10,16 +10,16 @@
     {
         public static bool TryOverflowIntoAlterraGens(SubRoot subRoot, TechType fishType, ref int breedCount)
         {
-            IFCSStorage[] AlterraGens = subRoot?.gameObject?.GetComponentsInChildren<IFCSStorage>() ?? new IFCSStorage[0];
+            var AlterraGens = subRoot != null ? subRoot.gameObject.GetComponentsInChildren<IFCSStorage>() ?? new IFCSStorage[0] : new IFCSStorage[0];
 
             if(AlterraGens.Length == 0)
                 return breedCount > 0;
 
-            int failCount = 0;
+            var failCount = 0;
 
             while(failCount < AlterraGens.Length && breedCount > 0)
             {
-                foreach(IFCSStorage storage in AlterraGens)
+                foreach(var storage in AlterraGens)
                 {
                     if(breedCount > 0 && storage.GetType().Name.Contains("AlterraGen") && storage.CanBeStored(1, fishType))
                     {
@@ -40,13 +40,13 @@
 
         private static IEnumerator AddItemToAlterraGen(SubRoot subRoot, TechType fishType, IFCSStorage container)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(fishType, false);
+            var task = CraftData.GetPrefabForTechTypeAsync(fishType, false);
             yield return task;
 
-            GameObject prefab = task.GetResult();
+            var prefab = task.GetResult();
             prefab.SetActive(false);
 
-            int breedCount = 1;
+            var breedCount = 1;
             if(!container.CanBeStored(breedCount, fishType))
             {
                 if(QModServices.Main.ModPresent("CyclopsBioReactor"))
@@ -58,11 +58,12 @@
                 yield break;
             }
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if(breedCount == 0)
                 yield break;
 
-            GameObject gameObject = GameObject.Instantiate(prefab);
-            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+            var gameObject = Object.Instantiate(prefab);
+            var pickupable = gameObject.EnsureComponent<Pickupable>();
 #if SUBNAUTICA_EXP
                 TaskResult<Pickupable> taskResult = new TaskResult<Pickupable>();
                 yield return pickupable.PickupAsync(taskResult, false);
@@ -71,8 +72,6 @@
             pickupable.Pickup(false);
 #endif
             container.AddItemToContainer(new InventoryItem(pickupable));
-
-            yield break;
         }
     }
 }

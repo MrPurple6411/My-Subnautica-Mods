@@ -1,14 +1,10 @@
 ﻿namespace TechPistol.Module
 {
-    using SMLHelper.V2.Utility;
-#if !SUBNAUTICA_STABLE
-    using System.Collections;
-#endif
-    using System.IO;
     using System.Linq;
     using UnityEngine;
     using UWE;
 
+    [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(EnergyMixin))]
     internal class PistolBehaviour: PlayerTool, IProtoEventListener
     {
@@ -24,27 +20,25 @@
         public ParticleSystem[] par = new ParticleSystem[7];
         public LineRenderer[] Line = new LineRenderer[3];
         public GameObject LaserParticles;
-        public bool CannonCharging = false;
-        public bool LaserFiring = false;
-        public bool ScaleBig = false;
-        public bool ScaleSmall = false;
-        public float Charge = 0f;
-        public int mode = 0;
+        public bool CannonCharging;
+        public bool LaserFiring;
+        public bool ScaleBig;
+        public bool ScaleSmall;
+        public float Charge;
+        public int mode;
 
-        [SerializeField]
-        private TextMesh textName = default;
+        [SerializeField] public TextMesh textName;
 
-        [SerializeField]
-        private TextMesh textHealth = default;
+        [SerializeField] public TextMesh textHealth;
 
-        [SerializeField]
-        private TextMesh textMode = default;
+        [SerializeField] public TextMesh textMode;
 
-        [SerializeField]
-        private Rigidbody rigidbody = default;
+        [SerializeField] public Rigidbody rigidbody;
 
-        public float currentDamage = 0;
-        public static float lastShotDamage = 0;
+        public float currentDamage;
+        public static float lastShotDamage;
+        private ParticleSystem scaleParticleSystem;
+        private ParticleSystem laserEndParticleSystem;
 
         private bool PowerCheck => energyMixin.charge > 0f || !GameModeUtils.RequiresPower();
 
@@ -54,16 +48,17 @@
         public const string LaserMode = Point + "/LaserMode";
         public const string ScaleMode = Point + "/ScaleMode";
 
-        public Vector3 CurrentMuzzlePosition => base.gameObject.transform.Find(Point).position;
+        private Vector3 CurrentMuzzlePosition => gameObject.transform.Find(Point).position;
 
         public override string animToolName => TechType.Scanner.AsString(true);
 
         private void TargetLaser(float range, LineRenderer lineRenderer)
         {
-            Vector3 forward = Player.main.camRoot.mainCam.transform.forward;
-            Vector3 position = Player.main.camRoot.mainCam.transform.position;
+            var transform1 = Player.main.camRoot.mainCam.transform;
+            var forward = transform1.forward;
+            var position = transform1.position;
 
-            if(Targeting.GetTarget(Player.main.gameObject, range, out GameObject gameObject, out float num))
+            if(Targeting.GetTarget(Player.main.gameObject, range, out _, out var num))
             {
                 lineRenderer.enabled = true;
                 lineRenderer.SetPosition(0, CurrentMuzzlePosition);
@@ -104,40 +99,46 @@
         {
             if(repulsionCannonFireSound is null)
             {
-                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
+                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out var RCFilename))
                 {
-                    GameObject gameObject1 = Resources.Load<GameObject>(RCFilename);
-                    RepulsionCannon component = gameObject1.GetComponent<RepulsionCannon>();
+                    var gameObject1 = Resources.Load<GameObject>(RCFilename);
+                    var component = gameObject1.GetComponent<RepulsionCannon>();
                     repulsionCannonFireSound = component.shootSound;
                     gameObject1.SetActive(false);
                 }
 
-                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
+                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out var SRFilename))
                 {
-                    GameObject gameObject2 = Resources.Load<GameObject>(SRFilename);
-                    StasisRifle component2 = gameObject2.GetComponent<StasisRifle>();
+                    var gameObject2 = Resources.Load<GameObject>(SRFilename);
+                    var component2 = gameObject2.GetComponent<StasisRifle>();
                     stasisRifleFireSound = component2.fireSound;
                     stasisRifleEvent = component2.chargeBegin;
                     gameObject2.SetActive(false);
                 }
 
-                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
+                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out var PCFilename))
                 {
-                    GameObject gameObject3 = Resources.Load<GameObject>(PCFilename);
-                    PropulsionCannon component3 = gameObject3.GetComponent<PropulsionCannon>();
+                    var gameObject3 = Resources.Load<GameObject>(PCFilename);
+                    var component3 = gameObject3.GetComponent<PropulsionCannon>();
                     modeChangeSound = component3.shootSound;
                     gameObject3.SetActive(false);
                 }
 
-                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
+                if(PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out var WFilename))
                 {
-                    GameObject gameObject4 = Resources.Load<GameObject>(WFilename);
-                    Welder component4 = gameObject4.GetComponent<Welder>();
+                    var gameObject4 = Resources.Load<GameObject>(WFilename);
+                    var component4 = gameObject4.GetComponent<Welder>();
                     laserShootSound = component4.weldSound;
                     gameObject4.SetActive(false);
                 }
 
-                LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+                Transform transform1;
+                LaserParticles = Instantiate(
+                    Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"),
+                    (transform1 = transform).position,
+                    transform1.rotation);
+                laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
+                scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
             }
             else
             {
@@ -148,51 +149,54 @@
 		protected void Start()
 		{
 #pragma warning disable CS0612 // Type or member is obsolete
-            if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out string RCFilename))
-           {
-				AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
-				{
-					GameObject gameObject1 = x.Result;
-					RepulsionCannon component = gameObject1?.GetComponent<RepulsionCannon>();
-					repulsionCannonFireSound = component?.shootSound;
-				};
-			}
+            if (repulsionCannonFireSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.RepulsionCannon), out var RCFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(RCFilename).Completed += (x) =>
+                {
+                    var gameObject1 = x.Result;
+                    var component = gameObject1?.GetComponent<RepulsionCannon>();
+                    repulsionCannonFireSound = component?.shootSound;
+                };
+            }
 
-			if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out string SRFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
-				{
-					GameObject gameObject2 = x.Result;
-					StasisRifle component2 = gameObject2?.GetComponent<StasisRifle>();
-					stasisRifleFireSound = component2?.fireSound;
-					stasisRifleEvent = component2?.chargeBegin;
-				};
-			}
+            if ((stasisRifleFireSound is null || stasisRifleEvent is null) && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.StasisRifle), out var SRFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(SRFilename).Completed += (x) =>
+                {
+                    var gameObject2 = x.Result;
+                    var component2 = gameObject2?.GetComponent<StasisRifle>();
+                    stasisRifleFireSound = component2?.fireSound;
+                    stasisRifleEvent = component2?.chargeBegin;
+                };
+            }
 
-			if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out string PCFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
-				{
-					GameObject gameObject3 = x.Result;
-					PropulsionCannon component3 = gameObject3?.GetComponent<PropulsionCannon>();
-					modeChangeSound = component3?.shootSound;
-				};
-			}
+            if (modeChangeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.PropulsionCannon), out var PCFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(PCFilename).Completed += (x) =>
+                {
+                    var gameObject3 = x.Result;
+                    var component3 = gameObject3?.GetComponent<PropulsionCannon>();
+                    modeChangeSound = component3?.shootSound;
+                };
+            }
 
-			if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out string WFilename))
-			{
-				AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
-				{
-					GameObject gameObject4 = x.Result;
-					Welder component4 = gameObject4?.GetComponent<Welder>();
-					laserShootSound = component4?.weldSound;
-				};
-			}
+            if (laserShootSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Welder), out var WFilename))
+            {
+                AddressablesUtility.LoadAsync<GameObject>(WFilename).Completed += (x) =>
+                {
+                    var gameObject4 = x.Result;
+                    var component4 = gameObject4?.GetComponent<Welder>();
+                    laserShootSound = component4?.weldSound;
+                };
+            }
 #pragma warning restore CS0612 // Type or member is obsolete
 
             if(LaserParticles is null)
 			{
-				LaserParticles = GameObject.Instantiate<GameObject>(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), base.transform.position, base.transform.rotation);
+                Transform transform1;
+                LaserParticles = Instantiate(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), (transform1 = transform).position, transform1.rotation);
+                laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
+                scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
 			}
             else
             {
@@ -208,7 +212,7 @@
                 par[0].Play();
                 Reset();
                 mode++;
-                FMODUWE.PlayOneShot(modeChangeSound, base.transform.position, 0.5f);
+                FMODUWE.PlayOneShot(modeChangeSound, transform.position, 0.5f);
 
                 switch(mode)
                 {
@@ -240,52 +244,48 @@
 
         protected void Update()
         {
-            if(base.isDrawn && PowerCheck)
+            if (!isDrawn || !PowerCheck) return;
+            if(LaserFiring)
             {
-                if(LaserFiring)
-                {
-                    TargetLaser(Main.Config.TargetingRange, Line[0]);
-                }
-                else if(ScaleBig)
-                {
-                    TargetLaser(Main.Config.TargetingRange, Line[1]);
-                }
-                else if(ScaleSmall)
-                {
-                    TargetLaser(Main.Config.TargetingRange, Line[2]);
-                }
+                TargetLaser(Main.Config.TargetingRange, Line[0]);
+            }
+            else if(ScaleBig)
+            {
+                TargetLaser(Main.Config.TargetingRange, Line[1]);
+            }
+            else if(ScaleSmall)
+            {
+                TargetLaser(Main.Config.TargetingRange, Line[2]);
             }
         }
 
         protected void LateUpdate()
         {
-            if(base.isDrawn)
+            if (!isDrawn) return;
+            if(PowerCheck)
             {
-                if(PowerCheck)
+                switch(mode)
                 {
-                    switch(mode)
-                    {
-                        case 0:
-                            textMode.text = "Standby";
-                            break;
-                        case 1:
-                        case 2:
-                            HarmMode();
-                            break;
-                        case 3:
-                        case 4:
-                            ResizeMode();
-                            break;
-                    }
+                    case 0:
+                        textMode.text = "Standby";
+                        break;
+                    case 1:
+                    case 2:
+                        HarmMode();
+                        break;
+                    case 3:
+                    case 4:
+                        ResizeMode();
+                        break;
+                }
 
 
-                }
-                else
-                {
-                    textMode.text = "No Power";
-                    mode = 0;
-                    Reset();
-                }
+            }
+            else
+            {
+                textMode.text = "No Power";
+                mode = 0;
+                Reset();
             }
         }
 
@@ -296,15 +296,19 @@
         {
             try
             {
-                if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out GameObject gameObject, out float num2))
+                if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var go, out _))
                 {
-                    GameObject entityRoot = UWE.Utils.GetEntityRoot(gameObject) ?? gameObject;
+                    var entityRoot = Utils.GetEntityRoot(go) ?? go;
 
                     // Handles the Target display on the top of the gun.
-                    TechType techType = CraftData.GetTechType(entityRoot);
-                    string name = techType != TechType.None ? techType.AsString() : "";
-                    string translatedName = name != "" ? Language.main.GetOrFallback(name, name) + " size" : "";
-                    string scale = translatedName != "" ? System.Math.Round(entityRoot.transform.localScale.x, 2).ToString() : "";
+                    var techType = CraftData.GetTechType(entityRoot);
+                    var techTypeString = techType != TechType.None ? techType.AsString() : "";
+                    var translatedName = techTypeString != "" ? Language.main.GetOrFallback(techTypeString, techTypeString) + " size" : "";
+                    var scale = translatedName != ""
+                        ? System.Math.Round(entityRoot.transform.localScale.x,
+                                2)
+                            .ToString()
+                        : "";
 
                     textName.text = translatedName;
                     textHealth.text = scale;
@@ -312,41 +316,41 @@
                     if(GameInput.GetButtonDown(GameInput.Button.Deconstruct))
                     {
                         entityRoot.transform.localScale = Vector3.one;
-                        return;
                     }
                     else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(1f * Main.Config.ScaleUpspeed) || !GameModeUtils.RequiresPower()))
                     {
                         par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
-                        float changespeed = Main.Config.ScaleUpspeed;
-                        Vector3 oldScale = entityRoot.transform.localScale;
-                        Vector3 newScale = new Vector3(oldScale.x + changespeed, oldScale.y + changespeed, oldScale.z + changespeed);
+                        var changeSpeed = Main.Config.ScaleUpspeed;
+                        var oldScale = entityRoot.transform.localScale;
+                        var newScale = new Vector3(oldScale.x + changeSpeed, oldScale.y + changeSpeed, oldScale.z + changeSpeed);
 
                         entityRoot.transform.localScale = newScale;
 
-                        if(Main.Config.LethalResizing && (newScale.x >= Main.Config.ScaleKillSize || newScale.y >= Main.Config.ScaleKillSize || newScale.z >= Main.Config.ScaleKillSize))
-                        {
-                            entityRoot.GetComponentInChildren<LiveMixin>()?.Kill(DamageType.Normal);
-                            entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
-                            Drillable drillable = entityRoot?.GetComponent<Drillable>();
+                        if (!Main.Config.LethalResizing || (!(newScale.x >= Main.Config.ScaleKillSize) &&
+                                                            !(newScale.y >= Main.Config.ScaleKillSize) &&
+                                                            !(newScale.z >= Main.Config.ScaleKillSize))) return;
+                        entityRoot.GetComponentInChildren<LiveMixin>()?.Kill();
+                        entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
+                        var drillable = entityRoot.GetComponent<Drillable>();
 
-                            if(drillable != null)
-                            {
-                                while(drillable.health.Sum() > 0)
-                                {
-                                    drillable?.OnDrill(entityRoot.transform.position, null, out GameObject _);
-                                }
-                            }
+                        if (drillable is null) return;
+                        while(drillable.health.Sum() > 0)
+                        {
+                            drillable.OnDrill(entityRoot.transform.position, null, out var _);
                         }
                     }
-                    else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleSmall && (energyMixin.ConsumeEnergy(1f * Main.Config.ScaleDownspeed) || !GameModeUtils.RequiresPower()))
+                    else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) &&
+                             ScaleSmall &&
+                             (energyMixin.ConsumeEnergy(1f * Main.Config.ScaleDownspeed) ||
+                              !GameModeUtils.RequiresPower()))
                     {
                         par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
 
-                        float changespeed = Main.Config.ScaleDownspeed;
-                        Vector3 oldScale = entityRoot.transform.localScale;
-                        Vector3 newScale = new Vector3(oldScale.x - changespeed, oldScale.y - changespeed, oldScale.z - changespeed);
+                        var changeSpeed = Main.Config.ScaleDownspeed;
+                        var oldScale = entityRoot.transform.localScale;
+                        var newScale = new Vector3(oldScale.x - changeSpeed, oldScale.y - changeSpeed, oldScale.z - changeSpeed);
 
-                        entityRoot.transform.localScale = newScale.x > changespeed ? newScale : new Vector3(0.01f, 0.01f, 0.01f);
+                        entityRoot.transform.localScale = newScale.x > changeSpeed ? newScale : new Vector3(0.01f, 0.01f, 0.01f);
                     }
 
                 }
@@ -369,19 +373,19 @@
         private void HarmMode()
         {
             // Handles the Target display on the top of the gun.
-            if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out GameObject gameObject4, out float num4) && UWE.Utils.GetEntityRoot(gameObject4) != null)
+            if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var gameObject4, out _) && Utils.GetEntityRoot(gameObject4) != null)
             {
-                if(UWE.Utils.GetEntityRoot(gameObject4).TryGetComponent<LiveMixin>(out LiveMixin liveMixin))
+                if(Utils.GetEntityRoot(gameObject4).TryGetComponent<LiveMixin>(out var liveMixin))
                 {
-                    string name = CraftData.GetTechType(liveMixin.gameObject).AsString();
-                    string translatedName = Language.main.GetOrFallback(name, name);
+                    var techName = CraftData.GetTechType(liveMixin.gameObject).AsString();
+                    var translatedName = Language.main.GetOrFallback(techName, techName);
 
                     if(translatedName.ToLower().Contains("school") && liveMixin.health == 0)
                     {
-                        GameObject.Destroy(liveMixin.gameObject);
+                        Destroy(liveMixin.gameObject);
                     }
 
-                    string health = liveMixin.health.ToString() ?? "";
+                    var health = liveMixin.health.ToString();
 
                     textName.text = translatedName;
                     textHealth.text = health;
@@ -413,13 +417,12 @@
             else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.Config.LaserDamage * Time.deltaTime) || !GameModeUtils.RequiresPower()))
             {
                 par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
-                if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out GameObject gameObject, out float num))
-                {
-                    GameObject entityRoot = UWE.Utils.GetEntityRoot(gameObject);
-                    entityRoot?.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.Config.LaserDamage, gameObject.transform.position, DamageType.Heat, null);
-                    entityRoot?.GetComponentInChildren<BreakableResource>()?.HitResource();
-                    entityRoot?.GetComponentInChildren<Drillable>()?.OnDrill(entityRoot.transform.position, null, out GameObject _);
-                }
+                if (!Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var go,
+                    out _)) return;
+                var entityRoot = Utils.GetEntityRoot(go) ?? go;
+                entityRoot?.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.Config.LaserDamage, go.transform.position, DamageType.Heat);
+                entityRoot?.GetComponentInChildren<BreakableResource>()?.HitResource();
+                entityRoot?.GetComponentInChildren<Drillable>()?.OnDrill(entityRoot.transform.position, null, out var _);
             }
         }
 
@@ -433,8 +436,9 @@
                 if((System.Math.Round(Charge * 10, 2) >= 20f && energyMixin.ConsumeEnergy(Charge * 10)) || !GameModeUtils.RequiresPower())
                 {
                     Charge = 0;
-                    FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
-                    FMODUWE.PlayOneShot(stasisRifleFireSound, base.transform.position, 1f);
+                    var position = transform.position;
+                    FMODUWE.PlayOneShot(repulsionCannonFireSound, position);
+                    FMODUWE.PlayOneShot(stasisRifleFireSound, position);
                     par[1].Stop();
                     par[1].Clear();
                     par[2].Stop();
@@ -461,37 +465,35 @@
 
         public override bool OnRightHandDown()
         {
-            if(PowerCheck)
+            if (!PowerCheck) return true;
+            switch(mode)
             {
-                switch(mode)
-                {
-                    case 1:
-                        LaserParticles.transform.Find("Laserend").GetComponent<ParticleSystem>().Play();
-                        FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
-                        laserShootSound.Play();
-                        par[4].Play();
-                        LaserFiring = true;
-                        break;
-                    case 2:
-                        CannonCharging = true;
-                        par[1].Play();
-                        par[2].Play();
-                        Charge = 0f;
-                        stasisRifleEvent.StartEvent();
-                        break;
-                    case 3:
-                        LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>().Play();
-                        FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
-                        par[5].Play();
-                        ScaleBig = true;
-                        break;
-                    case 4:
-                        LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>().Play();
-                        FMODUWE.PlayOneShot(repulsionCannonFireSound, base.transform.position, 1f);
-                        par[6].Play();
-                        ScaleSmall = true;
-                        break;
-                }
+                case 1:
+                    laserEndParticleSystem.Play();
+                    FMODUWE.PlayOneShot(repulsionCannonFireSound, transform.position);
+                    laserShootSound.Play();
+                    par[4].Play();
+                    LaserFiring = true;
+                    break;
+                case 2:
+                    CannonCharging = true;
+                    par[1].Play();
+                    par[2].Play();
+                    Charge = 0f;
+                    stasisRifleEvent.StartEvent();
+                    break;
+                case 3:
+                    scaleParticleSystem.Play();
+                    FMODUWE.PlayOneShot(repulsionCannonFireSound, transform.position);
+                    par[5].Play();
+                    ScaleBig = true;
+                    break;
+                case 4:
+                    scaleParticleSystem.Play();
+                    FMODUWE.PlayOneShot(repulsionCannonFireSound, transform.position);
+                    par[6].Play();
+                    ScaleSmall = true;
+                    break;
             }
             return true;
         }
@@ -500,11 +502,11 @@
         {
             if(LaserFiring || CannonCharging || ScaleBig || ScaleSmall)
             {
-                LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>().Stop();
-                LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>().Stop();
+                scaleParticleSystem.Stop();
+                laserEndParticleSystem.Stop();
 
                 laserShootSound?.Stop();
-                stasisRifleEvent?.Stop(true);
+                stasisRifleEvent?.Stop();
                 LaserFiring = false;
                 CannonCharging = false;
                 ScaleBig = false;

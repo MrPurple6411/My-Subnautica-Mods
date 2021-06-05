@@ -11,7 +11,7 @@ namespace ScannableTimeCapsules.Patches
         [HarmonyPatch(nameof(TimeCapsule.Start))]
         public static void Start_Postfix(TimeCapsule __instance)
         {
-            ResourceTracker resourceTracker = __instance.gameObject.EnsureComponent<ResourceTracker>();
+            var resourceTracker = __instance.gameObject.EnsureComponent<ResourceTracker>();
 
             resourceTracker.prefabIdentifier = __instance.GetComponent<PrefabIdentifier>();
             resourceTracker.techType = TechType.TimeCapsule;
@@ -24,7 +24,7 @@ namespace ScannableTimeCapsules.Patches
         [HarmonyPatch(nameof(TimeCapsule.Collect))]
         public static void Collect_Prefix(TimeCapsule __instance)
         {
-            ResourceTracker resourceTracker = __instance.gameObject.GetComponent<ResourceTracker>();
+            var resourceTracker = __instance.gameObject.GetComponent<ResourceTracker>();
 
             if(resourceTracker != null)
             {
