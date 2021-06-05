@@ -33,11 +33,10 @@
 
         public override GameObject GetGameObject()
         {
-            GameObject go;
+            GameObject go = null;
             if(processedPrefab != null)
             {
-                go = Object.Instantiate(processedPrefab);
-                go.SetActive(true);
+                go = Object.Instantiate(processedPrefab, default, default, true);
                 return go;
             }
 
@@ -47,20 +46,18 @@
             {
                 processedPrefab = prefab;
                 processedPrefab.SetActive(false);
+                go = Object.Instantiate(processedPrefab, default, default, true);
             }
 
-            go = Object.Instantiate(processedPrefab);
-            go.SetActive(true);
             return go;
         }
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            GameObject go;
+            GameObject go = null;
             if(processedPrefab != null)
             {
-                go = Object.Instantiate(processedPrefab);
-                go.SetActive(true);
+                go = Object.Instantiate(processedPrefab, default, default, true);
                 gameObject.Set(go);
                 yield break;
             }
@@ -70,10 +67,9 @@
             {
                 processedPrefab = prefab;
                 processedPrefab.SetActive(false);
+                go = Object.Instantiate(processedPrefab, default, default, true);
             }
 
-            go = Object.Instantiate(processedPrefab);
-            go.SetActive(true);
             gameObject.Set(go);
         }
 

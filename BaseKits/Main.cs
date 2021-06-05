@@ -14,6 +14,9 @@
         {
             TechType.BaseFoundation, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseObservatory, TechType.BaseRoom
+#if BZ
+            ,TechType.BaseLargeRoom, TechType.BaseControlRoom
+#endif
         };
 
         private static readonly List<TechType> CorridorsToClone = new()
@@ -33,6 +36,9 @@
         {
             TechType.BaseConnector, TechType.BaseBulkhead, TechType.BaseHatch,
             TechType.BaseLadder, TechType.BaseReinforcement, TechType.BaseWindow
+#if BZ
+            ,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor   
+#endif
         };
 
         [QModPostPatch]

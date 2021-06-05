@@ -37,7 +37,7 @@
 #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
-            GameObject go;
+            GameObject go = null;
             if(processedPrefab != null)
             {
                 go = Object.Instantiate(processedPrefab);
@@ -51,17 +51,16 @@
             {
                 processedPrefab = Object.Instantiate(prefab);
                 processedPrefab.SetActive(false);
+                go = Object.Instantiate(processedPrefab, default, default, true);
             }
-
-            go = Object.Instantiate(processedPrefab);
-            go.SetActive(true);
+            
             return go;
         }
 #endif
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            GameObject go;
+            GameObject go = null;
             if(processedPrefab != null)
             {
                 go = Object.Instantiate(processedPrefab);
@@ -78,10 +77,9 @@
             {
                 processedPrefab = Object.Instantiate(prefab);
                 processedPrefab.SetActive(false);
+                go = Object.Instantiate(processedPrefab, default, default, true);
             }
 
-            go = Object.Instantiate(processedPrefab);
-            go.SetActive(true);
             gameObject.Set(go);
         }
 
