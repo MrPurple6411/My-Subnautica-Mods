@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <PropertyGroup Condition="'$(Configuration)' == 'SN1.EDITOR'">
+    <DefineConstants>SN1;EDITOR</DefineConstants>
+    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'BZ.EDITOR'">
+    <DefineConstants>BZ;EDITOR</DefineConstants>
+    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
     <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
@@ -28,7 +36,8 @@
     <SMLHelperFolder>Modding Helper</SMLHelperFolder>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath>..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <OutputPath Condition="!$(Configuration.Contains('Editor'))">..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <OutputPath Condition="$(Configuration.Contains('Editor'))">bin\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <LangVersion>latest</LangVersion>

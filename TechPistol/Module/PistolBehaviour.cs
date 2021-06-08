@@ -8,37 +8,41 @@
     [RequireComponent(typeof(EnergyMixin))]
     internal class PistolBehaviour: PlayerTool, IProtoEventListener
     {
-        public FMODAsset repulsionCannonFireSound;
-        public FMODAsset stasisRifleFireSound;
-        public FMOD_StudioEventEmitter stasisRifleEvent;
+        private FMODAsset repulsionCannonFireSound;
+        private FMODAsset stasisRifleFireSound;
+        private FMOD_StudioEventEmitter stasisRifleEvent;
 #if SN1
-        public FMODASRPlayer laserShootSound;
+        private FMODASRPlayer laserShootSound;
 #elif BZ
-		public FMOD_CustomEmitter laserShootSound;
+		private FMOD_CustomEmitter laserShootSound;
 #endif
-        public FMODAsset modeChangeSound;
+        private FMODAsset modeChangeSound;
         public ParticleSystem[] par = new ParticleSystem[7];
         public LineRenderer[] Line = new LineRenderer[3];
         public GameObject LaserParticles;
-        public bool CannonCharging;
-        public bool LaserFiring;
-        public bool ScaleBig;
-        public bool ScaleSmall;
-        public float Charge;
-        public int mode;
-
-        [SerializeField] public TextMesh textName;
-
-        [SerializeField] public TextMesh textHealth;
-
-        [SerializeField] public TextMesh textMode;
-
-        [SerializeField] public Rigidbody rigidbody;
-
-        public float currentDamage;
-        public static float lastShotDamage;
+        [SerializeField] 
+        private TextMesh textName;
+        [SerializeField] 
+        private TextMesh textHealth;
+        [SerializeField] 
+        private TextMesh textMode;
+        [SerializeField] 
+        private Rigidbody rigidbody;
+        
+#if !EDITOR
         private ParticleSystem scaleParticleSystem;
         private ParticleSystem laserEndParticleSystem;
+
+        private bool CannonCharging;
+        private bool LaserFiring;
+        private bool ScaleBig;
+        private bool ScaleSmall;
+        private float Charge;
+        private int mode;
+
+        private float currentDamage;
+        internal static float lastShotDamage;
+
 
         private bool PowerCheck => energyMixin.charge > 0f || !GameModeUtils.RequiresPower();
 
@@ -133,10 +137,6 @@
                 }
 
                 Transform transform1;
-                LaserParticles = Instantiate(
-                    Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"),
-                    (transform1 = transform).position,
-                    transform1.rotation);
                 laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
                 scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
             }
@@ -145,7 +145,7 @@
                 rigidbody.detectCollisions = true;
             }
         }
-#else
+#elif !EDITOR
 		protected void Start()
 		{
 #pragma warning disable CS0612 // Type or member is obsolete
@@ -191,17 +191,8 @@
             }
 #pragma warning restore CS0612 // Type or member is obsolete
 
-            if(LaserParticles is null)
-			{
-                Transform transform1;
-                LaserParticles = Instantiate(Main.assetBundle.LoadAsset<GameObject>("LaserParticles.prefab"), (transform1 = transform).position, transform1.rotation);
                 laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
                 scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
-			}
-            else
-            {
-				rigidbody.detectCollisions = true;
-			}
 		}
 #endif
 
@@ -528,7 +519,8 @@
             textName.text = "";
             textHealth.text = "";
         }
-
+#endif
+        
         public void OnProtoSerialize(ProtobufSerializer serializer)
         {
 

@@ -1,4 +1,5 @@
-﻿namespace TechPistol.Patches
+﻿#if !EDITOR
+namespace TechPistol.Patches
 {
     using HarmonyLib;
     using UnityEngine;
@@ -25,3 +26,4 @@
         }
     }
 }
+#endif

@@ -1,8 +1,10 @@
-﻿namespace TechPistol.Module
+﻿#if !EDITOR
+namespace TechPistol.Module
 {
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Crafting;
     using SMLHelper.V2.Utility;
+
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -23,8 +25,8 @@
 
         private static GameObject processedPrefab;
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
-        private static readonly int MetallicGlossMap = Shader.PropertyToID("_MetallicGlossMap");
         private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
+        private static readonly int Fresnel = Shader.PropertyToID("_Fresnel");
 
         private static HashSet<TechType> BatteryChargerCompatibleTech => BatteryCharger.compatibleTech;
         private static HashSet<TechType> PowerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
@@ -38,17 +40,11 @@
         public override string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
         public override float CraftingTime => 5f;
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
-
         public override TechType RequiredForUnlock => Main.PistolFragment.TechType;
-
         public override string DiscoverMessage => $"{FriendlyName} Unlocked!";
-
         public override bool AddScannerEntry => true;
-
         public override int FragmentsToScan => 5;
-
         public override float TimeToScanFragment => 5f;
-
         public override bool DestroyFragmentOnScan => true;
 
 #if SUBNAUTICA_STABLE
@@ -61,20 +57,15 @@
                 var gameObject = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
 
                 var componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
+                Shader marmo = Shader.Find("MarmosetUBER");
                 foreach(var meshRenderer in componentsInChildren)
                 {
                     if (!meshRenderer.name.StartsWith("Gun") && !meshRenderer.name.StartsWith("Target")) continue;
-                    var emissionMap = meshRenderer.material.GetTexture(EmissionMap);
-                    var specMap = meshRenderer.material.GetTexture(MetallicGlossMap);
+                    var material = meshRenderer.material;
 
-                    meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-                    meshRenderer.material.EnableKeyword("MARMO_EMISSION");
-                    meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
-                    meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-                    meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-                    meshRenderer.material.SetColor(GlowColor, new Color(1f, 1f, 1f));
-                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+                    material.shader = marmo;
+                    material.EnableKeyword("MARMO_EMISSION");
+                    material.EnableKeyword("MARMO_SPECMAP");
                 }
 
                 var energyMixin = gameObject.GetComponent<EnergyMixin>();
@@ -120,14 +111,10 @@
 
                 gameObject.GetComponent<TechTag>().type = TechType;
                 gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
-
+                
                 processedPrefab = gameObject;
-                Object.DontDestroyOnLoad(processedPrefab);
-                processedPrefab.EnsureComponent<SceneCleanerPreserve>();
             }
-            var copy = Object.Instantiate(processedPrefab);
-            Object.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
-            return copy;
+            return processedPrefab;
         }
 
 #endif
@@ -137,23 +124,17 @@
             {
                 var prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
                 var gameObject = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
-                Object.DestroyImmediate(prefab);
 
                 var componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
+                Shader marmo = Shader.Find("MarmosetUBER");
                 foreach(var meshRenderer in componentsInChildren)
                 {
                     if (!meshRenderer.name.StartsWith("Gun") && !meshRenderer.name.StartsWith("Target")) continue;
-                    var emissionMap = meshRenderer.material.GetTexture(EmissionMap);
-                    var specMap = meshRenderer.material.GetTexture(MetallicGlossMap);
+                    var material = meshRenderer.material;
 
-                    meshRenderer.material.shader = Shader.Find("MarmosetUBER");
-                    meshRenderer.material.EnableKeyword("MARMO_EMISSION");
-                    meshRenderer.material.EnableKeyword("MARMO_SPECMAP");
-                    meshRenderer.material.SetTexture(ShaderPropertyID._Illum, emissionMap);
-                    meshRenderer.material.SetTexture(ShaderPropertyID._SpecTex, specMap);
-                    meshRenderer.material.SetColor(GlowColor, new Color(1f, 1f, 1f));
-                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-                    meshRenderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+                    material.shader = marmo;
+                    material.EnableKeyword("MARMO_EMISSION");
+                    material.EnableKeyword("MARMO_SPECMAP");
                 }
 
                 var energyMixin = gameObject.GetComponent<EnergyMixin>();
@@ -233,3 +214,4 @@
         }
     }
 }
+#endif

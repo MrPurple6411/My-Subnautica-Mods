@@ -1,4 +1,5 @@
-﻿namespace TechPistol.Configuration
+﻿#if !EDITOR
+namespace TechPistol.Configuration
 {
     using SMLHelper.V2.Json;
     using SMLHelper.V2.Options.Attributes;
@@ -34,3 +35,4 @@
         public float ScaleDownspeed = 0.01f;
     }
 }
+#endif

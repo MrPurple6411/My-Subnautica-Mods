@@ -7,6 +7,7 @@
     {
         protected void OnParticleCollision(GameObject target)
         {
+#if !EDITOR
             var num = UWE.Utils.OverlapSphereIntoSharedBuffer(target.transform.position, Main.Config.CannonExplosionSize);
             for(var i = 0; i < num; i++)
             {
@@ -28,6 +29,8 @@
                 while(drillable.health.Sum() > 0)
                     drillable.OnDrill(entityRoot.transform.position, null, out var _);
             }
+            
+#endif
         }
     }
 }
