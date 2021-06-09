@@ -1,0 +1,15 @@
+{
+  "Id": "NoMagicLights",
+  "DisplayName": "NoMagicLights",
+  "Author": "MrPurple6411",
+  "Version": "1.0.0",
+  "Enable": true,
+  "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": ""
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoMagicLights/mod_BZ.EXP.json"
+  },
+  "AssemblyName": "NoMagicLights.dll"
+}
