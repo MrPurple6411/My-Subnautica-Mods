@@ -32,7 +32,7 @@
 
 
                     var specInt = material.name.ToLower().Contains("ghost")? 100f :material.GetFloat("_SpecInt");
-                    material.SetFloat("_SpecInt", specInt/2);
+                    material.SetFloat("_SpecInt", specInt/10f);
                 }
             }
         }
