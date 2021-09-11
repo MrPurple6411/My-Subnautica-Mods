@@ -4,6 +4,7 @@ namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
     using UnityEngine;
+    using SMLHelper.V2.Handlers;
     using Debug = UnityEngine.Debug;
     using System.Linq;
 
@@ -13,27 +14,44 @@ namespace BuildingTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-            if(Input.GetKeyDown(Main.Config.AttachToTargetToggle))
-            {
-                ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-                Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
-                ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", true);
-            }
+            PlayerTool heldTool = Inventory.main.GetHeldTool();
+            Vehicle vehicle = __instance.GetVehicle();
+            Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 
-            if(Input.GetKeyDown(Main.Config.FullOverrideToggle))
+            bool builderCheck = heldTool != null && heldTool.pickupable.GetTechType() == TechType.Builder;
+            bool builderModuleCheck = TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module != null && module.GetTechType() == modTechType;
+            
+            if (DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
             {
-                ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
-                Main.Config.FullOverride = !Main.Config.FullOverride;
-                if (Builder.prefab != null && !Builder.canPlace)
+                if (Input.GetKeyDown(Main.Config.AttachToTargetToggle))
                 {
-                    var value = Main.Config.FullOverride? Builder.placeColorAllow: Builder.placeColorDeny;
-                    var components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
-                    foreach (var builderGhostModel in components)
-                        builderGhostModel.UpdateGhostModelColor(true, ref value);
-                    Builder.ghostStructureMaterial.SetColor(ShaderPropertyID._Tint, value);
+                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
+                    Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
+                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", true);
                 }
-                ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
+
+                if (Input.GetKeyDown(Main.Config.FullOverrideToggle))
+                {
+                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+                    Main.Config.FullOverride = !Main.Config.FullOverride;
+                    if (Builder.prefab != null && !Builder.canPlace)
+                    {
+                        var value = Main.Config.FullOverride ? Builder.placeColorAllow : Builder.placeColorDeny;
+                        var components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
+                        foreach (var builderGhostModel in components)
+                            builderGhostModel.UpdateGhostModelColor(true, ref value);
+                        Builder.ghostStructureMaterial.SetColor(ShaderPropertyID._Tint, value);
+                    }
+
+                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
+                }
             }
+            else
+            {
+                Main.Config.AttachToTarget = false;
+                Main.Config.FullOverride = false;
+            }
+            
 
             var waterPark = __instance.currentWaterPark;
 
