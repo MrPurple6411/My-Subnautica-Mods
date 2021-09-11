@@ -181,6 +181,8 @@
                     }
                     builtObject.transform.SetParent(finalTarget.transform);
                 }
+
+                Main.Config.AttachToTarget = false;
             }
             
 
