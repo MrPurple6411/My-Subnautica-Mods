@@ -39,17 +39,20 @@
         public static void Prefix(WaterParkCreature __instance)
         {
             if (!Main.Config.EnablePowerGeneration) return;
-            if ((!(__instance.GetComponent<LiveMixin>() == null || !__instance.GetComponent<LiveMixin>().IsAlive())) ||
-                !Main.Config.CreaturePowerGeneration.TryGetValue(__instance.pickupable != null ? __instance.pickupable.GetTechType() : TechType.None,
-                    out var powerValue)) return;
+            
+            if (!__instance.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive()) return;
+
+            var techType = __instance.pickupable?.GetTechType() ?? TechType.None;
+            if (!Main.Config.CreaturePowerGeneration.TryGetValue(techType, out var powerValue)) return;
+
             if(!TimeLastGenerated.TryGetValue(__instance, out var time))
             {
                 time = DayNightCycle.main.timePassedAsFloat;
             }
 
-            var power = powerValue * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
+            var power = powerValue/10 * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
             var powerSource = __instance.GetWaterPark() != null ? __instance.GetWaterPark().itemsRoot.gameObject.GetComponent<PowerSource>() : null;
-
+            
             if(powerSource != null)
             {
                 if(!powerSource.AddEnergy(power, out var amountStored) && powerSource.connectedRelay != null)
