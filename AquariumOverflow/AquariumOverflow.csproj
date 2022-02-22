@@ -26,13 +26,13 @@
     <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HarmonyX.2.9.0\lib\net45\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="AquariumBreeding_publicized">
+    <Reference Include="AquariumBreeding">
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.19.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BepInEx.BaseLib.5.4.19\lib\net35\BepInEx.dll</HintPath>
     </Reference>
-    <Reference Include="CyclopsBioReactor_publicized">
+    <Reference Include="CyclopsBioReactor">
       <Private>False</Private>
     </Reference>
     <Reference Include="FCS_AlterraHub">
@@ -62,11 +62,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-	copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
-    </PreBuildEvent>
-  </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />
   <Import Project="..\packages\BepInEx.Core.5.4.19\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.19\build\BepInEx.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

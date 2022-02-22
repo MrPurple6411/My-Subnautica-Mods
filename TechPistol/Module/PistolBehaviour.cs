@@ -21,13 +21,13 @@
         public LineRenderer[] Line = new LineRenderer[3];
         public GameObject LaserParticles;
         [SerializeField] 
-        private TextMesh textName;
+        public TextMesh textName;
         [SerializeField] 
-        private TextMesh textHealth;
+        public TextMesh textHealth;
         [SerializeField] 
-        private TextMesh textMode;
+        public TextMesh textMode;
         [SerializeField] 
-        private Rigidbody rigidbody;
+        public Rigidbody rigidbody;
         
 #if !EDITOR
         private ParticleSystem scaleParticleSystem;
@@ -136,7 +136,6 @@
                     gameObject4.SetActive(false);
                 }
 
-                Transform transform1;
                 laserEndParticleSystem = LaserParticles.transform.Find("Laserend").gameObject.GetComponent<ParticleSystem>();
                 scaleParticleSystem = LaserParticles.transform.Find("scale").GetComponent<ParticleSystem>();
             }
@@ -238,15 +237,15 @@
             if (!isDrawn || !PowerCheck) return;
             if(LaserFiring)
             {
-                TargetLaser(Main.Config.TargetingRange, Line[0]);
+                TargetLaser(Main.SmcConfig.TargetingRange, Line[0]);
             }
             else if(ScaleBig)
             {
-                TargetLaser(Main.Config.TargetingRange, Line[1]);
+                TargetLaser(Main.SmcConfig.TargetingRange, Line[1]);
             }
             else if(ScaleSmall)
             {
-                TargetLaser(Main.Config.TargetingRange, Line[2]);
+                TargetLaser(Main.SmcConfig.TargetingRange, Line[2]);
             }
         }
 
@@ -287,7 +286,7 @@
         {
             try
             {
-                if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var go, out _))
+                if(Targeting.GetTarget(Player.main.gameObject, Main.SmcConfig.TargetingRange, out var go, out _))
                 {
                     var entityRoot = Utils.GetEntityRoot(go) ?? go;
 
@@ -308,18 +307,18 @@
                     {
                         entityRoot.transform.localScale = Vector3.one;
                     }
-                    else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(1f * Main.Config.ScaleUpspeed) || !GameModeUtils.RequiresPower()))
+                    else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(1f * Main.SmcConfig.ScaleUpspeed) || !GameModeUtils.RequiresPower()))
                     {
                         par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
-                        var changeSpeed = Main.Config.ScaleUpspeed;
+                        var changeSpeed = Main.SmcConfig.ScaleUpspeed;
                         var oldScale = entityRoot.transform.localScale;
                         var newScale = new Vector3(oldScale.x + changeSpeed, oldScale.y + changeSpeed, oldScale.z + changeSpeed);
 
                         entityRoot.transform.localScale = newScale;
 
-                        if (!Main.Config.LethalResizing || (!(newScale.x >= Main.Config.ScaleKillSize) &&
-                                                            !(newScale.y >= Main.Config.ScaleKillSize) &&
-                                                            !(newScale.z >= Main.Config.ScaleKillSize))) return;
+                        if (!Main.SmcConfig.LethalResizing || (!(newScale.x >= Main.SmcConfig.ScaleKillSize) &&
+                                                            !(newScale.y >= Main.SmcConfig.ScaleKillSize) &&
+                                                            !(newScale.z >= Main.SmcConfig.ScaleKillSize))) return;
                         entityRoot.GetComponentInChildren<LiveMixin>()?.Kill();
                         entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
                         var drillable = entityRoot.GetComponent<Drillable>();
@@ -332,12 +331,12 @@
                     }
                     else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) &&
                              ScaleSmall &&
-                             (energyMixin.ConsumeEnergy(1f * Main.Config.ScaleDownspeed) ||
+                             (energyMixin.ConsumeEnergy(1f * Main.SmcConfig.ScaleDownspeed) ||
                               !GameModeUtils.RequiresPower()))
                     {
                         par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
 
-                        var changeSpeed = Main.Config.ScaleDownspeed;
+                        var changeSpeed = Main.SmcConfig.ScaleDownspeed;
                         var oldScale = entityRoot.transform.localScale;
                         var newScale = new Vector3(oldScale.x - changeSpeed, oldScale.y - changeSpeed, oldScale.z - changeSpeed);
 
@@ -364,7 +363,7 @@
         private void HarmMode()
         {
             // Handles the Target display on the top of the gun.
-            if(Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var gameObject4, out _) && Utils.GetEntityRoot(gameObject4) != null)
+            if(Targeting.GetTarget(Player.main.gameObject, Main.SmcConfig.TargetingRange, out var gameObject4, out _) && Utils.GetEntityRoot(gameObject4) != null)
             {
                 if(Utils.GetEntityRoot(gameObject4).TryGetComponent<LiveMixin>(out var liveMixin))
                 {
@@ -395,8 +394,8 @@
 
             if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && CannonCharging)
             {
-                Charge += Time.deltaTime * Main.Config.CannonChargeSpeed;
-                currentDamage = Main.Config.CannonDamage / Main.Config.CannonExplosionSize * Charge;
+                Charge += Time.deltaTime * Main.SmcConfig.CannonChargeSpeed;
+                currentDamage = Main.SmcConfig.CannonDamage / Main.SmcConfig.CannonExplosionSize * Charge;
                 textName.text = "Cannon Fire Cost";
                 textHealth.text = $"{System.Math.Round(Charge * 10, 2)}";
                 par[3].transform.rotation = Player.main.camRoot.mainCam.transform.rotation;
@@ -405,13 +404,13 @@
             {
                 OnRightHandUp();
             }
-            else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.Config.LaserDamage * Time.deltaTime) || !GameModeUtils.RequiresPower()))
+            else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.SmcConfig.LaserDamage * Time.deltaTime) || !GameModeUtils.RequiresPower()))
             {
                 par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
-                if (!Targeting.GetTarget(Player.main.gameObject, Main.Config.TargetingRange, out var go,
+                if (!Targeting.GetTarget(Player.main.gameObject, Main.SmcConfig.TargetingRange, out var go,
                     out _)) return;
                 var entityRoot = Utils.GetEntityRoot(go) ?? go;
-                entityRoot?.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.Config.LaserDamage, go.transform.position, DamageType.Heat);
+                entityRoot?.GetComponentInChildren<LiveMixin>()?.TakeDamage(Main.SmcConfig.LaserDamage, go.transform.position, DamageType.Heat);
                 entityRoot?.GetComponentInChildren<BreakableResource>()?.HitResource();
                 entityRoot?.GetComponentInChildren<Drillable>()?.OnDrill(entityRoot.transform.position, null, out var _);
             }

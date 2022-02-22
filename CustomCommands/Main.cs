@@ -35,7 +35,7 @@ namespace CustomCommands
                 }
                 catch(Exception e)
                 {
-                    Logger.LogDebug($"Failed to add {pair.Key} into the Aquarium Database.");
+                    Logger.LogDebug($"Failed to add {pair.Key} into the Aquarium Database.\n{e}");
                 }
             }
 #endif

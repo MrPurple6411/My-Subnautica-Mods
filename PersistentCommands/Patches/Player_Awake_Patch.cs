@@ -8,25 +8,25 @@
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-            if(Main.Config.NoAggression)
+            if(Main.SmcConfig.NoAggression)
                 GameModeUtils.ActivateCheat(GameModeOption.NoAggression);
 
-            if(Main.Config.NoBlueprints)
+            if(Main.SmcConfig.NoBlueprints)
                 GameModeUtils.ActivateCheat(GameModeOption.NoBlueprints);
 
-            if(Main.Config.NoCost)
+            if(Main.SmcConfig.NoCost)
                 GameModeUtils.ActivateCheat(GameModeOption.NoCost);
 
-            if(Main.Config.NoEnergy)
+            if(Main.SmcConfig.NoEnergy)
                 GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
 
-            if(Main.Config.NoOxygen)
+            if(Main.SmcConfig.NoOxygen)
                 GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
 
-            if(Main.Config.NoPressure)
+            if(Main.SmcConfig.NoPressure)
                 GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
 
-            if(Main.Config.NoRadiation)
+            if(Main.SmcConfig.NoRadiation)
                 GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
 #if BZ
             if (Main.Config.NoCold)

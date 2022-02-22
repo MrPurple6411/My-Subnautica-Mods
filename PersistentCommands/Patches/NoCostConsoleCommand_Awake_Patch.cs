@@ -8,16 +8,16 @@
         [HarmonyPostfix]
         public static void Postfix(NoCostConsoleCommand __instance)
         {
-            if(Main.Config.FastBuild)
+            if(Main.SmcConfig.FastBuild)
                 __instance.fastBuildCheat = true;
 
-            if(Main.Config.FastGrow)
+            if(Main.SmcConfig.FastGrow)
                 __instance.fastGrowCheat = true;
 
-            if(Main.Config.FastHatch)
+            if(Main.SmcConfig.FastHatch)
                 __instance.fastHatchCheat = true;
 
-            if(Main.Config.FastScan)
+            if(Main.SmcConfig.FastScan)
                 __instance.fastScanCheat = true;
         }
     }

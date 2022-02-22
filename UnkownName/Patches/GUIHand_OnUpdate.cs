@@ -18,7 +18,7 @@
                 return;
             }
 #if SN1
-            HandReticle.main.SetInteractText(Main.Config.UnKnownLabel, false);
+            HandReticle.main.SetInteractText(Main.SmcConfig.UnKnownLabel, false);
 #elif BZ
             HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true);
 #endif

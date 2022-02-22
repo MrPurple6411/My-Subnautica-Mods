@@ -22,7 +22,7 @@ namespace TechPistol
         private static Assembly assembly = Assembly.GetExecutingAssembly();
         private static string modPath = Path.GetDirectoryName(assembly.Location);
         internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         internal static PistolFragmentPrefab PistolFragment { get; } = new();
         internal static PistolPrefab Pistol { get; } = new();
 

@@ -53,10 +53,12 @@
             if(!reactor.container.HasRoomFor(sizePerFish.x, sizePerFish.y))
             {
                 var breedCount = 1;
-
+                
+#if ALTERRA
                 if(ModServices.ModPresent("FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
-
+#endif
+                
                 if(breedCount > 0)
                     Main.TryOverflowIntoBioreactors(subRoot, fishType, ref breedCount);
 

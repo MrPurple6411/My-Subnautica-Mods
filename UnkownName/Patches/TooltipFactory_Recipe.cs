@@ -27,8 +27,8 @@
         {
             var stringBuilder = new StringBuilder();
             if (!locked || !GameModeUtils.RequiresBlueprints()) return;
-            TooltipFactory.WriteTitle(stringBuilder, Main.Config.UnKnownTitle);
-            TooltipFactory.WriteDescription(stringBuilder, Main.Config.UnKnownDescription);
+            TooltipFactory.WriteTitle(stringBuilder, Main.SmcConfig.UnKnownTitle);
+            TooltipFactory.WriteDescription(stringBuilder, Main.SmcConfig.UnKnownDescription);
             tooltipText = stringBuilder.ToString();
         }
     }

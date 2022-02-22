@@ -56,11 +56,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-	copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
-    </PreBuildEvent>
-  </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />
   <Import Project="..\packages\BepInEx.Core.5.4.19\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.19\build\BepInEx.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -13,7 +13,7 @@ namespace ExtraOptions
     {
         private static readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static readonly string modPath = Path.GetDirectoryName(assembly.Location);
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void  Awake()
         {
@@ -30,9 +30,9 @@ namespace ExtraOptions
             try
             {
 
-                QualitySettings.masterTextureLimit = 4 - Config.TextureQuality;
+                QualitySettings.masterTextureLimit = 4 - SmcConfig.TextureQuality;
 
-                switch(Config.ShadowCascades)
+                switch(SmcConfig.ShadowCascades)
                 {
                     case 0:
                         QualitySettings.shadowCascades = 1;
@@ -45,16 +45,16 @@ namespace ExtraOptions
                         break;
                 }
 
-                Shader.globalMaximumLOD = Config.ShaderLOD;
-                QualitySettings.lodBias = Config.LODGroupBias;
+                Shader.globalMaximumLOD = SmcConfig.ShaderLOD;
+                QualitySettings.lodBias = SmcConfig.LODGroupBias;
 
                 foreach(var s in Object.FindObjectsOfType<WaterSunShaftsOnCamera>() ?? new WaterSunShaftsOnCamera[0])
-                    s.enabled = Config.LightShafts;
+                    s.enabled = SmcConfig.LightShafts;
 
                 foreach(var p in Object.FindObjectsOfType<AmbientParticles>() ?? new AmbientParticles[0])
-                    p.enabled = Config.AmbientParticles;
+                    p.enabled = SmcConfig.AmbientParticles;
 
-                if(!Config.VariablePhysicsStep)
+                if(!SmcConfig.VariablePhysicsStep)
                 {
                     Time.fixedDeltaTime = 0.02f;
                     Time.maximumDeltaTime = 0.33333f;
@@ -64,7 +64,7 @@ namespace ExtraOptions
                 foreach(var w in Object.FindObjectsOfType<WaterBiomeManager>() ?? new WaterBiomeManager[0])
                     w.Rebuild();
 
-                Config.Save();
+                SmcConfig.Save();
             }
             catch
             {

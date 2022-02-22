@@ -47,8 +47,10 @@
 
                 var breedCount = nextBreed.BreedCount;
 
+#if ALTERRA
                 if(!alterraGensFull && breedCount > 0)
                     alterraGensFull = AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
+#endif
 
                 if(!cyclopsBioReactorsFull && breedCount > 0)
                     cyclopsBioReactorsFull = CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);

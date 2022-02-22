@@ -9,7 +9,7 @@ namespace Time_Eternal
 
     public class Main:BaseUnityPlugin
     {
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void  Awake()
         {

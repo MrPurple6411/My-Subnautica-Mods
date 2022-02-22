@@ -42,14 +42,14 @@
                             Ocean.GetDepthOf(Player.main.gameObject);
 #endif
                         var currentLight = DayNightCycle.main.GetLocalLightScalar();
-                        var photosynthesisDepthCalc = (currentLight > 0.9f ? 0.9f : currentLight) * Time.deltaTime * (Main.Config.multipleTanks ? photosynthesisTanks : 1) * (200f - playerDepth > 0f ? ((200 - playerDepth) / 200f) : 0);
+                        var photosynthesisDepthCalc = (currentLight > 0.9f ? 0.9f : currentLight) * Time.deltaTime * (Main.SmcConfig.multipleTanks ? photosynthesisTanks : 1) * (200f - playerDepth > 0f ? ((200 - playerDepth) / 200f) : 0);
                         Player.main.oxygenMgr.AddOxygen(photosynthesisDepthCalc);
                     }
 
                     if(chemosynthesisTanks > 0)
                     {
                         var waterTemp = WaterTemperatureSimulation.main.GetTemperature(Player.main.transform.position);
-                        var chemosynthesisTempCalc = (waterTemp > 30f ? waterTemp : 0) * Time.deltaTime * 0.01f * (Main.Config.multipleTanks ? chemosynthesisTanks : 1);
+                        var chemosynthesisTempCalc = (waterTemp > 30f ? waterTemp : 0) * Time.deltaTime * 0.01f * (Main.SmcConfig.multipleTanks ? chemosynthesisTanks : 1);
                         Player.main.oxygenMgr.AddOxygen(chemosynthesisTempCalc);
                     }
                 }

@@ -17,7 +17,7 @@
         [HarmonyPostfix]
         public static void Postfix(Pickupable pickupable)
         {
-            if(newGame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
+            if(newGame && Main.SmcConfig.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
             {
                 CoroutineHost.StartCoroutine(GiveHardcoreScanner());
                 newGame = false;
@@ -27,7 +27,7 @@
             var techType = pickupable.GetTechType();
             var entryData = PDAScanner.GetEntryData(techType);
             var gameObject = pickupable.gameObject;
-            if(Main.Config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+            if(Main.SmcConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
             {
                 if(!PDAScanner.GetPartialEntryByKey(techType, out var entry))
                 {
@@ -50,7 +50,7 @@
                 }
             }
 
-            if(!Main.Config.Hardcore && entryData == null)
+            if(!Main.SmcConfig.Hardcore && entryData == null)
             {
                 KnownTech.Add(techType);
             }

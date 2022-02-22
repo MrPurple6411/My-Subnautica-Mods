@@ -10,13 +10,13 @@ namespace Increased_Resource_Spawns
 
     public class Main:BaseUnityPlugin
     {
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void  Awake()
         {
-            Config.Blacklist = Config.Blacklist.Distinct().ToList();
-            Config.WhiteList = Config.WhiteList.Distinct().ToList();
-            Config.Save();
+            SmcConfig.Blacklist = SmcConfig.Blacklist.Distinct().ToList();
+            SmcConfig.WhiteList = SmcConfig.WhiteList.Distinct().ToList();
+            SmcConfig.Save();
 
 
             var assembly = Assembly.GetExecutingAssembly();

@@ -1,4 +1,5 @@
-﻿namespace BetterACU
+﻿#if ALTERRA
+namespace BetterACU
 {
     using FCS_AlterraHub.Interfaces;
     using System.Collections;
@@ -54,3 +55,4 @@
         }
     }
 }
+#endif

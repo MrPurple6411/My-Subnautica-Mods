@@ -17,7 +17,7 @@
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref bool __result)
         {
-            if(Main.Config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
+            if(Main.SmcConfig.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
                 if(!ModServices.ModPresent("UITweaks"))
                 {

@@ -28,7 +28,7 @@
                 if(!Main.CreatureConfig.CreatureSizes.ContainsKey(id))
                 {
                     UnityEngine.Random.InitState(DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + DateTime.Now.Millisecond);
-                    scale = UnityEngine.Random.Range(Main.Config.minsize, Main.Config.maxsize);
+                    scale = UnityEngine.Random.Range(Main.SmcConfig.minsize, Main.SmcConfig.maxsize);
                     __instance.SetScale(scale);
                     Main.CreatureConfig.CreatureSizes.Add(__instance.GetComponent<PrefabIdentifier>().Id, scale);
                 }

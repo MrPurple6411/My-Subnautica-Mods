@@ -1,4 +1,5 @@
-﻿namespace AquariumOverflow
+﻿#if ALTERRA
+namespace AquariumOverflow
 {
     using FCS_AlterraHub.Interfaces;
     using SMCLib.API;
@@ -75,3 +76,4 @@
         }
     }
 }
+#endif

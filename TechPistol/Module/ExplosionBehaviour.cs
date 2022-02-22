@@ -8,7 +8,7 @@
         protected void OnParticleCollision(GameObject target)
         {
 #if !EDITOR
-            var num = UWE.Utils.OverlapSphereIntoSharedBuffer(target.transform.position, Main.Config.CannonExplosionSize);
+            var num = UWE.Utils.OverlapSphereIntoSharedBuffer(target.transform.position, Main.SmcConfig.CannonExplosionSize);
             for(var i = 0; i < num; i++)
             {
                 var go = UWE.Utils.sharedColliderBuffer[i].gameObject;

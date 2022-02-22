@@ -31,7 +31,7 @@
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
+                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.SmcConfig.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }

@@ -128,10 +128,12 @@
 
                 if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                 {
+#if ALTERRA
                     if(Main.SmcConfig.AlterraGenOverflow && !Main.SmcConfig.AlterraGenBlackList.Contains(parkCreatureTechType) && ModServices.ModPresent("FCSEnergySolutions"))
                     {
                         hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                     }
+#endif
 
                     if(Main.SmcConfig.BioReactorOverflow && !Main.SmcConfig.BioReactorBlackList.Contains(parkCreatureTechType) && !hasBred)
                     {
