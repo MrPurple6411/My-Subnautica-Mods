@@ -1,6 +1,6 @@
 ﻿namespace RandomCreatureSize.Configuration
 {
-    using SMLHelper.V2.Json;
+    using SMCLib.Json;
     using System.Collections.Generic;
 
     internal class CreatureConfig: ConfigFile

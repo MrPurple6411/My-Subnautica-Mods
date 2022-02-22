@@ -1,16 +1,15 @@
-﻿namespace DropUpgradesOnDestroy
+﻿using BepInEx;
+
+namespace DropUpgradesOnDestroy
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Collections.Generic;
     using System.Reflection;
     using UnityEngine;
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);

@@ -8,7 +8,7 @@
         [HarmonyPrefix]
         private static bool Prefix(TechType techType, int num, bool noMessage, bool spawnIfCantAdd)
         {
-            if (QModManager.API.QModServices.Main.ModPresent("IngredientsFromScanning") ||
+            if (SMCLib.API.ModServices.ModPresent("IngredientsFromScanning") ||
                 techType != TechType.Titanium ||
                 num != 2 ||
                 noMessage ||

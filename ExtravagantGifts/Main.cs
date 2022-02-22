@@ -2,13 +2,10 @@
 namespace ExtravagantGifts
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             Harmony.CreateAndPatchAll(typeof(Patches.Patches), $"MrPurple6411_ExtravagantGifts");
         }

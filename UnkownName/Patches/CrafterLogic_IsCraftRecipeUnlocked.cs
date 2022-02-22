@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
     using HarmonyLib;
-    using QModManager.API;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.API;
+    using SMCLib.Handlers;
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMCLib.Crafting.TechData;
 #endif
 
 
@@ -19,7 +19,7 @@
         {
             if(Main.Config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
-                if(!QModServices.Main.ModPresent("UITweaks"))
+                if(!ModServices.ModPresent("UITweaks"))
                 {
                     var data = CraftDataHandler.GetTechData(techType);
                     var ingredientCount = data?.ingredientCount ?? 0;

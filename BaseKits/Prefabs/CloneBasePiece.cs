@@ -1,12 +1,12 @@
 ﻿namespace BaseKits.Prefabs
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMCLib.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 

@@ -1,27 +1,26 @@
 ﻿
 
+using BepInEx;
+
 namespace CustomHullPlates
 {
     using System;
     using System.IO;
     using System.Reflection;
     using HullPlate;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Utility;
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
 #else
     using Newtonsoft.Json;
 #endif
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
         private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "HullPlates"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             foreach(var directory in Directory.GetDirectories(HullPlateFolder.FullName))
             {

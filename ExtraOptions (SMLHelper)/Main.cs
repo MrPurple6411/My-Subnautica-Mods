@@ -1,22 +1,21 @@
-﻿namespace ExtraOptions
+﻿using BepInEx;
+
+namespace ExtraOptions
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.IO;
     using System.Reflection;
     using UnityEngine;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         private static readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static readonly string modPath = Path.GetDirectoryName(assembly.Location);
         internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             var harmony = Harmony.CreateAndPatchAll(assembly, "com.m22spencer.extraOptions");
 

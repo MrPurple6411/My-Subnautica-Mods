@@ -1,25 +1,26 @@
-﻿namespace ConfigurableChunkDrops
+﻿using BepInEx;
+using BepInEx.Logging;
+
+namespace ConfigurableChunkDrops
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using Logger = QModManager.Utility.Logger;
 
-    [QModCore]
-    public static class Main
+    public  class Main:BaseUnityPlugin
     {
         internal static readonly Config config = new();
         internal static readonly string modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly Config defaultValues = new("DefaultValues");
-
-        [QModPatch]
-        public static void Load()
+        internal static ManualLogSource logSource;
+        
+        public void Awake()
         {
+            logSource = Logger;
             config.Load();
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -28,7 +29,8 @@
 
         internal static IEnumerator GenerateDefaults()
         {
-            Logger.Log(Logger.Level.Info, "Generating Default File", showOnScreen: true);
+            logSource.LogInfo("Generating Default File");
+            ErrorMessage.AddMessage("Generating Default File");
 
             foreach(TechType techType in Enum.GetValues(typeof(TechType)))
             {
@@ -51,7 +53,6 @@
                     var tech = CraftData.GetTechType(randomPrefab.prefab);
                     prefabs[tech] = randomPrefab.chance;
 #else
-
                     prefabs[randomPrefab.prefabTechType] = randomPrefab.chance;
 #endif
                 }
@@ -62,10 +63,12 @@
 #else
                 prefabs.Add(breakableResource.defaultPrefabTechType, 1f);
 #endif
-                Logger.Log(Logger.Level.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File", showOnScreen: true);
+                logSource.LogInfo($"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File");
+                ErrorMessage.AddMessage($"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File");
                 defaultValues.Save();
             }
-            Logger.Log(Logger.Level.Info, "Default File Complete", showOnScreen: true);
+            logSource.LogInfo("Default File Complete");
+            ErrorMessage.AddMessage("Default File Complete");
         }
     }
 }

@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
+    using SMCLib.Utility;
     using UnityEngine;
 
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMCLib.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 

@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
-    using Logger = QModManager.Utility.Logger;
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
     internal class Builder_TryPlace_Patch
@@ -42,9 +41,9 @@
             }
 
             if(found is false || found2 is false)
-                Logger.Log(Logger.Level.Error, $"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
+                Main.logSource.LogError($"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
             else
-                Logger.Log(Logger.Level.Info, "Transpiler for Builder.TryPlace completed");
+                Main.logSource.LogInfo("Transpiler for Builder.TryPlace completed");
 
             return codeInstructions.AsEnumerable();
         }
@@ -53,7 +52,7 @@
         {
             var baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
 
-            if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
+            if(Main.SmcConfig.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
             {
                 var placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
                 if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
@@ -92,7 +91,7 @@
                 largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
             }
 
-            if(Main.Config.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
+            if(Main.SmcConfig.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
             {
                 var aimTransform = Builder.GetAimTransform();
                 if(Physics.Raycast(aimTransform.position, aimTransform.forward, out var hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
@@ -102,7 +101,7 @@
                 }
             }
 
-            if(Main.Config.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
+            if(Main.SmcConfig.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
             {
                 var placementTarget = Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
                 GameObject finalTarget = null;
@@ -182,7 +181,7 @@
                     builtObject.transform.SetParent(finalTarget.transform);
                 }
 
-                Main.Config.AttachToTarget = false;
+                Main.SmcConfig.AttachToTarget = false;
             }
             
 

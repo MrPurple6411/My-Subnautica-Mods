@@ -1,17 +1,17 @@
 ﻿namespace AquariumOverflow
 {
     using HarmonyLib;
-    using QModManager.API;
-    using QModManager.API.ModLoading;
     using System.Collections;
     using System.Reflection;
     using UnityEngine;
     using UWE;
+    using BepInEx;
+    using SMCLib.API;
 
-    [QModCore]
-    public static class Main
+    [BepInDependency("FCSEnergySolutions", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("CyclopsBioReactor", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main: BaseUnityPlugin
     {
-        [QModPatch]
         public static void Load()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -64,10 +64,10 @@
             {
                 var breedCount = 1;
 
-                if(QModServices.Main.ModPresent("FCSEnergySolutions"))
+                if(ModServices.ModPresent("FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
 
-                if(QModServices.Main.ModPresent("CyclopsBioReactor") && breedCount > 0)
+                if(ModServices.ModPresent("CyclopsBioReactor") && breedCount > 0)
                     CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);
 
                 if(breedCount > 0)

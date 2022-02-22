@@ -1,18 +1,13 @@
 ﻿namespace Base_Deconstruct_Fix
 {
+    using BepInEx;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
-        internal static Assembly assembly = Assembly.GetExecutingAssembly();
-
-        [QModPatch]
-        public static void Load()
+        public void Awake()
         {
-            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
+            Harmony.CreateAndPatchAll(typeof(Patches.BaseDeconstructable_Patches), PluginInfo.PLUGIN_GUID);
         }
     }
 }

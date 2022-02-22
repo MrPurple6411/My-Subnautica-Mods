@@ -1,21 +1,20 @@
-﻿namespace Base_Legs_Removal
+﻿using BepInEx;
+
+namespace Base_Legs_Removal
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         private static readonly Assembly assembly = Assembly.GetExecutingAssembly();
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Load()
+        public void Awake()
         {
-            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
+            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{PluginInfo.PLUGIN_GUID}");
         }
     }
 }

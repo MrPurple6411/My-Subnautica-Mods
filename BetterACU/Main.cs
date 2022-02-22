@@ -1,21 +1,20 @@
-﻿namespace BetterACU
+﻿using BepInEx;
+
+namespace BetterACU
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public  class Main:BaseUnityPlugin
     {
-        internal static Config Config { get; private set; }
+        internal static Config SmcConfig { get; private set; }
 
-        [QModPatch]
-        public static void Load()
+        public  void Awake()
         {
-            Config = OptionsPanelHandler.RegisterModOptions<Config>();
-            IngameMenuHandler.RegisterOnSaveEvent(Config.Save);
+            SmcConfig = OptionsPanelHandler.RegisterModOptions<Config>();
+            IngameMenuHandler.RegisterOnSaveEvent(SmcConfig.Save);
 
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);

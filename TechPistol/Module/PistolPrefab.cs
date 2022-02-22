@@ -1,9 +1,9 @@
 ﻿#if !EDITOR
 namespace TechPistol.Module
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
+    using SMCLib.Utility;
 
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace TechPistol.Module
     using UnityEngine;
 
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMCLib.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 

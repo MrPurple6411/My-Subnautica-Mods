@@ -1,21 +1,22 @@
-﻿namespace ChargeRequired
+﻿using BepInEx;
+using BepInEx.Logging;
+
+namespace ChargeRequired
 {
     using Patches;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System;
     using System.Linq;
     using System.Reflection;
-    using Logger = QModManager.Utility.Logger;
 
-    [QModCore]
-    public static class Main
+    public  class Main:BaseUnityPlugin
     {
         internal static PropertyInfo containers;
+        internal static ManualLogSource logSource; 
 
-        [QModPatch]
-        public static void Load()
+        public void Awake()
         {
+            logSource = Logger;
             var assembly = Assembly.GetExecutingAssembly();
             var harmony = Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
 
@@ -33,7 +34,7 @@
             if (ClosestItemContainers_GetPickupCount == null || ClosestItemContainers_DestroyItem == null) return;
             harmony.Patch(ClosestItemContainers_GetPickupCount, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_GetPickupCount_Prefix)));
             harmony.Patch(ClosestItemContainers_DestroyItem, prefix: new HarmonyMethod(typeof(ClosestItemContainers_Patches), nameof(ClosestItemContainers_Patches.ClosestItemContainers_DestroyItem_Prefix)));
-            Logger.Log(Logger.Level.Info, "Successfully Patched EasyCraft Methods.");
+            logSource.LogInfo("Successfully Patched EasyCraft Methods.");
         }
 
         public static bool BatteryCheck(Pickupable pickupable)
@@ -52,7 +53,7 @@
                     var battery = gameObject.GetComponent<IBattery>();
                     return Math.Abs(battery.capacity - battery.charge) < 0.001f;
                 }
-                else if(gameObject == null && QModManager.API.QModServices.Main.ModPresent("NoBattery"))
+                else if(gameObject == null && SMCLib.API.ModServices.ModPresent("NoBattery"))
                 {
                     return true;
                 }

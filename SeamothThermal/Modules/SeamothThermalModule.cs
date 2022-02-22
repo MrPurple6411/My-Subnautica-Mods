@@ -1,7 +1,7 @@
 ﻿namespace SeamothThermal.Modules
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
     using System.Collections.Generic;
     using UnityEngine;
 

@@ -1,7 +1,7 @@
 ﻿namespace BetterACU.Patches
 {
     using HarmonyLib;
-    using QModManager.API;
+    using SMCLib.API;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,7 +17,7 @@
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance)
         {
-            if (!Main.Config.EnablePowerGeneration) return;
+            if (!Main.SmcConfig.EnablePowerGeneration) return;
 
             var powerCreatures = new List<WaterParkItem>();
             float maxPower = 0;
@@ -31,7 +31,7 @@
                         powerCreatures.Remove(creature);
                 }
 
-                maxPower += Main.Config.CreaturePowerGeneration
+                maxPower += Main.SmcConfig.CreaturePowerGeneration
                     .Select(pair => new
                     {
                         pair, creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key)
@@ -43,7 +43,7 @@
             }
             else
             {
-                foreach(var pair in Main.Config.CreaturePowerGeneration)
+                foreach(var pair in Main.SmcConfig.CreaturePowerGeneration)
                 {
                     var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key && item.GetComponent<LiveMixin>() != null && item.GetComponent<LiveMixin>().IsAlive());
                     if (creatures.Count <= 0) continue;
@@ -63,7 +63,7 @@
             {
                 powerSource = rootObject.AddComponent<PowerSource>();
                 powerSource.maxPower = maxPower;
-                powerSource.power = Main.Config.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}", 0f);
+                powerSource.power = Main.SmcConfig.PowerValues.GetOrDefault($"PowerSource:{__instance.GetInstanceID()}", 0f);
             }
             else
             {
@@ -72,7 +72,7 @@
                 if(powerSource.power > powerSource.maxPower)
                     powerSource.power = powerSource.maxPower;
 
-                Main.Config.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
+                Main.SmcConfig.PowerValues[$"PowerSource:{__instance.GetInstanceID()}"] = powerSource.power;
             }
         }
     }
@@ -83,7 +83,7 @@
         [HarmonyPrefix]
         public static void Prefix(WaterPark __instance)
         {
-            __instance.wpPieceCapacity = Main.Config.WaterParkSize;
+            __instance.wpPieceCapacity = Main.SmcConfig.WaterParkSize;
         }
     }
 #if BZ
@@ -108,7 +108,7 @@
         [HarmonyPostfix]
         public static void Postfix(WaterPark __instance, WaterParkCreature creature)
         {
-            if (!Main.Config.AlterraGenOverflow && !Main.Config.BioReactorOverflow && !Main.Config.OceanBreeding) return;
+            if (!Main.SmcConfig.AlterraGenOverflow && !Main.SmcConfig.BioReactorOverflow && !Main.SmcConfig.OceanBreeding) return;
 
             var items = __instance.items;
             var techType = creature.pickupable.GetTechType();
@@ -128,12 +128,12 @@
 
                 if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                 {
-                    if(Main.Config.AlterraGenOverflow && !Main.Config.AlterraGenBlackList.Contains(parkCreatureTechType) && QModServices.Main.ModPresent("FCSEnergySolutions"))
+                    if(Main.SmcConfig.AlterraGenOverflow && !Main.SmcConfig.AlterraGenBlackList.Contains(parkCreatureTechType) && ModServices.ModPresent("FCSEnergySolutions"))
                     {
                         hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                     }
 
-                    if(Main.Config.BioReactorOverflow && !Main.Config.BioReactorBlackList.Contains(parkCreatureTechType) && !hasBred)
+                    if(Main.SmcConfig.BioReactorOverflow && !Main.SmcConfig.BioReactorBlackList.Contains(parkCreatureTechType) && !hasBred)
                     {
                         var baseBioReactors =
                             __instance.gameObject.GetComponentInParent<SubRoot>()?.gameObject
@@ -150,7 +150,7 @@
                         }
                     }
 
-                    if(Main.Config.OceanBreeding && Main.Config.OceanBreedWhiteList.Contains(parkCreatureTechType) && !hasBred && __instance.transform.position.y < 0)
+                    if(Main.SmcConfig.OceanBreeding && Main.SmcConfig.OceanBreedWhiteList.Contains(parkCreatureTechType) && !hasBred && __instance.transform.position.y < 0)
                     {
                         CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, null));
                         hasBred = true;

@@ -1,18 +1,17 @@
-﻿namespace SpecialtyManifold
+﻿using BepInEx;
+
+namespace SpecialtyManifold
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using Configuration;
     using System.Reflection;
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);

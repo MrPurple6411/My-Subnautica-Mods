@@ -2,7 +2,7 @@
 {
     using System.IO;
     using System.Reflection;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Utility;
     using UnityEngine;
     using HarmonyLib;
 

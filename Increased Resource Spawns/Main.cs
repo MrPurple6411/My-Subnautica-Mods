@@ -1,19 +1,18 @@
-﻿namespace Increased_Resource_Spawns
+﻿using BepInEx;
+
+namespace Increased_Resource_Spawns
 {
     using HarmonyLib;
     using Configuration;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.Linq;
     using System.Reflection;
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             Config.Blacklist = Config.Blacklist.Distinct().ToList();
             Config.WhiteList = Config.WhiteList.Distinct().ToList();

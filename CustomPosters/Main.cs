@@ -1,11 +1,12 @@
-﻿namespace CustomPosters
+﻿using BepInEx;
+
+namespace CustomPosters
 {
     using System;
     using System.IO;
     using System.Reflection;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Handlers;
+    using SMCLib.Utility;
     using Poster;
 #if SUBNAUTICA_STABLE
     using Oculus.Newtonsoft.Json;
@@ -18,14 +19,12 @@
     using Newtonsoft.Json;
 #endif
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
         private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
 #if SN1
             CreateTabsAndLoadFiles();

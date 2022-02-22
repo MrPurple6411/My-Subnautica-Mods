@@ -1,7 +1,7 @@
 ﻿namespace PowerOrder.Configuration
 {
-    using QModManager.Utility;
-    using SMLHelper.V2.Options;
+    using SMCLib.Utility;
+    using SMCLib.Options;
     using System;
     using System.Linq;
 
@@ -17,7 +17,7 @@
             }
             catch(Exception e)
             {
-                Logger.Log(Logger.Level.Error, $"Failed to load Config file. Generating fresh file.", e);
+                Main.logSource.LogError($"Failed to load Config file. Generating fresh file.\n {e}");
             }
 
             config.Order = config.Order.OrderBy(p => p.Key).ThenBy(p => p.Value).ToDictionary(t => t.Key, t => t.Value);
@@ -52,7 +52,8 @@
             }
             catch(Exception er)
             {
-                Logger.Log(Logger.Level.Error, ex: er, showOnScreen: true);
+                Main.logSource.LogError(er);
+                ErrorMessage.AddError(er.Message);
             }
         }
 

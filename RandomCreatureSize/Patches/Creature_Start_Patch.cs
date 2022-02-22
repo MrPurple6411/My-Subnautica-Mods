@@ -2,7 +2,7 @@
 {
     using HarmonyLib;
     using Configuration;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System;
     using System.Linq;
 

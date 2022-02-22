@@ -1,14 +1,13 @@
-﻿namespace BuilderPlaceOnComplete
+﻿using BepInEx;
+
+namespace BuilderPlaceOnComplete
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public  class Main:BaseUnityPlugin
     {
-        [QModPatch]
-        public static void Load()
+        public  void Awak()
         {
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);

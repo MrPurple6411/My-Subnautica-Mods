@@ -1,18 +1,17 @@
-﻿#if SN1
+﻿using BepInEx;
+
+#if SN1
 namespace ScannableTimeCapsules
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Reflection;
     using UWE;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
             var classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);

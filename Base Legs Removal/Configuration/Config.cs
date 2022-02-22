@@ -1,7 +1,7 @@
 ﻿namespace Base_Legs_Removal.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMCLib.Json;
+    using SMCLib.Options.Attributes;
     using UnityEngine;
 
     [Menu("Base Legs Removal")]

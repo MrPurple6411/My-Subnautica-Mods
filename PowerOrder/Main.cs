@@ -1,24 +1,26 @@
-﻿namespace PowerOrder
+﻿using BepInEx;
+using BepInEx.Logging;
+
+namespace PowerOrder
 {
     using HarmonyLib;
     using Configuration;
-    using QModManager.API.ModLoading;
-    using QModManager.Utility;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Utility;
+    using SMCLib.Handlers;
     using System.Reflection;
 
-    [QModCore]
-    public class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Config config = new();
         internal static uGUI_OptionsPanel optionsPanel;
-
-        [QModPatch]
-        public static void Load()
+        internal static ManualLogSource logSource;
+        
+        public void  Awake()
         {
+            logSource = Logger;
             OptionsPanelHandler.RegisterModOptions(new Options());
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "subnautica.powerorder.mod");
-            Logger.Log(Logger.Level.Info, "Patching complete.");
+            Logger.LogInfo("Patching complete.");
         }
     }
 }

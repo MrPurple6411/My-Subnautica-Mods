@@ -1,8 +1,8 @@
 ﻿namespace CustomPosters.Poster
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
+    using SMCLib.Utility;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;

@@ -1,7 +1,7 @@
 ﻿namespace RandomCreatureSize.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMCLib.Json;
+    using SMCLib.Options.Attributes;
 
     [Menu("Random Creature Size")]
     internal class Config: ConfigFile

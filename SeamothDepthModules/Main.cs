@@ -1,20 +1,19 @@
-﻿#if SN1
+﻿using BepInEx;
+
+#if SN1
 namespace MoreSeamothDepth
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System;
     using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Modules.SeamothHullModule4 moduleMK4 = new();
         internal static Modules.SeamothHullModule5 moduleMK5 = new();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             try
             {

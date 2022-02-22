@@ -1,8 +1,8 @@
 ﻿#if !EDITOR
 namespace TechPistol.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMCLib.Json;
+    using SMCLib.Options.Attributes;
 
     [Menu("TechPistol")]
     public class Config: ConfigFile

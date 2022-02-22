@@ -1,9 +1,9 @@
 ﻿#if SN1
 namespace MoreSeamothDepth.Modules
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Assets;
+    using SMCLib.Crafting;
+    using SMCLib.Handlers;
     using System.Collections.Generic;
     using UnityEngine;
 

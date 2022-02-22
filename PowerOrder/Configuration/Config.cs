@@ -1,6 +1,6 @@
 ﻿namespace PowerOrder.Configuration
 {
-    using SMLHelper.V2.Json;
+    using SMCLib.Json;
     using System.Collections.Generic;
 
     public class Config: ConfigFile

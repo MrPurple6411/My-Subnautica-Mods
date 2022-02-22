@@ -1,7 +1,7 @@
 ﻿namespace UnKnownName.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMCLib.Json;
+    using SMCLib.Options.Attributes;
 
     [Menu("Unkown Name Config", LoadOn = MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened)]
     public class Config: ConfigFile

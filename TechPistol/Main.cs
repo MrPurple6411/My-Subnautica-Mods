@@ -1,17 +1,17 @@
-﻿#if !EDITOR
+﻿using BepInEx;
+
+#if !EDITOR
 namespace TechPistol
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.IO;
     using System.Reflection;
     using Configuration;
     using Module;
     using UnityEngine;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         private const string bundlePath = 
 #if SN1
@@ -26,8 +26,7 @@ namespace TechPistol
         internal static PistolFragmentPrefab PistolFragment { get; } = new();
         internal static PistolPrefab Pistol { get; } = new();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             PistolFragment.Patch();
             Pistol.Patch();

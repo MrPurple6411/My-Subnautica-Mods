@@ -21,7 +21,7 @@
             {
                 CoroutineHost.StartCoroutine(GiveHardcoreScanner());
                 newGame = false;
-                SMLHelper.V2.Handlers.IngameMenuHandler.RegisterOnQuitEvent(() => newGame = true);
+                SMCLib.Handlers.IngameMenuHandler.RegisterOnQuitEvent(() => newGame = true);
             }
 
             var techType = pickupable.GetTechType();
@@ -36,7 +36,7 @@
                 if(entry != null)
                 {
                     PDAScanner.partial.Remove(entry);
-                    PDAScanner.complete.Add(entry.techType);
+                    PDAScanner.complete.AddIfNotPresent(entry.techType);
                     PDAScanner.NotifyRemove(entry);
                     PDAScanner.Unlock(entryData, true, true);
                     KnownTech.Add(techType, false);

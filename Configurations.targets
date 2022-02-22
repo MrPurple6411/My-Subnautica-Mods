@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup Condition="'$(Configuration)' == 'SN1.EDITOR'">
     <DefineConstants>SN1;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
+    <GameDir>$(CommonDir)SubnauticaBranches\Stable</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ.EDITOR'">
     <DefineConstants>BZ;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZero.Stable</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ.EXP'">
     <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZero.Exp</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZeroBranches\Experimental</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1'">
     <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
-    <GameDir>$(CommonDir)Subnautica.Stable</GameDir>
+    <GameDir>$(CommonDir)SubnauticaBranches\Stable</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1.EXP'">
     <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
-    <GameDir>$(CommonDir)Subnautica.Exp</GameDir>
+    <GameDir>$(CommonDir)SubnauticaBranches\Experimental</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.StartsWith('BZ'))">
     <GameName>BelowZero</GameName>
     <DataFolder>SubnauticaZero_Data</DataFolder>
-    <SMLHelperFolder>SMLHelper_BZ</SMLHelperFolder>
+	  <ManagedDir>$(GameDir)\SubnauticaZero_Data\Managed</ManagedDir>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.StartsWith('SN1'))">
     <GameName>Subnautica</GameName>
     <DataFolder>Subnautica_Data</DataFolder>
-    <SMLHelperFolder>Modding Helper</SMLHelperFolder>
+	  <ManagedDir>$(GameDir)\Subnautica_Data\Managed</ManagedDir>
   </PropertyGroup>
   <PropertyGroup>
     <OutputPath Condition="!$(Configuration.Contains('Editor'))">..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <OutputPath Condition="$(Configuration.Contains('Editor'))">bin\</OutputPath>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
+	  <Version>$(AssemblyVersion)</Version>
     <LangVersion>latest</LangVersion>
+	<Dependencies>$(SolutionDir)\GameAssemblies\$(Configuration)</Dependencies>
     <ReferencePath>
-      $(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs\$(Configuration)
-    </ReferencePath>
+		$(Dependencies);$(SolutionDir)\Libs\$(Configuration)
+	</ReferencePath>
   </PropertyGroup>
 </Project>

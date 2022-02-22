@@ -4,7 +4,7 @@ namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
     using UnityEngine;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using Debug = UnityEngine.Debug;
     using System.Linq;
 
@@ -23,33 +23,33 @@ namespace BuildingTweaks.Patches
             
             if (DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
             {
-                if (Input.GetKeyDown(Main.Config.AttachToTargetToggle))
+                if (Input.GetKeyDown(Main.SmcConfig.AttachToTargetToggle))
                 {
-                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-                    Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
-                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", true);
+                    ProcessMSG($"Attach as target override = {Main.SmcConfig.AttachToTarget}", false);
+                    Main.SmcConfig.AttachToTarget = !Main.SmcConfig.AttachToTarget;
+                    ProcessMSG($"Attach as target override = {Main.SmcConfig.AttachToTarget}", true);
                 }
 
-                if (Input.GetKeyDown(Main.Config.FullOverrideToggle))
+                if (Input.GetKeyDown(Main.SmcConfig.FullOverrideToggle))
                 {
-                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
-                    Main.Config.FullOverride = !Main.Config.FullOverride;
+                    ProcessMSG($"Full Override = {Main.SmcConfig.FullOverride}", false);
+                    Main.SmcConfig.FullOverride = !Main.SmcConfig.FullOverride;
                     if (Builder.prefab != null && !Builder.canPlace)
                     {
-                        var value = Main.Config.FullOverride ? Builder.placeColorAllow : Builder.placeColorDeny;
+                        var value = Main.SmcConfig.FullOverride ? Builder.placeColorAllow : Builder.placeColorDeny;
                         var components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
                         foreach (var builderGhostModel in components)
                             builderGhostModel.UpdateGhostModelColor(true, ref value);
                         Builder.ghostStructureMaterial.SetColor(ShaderPropertyID._Tint, value);
                     }
 
-                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
+                    ProcessMSG($"Full Override = {Main.SmcConfig.FullOverride}", true);
                 }
             }
             else
             {
-                Main.Config.AttachToTarget = false;
-                Main.Config.FullOverride = false;
+                Main.SmcConfig.AttachToTarget = false;
+                Main.SmcConfig.FullOverride = false;
             }
             
 
@@ -122,12 +122,12 @@ namespace BuildingTweaks.Patches
 
         private static void ClearMsgs()
         {
-            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
-            Main.Config.AttachToTarget = false;
-            Main.Config.FullOverride = false;
-            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+            ProcessMSG($"Attach as target override = {Main.SmcConfig.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.SmcConfig.FullOverride}", false);
+            Main.SmcConfig.AttachToTarget = false;
+            Main.SmcConfig.FullOverride = false;
+            ProcessMSG($"Attach as target override = {Main.SmcConfig.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.SmcConfig.FullOverride}", false);
         }
 
         private static void ProcessMSG(string msg, bool active)

@@ -1,8 +1,8 @@
 ﻿#if !EDITOR
 namespace TechPistol.Module
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Utility;
+    using SMCLib.Assets;
+    using SMCLib.Utility;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;

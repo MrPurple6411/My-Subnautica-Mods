@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
-    using Logger = QModManager.Utility.Logger;
 
     [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
     internal class BaseGhost_Finish_Patch
@@ -42,9 +41,9 @@
             }
 
             if(found is false)
-                Logger.Log(Logger.Level.Error, $"Cannot find patch location in BaseGhost.Finish");
+                Main.logSource.LogError( $"Cannot find patch location in BaseGhost.Finish");
             else
-                Logger.Log(Logger.Level.Info, "Transpiler for BaseGhost.Finish completed");
+                Main.logSource.LogDebug("Transpiler for BaseGhost.Finish completed");
 
             return codeInstructions.AsEnumerable();
         }

@@ -1,19 +1,21 @@
-﻿namespace BuildingTweaks
+﻿using BepInEx;
+using BepInEx.Logging;
+
+namespace BuildingTweaks
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
-    using SMLHelper.V2.Handlers;
+    using SMCLib.Handlers;
     using System.Reflection;
 
-    [QModCore][HarmonyPatch]
-    public static class Main
+    public  class Main: BaseUnityPlugin
     {
-        public static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static ManualLogSource logSource;
 
-        [QModPatch]
-        public static void Load()
+        public  void Awake()
         {
+            logSource = Logger;
             var assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }

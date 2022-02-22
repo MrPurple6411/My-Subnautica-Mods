@@ -1,14 +1,14 @@
-﻿namespace BaseKits
+﻿using BepInEx;
+
+namespace BaseKits
 {
     using Prefabs;
-    using QModManager.API.ModLoading;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UWE;
 
-    [QModCore]
-    public static class Main
+    public  class Main:BaseUnityPlugin
     {
         private static readonly List<TechType> RoomsToClone = new()
         {
@@ -41,8 +41,7 @@
 #endif
         };
 
-        [QModPostPatch]
-        public static void Load()
+        public  void Awake()
         {
             CoroutineHost.StartCoroutine(RegisterKits());
         }

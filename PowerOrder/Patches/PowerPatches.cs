@@ -1,7 +1,7 @@
 ﻿namespace PowerOrder.Patches
 {
     using HarmonyLib;
-    using QModManager.Utility;
+    using SMCLib.Utility;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,12 +17,12 @@
             {
                 if(__instance?.inboundPowerSources == null || __instance.inboundPowerSources.Contains(powerInterface))
                     return;
-                Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
+                Main.logSource.LogDebug($"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
             }
             catch(Exception e)
             {
-                Logger.Log(Logger.Level.Error, ex: e);
+                Main.logSource.LogError(e);
             }
         }
 
@@ -48,7 +48,7 @@
             }
             catch(Exception e)
             {
-                Logger.Log(Logger.Level.Error, ex: e);
+                Main.logSource.LogError( e);
             }
         }
         private static int GetOrderNumber(string name)
@@ -61,14 +61,15 @@
                     var order = kvp.Key;
                     if(order > Main.config.Order.Count || order < 1)
                     {
-                        Logger.Log(Logger.Level.Error, kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")", showOnScreen: true);
+                        Main.logSource.LogError(kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")");
+                        ErrorMessage.AddMessage(kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")");
                         throw new Exception();
                     }
                     return order;
                 }
             }
             name = Regex.Replace(name, @"\(.*?\)", "");
-            Logger.Log(Logger.Level.Info, "New power source found: " + name);
+            Main.logSource.LogInfo("New power source found: " + name);
             Main.config.Order.Add(Main.config.Order.Count + 1, name);
             Main.config.Save();
             return Main.config.Order.Count + 1;

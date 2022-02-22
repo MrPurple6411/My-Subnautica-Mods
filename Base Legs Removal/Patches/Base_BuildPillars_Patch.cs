@@ -76,7 +76,7 @@
             }
 
             var maxHeight = 0f;
-            var config = Main.Config;
+            var config = Main.SmcConfig;
 
             switch(__instance.name)
             {

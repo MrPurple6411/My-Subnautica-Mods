@@ -1,15 +1,15 @@
-﻿namespace CustomCommands
+﻿using BepInEx;
+
+namespace CustomCommands
 {
     using MonoBehaviours;
-    using QModManager.API.ModLoading;
 #if SN1
     using System.Collections.Generic;
-    using QModManager.Utility;
+    using SMCLib.Utility;
     using System;
 #endif
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
 #if SN1
         private static readonly Dictionary<TechType, WaterParkCreatureParameters> CreatureParameters = new()
@@ -24,8 +24,7 @@
         };
 #endif
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
 #if SN1
             foreach(var pair in CreatureParameters)
@@ -36,7 +35,7 @@
                 }
                 catch(Exception e)
                 {
-                    Logger.Log(Logger.Level.Debug, $"Failed to add {pair.Key} into the Aquarium Database.", e);
+                    Logger.LogDebug($"Failed to add {pair.Key} into the Aquarium Database.");
                 }
             }
 #endif

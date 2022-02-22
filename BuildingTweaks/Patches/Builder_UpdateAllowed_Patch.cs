@@ -32,7 +32,7 @@
             if (blacklist.Any(techType => Builder.constructableTechType.AsString().EndsWith(techType.AsString())))
                 return;
 
-            if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
+            if(Builder_Update_Patches.UpdatePlacement && (Main.SmcConfig.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
             {
 #if SN1
                 __result = Builder.CheckAsSubModule();
@@ -41,7 +41,7 @@
 #endif
             }
 
-            if(Main.Config.FullOverride)
+            if(Main.SmcConfig.FullOverride)
             {
                 __result = true;
             }

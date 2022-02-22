@@ -1,7 +1,7 @@
 ﻿namespace IncreasedChunkDrops.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMCLib.Json;
+    using SMCLib.Options.Attributes;
 
     [Menu("Increased Chunk Drop Settings")]
     public class Config: ConfigFile

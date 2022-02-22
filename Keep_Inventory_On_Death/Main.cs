@@ -1,16 +1,15 @@
-﻿namespace Keep_Inventory_On_Death
+﻿using BepInEx;
+
+namespace Keep_Inventory_On_Death
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Reflection;
 
-    [QModCore]
-    public static class Main
+    public class Main:BaseUnityPlugin
     {
         internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
-        [QModPatch]
-        public static void Load()
+        public void  Awake()
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }

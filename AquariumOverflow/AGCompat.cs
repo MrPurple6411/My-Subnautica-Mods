@@ -1,7 +1,7 @@
 ﻿namespace AquariumOverflow
 {
     using FCS_AlterraHub.Interfaces;
-    using QModManager.API;
+    using SMCLib.API;
     using System.Collections;
     using UnityEngine;
     using UWE;
@@ -49,7 +49,7 @@
             var breedCount = 1;
             if(!container.CanBeStored(breedCount, fishType))
             {
-                if(QModServices.Main.ModPresent("CyclopsBioReactor"))
+                if(ModServices.ModPresent("CyclopsBioReactor"))
                     CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);
 
                 if(breedCount > 0)
