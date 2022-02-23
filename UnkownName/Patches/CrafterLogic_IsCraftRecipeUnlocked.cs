@@ -21,7 +21,7 @@
             {
                 if(!ModServices.ModPresent("UITweaks"))
                 {
-                    var data = CraftDataHandler.GetTechData(techType);
+                    var data = CraftDataHandler.GetRecipeData(techType);
                     var ingredientCount = data?.ingredientCount ?? 0;
                     for(var i = 0; i < ingredientCount; i++)
                     {

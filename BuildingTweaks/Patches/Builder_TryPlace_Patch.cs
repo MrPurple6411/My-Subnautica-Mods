@@ -1,4 +1,6 @@
-﻿namespace BuildingTweaks.Patches
+﻿using System.ComponentModel;
+
+namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;

@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup Condition="'$(Configuration)' == 'SN1.EDITOR'">
-    <DefineConstants>SN1;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaBranches\Stable</GameDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'BZ.EDITOR'">
-    <DefineConstants>BZ;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
     <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>

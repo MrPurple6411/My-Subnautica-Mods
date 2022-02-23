@@ -1,4 +1,6 @@
-﻿namespace SeamothThermal.Modules
+﻿using System;
+
+namespace SeamothThermal.Modules
 {
     using SMCLib.Assets;
     using SMCLib.Crafting;

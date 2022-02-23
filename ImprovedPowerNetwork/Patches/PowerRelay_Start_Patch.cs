@@ -1,4 +1,6 @@
-﻿namespace ImprovedPowerNetwork.Patches
+﻿using System;
+
+namespace ImprovedPowerNetwork.Patches
 {
     using HarmonyLib;
     using UnityEngine;

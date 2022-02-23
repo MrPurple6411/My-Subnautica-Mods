@@ -203,6 +203,38 @@
     <Reference Include="UnityEngine.XRModule">
       <Private>False</Private>
     </Reference>
+	  <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\HarmonyX.2.9.0\lib\net45\0Harmony.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="BepInEx, Version=5.4.19.0, Culture=neutral, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\BepInEx.BaseLib.5.4.19\lib\net35\BepInEx.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Cecil.Mdb, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Cecil.Pdb, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Cecil.Rocks, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="MonoMod.RuntimeDetour, Version=22.1.29.1, Culture=neutral, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\MonoMod.RuntimeDetour.22.1.29.1\lib\net452\MonoMod.RuntimeDetour.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
+	  <Reference Include="MonoMod.Utils, Version=22.1.29.1, Culture=neutral, processorArchitecture=MSIL">
+		  <HintPath>$(SolutionDir)\packages\MonoMod.Utils.22.1.29.1\lib\net452\MonoMod.Utils.dll</HintPath>
+        <Private>False</Private>
+	  </Reference>
   </ItemGroup>
   <ItemGroup Condition="$(Configuration.StartsWith('BZ')) Or $(Configuration.EndsWith('EXP'))">
     <Reference Include="Unity.Addressables">

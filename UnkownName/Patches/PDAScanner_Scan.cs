@@ -24,12 +24,20 @@
                 if(techType == TechType.ScrapMetal && !KnownTech.Contains(TechType.Titanium))
                 {
                     PDAScanner.AddByUnlockable(TechType.Titanium, 1);
+#if SN1
                     KnownTech.Add(TechType.Titanium);
+#elif BZ
+                    KnownTech.Add(TechType.Titanium, true);
+#endif
                 }
 
                 if(!KnownTech.Contains(techType))
                 {
+#if SN1
                     KnownTech.Add(techType);
+#elif BZ
+                    KnownTech.Add(techType, true);
+#endif
                 }
 
                 var entryData = PDAScanner.GetEntryData(techType);
@@ -40,7 +48,11 @@
 
                     if(!KnownTech.Contains(entryData.blueprint))
                     {
+#if SN1
                         KnownTech.Add(entryData.blueprint);
+#elif BZ
+                        KnownTech.Add(entryData.blueprint,true);
+#endif
                     }
                 }
 #if SN1
@@ -52,7 +64,11 @@
                 {
                     if(!KnownTech.Contains(techType2))
                     {
+#if SN1
                         KnownTech.Add(techType2);
+#elif BZ
+                        KnownTech.Add(techType2, true);
+#endif
                     }
 
                     var entryData2 = PDAScanner.GetEntryData(techType2);
@@ -62,7 +78,11 @@
 
                         if(!KnownTech.Contains(entryData2.blueprint))
                         {
+#if SN1
                             KnownTech.Add(entryData2.blueprint);
+#elif BZ
+                            KnownTech.Add(entryData2.blueprint, true);
+#endif
                         }
                     }
                 }

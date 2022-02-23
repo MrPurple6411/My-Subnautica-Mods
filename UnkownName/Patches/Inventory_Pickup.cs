@@ -1,4 +1,6 @@
-﻿namespace UnKnownName.Patches
+﻿using System;
+
+namespace UnKnownName.Patches
 {
     using HarmonyLib;
     using System.Collections;
@@ -52,7 +54,11 @@
 
             if(!Main.SmcConfig.Hardcore && entryData == null)
             {
+#if SN1
                 KnownTech.Add(techType);
+#elif BZ
+                KnownTech.Add(techType, true);
+#endif
             }
         }
 

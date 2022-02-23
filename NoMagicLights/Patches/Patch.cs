@@ -1,4 +1,6 @@
-﻿namespace NoMagicLights.Patches
+﻿using System.ComponentModel;
+
+namespace NoMagicLights.Patches
 {
     using HarmonyLib;
     using UnityEngine;

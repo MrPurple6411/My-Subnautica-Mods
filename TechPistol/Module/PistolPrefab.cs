@@ -1,4 +1,6 @@
-﻿#if !EDITOR
+﻿using System;
+
+#if !EDITOR
 namespace TechPistol.Module
 {
     using SMCLib.Assets;

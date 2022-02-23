@@ -29,7 +29,7 @@
             if(Main.SmcConfig.NoRadiation)
                 GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
 #if BZ
-            if (Main.Config.NoCold)
+            if (Main.SmcConfig.NoCold)
                 GameModeUtils.ActivateCheat(GameModeOption.NoCold);
 #endif
 

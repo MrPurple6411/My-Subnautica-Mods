@@ -12,7 +12,7 @@ namespace UnobtaniumBatteries
     using UnityEngine;
     using MonoBehaviours;
 
-#if SUBNAUTICA_STABLE
+#if SN1
     using SMCLib.Handlers;
 #endif
 

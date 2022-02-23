@@ -1,4 +1,6 @@
-﻿namespace Base_Legs_Removal.Configuration
+﻿using System;
+
+namespace Base_Legs_Removal.Configuration
 {
     using SMCLib.Json;
     using SMCLib.Options.Attributes;

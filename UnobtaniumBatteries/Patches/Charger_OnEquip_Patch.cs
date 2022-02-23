@@ -1,4 +1,6 @@
-﻿namespace UnobtaniumBatteries.Patches
+﻿using System;
+
+namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;

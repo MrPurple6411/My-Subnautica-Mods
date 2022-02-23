@@ -1,4 +1,6 @@
-﻿namespace BaseKits.Prefabs
+﻿using System;
+
+namespace BaseKits.Prefabs
 {
     using SMCLib.Assets;
     using SMCLib.Handlers;
@@ -75,7 +77,7 @@
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return CraftDataHandler.GetTechData(TypeToClone);
+            return CraftDataHandler.GetRecipeData(TypeToClone);
         }
 
         protected override Sprite GetItemSprite()

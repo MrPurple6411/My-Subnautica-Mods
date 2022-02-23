@@ -1,4 +1,6 @@
-﻿namespace BetterACU.Patches
+﻿using System;
+
+namespace BetterACU.Patches
 {
     using HarmonyLib;
     using SMCLib.API;
@@ -93,7 +95,7 @@
         [HarmonyPrefix]
         public static void Prefix(WaterPark __instance)
         {
-            __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
+            __instance.wpPieceCapacity = Main.SmcConfig.LargeWaterParkSize;
         }
     }
 #endif

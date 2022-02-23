@@ -1,4 +1,6 @@
-﻿namespace AquariumOverflow
+﻿using System;
+
+namespace AquariumOverflow
 {
     using HarmonyLib;
     using System.Collections;

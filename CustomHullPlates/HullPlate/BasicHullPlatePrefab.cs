@@ -1,4 +1,6 @@
-﻿namespace CustomHullPlates.HullPlate
+﻿using System;
+
+namespace CustomHullPlates.HullPlate
 {
     using SMCLib.Assets;
     using SMCLib.Crafting;

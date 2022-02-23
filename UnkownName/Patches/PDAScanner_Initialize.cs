@@ -21,7 +21,7 @@
                 var map = PDAScanner.mapping;
                 foreach(TechType techType in Enum.GetValues(typeof(TechType)))
                 {
-                    var data = CraftDataHandler.GetTechData(techType);
+                    var data = CraftDataHandler.GetRecipeData(techType);
                     map.TryGetValue(techType, out var entryData);
 
                     if(data is null && entryData is {isFragment: false} && entryData.blueprint == TechType.None)

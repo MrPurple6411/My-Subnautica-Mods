@@ -12,8 +12,8 @@
             if (locked && GameModeUtils.RequiresBlueprints())
             {
                 data.prefix.Clear();
-                TooltipFactory.WriteTitle(data.prefix, Main.Config.UnKnownTitle);
-                TooltipFactory.WriteDescription(data.prefix, Main.Config.UnKnownDescription);
+                TooltipFactory.WriteTitle(data.prefix, Main.SmcConfig.UnKnownTitle);
+                TooltipFactory.WriteDescription(data.prefix, Main.SmcConfig.UnKnownDescription);
             }
         }
     }

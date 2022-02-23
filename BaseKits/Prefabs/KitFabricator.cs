@@ -107,7 +107,7 @@
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return CraftDataHandler.GetTechData(TechType.Fabricator);
+            return CraftDataHandler.GetRecipeData(TechType.Fabricator);
         }
 
 

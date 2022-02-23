@@ -31,7 +31,7 @@ namespace BuilderModule
 #if BZ
             if(ModServices.ModPresent("BuildingTweaks"))
             {
-                var buildingTweaks = ModServices.GetMod("BuildingTweaks").LoadedAssembly;
+                var buildingTweaks = ModServices.FindModById("BuildingTweaks").LoadedAssembly;
 
                 var btMainType = buildingTweaks.GetType("BuildingTweaks.Main", true, true);
                 var btConfigType = buildingTweaks.GetType("BuildingTweaks.Configuration.Config", true, true);

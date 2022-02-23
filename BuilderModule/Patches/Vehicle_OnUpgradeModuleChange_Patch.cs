@@ -1,4 +1,6 @@
-﻿namespace BuilderModule.Patches
+﻿using System;
+
+namespace BuilderModule.Patches
 {
     using Module;
     using HarmonyLib;

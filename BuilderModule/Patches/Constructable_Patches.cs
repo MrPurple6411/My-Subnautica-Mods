@@ -1,4 +1,6 @@
-﻿#pragma warning disable 618
+﻿using System;
+
+#pragma warning disable 618
 namespace BuilderModule.Patches
 {
     using HarmonyLib;

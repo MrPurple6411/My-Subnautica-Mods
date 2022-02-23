@@ -1,4 +1,6 @@
-﻿namespace CustomCommands.MonoBehaviours
+﻿using System;
+
+namespace CustomCommands.MonoBehaviours
 {
     using UnityEngine;
 

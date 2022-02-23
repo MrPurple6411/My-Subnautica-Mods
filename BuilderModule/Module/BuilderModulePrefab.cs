@@ -1,4 +1,6 @@
-﻿namespace BuilderModule.Module
+﻿using System;
+
+namespace BuilderModule.Module
 {
     using System.Collections;
     using System.Collections.Generic;

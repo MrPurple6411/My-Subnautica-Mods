@@ -40,7 +40,7 @@ namespace ExtravagantGifts.Patches
             RecipeData recipeData;
             TechType techType2;
             bool eggCheck;
-            while(!(eggCheck = TechTypeExtensions.FromString(__result.AsString() + "Egg", out techType2, true)) && (recipeData = CraftDataHandler.GetTechData(__result)) != null && recipeData.ingredientCount > 0)
+            while(!(eggCheck = TechTypeExtensions.FromString(__result.AsString() + "Egg", out techType2, true)) && (recipeData = CraftDataHandler.GetRecipeData(__result)) != null && recipeData.ingredientCount > 0)
             {
                 try{ __result = recipeData.Ingredients.GetRandom().techType; }
                 catch

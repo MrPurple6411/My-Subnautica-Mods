@@ -1,4 +1,6 @@
-﻿namespace AquariumOverflow
+﻿using System;
+
+namespace AquariumOverflow
 {
     using CyclopsBioReactor;
     using SMCLib.API;

@@ -1,4 +1,6 @@
-﻿namespace CustomPosters.Poster
+﻿using System;
+
+namespace CustomPosters.Poster
 {
     using SMCLib.Assets;
     using SMCLib.Crafting;

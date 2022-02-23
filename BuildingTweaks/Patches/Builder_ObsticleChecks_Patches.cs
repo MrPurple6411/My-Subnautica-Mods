@@ -28,7 +28,7 @@
         [HarmonyPostfix]
         public static void CheckSpace_Postfix(ref List<GameObject> obstacles)
         {
-            if(Main.Config.FullOverride || Main.Config.AttachToTarget)
+            if(Main.SmcConfig.FullOverride || Main.SmcConfig.AttachToTarget)
             {
                 obstacles.Clear();
             }

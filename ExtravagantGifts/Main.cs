@@ -1,7 +1,8 @@
 ﻿#if BZ
 namespace ExtravagantGifts
 {
-    using HarmonyLib;
+    using HarmonyLib;using BepInEx;
+
 
     public class Main:BaseUnityPlugin
     {

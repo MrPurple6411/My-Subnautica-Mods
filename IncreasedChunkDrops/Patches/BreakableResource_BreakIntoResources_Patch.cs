@@ -1,4 +1,6 @@
-﻿namespace IncreasedChunkDrops.Patches
+﻿using System;
+
+namespace IncreasedChunkDrops.Patches
 {
     using HarmonyLib;
     using UnityEngine;
