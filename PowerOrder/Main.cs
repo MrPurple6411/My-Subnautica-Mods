@@ -9,13 +9,15 @@ namespace PowerOrder
     using SMCLib.Handlers;
     using System.Reflection;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static Config config = new();
         internal static uGUI_OptionsPanel optionsPanel;
         internal static ManualLogSource logSource;
         
-        public void  Awake()
+        public void Start()
         {
             logSource = Logger;
             OptionsPanelHandler.RegisterModOptions(new Options());

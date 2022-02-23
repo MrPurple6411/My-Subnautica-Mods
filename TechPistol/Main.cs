@@ -11,7 +11,9 @@ namespace TechPistol
     using Module;
     using UnityEngine;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private const string bundlePath = 
 #if SN1
@@ -22,12 +24,13 @@ namespace TechPistol
         private static Assembly assembly = Assembly.GetExecutingAssembly();
         private static string modPath = Path.GetDirectoryName(assembly.Location);
         internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
-        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+         internal static Config SmcConfig { get; private set; } 
         internal static PistolFragmentPrefab PistolFragment { get; } = new();
         internal static PistolPrefab Pistol { get; } = new();
 
-        public void  Awake()
+        public void Start()
         {
+            SmcConfig = OptionsPanelHandler.RegisterModOptions<Config>();
             PistolFragment.Patch();
             Pistol.Patch();
 

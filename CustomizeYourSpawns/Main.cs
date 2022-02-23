@@ -22,7 +22,9 @@ namespace CustomizeYourSpawns
     using UWE;
     using static LootDistributionData;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly string ModPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly DirectoryInfo ChangesPath = Directory.CreateDirectory(ModPath + "/ChangesToLoad");

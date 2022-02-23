@@ -10,14 +10,17 @@ namespace ExtraOptions
     using System.Reflection;
     using UnityEngine;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static readonly string modPath = Path.GetDirectoryName(assembly.Location);
-        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+         internal static Config SmcConfig { get; private set; } 
 
-        public void  Awake()
+        public void Start()
         {
+            SmcConfig = OptionsPanelHandler.RegisterModOptions<Config>();
             var harmony = Harmony.CreateAndPatchAll(assembly, "com.m22spencer.extraOptions");
 
             // When a preset is selected, the texture quality is also set, reload settings here to override this

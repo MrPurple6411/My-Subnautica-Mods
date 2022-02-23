@@ -11,6 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FabricatorNoAutoClose</RootNamespace>
     <AssemblyName>FabricatorNoAutoClose</AssemblyName>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

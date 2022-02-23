@@ -10,9 +10,11 @@ namespace AquariumOverflow
     using BepInEx;
     using SMCLib.API;
 
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency("FCSEnergySolutions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("CyclopsBioReactor", BepInDependency.DependencyFlags.SoftDependency)]
-    public class Main: BaseUnityPlugin
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         public static void Load()
         {

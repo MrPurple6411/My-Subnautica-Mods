@@ -6,11 +6,14 @@
     using TechData = CraftData;
 #endif
 
-    public class Resizer : BaseUnityPlugin
+    
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
-        public static void Awake()
+        public void Start()
         {
-            Harmony.CreateAndPatchAll(typeof(Resizer), PluginInfo.PLUGIN_GUID);
+            Harmony.CreateAndPatchAll(typeof(Main), PluginInfo.PLUGIN_GUID);
         }
 
         [HarmonyPatch(typeof(TechData), nameof(TechData.GetItemSize))]

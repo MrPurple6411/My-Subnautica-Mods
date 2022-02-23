@@ -8,12 +8,15 @@ namespace Increased_Resource_Spawns
     using System.Linq;
     using System.Reflection;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
-        internal static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+         internal static Config SmcConfig { get; private set; } 
 
-        public void  Awake()
+        public void Start()
         {
+            SmcConfig = OptionsPanelHandler.RegisterModOptions<Config>();
             SmcConfig.Blacklist = SmcConfig.Blacklist.Distinct().ToList();
             SmcConfig.WhiteList = SmcConfig.WhiteList.Distinct().ToList();
             SmcConfig.Save();

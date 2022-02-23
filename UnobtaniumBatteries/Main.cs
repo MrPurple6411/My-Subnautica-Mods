@@ -17,7 +17,9 @@ namespace UnobtaniumBatteries
 #endif
 
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();
         private static readonly string ModPath = Path.GetDirectoryName(myAssembly.Location);
@@ -27,7 +29,7 @@ namespace UnobtaniumBatteries
         public static readonly List<TechType> typesToMakePickupable = new() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper };
 #endif
         
-        public void  Awake()
+        public void Start()
         {
             CreateAndPatchPrefabs();
 #if SN1

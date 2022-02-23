@@ -10,7 +10,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Time_Eternal</RootNamespace>
-    <AssemblyName>Time Eternal</AssemblyName>
+    <AssemblyName>TimeEternal</AssemblyName>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

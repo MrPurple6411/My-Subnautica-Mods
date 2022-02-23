@@ -11,6 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Keep_Inventory_On_Death</RootNamespace>
     <AssemblyName>Keep_Inventory_On_Death</AssemblyName>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

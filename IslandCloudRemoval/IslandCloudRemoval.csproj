@@ -11,6 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IslandCloudRemoval</RootNamespace>
     <AssemblyName>IslandCloudRemoval</AssemblyName>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

@@ -5,11 +5,13 @@ namespace IslandCloudRemoval
     using HarmonyLib;
     using System.Reflection;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
-        public void  Awake()
+        public void Start()
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
         }

@@ -8,12 +8,14 @@ namespace MoreSeamothDepth
     using System;
     using System.Reflection;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static Modules.SeamothHullModule4 moduleMK4 = new();
         internal static Modules.SeamothHullModule5 moduleMK5 = new();
 
-        public void  Awake()
+        public void Start()
         {
             try
             {

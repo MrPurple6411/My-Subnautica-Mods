@@ -3,9 +3,11 @@
     using BepInEx;
     using HarmonyLib;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
-        public void Awake()
+        public void Start()
         {
             Harmony.CreateAndPatchAll(typeof(Patches.BaseDeconstructable_Patches), PluginInfo.PLUGIN_GUID);
         }

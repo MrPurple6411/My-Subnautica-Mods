@@ -9,7 +9,9 @@ namespace CustomCommands
     using System;
 #endif
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
 #if SN1
         private static readonly Dictionary<TechType, WaterParkCreatureParameters> CreatureParameters = new()
@@ -24,7 +26,7 @@ namespace CustomCommands
         };
 #endif
 
-        public void  Awake()
+        public void Start()
         {
 #if SN1
             foreach(var pair in CreatureParameters)

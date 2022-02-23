@@ -5,7 +5,9 @@ namespace BuilderPlaceOnComplete
     using HarmonyLib;
     using System.Reflection;
 
-    public  class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         public  void Awak()
         {

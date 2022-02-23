@@ -8,7 +8,9 @@ namespace BaseKits
     using UnityEngine;
     using UWE;
 
-    public  class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly List<TechType> RoomsToClone = new()
         {
@@ -41,7 +43,7 @@ namespace BaseKits
 #endif
         };
 
-        public  void Awake()
+        public void Start()
         {
             CoroutineHost.StartCoroutine(RegisterKits());
         }

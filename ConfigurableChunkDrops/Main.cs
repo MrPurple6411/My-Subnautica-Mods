@@ -11,14 +11,16 @@ namespace ConfigurableChunkDrops
     using System.IO;
     using System.Reflection;
 
-    public  class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static readonly Config config = new();
         internal static readonly string modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly Config defaultValues = new("DefaultValues");
         internal static ManualLogSource logSource;
         
-        public void Awake()
+        public void Start()
         {
             logSource = Logger;
             config.Load();

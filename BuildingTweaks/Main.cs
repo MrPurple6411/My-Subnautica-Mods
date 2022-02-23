@@ -8,13 +8,16 @@ namespace BuildingTweaks
     using SMCLib.Handlers;
     using System.Reflection;
 
-    public  class Main: BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
-        public static Config SmcConfig { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static Config SmcConfig { get; private set; } 
         internal static ManualLogSource logSource;
 
-        public  void Awake()
+        public void Start()
         {
+            SmcConfig = OptionsPanelHandler.RegisterModOptions<Config>();
             logSource = Logger;
             var assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");

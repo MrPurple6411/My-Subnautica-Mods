@@ -11,6 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SeamothThermal</RootNamespace>
     <AssemblyName>SeamothThermal</AssemblyName>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

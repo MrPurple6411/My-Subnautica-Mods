@@ -9,12 +9,14 @@ namespace ChargeRequired
     using System.Linq;
     using System.Reflection;
 
-    public  class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static PropertyInfo containers;
         internal static ManualLogSource logSource; 
 
-        public void Awake()
+        public void Start()
         {
             logSource = Logger;
             var assembly = Assembly.GetExecutingAssembly();

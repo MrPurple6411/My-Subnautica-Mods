@@ -7,11 +7,13 @@ namespace ScannableTimeCapsules
     using System.Reflection;
     using UWE;
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static Assembly assembly = Assembly.GetExecutingAssembly();
 
-        public void  Awake()
+        public void Start()
         {
             Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
             var classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);

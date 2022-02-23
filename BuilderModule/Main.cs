@@ -12,7 +12,9 @@ namespace BuilderModule
     using SMCLib.Handlers;
 #endif
     
-    public  class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         internal static readonly List<TechType> builderModules = new();
         internal static ManualLogSource logSource;
@@ -21,7 +23,7 @@ namespace BuilderModule
         internal static object btConfig;
 #endif
         
-        public  void Awake()
+        public void Start()
         {
             logSource = Logger;
             var builderModule = new BuilderModulePrefab("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.", new[] { "Upgrades", "ExosuitUpgrades" }, EquipmentType.VehicleModule);

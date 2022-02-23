@@ -15,12 +15,14 @@ namespace CustomHullPlates
     using Newtonsoft.Json;
 #endif
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "HullPlates"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        public void  Awake()
+        public void Start()
         {
             foreach(var directory in Directory.GetDirectories(HullPlateFolder.FullName))
             {

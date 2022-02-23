@@ -19,12 +19,14 @@ namespace CustomPosters
     using Newtonsoft.Json;
 #endif
 
-    public class Main:BaseUnityPlugin
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("SMCLib", BepInDependency.DependencyFlags.SoftDependency)]
+    public class Main : BaseUnityPlugin
     {
         private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        public void  Awake()
+        public void Start()
         {
 #if SN1
             CreateTabsAndLoadFiles();
