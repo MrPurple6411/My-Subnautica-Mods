@@ -372,3 +372,12 @@ Libs/
 **/[Pp]ackages/Subnautic*/*
 !**/[Pp]ackages/Subnautic*/TechPisto*
 **/Assets/Plugins.meta
+SeamothCloneTest/Assets/Submersible_SeaMoth.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_colorsMask.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_Glass.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_illum.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_indoor.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_indoor_illum.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_indoor_normal.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_normal.png
+SeamothCloneTest/Assets/Submersible_SeaMoth_spec.png
