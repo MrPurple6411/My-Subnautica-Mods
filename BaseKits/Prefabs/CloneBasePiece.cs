@@ -2,6 +2,7 @@
 {
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Crafting;
+    using SMLHelper.V2.Handlers;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -26,6 +27,12 @@
             KitTechType = kitTechType;
 
             CraftData.GetBuilderIndex(typeToClone, out group, out category, out _);
+            OnFinishedPatching += () =>
+            {
+                CraftDataHandler.SetBackgroundType(this.TechType, CraftData.BackgroundType.PlantAir);
+            };
+
+
         }
 
         public override TechType RequiredForUnlock => UnlockRequired.Contains(TypeToClone) ? TypeToClone : TechType.None;
