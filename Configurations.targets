@@ -38,11 +38,13 @@
   <PropertyGroup>
     <OutputPath Condition="!$(Configuration.Contains('Editor'))">..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
     <OutputPath Condition="$(Configuration.Contains('Editor'))">bin\</OutputPath>
+	<Dependencies>$(SolutionDir)Dependencies</Dependencies>
+	  <ManagedDir>$(GameDir)/$(DataFolder)/Managed</ManagedDir>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <LangVersion>latest</LangVersion>
     <ReferencePath>
-      $(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs\$(Configuration)
+      $(Dependencies);$(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs\$(Configuration)
     </ReferencePath>
   </PropertyGroup>
 </Project>

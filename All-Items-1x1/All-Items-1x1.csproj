@@ -28,8 +28,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
+if not exist "$(Dependencies)" mkdir "$(Dependencies)"
+Echo $(SolutionDir)nstrip.exe  -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)"
+$(SolutionDir)nstrip.exe -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)"
+	
       copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
-    </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />
 </Project>

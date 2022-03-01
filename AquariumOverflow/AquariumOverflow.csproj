@@ -20,10 +20,10 @@
     <Compile Include="Patches\AquariumBreedingPatches.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Reference Include="AquariumBreeding_publicized">
+    <Reference Include="AquariumBreeding">
       <Private>False</Private>
     </Reference>
-    <Reference Include="CyclopsBioReactor_publicized">
+    <Reference Include="CyclopsBioReactor">
       <Private>False</Private>
     </Reference>
     <Reference Include="FCS_AlterraHub">
