@@ -1,0 +1,10 @@
+{
+    "name": "Creatures-Flee-Less-BZ",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "When attacking creatures it makes them not run away at the smallest damage meaning hostile creatures care less about your silly little butter knife.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager_BZ-4.4.2",
+		"Subnautica_Modding-SMLHelper_BZ-2.13.0"
+		]
+}

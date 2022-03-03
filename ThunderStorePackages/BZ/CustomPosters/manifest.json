@@ -1,0 +1,10 @@
+{
+    "name": "Custom-Posters-BZ",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "Loads custom Posters to decorate with.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager_BZ-4.4.2",
+		"Subnautica_Modding-SMLHelper_BZ-2.13.0"
+		]
+}

@@ -1,0 +1,10 @@
+{
+    "name": "Pridenautica",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "Rainbow all the fishies.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager-4.4.2",
+		"Subnautica_Modding-SMLHelper-2.13.0"
+		]
+}

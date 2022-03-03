@@ -1,0 +1,10 @@
+{
+    "name": "Customize-Your-Spawns",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "Allows you to change what and where creatures/chunks/deposits/fragments are spawned in the world base on biomes.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager-4.4.2",
+		"Subnautica_Modding-SMLHelper-2.13.0"
+		]
+}

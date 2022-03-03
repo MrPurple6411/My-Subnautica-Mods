@@ -1,0 +1,10 @@
+{
+    "name": "Fabricator-No-Auto-Close-BZ",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "Stops the fabricator from closing while crafting so you can more easily select a follow up craft. Same thing as holding shift while crafting but automatic.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager_BZ-4.4.2",
+		"Subnautica_Modding-SMLHelper_BZ-2.13.0"
+		]
+}

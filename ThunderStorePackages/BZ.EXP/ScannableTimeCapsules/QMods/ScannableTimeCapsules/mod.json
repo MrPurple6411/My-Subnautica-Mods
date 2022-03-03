@@ -5,6 +5,6 @@
   "Version": "2.1.0",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
-  "Game": "BelowZero",
+  "Game": "Subnautica",
   "AssemblyName": "ScannableTimeCapsules.dll"
 }
