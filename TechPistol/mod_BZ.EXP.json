@@ -7,9 +7,6 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
-  "NexusId": {
-    "BelowZero": "75"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/TechPistol/mod_BZ.EXP.json"
   },

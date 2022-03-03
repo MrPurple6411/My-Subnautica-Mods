@@ -6,9 +6,6 @@
   "Requires":[],
   "Enable":true,
   "Game": "BelowZero",
-  "NexusId": {
-    "BelowZero": "96"
-  },
   "VersionChecker": {
     "LatestVersionURL": ""
   },

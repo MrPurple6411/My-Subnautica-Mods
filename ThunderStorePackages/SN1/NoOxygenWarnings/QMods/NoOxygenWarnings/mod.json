@@ -5,10 +5,6 @@
   "Version": "2.1.0",
   "Enable": true,
   "Game": "Both",
-  "NexusId": {
-    "BelowZero": "102",
-	  "Subnautica": "544"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoOxygenWarnings/mod.json"
   },

@@ -6,9 +6,6 @@
   "LoadAfter": [ "EasyCraft" ],
   "Enable": true,
   "Game": "Subnautica",
-  "NexusId": {
-    "Subnautica": "542"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ChargeRequired/mod_SN1.json"
   },

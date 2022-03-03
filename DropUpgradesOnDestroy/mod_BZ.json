@@ -5,9 +5,6 @@
   "Version": "2.1.0",
   "Enable": true,
   "Game": "BelowZero",
-  "NexusId": {
-    "BelowZero": "67"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/DropUpgradesOnDestroy/mod_BZ.json"
   },

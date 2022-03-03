@@ -7,9 +7,6 @@
   "LoadBefore": [ "UpgradedVehicles" ],
   "Enable": true,
   "Game": "Subnautica",
-  "NexusId": {
-	"Subnautica": "295"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothDepthModules/mod_SN1.json"
   },

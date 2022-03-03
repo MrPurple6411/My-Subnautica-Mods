@@ -6,9 +6,6 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
-  "NexusId": {
-	"Subnautica": "154"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ExtraOptions%20(SMLHelper)/mod_SN1.json"
   },

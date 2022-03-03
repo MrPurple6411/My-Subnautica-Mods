@@ -7,9 +7,6 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",
-  "NexusId": {
-	"Subnautica": "145"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/TechPistol/mod_SN1.EXP.json"
   },

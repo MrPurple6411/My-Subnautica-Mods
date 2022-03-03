@@ -5,10 +5,6 @@
   "Version": "2.1.2",
   "Enable": true,
   "Game": "Both",
-  "NexusId": {
-    "BelowZero": "49",
-    "Subnautica": "413"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoCrosshair/mod.json"
   },

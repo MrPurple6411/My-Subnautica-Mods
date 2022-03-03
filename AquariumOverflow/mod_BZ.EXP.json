@@ -5,9 +5,6 @@
   "Version": "2.1.0",
   "Enable": true,
   "Game": "BelowZero",
-  "NexusId": {
-    "BelowZero": ""
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/AquariumOverflow/mod_BZ.EXP.json"
   },

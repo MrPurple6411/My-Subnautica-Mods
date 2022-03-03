@@ -6,9 +6,6 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",
-  "NexusId": {
-	  "Subnautica": "556"
-  },
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ConfigurableChunkDrops/mod.json"
   },

@@ -5,9 +5,5 @@
   "Version": "2.1.0",
   "Enable": true,
   "Game": "Both",
-  "NexusId": {
-    "BelowZero": "114",
-    "Subnautica": "578"
-  },
   "AssemblyName": "FabricatorNoAutoClose.dll"
 }
