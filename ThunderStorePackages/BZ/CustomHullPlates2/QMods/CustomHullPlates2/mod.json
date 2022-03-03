@@ -1,0 +1,16 @@
+{
+  "Id": "CustomHullPlates2",
+  "DisplayName": "CustomHullPlates",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "69"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomHullPlates/mod_BZ.json"
+  },
+  "AssemblyName": "CustomHullPlates2.dll"
+}

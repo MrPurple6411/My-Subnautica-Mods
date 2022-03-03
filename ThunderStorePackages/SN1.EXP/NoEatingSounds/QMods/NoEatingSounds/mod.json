@@ -1,0 +1,15 @@
+{
+  "Id": "NoEatingSounds",
+  "DisplayName": "No Eating Sounds",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Game": "Subnautica",
+  "Enable": true,
+  "NexusId": {
+	"Subnautica": "293"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoEatingSounds/mod.json"
+  },
+  "AssemblyName": "NoEatingSounds.dll"
+}

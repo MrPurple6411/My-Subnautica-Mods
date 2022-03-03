@@ -1,0 +1,16 @@
+{
+  "Id": "SeamothThermal",
+  "DisplayName": "SeamothThermal",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "297"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothThermal/mod_SN1.json"
+  },
+  "AssemblyName": "SeamothThermal.dll"
+}

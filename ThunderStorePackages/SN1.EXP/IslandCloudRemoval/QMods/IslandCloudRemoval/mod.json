@@ -1,0 +1,10 @@
+{
+  "Id": "IslandCloudRemoval",
+  "DisplayName": "IslandCloudRemoval",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "IslandCloudRemoval.dll"
+}

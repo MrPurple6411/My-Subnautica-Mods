@@ -1,0 +1,16 @@
+{
+  "Id": "CustomPosters",
+  "DisplayName": "CustomPosters",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "476"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomPosters/mod_SN1.EXP.json"
+  },
+  "AssemblyName": "CustomPosters.dll"
+}

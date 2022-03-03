@@ -1,0 +1,17 @@
+{
+  "Id": "MoreSeamothDepth",
+  "DisplayName": "More Seamoth Depth",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "LoadBefore": [ "UpgradedVehicles" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "295"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothDepthModules/mod_SN1.EXP.json"
+  },
+  "AssemblyName": "MoreSeamothDepth.dll"
+}

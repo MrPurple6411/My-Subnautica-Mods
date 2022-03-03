@@ -1,0 +1,16 @@
+{
+  "Id": "ExtraOptions",
+  "DisplayName": "ExtraOptions (SMLHelper)",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "154"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ExtraOptions%20(SMLHelper)/mod_SN1.EXP.json"
+  },
+  "AssemblyName": "ExtraOptions.dll"
+}

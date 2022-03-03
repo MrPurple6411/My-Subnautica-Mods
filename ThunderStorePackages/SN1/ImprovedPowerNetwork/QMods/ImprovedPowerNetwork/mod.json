@@ -1,0 +1,16 @@
+{
+  "Id": "ImprovedPowerNetwork",
+  "DisplayName": "ImprovedPowerNetwork",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "568"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ImprovedPowerNetwork/mod_SN1.json"
+  },
+  "AssemblyName": "ImprovedPowerNetwork.dll"
+}

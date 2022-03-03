@@ -1,0 +1,16 @@
+{
+  "Id": "AquariumOverflow",
+  "DisplayName": "AquariumOverflow",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "AquariumBreeding", "CyclopsBioReactor" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "530"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/AquariumOverflow/mod_SN1.json"
+  },
+  "AssemblyName": "AquariumOverflow.dll"
+}

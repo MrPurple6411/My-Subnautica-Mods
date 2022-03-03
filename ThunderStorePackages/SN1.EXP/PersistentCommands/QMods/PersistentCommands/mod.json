@@ -1,0 +1,16 @@
+{
+  "Id": "PersistentCommands",
+  "DisplayName": "Persistent Commands",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+    "Subnautica": ""
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/PersistentCommands/mod_SN1.EXP.json"
+  },
+  "AssemblyName": "PersistentCommands.dll"
+}

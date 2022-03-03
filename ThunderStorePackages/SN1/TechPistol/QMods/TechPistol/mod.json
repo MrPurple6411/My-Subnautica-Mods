@@ -1,0 +1,17 @@
+{
+  "Id": "TechPistol",
+  "DisplayName": "TechPistol",
+  "OriginalAuthor": "Coticvo",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "145"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/TechPistol/mod_SN1.json"
+  },
+  "AssemblyName": "TechPistol.dll"
+}

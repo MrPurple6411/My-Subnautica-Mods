@@ -1,0 +1,16 @@
+{
+  "Id": "CustomizeYourSpawns",
+  "DisplayName": "Customize Your Spawns",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "Subnautica",
+  "NexusId": {
+	"Subnautica": "535"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomizeYourSpawns/mod_SN1.EXP.json"
+  },
+  "AssemblyName": "CustomizeYourSpawns.dll"
+}

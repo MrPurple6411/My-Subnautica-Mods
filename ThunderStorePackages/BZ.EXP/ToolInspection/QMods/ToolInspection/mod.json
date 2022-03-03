@@ -1,0 +1,16 @@
+{
+  "Id": "ToolInspection",
+  "DisplayName": "ToolInspection",
+  "Author": "MrPurple6411",
+  "Version": "2.1.0",
+  "Enable": true,
+  "Game": "Both",
+  "NexusId": {
+    "BelowZero": "103",
+	  "Subnautica": "545"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ToolInspection/mod.json"
+  },
+  "AssemblyName": "ToolInspection.dll"
+}
