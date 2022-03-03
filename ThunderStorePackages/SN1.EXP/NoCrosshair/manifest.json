@@ -1,8 +1,8 @@
 {
-    "name": "No Crosshair-Experimental",
+    "name": "No Crosshair_Experimental",
     "version_number": "1.0.0",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
-    "description": "Immersion mod -- removes crosshair from HUD (Optional override toggle: Hold F and press Left Mouse button)",
+    "description": "Immersion mod __ removes crosshair from HUD (Optional override toggle: Hold F and press Left Mouse button)",
     "dependencies": [ 
 		"Subnautica_Modding-QModManager_Experimental-4.4.2",
 		"Subnautica_Modding-SMLHelper_Experimental-2.13.0"

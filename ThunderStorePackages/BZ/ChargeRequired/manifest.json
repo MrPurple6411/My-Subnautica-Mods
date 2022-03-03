@@ -1,5 +1,5 @@
 {
-    "name": "Charge Required-BZ",
+    "name": "Charge_Required_BZ",
     "version_number": "1.0.0",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Makes it so that when crafting things that require a battery as an ingredient to craft they will fail when trying to use a dead battery.",
