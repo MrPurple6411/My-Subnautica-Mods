@@ -34,9 +34,9 @@
 
             if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
             {
-#if SN1
+#if SUBNAUTICA_STABLE
                 __result = Builder.CheckAsSubModule();
-#elif BZ
+#else
                 __result = Builder.CheckAsSubModule(out _);
 #endif
             }

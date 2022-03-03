@@ -10,7 +10,7 @@
     using UnityEngine;
     using MonoBehaviours;
 
-#if SUBNAUTICA_STABLE
+#if SN1
     using SMLHelper.V2.Handlers;
 #endif
 

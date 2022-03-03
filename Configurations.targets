@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup Condition="'$(Configuration)' == 'SN1.EDITOR'">
-    <DefineConstants>SN1;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaBranches\Stable</GameDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'BZ.EDITOR'">
-    <DefineConstants>BZ;EDITOR</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
 	  <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
@@ -36,15 +28,14 @@
     <SMLHelperFolder>Modding Helper</SMLHelperFolder>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath Condition="!$(Configuration.Contains('Editor'))">..\..\Qmods\$(Configuration)\$(AssemblyName)\</OutputPath>
-    <OutputPath Condition="$(Configuration.Contains('Editor'))">bin\</OutputPath>
-	<Dependencies>$(SolutionDir)Dependencies</Dependencies>
+    <OutputPath>$(SolutionDir)Qmods\$(Configuration)\$(AssemblyName)</OutputPath>
+	<Dependencies>$(SolutionDir)Dependencies\$(Configuration)</Dependencies>
 	  <ManagedDir>$(GameDir)/$(DataFolder)/Managed</ManagedDir>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <LangVersion>latest</LangVersion>
     <ReferencePath>
-      $(Dependencies);$(GameDir)\BepInEx\core;$(GameDir)\BepInEx\plugins\QModManager;$(GameDir)\Qmods\$(SMLHelperFolder);$(GameDir)\$(DataFolder)\Managed\publicized_assemblies;$(GameDir)\$(DataFolder)\Managed;$(SolutionDir)\Libs\$(Configuration)
-    </ReferencePath>
+		$(Dependencies);$(SolutionDir)Libs\$(Configuration)
+	</ReferencePath>
   </PropertyGroup>
 </Project>

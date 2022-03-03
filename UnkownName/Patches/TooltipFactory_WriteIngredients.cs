@@ -1,4 +1,6 @@
-﻿namespace UnKnownName.Patches
+﻿using UnknownName;
+
+namespace UnKnownName.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;
@@ -54,7 +56,11 @@
                 var techType = ingredients[i].techType;
                 if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
                 {
+#if SN1
                     KnownTech.Add(techType);
+#elif BZ
+                    KnownTech.Add(techType, true);
+#endif
                 }
 
                 if (KnownTech.Contains(techType) || !GameModeUtils.RequiresBlueprints()) continue;
@@ -68,5 +74,4 @@
 
 #endif
     }
-
 }

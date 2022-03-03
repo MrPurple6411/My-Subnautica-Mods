@@ -2,9 +2,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <Private>False</Private>
-    </Reference>
+	  <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+		  <HintPath>..\packages\HarmonyX.2.9.0\lib\net45\0Harmony.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <Private>False</Private>
     </Reference>
@@ -244,21 +245,6 @@
   </ItemGroup>
   <ItemGroup Condition="$(Configuration.StartsWith('BZ'))">
     <Reference Include="Unity.Formats.Fbx.Runtime">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.PlayableGraphVisualizer">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.KdTree">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Poly2Tri">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Stl">
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Recorder">

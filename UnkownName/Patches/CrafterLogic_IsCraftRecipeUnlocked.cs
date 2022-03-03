@@ -1,4 +1,4 @@
-﻿namespace UnKnownName.Patches
+﻿namespace UnknownName.Patches
 {
     using System.Collections.Generic;
     using HarmonyLib;

@@ -1,4 +1,4 @@
-﻿namespace UnKnownName
+﻿namespace UnknownName
 {
     using System.Reflection;
     using HarmonyLib;

@@ -75,7 +75,7 @@ namespace CustomizeYourSpawns
 
                 if (string.IsNullOrEmpty(name)) continue;
                 
-                names.Add(name);
+                names.AddIfNotPresent(name);
                 if (!nameClassIds.ContainsKey(name))
                     nameClassIds[name] = new List<string> {prefabFile.Key};
                 else
@@ -103,7 +103,7 @@ namespace CustomizeYourSpawns
                 if(!techNames.Contains(name))
                     techNames.Add(name);
 
-                names.Add(name);
+                names.AddIfNotPresent(name);
                 if(!nameClassIds.ContainsKey(name))
                     nameClassIds[name] = new List<string> { modPrefab.ClassID };
                 else

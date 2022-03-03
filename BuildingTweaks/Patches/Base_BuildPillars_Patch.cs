@@ -3,7 +3,7 @@
     using HarmonyLib;
     using UnityEngine;
 
-#if SN1
+#if SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(Base), nameof(Base.BuildPillars))]
     public static class Base_BuildPillars_Patch
     {
@@ -93,7 +93,7 @@
             }
         }
     }
-#elif BZ
+#else
 
     [HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
 	public static class Base_BuildPillars_Patch
@@ -135,6 +135,7 @@
                             {
                                 finalTarget = vehicle.modulesRoot.gameObject;
                             }
+#if BZ
                             else
                             {
 
@@ -150,6 +151,7 @@
                                         finalTarget = seaTruck.gameObject;
                                 }
                             }
+#endif
                         }
                     }
                 }

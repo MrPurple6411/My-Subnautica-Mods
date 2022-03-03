@@ -1,4 +1,4 @@
-﻿namespace UnKnownName.Patches
+﻿namespace UnknownName.Patches
 {
     using HarmonyLib;
     using System.Collections;
@@ -36,7 +36,7 @@
                 if(entry != null)
                 {
                     PDAScanner.partial.Remove(entry);
-                    PDAScanner.complete.Add(entry.techType);
+                    PDAScanner.complete.AddIfNotPresent(entry.techType);
                     PDAScanner.NotifyRemove(entry);
                     PDAScanner.Unlock(entryData, true, true);
                     KnownTech.Add(techType, false);
@@ -52,7 +52,11 @@
 
             if(!Main.Config.Hardcore && entryData == null)
             {
+#if SN1
                 KnownTech.Add(techType);
+#else
+                KnownTech.Add(techType, true);
+#endif
             }
         }
 

@@ -3,7 +3,7 @@
     using HarmonyLib;
     using UnityEngine;
 
-#if SN1
+#if SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(BaseFoundationPiece), nameof(BaseFoundationPiece.OnGenerate))]
     public static class BaseFoundationPiece_OnGenerate_Patch
     {
@@ -47,23 +47,11 @@
                             {
 
                                 Component lifePod =
-#if SN1
                             target.GetComponentInParent<EscapePod>();
-#elif BZ
-                            placementTarget.GetComponentInParent<LifepodDrop>();
-#endif
                                 if(lifePod != null)
                                 {
                                     finalTarget = lifePod.gameObject;
                                 }
-#if BZ
-                                    else
-                                    {
-                                        SeaTruckSegment seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
-                                        if(seaTruck != null)
-                                            finalTarget = seaTruck.gameObject;
-                                    }
-#endif
                             }
                         }
                     }
@@ -106,7 +94,7 @@
             __instance.maxPillarHeight = maxHeight;
         }
     }
-#elif BZ
+#else
 
 	[HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
 	public static class Base_BuildPillars_Patch
@@ -146,6 +134,7 @@
                             {
                                 finalTarget = vehicle.modulesRoot.gameObject;
                             }
+#if BZ
                             else
                             {
 
@@ -161,6 +150,7 @@
                                         finalTarget = seaTruck.gameObject;
                                 }
                             }
+#endif
                         }
                     }
                 }
@@ -181,7 +171,9 @@
                         maxHeight = baseFoundationPiece.name switch
                         {
                             "BaseRoomAdjustableSupport(Clone)" => config.RoomLegs ? 0 : 20f,
+#if BZ
                             "BaseLargeRoomAdjustableSupport(Clone)" => config.LargeRoomLegs ? 0 : 20f,
+#endif
                             "BaseMoonpool(Clone)" => config.MoonPoolLegs ? 0 : 20f,
                             "BaseFoundationPiece(Clone)" => config.FoundationLegs ? 0 : 20f,
                             "BaseCorridorXShapeAdjustableSupport(Clone)" => config.XCorridor ? 0 : 20f,
@@ -198,4 +190,4 @@
 		}
 	}
 #endif
-}
+                        }
