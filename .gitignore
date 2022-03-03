@@ -382,4 +382,6 @@ SeamothCloneTest/Assets/Submersible_SeaMoth_indoor_normal.png
 SeamothCloneTest/Assets/Submersible_SeaMoth_normal.png
 SeamothCloneTest/Assets/Submersible_SeaMoth_spec.png
 [Dd]ependencies/
-**/[Zz]ips/**
+!ThunderStorePackages/**
+ThunderStorePackages/[Zz]ips/**
+ThunderStorePackages/**/*.dll
