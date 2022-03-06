@@ -1,11 +1,11 @@
 {
   "Id": "IncreasedChunkDrops",
   "DisplayName": "IncreasedChunkDrops",
-  "Author": "MrPurple6411",
+  "Author": "MrPurple6411 and Desperationfighter",
   "Version": "2.1.1",
-  "Dependencies": [ "SMLHelper" ],
+  "VersionDependencies": { "SMLHelper": "2.9.3" },
   "Enable": true,
-  "Game": "Subnautica",
+  "Game": "BelowZero",
   "VersionChecker": {
     "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/IncreasedChunkDrops/mod_SN1.json"
   },
