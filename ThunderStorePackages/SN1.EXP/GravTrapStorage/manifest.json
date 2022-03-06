@@ -1,0 +1,10 @@
+{
+    "name": "Gravtrap_Storage_Experimental",
+    "version_number": "1.0.1",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "This mod adds a few new features to the Gravtrap.",
+    "dependencies": [ 
+		"Subnautica_Modding-QModManager_Experimental-4.4.2",
+		"Subnautica_Modding-SMLHelper_Experimental-2.13.0"
+		]
+}
