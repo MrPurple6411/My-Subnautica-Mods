@@ -1,4 +1,6 @@
 ﻿
+using QModInstaller.BepInEx.Plugins;
+
 namespace GravTrapStorage
 {
     using System.Collections;
@@ -16,25 +18,48 @@ namespace GravTrapStorage
     {
         public static Config ConfigFile { get; private set; }
 
-        [QModPatch]
+        [QModPrePatch]
         public static void Load()
         {
             ConfigFile = OptionsPanelHandler.RegisterModOptions<Config>();
             
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), $"MrPurple6411_GravTrapStorage");
+            var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), $"MrPurple6411_GravTrapStorage");
+#if SUBNAUTICA_STABLE
             CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
+#else
+            harmony.Patch(
+                AccessTools.Method(
+                    typeof(PlatformUtils), nameof(PlatformUtils.PlatformInitAsync)
+                ),
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(Main), nameof(Main.Postfix)))
+            );
+#endif
+            Logger.Log(Logger.Level.Error, $" Loaded.");
         }
 
+        private static IEnumerator Postfix(IEnumerator result)
+        {
+            while (result.MoveNext())
+            {
+                yield return result;
+            }
+            Logger.Log(Logger.Level.Error, $" Starting Coroutine.");
+            CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
+        }
+        
         public static IEnumerator ModifyGravspherePrefab()
         {
+            Logger.Log(Logger.Level.Error, $" Attempting to Attaching Storage");
             CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
             yield return request;
 
             var prefab = request.GetResult();
+            Logger.Log(Logger.Level.Error, $" Ensuring COI");
             var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
             
             if (coi)
             {
+                Logger.Log(Logger.Level.Error, $"Attaching Storage");
                 coi.classId = "GravTrapStorage";
                 var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
                 storageContainer.prefabRoot = prefab;

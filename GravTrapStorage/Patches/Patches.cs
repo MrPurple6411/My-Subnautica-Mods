@@ -45,13 +45,12 @@ namespace GravTrapStorage.Patches
                 __instance.trigger.enabled = true;
                 ResetTriggers[__instance] = false;
             }
-            
 
+            StorageContainer targetContainer;
             if (Targeting.GetTarget(Player.main.gameObject, Main.ConfigFile.TransferDistance, out var activeTarget, out var activeHitDistance) &&
-                (UWE.Utils.GetEntityRoot(activeTarget) ?? activeTarget).TryGetComponent(
-                    out StorageContainer targetContainer))
+                (targetContainer = (UWE.Utils.GetEntityRoot(activeTarget) ?? activeTarget).GetComponentInChildren<StorageContainer>()) != null)
             {
-
+                
                 string targetName = CraftData.GetTechType(targetContainer.gameObject).AsString();
                 
                 if (!storageContainer.GetOpen())
