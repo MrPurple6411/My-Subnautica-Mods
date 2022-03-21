@@ -2,7 +2,7 @@
   "Id": "Base_Legs_Removal",
   "DisplayName": "Base_Legs_Removal",
   "Author": "MrPurple6411",
-  "Version": "2.1.1",
+  "Version": "3.0.1000",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

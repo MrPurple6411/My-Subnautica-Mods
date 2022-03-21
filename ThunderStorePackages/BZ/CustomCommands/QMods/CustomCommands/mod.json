@@ -2,7 +2,7 @@
   "Id": "CustomCommands",
   "DisplayName": "CustomCommands",
   "Author": "Coticvo",
-  "Version": "2.1.0",
+  "Version": "3.0.1000",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
