@@ -2,11 +2,11 @@
   "Id": "GravTrapStorage",
   "DisplayName": "GravTrapStorage",
   "Author": "MrPurple6411",
-  "Version": "1.0.1002",
+  "Version": "1.0.1003",
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/GravTrapStorage/mod_BZ.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/GravTrapStorage/mod_BZ.json"
   },
   "AssemblyName": "GravTrapStorage.dll"
 }

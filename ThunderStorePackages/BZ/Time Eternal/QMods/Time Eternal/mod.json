@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "Both",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/Time%20Eternal/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/Time%20Eternal/mod.json"
   },
   "AssemblyName": "Time Eternal.dll"
 }

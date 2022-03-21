@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "Subnautica",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/RandomCreatureSize/mod_SN1.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/RandomCreatureSize/mod_SN1.EXP.json"
   },
   "AssemblyName": "RandomCreatureSize.dll"
 }

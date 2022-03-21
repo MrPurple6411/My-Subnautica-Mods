@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/PersistentCommands/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/PersistentCommands/mod_BZ.EXP.json"
   },
   "AssemblyName": "PersistentCommands.dll"
 }

@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "Subnautica",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BuilderPlaceOnComplete/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/BuilderPlaceOnComplete/mod.json"
   },
   "AssemblyName": "BuilderPlaceOnComplete.dll"
 }

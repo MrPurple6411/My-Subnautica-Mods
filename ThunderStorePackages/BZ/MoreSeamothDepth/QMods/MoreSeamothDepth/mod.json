@@ -8,7 +8,7 @@
   "Enable": true,
   "Game": "Subnautica",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/SeamothDepthModules/mod_SN1.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/SeamothDepthModules/mod_SN1.json"
   },
   "AssemblyName": "MoreSeamothDepth.dll"
 }

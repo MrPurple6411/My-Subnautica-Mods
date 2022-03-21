@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "Both",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/PowerOrder/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/PowerOrder/mod.json"
   },
   "AssemblyName": "PowerOrder.dll"
 }

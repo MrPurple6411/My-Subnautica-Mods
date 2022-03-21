@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/ExtraOptions%20(SMLHelper)/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/ExtraOptions%20(SMLHelper)/mod_BZ.EXP.json"
   },
   "AssemblyName": "ExtraOptions.dll"
 }

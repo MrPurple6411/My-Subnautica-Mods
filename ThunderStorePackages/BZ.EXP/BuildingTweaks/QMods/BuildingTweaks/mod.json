@@ -7,7 +7,7 @@
   "Game": "BelowZero",
   "LoadBefore": [ "BuilderModule" ],
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/BuildingTweaks/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/BuildingTweaks/mod_BZ.EXP.json"
   },
   "AssemblyName": "BuildingTweaks.dll"
 }

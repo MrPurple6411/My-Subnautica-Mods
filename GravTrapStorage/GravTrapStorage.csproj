@@ -24,7 +24,8 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\Patches.cs" />
+    <Compile Include="Patches\Gravsphere_Patches.cs" />
+    <Compile Include="Patches\uGUI_InventoryTab_Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

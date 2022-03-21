@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/IncreasedChunkDrops/mod_SN1.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/IncreasedChunkDrops/mod_SN1.json"
   },
   "AssemblyName": "IncreasedChunkDrops.dll"
 }

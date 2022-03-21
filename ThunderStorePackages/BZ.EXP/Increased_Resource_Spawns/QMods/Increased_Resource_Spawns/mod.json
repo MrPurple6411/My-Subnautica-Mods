@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/Increased%20Resource%20Spawns/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/Increased%20Resource%20Spawns/mod_BZ.EXP.json"
   },
   "AssemblyName": "Increased_Resource_Spawns.dll"
 }

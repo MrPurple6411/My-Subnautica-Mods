@@ -6,7 +6,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/All-Items-1x1/mod_BZ.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/All-Items-1x1/mod_BZ.json"
   },
   "AssemblyName": "All-Items-1x1.dll"
 }

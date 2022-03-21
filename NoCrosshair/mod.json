@@ -6,7 +6,7 @@
   "Enable": true,
   "Game": "Both",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/NoCrosshair/mod.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/NoCrosshair/mod.json"
   },
   "AssemblyName": "NoCrosshair.dll"
 }

@@ -234,13 +234,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMagicLights", "NoMagicLig
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GravTrapStorage", "GravTrapStorage\GravTrapStorage.csproj", "{3BDC2C30-D5F0-471C-898E-234CAD74B924}"
+	ProjectSection(ProjectDependencies) = postProject
+		{42843B35-B64F-4A46-B314-B76066C2ECB0} = {42843B35-B64F-4A46-B314-B76066C2ECB0}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidTerrain", "SolidTerrain\SolidTerrain.csproj", "{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{42843B35-B64F-4A46-B314-B76066C2ECB0} = {42843B35-B64F-4A46-B314-B76066C2ECB0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		BZ.EXP|Any CPU = BZ.EXP|Any CPU
+		SN1|Any CPU = SN1|Any CPU
 		BZ|Any CPU = BZ|Any CPU
 		SN1.EXP|Any CPU = SN1.EXP|Any CPU
-		SN1|Any CPU = SN1|Any CPU
+		BZ.EXP|Any CPU = BZ.EXP|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{633C5177-57F7-4746-81D6-EF920939D3F3}.BZ.EXP|Any CPU.ActiveCfg = BZ.EXP|Any CPU
@@ -584,6 +592,14 @@ Global
 		{3BDC2C30-D5F0-471C-898E-234CAD74B924}.SN1.EXP|Any CPU.Build.0 = SN1.EXP|Any CPU
 		{3BDC2C30-D5F0-471C-898E-234CAD74B924}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
 		{3BDC2C30-D5F0-471C-898E-234CAD74B924}.SN1|Any CPU.Build.0 = SN1|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.BZ.EXP|Any CPU.ActiveCfg = BZ.EXP|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.BZ.EXP|Any CPU.Build.0 = BZ.EXP|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.BZ|Any CPU.Build.0 = BZ|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.SN1.EXP|Any CPU.ActiveCfg = SN1.EXP|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.SN1.EXP|Any CPU.Build.0 = SN1.EXP|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
+		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.SN1|Any CPU.Build.0 = SN1|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

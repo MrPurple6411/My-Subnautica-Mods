@@ -7,7 +7,7 @@
   "Enable": true,
   "Game": "BelowZero",
   "VersionChecker": {
-    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/master/CustomizeYourSpawns/mod_BZ.EXP.json"
+    "LatestVersionURL": "https://github.com/MrPurple6411/Subnautica-Mods/raw/main/CustomizeYourSpawns/mod_BZ.EXP.json"
   },
   "AssemblyName": "CustomizeYourSpawns.dll"
 }

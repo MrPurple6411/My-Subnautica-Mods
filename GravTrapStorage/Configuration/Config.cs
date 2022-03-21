@@ -18,12 +18,10 @@
         
         [Slider("Transfer to storage targeting Distance ", 3, 200, DefaultValue = 3)]
         public int TransferDistance = 3;
-
-        public List<TechType> AllowedTechTypes = new(Gravsphere.allowedTechTypes);
-
+        
         private void ApplyOptions()
         {
-            foreach (StorageContainer container in Patches.Patches.StorageContainers.Values)
+            foreach (StorageContainer container in Patches.GravspherePatches.StorageContainers.Values)
             {
                 container.Resize(Width, Height);
             }
