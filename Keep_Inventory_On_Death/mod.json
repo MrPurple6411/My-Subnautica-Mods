@@ -2,7 +2,7 @@
   "Id": "Keep_Inventory_On_Death",
   "DisplayName": "Keep_Inventory_On_Death",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "99.99.99",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",

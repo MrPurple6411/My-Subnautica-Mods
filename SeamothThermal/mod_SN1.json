@@ -2,7 +2,7 @@
   "Id": "SeamothThermal",
   "DisplayName": "SeamothThermal",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "99.99.99",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Subnautica",

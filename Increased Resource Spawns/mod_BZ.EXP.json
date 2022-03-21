@@ -2,7 +2,7 @@
   "Id": "Increased_Resource_Spawns",
   "DisplayName": "Increased Resource Spawns",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "99.99.99",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",

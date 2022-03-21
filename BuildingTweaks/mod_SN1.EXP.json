@@ -2,7 +2,7 @@
   "Id": "BuildingTweaks",
   "DisplayName": "BuildingTweaks",
   "Author": "MrPurple6411",
-  "Version": "2.1.6",
+  "Version": "99.99.99",
   "Enable": true,
   "Game": "Subnautica",
   "LoadBefore": [ "BuilderModule" ],
