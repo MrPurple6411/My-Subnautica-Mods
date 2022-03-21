@@ -382,8 +382,6 @@ QMods/BZ.EXP/**
 **/[Ll]ibrary/
 **/[Tt]emp/
 **/[Aa]ssets/[Pp]lugins/
-!**/[Pp]ackages/manifest.json
 !**/[Pp]ackages/Subnautic*
 **/[Pp]ackages/Subnautic*/*
 !**/[Pp]ackages/Subnautic*/TechPisto*
-**/Assets/Plugins.meta
