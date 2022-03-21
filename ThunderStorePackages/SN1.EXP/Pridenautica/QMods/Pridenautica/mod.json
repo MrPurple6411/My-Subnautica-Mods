@@ -1,9 +1,0 @@
-{
-  "Id": "Pridenautica",
-  "DisplayName": "Pridenautica",
-  "Author": "MrPurple6411",
-  "Version": "1.0.0",
-  "Enable": true,
-  "Game": "Both",
-  "AssemblyName": "Pridenautica.dll"
-}
