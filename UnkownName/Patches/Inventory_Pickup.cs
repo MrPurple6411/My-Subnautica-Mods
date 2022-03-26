@@ -39,7 +39,8 @@
                     PDAScanner.complete.AddIfNotPresent(entry.techType);
                     PDAScanner.NotifyRemove(entry);
                     PDAScanner.Unlock(entryData, true, true);
-                    KnownTech.Add(techType, false);
+                    if(!Main.Config.Hardcore)
+                        KnownTech.Add(techType, true);
                     if(gameObject != null)
                     {
                         gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
@@ -52,11 +53,7 @@
 
             if(!Main.Config.Hardcore && entryData == null)
             {
-#if SN1
-                KnownTech.Add(techType);
-#else
                 KnownTech.Add(techType, true);
-#endif
             }
         }
 
