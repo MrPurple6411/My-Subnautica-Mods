@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8e837e69-af70-4297-a4db-8e5e3c6379f2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/BaseKits/Prefabs/CloneBaseKit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BaseKits/Prefabs/CloneBaseKit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BaseKits/Prefabs/CloneBasePiece.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BaseKits/Prefabs/CloneBasePiece.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BaseKits/Prefabs/KitFabricator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BaseKits/Prefabs/KitFabricator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomPosters/Poster/BasicPostersPrefab.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CustomPosters/Poster/BasicPostersPrefab.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qmods/Zips/SN1/BaseKits.zip" beforeDir="false" afterPath="$PROJECT_DIR$/Qmods/Zips/SN1/BaseKits.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qmods/Zips/SN1/CustomPosters.zip" beforeDir="false" afterPath="$PROJECT_DIR$/Qmods/Zips/SN1/CustomPosters.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThunderStorePackages/Zips/SN1/BaseKits.zip" beforeDir="false" afterPath="$PROJECT_DIR$/ThunderStorePackages/Zips/SN1/BaseKits.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThunderStorePackages/Zips/SN1/CustomPosters.zip" beforeDir="false" afterPath="$PROJECT_DIR$/ThunderStorePackages/Zips/SN1/CustomPosters.zip" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="26i1MiJjXbPGQGt4vi1Lm0fuBXX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="rider.run.widget.enabled.cache" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8e837e69-af70-4297-a4db-8e5e3c6379f2" name="Changes" comment="" />
+      <created>1647891552164</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647891552164</updated>
+      <workItem from="1647891566999" duration="1381000" />
+      <workItem from="1647936553423" duration="211000" />
+      <workItem from="1647936985090" duration="722000" />
+      <workItem from="1648013192971" duration="7886000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
