@@ -1,4 +1,6 @@
-﻿namespace CustomPosters.Poster
+﻿using SMLHelper.V2.Handlers;
+
+namespace CustomPosters.Poster
 {
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Crafting;
@@ -7,24 +9,31 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class BasicPostersPrefab: Equipable
+    public class BasicPostersPrefab : Equipable
     {
         private readonly Texture2D posterIcon;
         private readonly Texture2D posterTexture;
         private readonly string orientation;
         private static readonly int MainTex = Shader.PropertyToID("_MainTex");
         private static readonly int SpecTex = Shader.PropertyToID("_SpecTex");
+        private readonly TechGroup group;
+        private readonly TechCategory category;
 
-        public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation, Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description)
+        public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation,
+            Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description)
         {
             this.orientation = orientation;
             this.posterIcon = posterIcon;
             this.posterTexture = posterTexture;
+
+            group = TechGroupHandler.Main.AddTechGroup($"Custom_Posters", $"Custom Posters");
+            category = TechCategoryHandler.Main.AddTechCategory($"{orientation}_Posters", $"{orientation} Posters");
+            TechCategoryHandler.Main.TryRegisterTechCategoryToTechGroup(group, category);
         }
 
-        public override TechGroup GroupForPDA => TechGroup.Resources;
+        public override TechGroup GroupForPDA => group;
 
-        public override TechCategory CategoryForPDA => TechCategory.BasicMaterials;
+        public override TechCategory CategoryForPDA => category;
 
         public override EquipmentType EquipmentType => EquipmentType.Hand;
 
@@ -32,7 +41,9 @@
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
 
-        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape" ? new[] { "Posters", "Landscape" } : new[] { "Posters", "Portrait" };
+        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape"
+            ? new[] {"Posters", "Landscape"}
+            : new[] {"Posters", "Portrait"};
 
 #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
@@ -79,7 +90,8 @@
             return new()
             {
                 craftAmount = 1,
-                Ingredients = new List<Ingredient>(){
+                Ingredients = new List<Ingredient>()
+                {
                     new(TechType.Titanium, 1),
                     new(TechType.FiberMesh, 1)
                 }
@@ -110,6 +122,5 @@
             return ImageUtils.LoadSpriteFromTexture(posterIcon);
         }
 #endif
-
     }
 }

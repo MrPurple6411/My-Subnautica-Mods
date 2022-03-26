@@ -2,7 +2,7 @@
   "Id": "Time_Eternal",
   "DisplayName": "Time Eternal",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "3.0.1000",
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "Both",

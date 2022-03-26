@@ -40,12 +40,26 @@ namespace TechPistol.Module
         public override string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
         public override float CraftingTime => 5f;
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
+
         public override TechType RequiredForUnlock => Main.PistolFragment.TechType;
+
+        public override bool UnlockedAtStart => false;
+
+        public override List<TechType> CompoundTechsForUnlock => GetUnlocks();
+
+        private List<TechType> GetUnlocks()
+        {
+            var list = new List<TechType>();
+
+            foreach (var ingredient in this.GetBlueprintRecipe().Ingredients)
+            {
+                list.Add(ingredient.techType);
+            }
+
+            return list;
+        }
+
         public override string DiscoverMessage => $"{FriendlyName} Unlocked!";
-        public override bool AddScannerEntry => true;
-        public override int FragmentsToScan => 5;
-        public override float TimeToScanFragment => 5f;
-        public override bool DestroyFragmentOnScan => true;
 
 #if SUBNAUTICA_STABLE
 

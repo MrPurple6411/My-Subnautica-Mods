@@ -2,7 +2,7 @@
   "Id": "UnobtaniumBatteries",
   "DisplayName": "Unobtanium Batteries",
   "Author": "MrPurple6411",
-  "Version": "2.1.2",
+  "Version": "3.0.1000",
   "Dependencies": [ "SMLHelper", "CustomBatteries" ],
   "Enable": true,
   "Game": "BelowZero",

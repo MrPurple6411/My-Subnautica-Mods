@@ -2,7 +2,7 @@
   "Id": "ChargeRequired",
   "DisplayName": "Charge Required",
   "Author": "MrPurple6411",
-  "Version": "2.1.0",
+  "Version": "3.0.1000",
   "LoadAfter": [ "EasyCraft" ],
   "Enable": true,
   "Game": "Subnautica",

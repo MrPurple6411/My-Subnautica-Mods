@@ -43,6 +43,7 @@
                 SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "ModuleMenu"), SpriteManager.Get(TechType.BaseBioReactor));
                 SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "UtilityMenu"), SpriteManager.Get(TechType.BaseHatch));
 
+                    CraftDataHandler.SetBackgroundType(this.TechType, CraftData.BackgroundType.PlantAir);
             };
         }
 

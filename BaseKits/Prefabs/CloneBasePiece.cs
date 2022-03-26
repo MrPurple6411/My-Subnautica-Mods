@@ -12,16 +12,23 @@
 #endif
 
 
-    internal class CloneBasePiece: Buildable
+    internal class CloneBasePiece : Buildable
     {
-        private static readonly List<TechType> UnlockRequired = new() { TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool, TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole, TechType.BaseFiltrationMachine, TechType.BaseWaterPark };
+        private static readonly List<TechType> UnlockRequired = new()
+        {
+            TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool,
+            TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole,
+            TechType.BaseFiltrationMachine, TechType.BaseWaterPark
+        };
+
         private GameObject processedPrefab;
         private readonly TechType TypeToClone;
         private readonly TechType KitTechType;
         private readonly TechGroup group;
         private readonly TechCategory category;
 
-        internal CloneBasePiece(TechType typeToClone, TechType kitTechType) : base($"CBP_{typeToClone}", $"{Language.main.Get(typeToClone)}", "Built from a Kit!")
+        internal CloneBasePiece(TechType typeToClone, TechType kitTechType) : base($"CBP_{typeToClone}",
+            $"{Language.main.Get(typeToClone)}", "Built from a Kit!")
         {
             TypeToClone = typeToClone;
             KitTechType = kitTechType;
@@ -31,11 +38,10 @@
             {
                 CraftDataHandler.SetBackgroundType(this.TechType, CraftData.BackgroundType.PlantAir);
             };
-
-
         }
 
-        public override TechType RequiredForUnlock => UnlockRequired.Contains(TypeToClone) ? TypeToClone : TechType.None;
+        public override TechType RequiredForUnlock =>
+            UnlockRequired.Contains(TypeToClone) ? TypeToClone : TechType.None;
 
         public override TechGroup GroupForPDA => group;
 
@@ -45,22 +51,16 @@
         public override GameObject GetGameObject()
         {
             GameObject go = null;
-            if(processedPrefab != null)
+            if (processedPrefab != null)
             {
                 go = Object.Instantiate(processedPrefab);
                 go.SetActive(true);
                 return go;
             }
 
-            var prefab = CraftData.GetPrefabForTechType(TypeToClone);
-
-            if(prefab != null)
-            {
-                processedPrefab = Object.Instantiate(prefab);
-                processedPrefab.SetActive(false);
-                go = Object.Instantiate(processedPrefab, default, default, true);
-            }
-            
+            processedPrefab = CraftData.GetPrefabForTechType(TypeToClone);
+            go = Object.Instantiate(processedPrefab);
+            go.SetActive(true);
             return go;
         }
 #endif
@@ -68,7 +68,7 @@
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             GameObject go = null;
-            if(processedPrefab != null)
+            if (processedPrefab != null)
             {
                 go = Object.Instantiate(processedPrefab);
                 go.SetActive(true);
@@ -79,20 +79,15 @@
             var task = CraftData.GetPrefabForTechTypeAsync(TypeToClone);
             yield return task;
 
-            var prefab = task.GetResult();
-            if(prefab != null)
-            {
-                processedPrefab = Object.Instantiate(prefab);
-                processedPrefab.SetActive(false);
-                go = Object.Instantiate(processedPrefab, default, default, true);
-            }
-
+            processedPrefab = task.GetResult();
+            go = Object.Instantiate(processedPrefab);
+            go.SetActive(true);
             gameObject.Set(go);
         }
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(KitTechType, 1) } };
+            return new() {craftAmount = 1, Ingredients = new List<Ingredient>() {new(KitTechType, 1)}};
         }
 
         protected override Sprite GetItemSprite()

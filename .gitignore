@@ -352,26 +352,12 @@ MigrationBackup/
 .ionide/
 
 # Custom ignores
-QMods/
 */ScubaManifold.dll
 */NitrogenMod_publicized.dll
 */CyclopsBioReactor_publicized.dll
 */AquariumBreeding_publicized.dll
 */FCS_AlterraHub.dll
-Libs/
-
-# =============== #
-# Unity generated #
-# =============== #
-
-**/[Ll]ibrary/
-**/[Tt]emp/
-**/[Aa]ssets/[Pp]lugins/
-!**/[Pp]ackages/manifest.json
-!**/[Pp]ackages/Subnautic*
-**/[Pp]ackages/Subnautic*/*
-!**/[Pp]ackages/Subnautic*/TechPisto*
-**/Assets/Plugins.meta
+[Ll]ibs/
 SeamothCloneTest/Assets/Submersible_SeaMoth.png
 SeamothCloneTest/Assets/Submersible_SeaMoth_colorsMask.png
 SeamothCloneTest/Assets/Submersible_SeaMoth_Glass.png
@@ -383,5 +369,19 @@ SeamothCloneTest/Assets/Submersible_SeaMoth_normal.png
 SeamothCloneTest/Assets/Submersible_SeaMoth_spec.png
 [Dd]ependencies/
 !ThunderStorePackages/**
-ThunderStorePackages/[Zz]ips/**
 ThunderStorePackages/**/*.dll
+QMods/SN1/**
+QMods/SN1.EXP/**
+QMods/BZ/**
+QMods/BZ.EXP/**
+
+# =============== #
+# Unity generated #
+# =============== #
+
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Aa]ssets/[Pp]lugins/
+!**/[Pp]ackages/Subnautic*
+**/[Pp]ackages/Subnautic*/*
+!**/[Pp]ackages/Subnautic*/TechPisto*
