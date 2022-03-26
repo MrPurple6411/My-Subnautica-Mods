@@ -2,6 +2,7 @@
 namespace TechPistol.Module
 {
     using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
     using SMLHelper.V2.Utility;
     using System.Collections;
     using System.Collections.Generic;
@@ -9,19 +10,26 @@ namespace TechPistol.Module
     using UWE;
 #if SN1
     using Sprite = Atlas.Sprite;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
-    internal class PistolFragmentPrefab: Spawnable
+    internal class PistolFragmentPrefab: PdaItem
     {
 
         private static GameObject processedPrefab;
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
         private static readonly int MetallicGlossMap = Shader.PropertyToID("_MetallicGlossMap");
         private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
+        public override bool AddScannerEntry => true;
+        public override int FragmentsToScan => 1;
+        public override float TimeToScanFragment => 5f;
+        public override bool DestroyFragmentOnScan => true;
+        public override TechType RequiredForUnlock => this.TechType;
+        public override bool UnlockedAtStart => false;
 
         public PistolFragmentPrefab() : base(
             "TechPistolFragment",
-            "Damaged Pistol Fragment",
+            "Tech Pistol",
             "Incomplete or Broken fragment of an advanced pistol of unknown origins."
         )
         {
@@ -129,6 +137,11 @@ namespace TechPistol.Module
         protected override Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromTexture(Main.assetBundle.LoadAsset<Texture2D>("Icon"));
+        }
+
+        protected override RecipeData GetBlueprintRecipe()
+        {
+            return new RecipeData() { craftAmount = 1, Ingredients = new List<Ingredient>() { new Ingredient(this.TechType, 1) } };
         }
     }
 }
