@@ -1,0 +1,11 @@
+[config]
+schemaVersion = "0.0.1"
+
+[package]
+namespace = "MrPurple6411"
+containsNsfwContent = false
+
+[publish]
+repository = "https://belowzero.thunderstore.io"
+communities = ["subnautica-below-zero"]
+categories = ["experimental"]
