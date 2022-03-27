@@ -1,10 +1,10 @@
 {
-    "name": "Specialty_Manifold_Experimental",
-    "version_number": "3.0.1000",
+    "name": "Specialty_ManifoldBZ_Experimental",
+    "version_number": "3.0.1002",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Allows the specialty tanks from Nitrogen mod or Deathrun mod to be used with the Scuba Manifold mod.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_BZ_Experimental-4.4.2",
-		"Subnautica_Modding-SMLHelper_BZ_Experimental-2.13.0"
+		"Subnautica_Modding-QModManager_BZ_Experimental-4.4.3",
+		"Subnautica_Modding-SMLHelper_BZ_Experimental-2.13.4"
 		]
 }

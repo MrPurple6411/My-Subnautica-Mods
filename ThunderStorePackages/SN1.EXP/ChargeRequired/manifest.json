@@ -1,10 +1,10 @@
 {
-    "name": "Charge Required_Experimental",
-    "version_number": "3.0.1000",
+    "name": "Charge_Required_Experimental",
+    "version_number": "3.0.1002",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Makes it so that when crafting things that require a battery as an ingredient to craft they will fail when trying to use a dead battery.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_Experimental-4.4.2",
-		"Subnautica_Modding-SMLHelper_Experimental-2.13.0"
+		"Subnautica_Modding-QModManager_Experimental-4.4.3",
+		"Subnautica_Modding-SMLHelper_Experimental-2.13.4"
 		]
 }

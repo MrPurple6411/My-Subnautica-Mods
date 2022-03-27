@@ -1,10 +1,10 @@
 {
     "name": "Increased_Chunk_Drops",
-    "version_number": "3.0.1000",
+    "version_number": "3.0.1001",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Allows you to set how many items will drop while breaking things like limestone, sandstone, etc.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager-4.4.2",
-		"Subnautica_Modding-SMLHelper-2.13.0"
+		"Subnautica_Modding-QModManager-4.4.3",
+		"Subnautica_Modding-SMLHelper-2.13.4"
 		]
 }

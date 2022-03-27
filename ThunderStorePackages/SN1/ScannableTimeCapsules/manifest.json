@@ -1,10 +1,10 @@
 {
     "name": "Scannable_Time_Capsules",
-    "version_number": "3.0.1000",
+    "version_number": "3.0.1001",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Allows scanner rooms to be able to scan for Time Capsules.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager-4.4.2",
-		"Subnautica_Modding-SMLHelper-2.13.0"
+		"Subnautica_Modding-QModManager-4.4.3",
+		"Subnautica_Modding-SMLHelper-2.13.4"
 		]
 }
