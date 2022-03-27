@@ -1,10 +1,10 @@
 {
     "name": "Aquarium_Overflow_BZ",
-    "version_number": "3.0.1000",
+    "version_number": "3.0.1001",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "This mod requires Aquarium Breeding and Cyclops BioReactor for it to work.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_BZ-4.4.2",
-		"Subnautica_Modding-SMLHelper_BZ-2.13.0"
+		"Subnautica_Modding-QModManager_BZ-4.4.3",
+		"Subnautica_Modding-SMLHelper_BZ-2.13.4"
 		]
 }

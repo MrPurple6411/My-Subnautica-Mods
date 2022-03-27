@@ -1,10 +1,10 @@
 {
     "name": "Persistent_Commands_Experimental",
-    "version_number": "3.0.1000",
+    "version_number": "3.0.1002",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
-    "description": "Saves active status commands like and "fastgrow" or "fog" to your save file so you don't haveto type them in every time you start your game.",
+    "description": "Saves active status commands like and 'fastgrow' or 'fastbuild' to your save file so you do not have to type them in every time you start your game.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_Experimental-4.4.2",
-		"Subnautica_Modding-SMLHelper_Experimental-2.13.0"
+		"Subnautica_Modding-QModManager_Experimental-4.4.3",
+		"Subnautica_Modding-SMLHelper_Experimental-2.13.4"
 		]
 }

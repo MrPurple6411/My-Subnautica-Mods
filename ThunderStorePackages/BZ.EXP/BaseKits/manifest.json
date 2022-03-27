@@ -1,10 +1,10 @@
 {
-    "name": "Base_Kits_Experimental",
-    "version_number": "3.0.1000",
+    "name": "Base_KitsBZ_Experimental",
+    "version_number": "3.0.1002",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "This makes a new fabricator to make kits for base parts that can be used to build base parts from the single item kit instead of hauling all the mats.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_BZ_Experimental-4.4.2",
-		"Subnautica_Modding-SMLHelper_BZ_Experimental-2.13.0"
+		"Subnautica_Modding-QModManager_BZ_Experimental-4.4.3",
+		"Subnautica_Modding-SMLHelper_BZ_Experimental-2.13.4"
 		]
 }
