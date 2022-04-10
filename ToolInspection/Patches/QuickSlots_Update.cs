@@ -13,11 +13,13 @@
         [HarmonyPrefix]
         private static void Prefix(QuickSlots __instance)
         {
-            if (!Input.GetKeyDown(KeyCode.I)|| uGUI_PDA.main.tabOpen != PDATab.None || DevConsole.instance.state || timeCheck != 0) return;
+            if (__instance._heldItem is null || GameOptions.GetVrAnimationMode() ||!Input.GetKeyDown(KeyCode.I) || (DevConsole.instance?.state ?? true) || uGUI_PDA.main.tabOpen != PDATab.None || timeCheck != 0) return;
+
             var item = __instance.heldItem;
-            var techType = item?.item?.GetTechType() ?? TechType.None;
-            var tool = item?.item?.gameObject.GetComponent<PlayerTool>();
-            if (GameOptions.GetVrAnimationMode() || tool == null || !tool.hasFirstUseAnimation) return;
+            var techType = item.item.GetTechType();
+            if(techType == TechType.None) return;
+            if (!item.item.gameObject.TryGetComponent(out PlayerTool tool) || !tool.hasFirstUseAnimation) return;
+
             if(Player.main.usedTools.Contains(techType))
                 Player.main.usedTools.Remove(techType);
 
