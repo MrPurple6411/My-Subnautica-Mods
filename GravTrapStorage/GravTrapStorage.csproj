@@ -24,8 +24,11 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MonoBehaviours\uGUI_GravtrapIcon.cs" />
     <Compile Include="Patches\Gravsphere_Patches.cs" />
+    <Compile Include="Patches\Player_Patch.cs" />
     <Compile Include="Patches\uGUI_InventoryTab_Patches.cs" />
+    <Compile Include="Patches\uGUI_ScannerIcon_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
