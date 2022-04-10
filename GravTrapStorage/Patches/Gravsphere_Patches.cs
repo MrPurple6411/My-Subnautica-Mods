@@ -377,7 +377,7 @@ internal class GravspherePatches
                 PDAScanner.NotifyRemove(entry);
                 PDAScanner.Unlock(entryData, true, true);
                 obj.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
-#if SN1
+#if SUBNAUTICA_STABLE
                 ResourceTracker.UpdateFragments();
 #endif
             }

@@ -86,7 +86,7 @@
             __instance.wpPieceCapacity = Main.Config.WaterParkSize;
         }
     }
-#if BZ
+#if !SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(LargeRoomWaterPark), nameof(LargeRoomWaterPark.HasFreeSpace))]
     internal class LargeRoomWaterPark_HasFreeSpace_Postfix
     {
@@ -98,9 +98,9 @@
     }
 #endif
 
-#if SN1
+#if SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
-#elif BZ
+#else
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
 #endif
     internal class WaterParkBreedPostfix

@@ -11,7 +11,7 @@
     [QModCore]
     public static class Main
     {
-#if SN1
+#if SUBNAUTICA_STABLE
         private static readonly Dictionary<TechType, WaterParkCreatureParameters> CreatureParameters = new()
         {
             { TechType.ReaperLeviathan, new WaterParkCreatureParameters(0.01f, 0.05f, 1f, 3f, false) },
@@ -27,7 +27,7 @@
         [QModPatch]
         public static void Load()
         {
-#if SN1
+#if SUBNAUTICA_STABLE
             foreach(var pair in CreatureParameters)
             {
                 try

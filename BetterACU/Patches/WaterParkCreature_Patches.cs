@@ -26,9 +26,9 @@
     }
 #endif
 
-#if SN1
+#if SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Update))]
-#elif BZ
+#else
     [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]
 #endif
     internal class WaterParkCreatureUpdatePrefix
@@ -51,7 +51,7 @@
             }
 
             var power = powerValue/10 * (DayNightCycle.main.timePassedAsFloat - time) * Main.Config.PowerGenSpeed;
-            var powerSource = __instance.GetWaterPark() != null ? __instance.GetWaterPark().itemsRoot.gameObject.GetComponent<PowerSource>() : null;
+            var powerSource = __instance.GetWaterPark() != null ? __instance.GetWaterPark().gameObject.GetComponent<PowerSource>() : null;
             
             if(powerSource != null)
             {
