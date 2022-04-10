@@ -56,7 +56,7 @@
                 CachedPowerCreatures[__instance] = powerCreatures;
             }
 
-            var rootObject = __instance.itemsRoot.gameObject;
+            var rootObject = __instance.gameObject;
 
             var powerSource = rootObject.GetComponent<PowerSource>();
             if(powerSource is null)
@@ -168,6 +168,23 @@
 
         private static IEnumerator SpawnCreature(WaterPark waterPark, TechType parkCreatureTechType, ItemsContainer container)
         {
+            var spawnPoint = waterPark.transform.position + (Random.insideUnitSphere * 50);
+            if (container is null)
+            {
+                if(waterPark.transform.position.y > 0) yield break;   
+                var @base =
+#if SN1
+                    waterPark.GetComponentInParent<Base>();
+#elif BZ
+                    waterPark.hostBase;
+#endif
+                while(Vector3.Distance(@base.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
+                {
+                    yield return null;
+                    spawnPoint = @base.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
+                }
+            }
+            
             var task = CraftData.GetPrefabForTechTypeAsync(parkCreatureTechType, false);
             yield return task;
 
@@ -190,20 +207,6 @@
                 gameObject.SetActive(false);
                 container.AddItem(pickupable);
                 yield break;
-            }
-
-            var spawnPoint = waterPark.transform.position + (Random.insideUnitSphere * 50);
-            var @base =
-#if SN1
-                waterPark.GetComponentInParent<Base>();
-#elif BZ
-                    waterPark.hostBase;
-#endif
-
-            while(Vector3.Distance(@base.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
-            {
-                yield return null;
-                spawnPoint = @base.GetClosestPoint(spawnPoint) + (Random.insideUnitSphere * 50);
             }
 
             gameObject.transform.SetPositionAndRotation(spawnPoint, Quaternion.identity);
