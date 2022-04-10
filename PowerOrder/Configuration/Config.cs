@@ -5,7 +5,22 @@
 
     public class Config: ConfigFile
     {
-        internal static Dictionary<int, string> DefaultOrder = new() { { 1, "PowerTransmitter" }, { 2, "SolarPanel" }, { 3, "ThermalPlant" }, { 4, "BaseBioReactor" }, { 5, "BaseNuclearReactor" } };
+        internal static Dictionary<int, string> DefaultOrder = new()
+        {
+            { 1, "Power transmitter" }, 
+            { 2, "Habitat Control Panel" },
+            { 3, "Alien Containment Unit" },  
+            { 4, "Alterra Solar Cluster" }, 
+            { 5, "JetStreamT242" }, 
+            { 6, "Wind Turbine" }, 
+            { 7, "Deep Engine MK1" }, 
+            { 8, "Solar panel" }, 
+            { 9, "Thermal plant" }, 
+            { 10, "RegenPowerCell" }, 
+            { 11, "Bio-Reactors" }, 
+            { 12, "Nuclear Reactors" }, 
+            { 13, "Power cell" }
+        };
         internal bool doSort = false;
 
         public Dictionary<int, string> Order = DefaultOrder;

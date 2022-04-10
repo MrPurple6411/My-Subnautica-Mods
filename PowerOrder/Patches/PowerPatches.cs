@@ -1,4 +1,6 @@
-﻿namespace PowerOrder.Patches
+﻿using UnityEngine;
+
+namespace PowerOrder.Patches
 {
     using HarmonyLib;
     using QModManager.Utility;
@@ -15,12 +17,14 @@
         {
             try
             {
-                if(__instance?.inboundPowerSources == null || __instance.inboundPowerSources.Contains(powerInterface))
+                if (__instance == null || __instance.inboundPowerSources == null ||
+                    __instance.inboundPowerSources.Contains(powerInterface))
                     return;
-                Logger.Log(Logger.Level.Debug, $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
+                Logger.Log(Logger.Level.Debug,
+                    $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Log(Logger.Level.Error, ex: e);
             }
@@ -31,42 +35,70 @@
         {
             try
             {
-                if(!Main.config.doSort)
+                if (!Main.config.doSort)
                     return;
                 var info = __instance.inboundPowerSources;
                 var test = new List<IPowerInterface>(info);
                 test.Sort((i, i2) =>
                 {
-                    var p = (UnityEngine.MonoBehaviour)i;
-                    var p2 = (UnityEngine.MonoBehaviour)i2;
-                    var pn = GetOrderNumber(p.gameObject.name);
-                    var p2n = GetOrderNumber(p2.gameObject.name);
+                    var p = (MonoBehaviour) i;
+                    var p2 = (MonoBehaviour) i2;
+                    var pn = GetOrderNumber(p.gameObject);
+                    var p2n = GetOrderNumber(p2.gameObject);
                     return Math.Sign(pn - p2n);
                 });
                 __instance.inboundPowerSources = test;
                 Main.config.doSort = false;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Log(Logger.Level.Error, ex: e);
             }
         }
-        private static int GetOrderNumber(string name)
+
+        private static int GetOrderNumber(GameObject gameObject)
         {
-            for(var x = 0; x < Main.config.Order.Count; x++)
+            TechType techType = CraftData.GetTechType(gameObject);
+            if (techType == TechType.None)
+                TechTypeExtensions.FromString(gameObject.name, out techType, true);
+
+            var name = techType == TechType.None ? Language.main.GetOrFallback(gameObject.name, gameObject.name) : Language.main.Get(techType);
+            if (name.Contains("BioReactor") || name == "Alterra Gen")
+            {
+                name = "Bio-Reactors";
+            }
+            else if (name.Contains("Nuclear"))
+            {
+                name = "Nuclear Reactors";
+            }
+            else if (name.Contains("WaterPark"))
+            {
+                name = "Alien Containment Unit";
+            }
+            else if (name.StartsWith("SubPowerCell"))
+            {
+                name = Language.main.Get(TechType.PowerCell);
+            }
+
+            for (var x = 0; x < Main.config.Order.Count; x++)
             {
                 var kvp = Main.config.Order.ElementAt(x);
-                if(name.ToLower().Contains(kvp.Value.ToLower()))
+                if (name.ToLower().Contains(kvp.Value.ToLower()))
                 {
                     var order = kvp.Key;
-                    if(order > Main.config.Order.Count || order < 1)
+                    if (order > Main.config.Order.Count || order < 1)
                     {
-                        Logger.Log(Logger.Level.Error, kvp.Key + " has an invalid order number.  Please fix this and try again.  (Must be within 1-" + Main.config.Order.Count + ")", showOnScreen: true);
+                        Logger.Log(Logger.Level.Error,
+                            kvp.Key +
+                            " has an invalid order number.  Please fix this and try again.  (Must be within 1-" +
+                            Main.config.Order.Count + ")", showOnScreen: true);
                         throw new Exception();
                     }
+
                     return order;
                 }
             }
+
             name = Regex.Replace(name, @"\(.*?\)", "");
             Logger.Log(Logger.Level.Info, "New power source found: " + name);
             Main.config.Order.Add(Main.config.Order.Count + 1, name);
