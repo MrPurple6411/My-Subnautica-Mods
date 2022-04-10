@@ -9,7 +9,8 @@ namespace SeamothThermal.Patches
         private static void Prefix(SeaMoth __instance)
         {
             // Get TemperatureDamage class from SeaMoth
-            var tempDamage = __instance.GetComponent<TemperatureDamage>();
+            if(!__instance.TryGetComponent(out TemperatureDamage tempDamage))
+                return;
 
             // Set the different fields
             // No need to check for depth because the SeaMoth would already 

@@ -1,4 +1,6 @@
-﻿namespace SeamothThermal.Modules
+﻿using System.Collections;
+
+namespace SeamothThermal.Modules
 {
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Crafting;
@@ -28,13 +30,11 @@
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
+#if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            var path = "WorldEntities/Tools/SeamothElectricalDefense";
-            var prefab = Resources.Load<GameObject>(path);
-            var obj = Object.Instantiate(prefab);
-
+            var obj = CraftData.InstantiateFromPrefab(TechType.SeamothElectricalDefense);
             // Get the TechTags and PrefabIdentifiers
             var techTag = obj.GetComponent<TechTag>();
             var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
@@ -45,7 +45,24 @@
 
             return obj;
         }
-#if SN1
+#else
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var taskResult = new TaskResult<GameObject>();
+            yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
+            var obj = taskResult.Get();
+            
+            // Get the TechTags and PrefabIdentifiers
+            var techTag = obj.GetComponent<TechTag>();
+            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+
+            // Change them so they fit to our requirements.
+            techTag.type = TechType;
+            prefabIdentifier.ClassId = ClassID;
+            gameObject.Set(obj);
+        }
+
+#endif
         protected override TechData GetBlueprintRecipe()
         {
             return new()
@@ -63,24 +80,5 @@
         {
             return SpriteManager.Get(TechType.ExosuitThermalReactorModule);
         }
-#elif BZ
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return new RecipeData()
-            {
-                craftAmount = 1,
-                Ingredients = new List<Ingredient>()
-                {
-                    new Ingredient(TechType.Kyanite, 1),
-                    new Ingredient(TechType.Polyaniline, 2),
-                    new Ingredient(TechType.WiringKit, 1)
-                }
-            };
-        }
-        protected override Sprite GetItemSprite()
-        {
-            return SpriteManager.Get(TechType.ExosuitThermalReactorModule);
-        }
-#endif
     }
 }

@@ -1,4 +1,6 @@
-﻿#if SN1
+﻿using System.Collections;
+
+#if SN1
 namespace MoreSeamothDepth.Modules
 {
     using SMLHelper.V2.Assets;
@@ -21,9 +23,9 @@ namespace MoreSeamothDepth.Modules
 
         public override TechType RequiredForUnlock => TechType.BaseUpgradeConsole;
 
-        public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
+        public override TechGroup GroupForPDA => TechGroup.Workbench;
 
-        public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
+        public override TechCategory CategoryForPDA => TechCategory.Workbench;
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
 
@@ -31,13 +33,11 @@ namespace MoreSeamothDepth.Modules
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
+        #if SUBNAUTICA_STABLE
         public override GameObject GetGameObject()
         {
             // Get the ElectricalDefense module prefab and instantiate it
-            var path = "WorldEntities/Tools/SeamothElectricalDefense";
-            var prefab = Resources.Load<GameObject>(path);
-            var obj = Object.Instantiate(prefab);
-
+            var obj = CraftData.InstantiateFromPrefab(TechType.SeamothElectricalDefense);
             // Get the TechTags and PrefabIdentifiers
             var techTag = obj.GetComponent<TechTag>();
             var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
@@ -48,6 +48,26 @@ namespace MoreSeamothDepth.Modules
 
             return obj;
         }
+        #else
+
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var taskResult = new TaskResult<GameObject>();
+            yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
+            var obj = taskResult.Get();
+            
+            // Get the TechTags and PrefabIdentifiers
+            var techTag = obj.GetComponent<TechTag>();
+            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
+
+            // Change them so they fit to our requirements.
+            techTag.type = TechType;
+            prefabIdentifier.ClassId = ClassID;
+            gameObject.Set(obj);
+        }
+#endif
+
+
         protected override TechData GetBlueprintRecipe()
         {
             return new()
