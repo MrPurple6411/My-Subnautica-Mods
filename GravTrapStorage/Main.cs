@@ -34,7 +34,7 @@ namespace GravTrapStorage
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(Main), nameof(Main.Postfix)))
             );
 #endif
-            Logger.Log(Logger.Level.Error, $" Loaded.");
+            Logger.Log(Logger.Level.Info, $" Loaded.");
         }
 
         private static IEnumerator Postfix(IEnumerator result)
@@ -43,23 +43,23 @@ namespace GravTrapStorage
             {
                 yield return result;
             }
-            Logger.Log(Logger.Level.Error, $" Starting Coroutine.");
+            Logger.Log(Logger.Level.Debug, $" Starting Coroutine.");
             CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
         }
         
         public static IEnumerator ModifyGravspherePrefab()
         {
-            Logger.Log(Logger.Level.Error, $" Attempting to Attaching Storage");
+            Logger.Log(Logger.Level.Info, $" Attempting to Attach Storage");
             CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
             yield return request;
 
             var prefab = request.GetResult();
-            Logger.Log(Logger.Level.Error, $" Ensuring COI");
+            Logger.Log(Logger.Level.Debug, $" Ensuring COI");
             var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
             
             if (coi)
             {
-                Logger.Log(Logger.Level.Error, $"Attaching Storage");
+                Logger.Log(Logger.Level.Debug, $"Attaching Storage");
                 coi.classId = "GravTrapStorage";
                 var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
                 storageContainer.prefabRoot = prefab;
