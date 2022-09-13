@@ -49,17 +49,17 @@ namespace GravTrapStorage
         
         public static IEnumerator ModifyGravspherePrefab()
         {
-            Logger.Log(Logger.Level.Error, $" Attempting to Attaching Storage");
+            Logger.Log(Logger.Level.Debug, $" Attempting to Attaching Storage");
             CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
             yield return request;
 
             var prefab = request.GetResult();
-            Logger.Log(Logger.Level.Error, $" Ensuring COI");
+            Logger.Log(Logger.Level.Debug, $" Ensuring COI");
             var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
             
             if (coi)
             {
-                Logger.Log(Logger.Level.Error, $"Attaching Storage");
+                Logger.Log(Logger.Level.Debug, $"Attaching Storage");
                 coi.classId = "GravTrapStorage";
                 var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
                 storageContainer.prefabRoot = prefab;
