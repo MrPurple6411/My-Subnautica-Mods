@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<div class="mod">
+  {%- if page.image -%}
+    {%- assign modImage = page.image -%}
+  {% else %}
+    {%- assign modImage = "/assets/images/MrPurple6411.webp" -%}
+  {%- endif -%}
+  <img
+    src="{{- modImage | relative_url -}}"
+    alt="cookie.title"
+    class="mod-image" />
+
+  <h1 class="mod-title">{{ page.name }}</h1>
+
+  {%- if page.dependencies -%}
+    <p class="mod-dependencies">Dependencies: {{ page.dependencies }}</p>
+  {%- endif -%}
+
+  {%- if page.sn1 or page.bz -%}
+    <h2>Downloads:
+      {%- if page.sn1 -%}
+        &nbsp;<a class="mod-download" href="{{- page.sn1 -}}">SN1</a>
+      {%- endif -%}
+      {%- if page.sn1 and page.bz -%}
+        &nbsp;|
+      {%- endif -%}
+      {%- if page.bz -%}
+        &nbsp;<a class="mod-download" href="{{- page.bz -}}">BZ</a>
+      </h2>
+    {%- endif -%}
+  {%- endif -%}
+
+
+  <div class="mod-description spacing">
+    <p>{{ content }}</p>
+  </div>
+
+</div>

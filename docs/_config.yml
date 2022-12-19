@@ -32,6 +32,10 @@ theme: minima
 plugins:
   - jekyll-feed
 
+collections:
+  mods:
+    output: true
+    permalink: /:name
 
 
 # Exclude from processing.
