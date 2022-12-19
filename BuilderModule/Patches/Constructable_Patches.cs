@@ -105,21 +105,13 @@ namespace BuilderModule.Patches
             }
         }
     }
-#if SUBNAUTICA_EXP || BZ
+
     [HarmonyPatch(typeof(Constructable), nameof(Constructable.DeconstructAsync))]
     internal class Deconstruct_Patch
     {
         [HarmonyPrefix]
         public static bool Prefix(Constructable __instance, IOut<bool> result)
         {
-#elif SUBNAUTICA_STABLE
-    [HarmonyPatch(typeof(Constructable), nameof(Constructable.Deconstruct))]
-    internal class Deconstruct_Patch
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Constructable __instance)
-        {
-#endif
             var player = Player.main;
             if(player.isPiloting && GameModeUtils.RequiresIngredients())
             {
@@ -215,12 +207,9 @@ namespace BuilderModule.Patches
                     }
                 }
                 __instance.UpdateMaterial();
-#if SUBNAUTICA_EXP || BZ
+
                 result.Set(__instance.constructedAmount <= 0f);
                 return false;
-#elif SUBNAUTICA_STABLE
-                return __instance.constructedAmount <= 0f;
-#endif
             }
             return true;
         }
@@ -235,13 +224,7 @@ namespace BuilderModule.Patches
             var gameObject = Object.Instantiate(prefab, null);
             var pickupable = gameObject.EnsureComponent<Pickupable>();
 
-#if SUBNAUTICA_EXP
-            TaskResult<Pickupable> result1 = new TaskResult<Pickupable>();
-            yield return pickupable.InitializeAsync(result1);
-            pickupable = result1.Get();
-#else
             pickupable.Initialize();
-#endif
             var item = new InventoryItem(pickupable);
             itemsContainer.UnsafeAdd(item);
             var name = Language.main.GetOrFallback(techType.AsString(), techType.AsString());

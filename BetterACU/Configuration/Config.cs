@@ -19,10 +19,8 @@
         [Slider("Alien Containment Limit", 10, 100, DefaultValue = 10, Step = 1)]
         public int WaterParkSize = 10;
 
-#if !SUBNAUTICA_STABLE
         [Slider("Large Room Alien Containment Limit", 20, 200, DefaultValue = 20, Step = 1)]
         public int LargeWaterParkSize = 20;
-#endif
 
         [Toggle("Enable Power Generation")]
         public bool EnablePowerGeneration = false;

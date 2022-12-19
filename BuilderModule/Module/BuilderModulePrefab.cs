@@ -44,13 +44,6 @@
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
-#if SUBNAUTICA_STABLE
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule, false);
-            return Object.Instantiate(prefab);
-        }
-#endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);

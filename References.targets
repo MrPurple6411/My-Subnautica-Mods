@@ -210,8 +210,6 @@
     <Reference Include="UnityEngine.XRModule">
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="$(Configuration.StartsWith('BZ')) Or $(Configuration.EndsWith('EXP'))">
     <Reference Include="Unity.Addressables">
       <Private>False</Private>
     </Reference>
@@ -242,8 +240,6 @@
     <Reference Include="UWE.EditorModifications">
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="$(Configuration.StartsWith('BZ'))">
     <Reference Include="Unity.Formats.Fbx.Runtime">
       <Private>False</Private>
     </Reference>

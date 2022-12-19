@@ -8,11 +8,7 @@ namespace CustomHullPlates
     using HullPlate;
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Utility;
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#else
     using Newtonsoft.Json;
-#endif
 
     [QModCore]
     public class Main

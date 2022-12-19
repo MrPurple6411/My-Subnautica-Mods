@@ -31,22 +31,6 @@ namespace MoreSeamothDepth.Modules
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
-#if SUBNAUTICA_STABLE
-        public override GameObject GetGameObject()
-        {
-            // Get the ElectricalDefense module prefab and instantiate it
-            var obj = CraftData.InstantiateFromPrefab(TechType.SeamothElectricalDefense);
-            // Get the TechTags and PrefabIdentifiers
-            var techTag = obj.GetComponent<TechTag>();
-            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
-
-            // Change them so they fit to our requirements.
-            techTag.type = TechType;
-            prefabIdentifier.ClassId = ClassID;
-
-            return obj;
-        }
-#else
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var taskResult = new TaskResult<GameObject>();
@@ -62,8 +46,6 @@ namespace MoreSeamothDepth.Modules
             prefabIdentifier.ClassId = ClassID;
             gameObject.Set(obj);
         }
-
-#endif
 
         protected override TechData GetBlueprintRecipe()
         {

@@ -297,15 +297,9 @@ internal class GravspherePatches
                     $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", transferString, uGUI.FormatButton(GameInput.Button.AltTool))}";
             }
 
-#if SN1
-            if (!targetingStorage)
-                HandReticle.main.interactText1 = primaryString;
-            HandReticle.main.interactText2 = secondaryString;
-#else
             if(!targetingStorage)
                 HandReticle.main.textUse = primaryString;
             HandReticle.main.textUseSubscript = secondaryString;
-#endif
         }
 
         if (__instance.trigger.enabled && storageContainer.container.IsFull())
@@ -377,9 +371,6 @@ internal class GravspherePatches
                 PDAScanner.NotifyRemove(entry);
                 PDAScanner.Unlock(entryData, true, true);
                 obj.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
-#if SUBNAUTICA_STABLE
-                ResourceTracker.UpdateFragments();
-#endif
             }
         }
 

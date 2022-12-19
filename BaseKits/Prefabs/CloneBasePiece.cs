@@ -47,23 +47,6 @@
 
         public override TechCategory CategoryForPDA => category;
 
-#if SUBNAUTICA_STABLE
-        public override GameObject GetGameObject()
-        {
-            GameObject go = null;
-            if (processedPrefab != null)
-            {
-                go = Object.Instantiate(processedPrefab);
-                go.SetActive(true);
-                return go;
-            }
-
-            processedPrefab = CraftData.GetPrefabForTechType(TypeToClone);
-            go = Object.Instantiate(processedPrefab);
-            go.SetActive(true);
-            return go;
-        }
-#endif
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {

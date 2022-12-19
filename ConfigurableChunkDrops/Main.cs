@@ -47,21 +47,10 @@
                 var prefabs = defaultValues.Breakables[techType] = new Dictionary<TechType, float>();
                 foreach(var randomPrefab in breakableResource.prefabList)
                 {
-#if SUBNAUTICA_STABLE
-                    var tech = CraftData.GetTechType(randomPrefab.prefab);
-                    prefabs[tech] = randomPrefab.chance;
-#else
-
                     prefabs[randomPrefab.prefabTechType] = randomPrefab.chance;
-#endif
                 }
 
-
-#if SUBNAUTICA_STABLE
-                prefabs.Add(CraftData.GetTechType(breakableResource.defaultPrefab), 1f);
-#else
                 prefabs.Add(breakableResource.defaultPrefabTechType, 1f);
-#endif
                 Logger.Log(Logger.Level.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File", showOnScreen: true);
                 defaultValues.Save();
             }

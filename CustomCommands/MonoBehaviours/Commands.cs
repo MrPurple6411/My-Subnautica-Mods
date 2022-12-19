@@ -141,28 +141,16 @@
                 return;
             }
             
-#if SN1
-            if(creature.friend != Player.main.gameObject)
-#elif BZ
             if(creature.GetFriend() != Player.main.gameObject)
-#endif
             {
                 creature.Friendliness.Add(1f);
-#if SN1
-                creature.friend = Player.main.gameObject;
-#elif BZ
 				creature.SetFriend(Player.main.gameObject);
-#endif
                 ErrorMessage.AddDebug(target.name + " set friend");
             }
             else
             {
                 creature.Friendliness.Value = 0f;
-#if SN1
-                creature.friend = null;
-#elif BZ
 				creature.SetFriend(null);
-#endif
                 ErrorMessage.AddDebug(target.name + " remove friend");
             }
             

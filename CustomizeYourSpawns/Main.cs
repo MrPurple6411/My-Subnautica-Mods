@@ -2,14 +2,9 @@ namespace CustomizeYourSpawns
 {
     //techType = TechType.Seamoth
     using HarmonyLib;
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-    using Oculus.Newtonsoft.Json.Converters;
-#elif BZ || SUBNAUTICA_EXP
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
-#endif
     using QModManager.API.ModLoading;
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Handlers;

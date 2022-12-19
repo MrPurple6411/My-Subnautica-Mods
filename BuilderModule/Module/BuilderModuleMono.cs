@@ -274,11 +274,7 @@
                 !((energyMixin != null ? energyMixin.charge : 0f) <= 0f)) return false;
             
             var main = HandReticle.main;
-#if SN1
-                main.SetInteractText(noPowerText, false);
-#elif BZ
             main.SetText(HandReticle.TextType.Hand, this.noPowerText, true);
-#endif
             main.SetIcon(HandReticle.IconType.Default);
             return true;
         }
@@ -321,7 +317,6 @@
 
                 var wasConstructed = c.constructed;
                 bool flag;
-#if SUBNAUTICA_EXP || BZ
                 if(state)
                 {
                     flag = c.Construct();
@@ -329,17 +324,10 @@
                 else
                 {
                     var result = new TaskResult<bool>();
-#if SUBNAUTICA_EXP
-                    yield return c.DeconstructAsync(result);
-#else
                     var reason = new TaskResult<string>();
                     yield return c.DeconstructAsync(result, reason);
-#endif
                     flag = result.Get();
                 }
-#elif SUBNAUTICA_STABLE
-                flag = state ? c.Construct() : c.Deconstruct();
-#endif
 
                 if(!flag && state && !wasConstructed)
                     FMODUWE.PlayOneShot(completeSound, c.transform.position, 20f);
@@ -353,11 +341,7 @@
                 var main = HandReticle.main;
                 if(constructable.constructed)
                 {
-#if SN1
-                    main.SetInteractText(Language.main.Get(constructable.techType), deconstructText, false, false, HandReticle.Hand.Left);
-#elif BZ
                     main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
-#endif
                 }
                 else
                 {
@@ -372,11 +356,7 @@
                             ? Language.main.GetFormat("RequireMultipleFormat", text, value)
                             : text);
                     }
-#if SN1
-                    main.SetInteractText(Language.main.Get(constructable.techType), stringBuilder.ToString(), false, false, HandReticle.Hand.Left);
-#elif BZ
                     main.SetText(HandReticle.TextType.Hand, stringBuilder.ToString(), false);
-#endif
                     main.SetProgress(constructable.amount);
                     main.SetIcon(HandReticle.IconType.Progress, 1.5f);
                 }
@@ -388,11 +368,7 @@
         {
             if (!isToggle) return;
             var main = HandReticle.main;
-#if SN1
-                main.SetInteractText(deconstructable.Name, deconstructText);
-#elif BZ
             main.SetText(HandReticle.TextType.Hand, this.deconstructText, false);
-#endif
         }
 
         protected void OnDestroy()

@@ -2,9 +2,8 @@
 {
     using HarmonyLib;
     using UnityEngine;
-#if !SUBNAUTICA_STABLE
     using UWE;
-#endif
+
     [HarmonyPatch(typeof(BuilderTool), nameof(BuilderTool.HandleInput))]
     public class BuilderTool_HandleInput_Patch
     {
@@ -20,15 +19,8 @@
                || !TechData.GetBuildable(techType)
 #endif
             ) return;
-#if SUBNAUTICA_STABLE
-            if(Builder.Begin(gameObject))
-                ErrorMessage.AddMessage($"Placing new {techType}");
-            else
-                Builder.End();
-#else
                 CoroutineHost.StartCoroutine(Builder.BeginAsync(techType));
                 ErrorMessage.AddMessage($"Placing new {techType}");
-#endif
         }
     }
 }

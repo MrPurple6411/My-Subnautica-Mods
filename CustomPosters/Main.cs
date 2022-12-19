@@ -7,16 +7,10 @@
     using SMLHelper.V2.Handlers;
     using SMLHelper.V2.Utility;
     using Poster;
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#elif  SUBNAUTICA_EXP
-    using Newtonsoft.Json;
-#elif  BZ
     using UWE;
     using System.Collections;
     using UnityEngine;
     using Newtonsoft.Json;
-#endif
 
     [QModCore]
     public class Main

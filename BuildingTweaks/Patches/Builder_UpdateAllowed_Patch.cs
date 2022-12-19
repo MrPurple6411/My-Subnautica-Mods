@@ -34,11 +34,7 @@
 
             if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
             {
-#if SUBNAUTICA_STABLE
-                __result = Builder.CheckAsSubModule();
-#else
                 __result = Builder.CheckAsSubModule(out _);
-#endif
             }
 
             if(Main.Config.FullOverride)

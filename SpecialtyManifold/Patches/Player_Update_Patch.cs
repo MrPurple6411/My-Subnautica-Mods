@@ -35,12 +35,7 @@
 
                     if(photosynthesisTanks > 0)
                     {
-                        var playerDepth =
-#if SN1
-                            Ocean.main.GetDepthOf(Player.main.gameObject);
-#else
-                            Ocean.GetDepthOf(Player.main.gameObject);
-#endif
+                        var playerDepth = Ocean.GetDepthOf(Player.main.gameObject);
                         var currentLight = DayNightCycle.main.GetLocalLightScalar();
                         var photosynthesisDepthCalc = (currentLight > 0.9f ? 0.9f : currentLight) * Time.deltaTime * (Main.Config.multipleTanks ? photosynthesisTanks : 1) * (200f - playerDepth > 0f ? ((200 - playerDepth) / 200f) : 0);
                         Player.main.oxygenMgr.AddOxygen(photosynthesisDepthCalc);

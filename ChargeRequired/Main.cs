@@ -41,12 +41,7 @@
             var energyMixin = pickupable.gameObject.GetComponentInChildren<EnergyMixin>();
             if(energyMixin != null)
             {
-                var gameObject =
-#if !BZ
-                    energyMixin.GetBattery();
-#else
-                    energyMixin.GetBatteryGameObject();
-#endif
+                var gameObject = energyMixin.GetBatteryGameObject();
                 if(gameObject != null && energyMixin.defaultBattery == CraftData.GetTechType(gameObject))
                 {
                     var battery = gameObject.GetComponent<IBattery>();

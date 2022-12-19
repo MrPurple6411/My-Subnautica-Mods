@@ -20,11 +20,7 @@
             yield return task;
 
             var prefab = task.GetResult();
-#if SUBNAUTICA_STABLE
-            Builder.Begin(prefab);
-#else
             Builder.Begin(techType, prefab);
-#endif
         }
     }
 }

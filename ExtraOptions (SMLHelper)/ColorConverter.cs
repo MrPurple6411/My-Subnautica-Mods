@@ -2,11 +2,7 @@
 {
     using System;
     using UnityEngine;
-#if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
-#else
     using Newtonsoft.Json;
-#endif
 
 
     public class ColorConverter: JsonConverter

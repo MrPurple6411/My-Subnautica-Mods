@@ -1,8 +1,6 @@
 ﻿namespace ConfigurableChunkDrops.Patches
 {
-#if !SUBNAUTICA_STABLE
     using UnityEngine.AddressableAssets;
-#endif
     using HarmonyLib;
     using System.Collections;
     using System.Collections.Generic;
@@ -32,31 +30,6 @@
         private static IEnumerator GetPrefabForList(TechType breakable, TechType techType, float chance)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(techType, false);
-#if SUBNAUTICA_STABLE
-            if(BreakableResource_ChooseRandomResource.prefabs.ContainsKey(breakable))
-            {
-                var existingPrefab = BreakableResource_ChooseRandomResource.prefabs[breakable].Find((x) => CraftData.GetTechType(x.prefab) == techType);
-                if(existingPrefab != null)
-                {
-                    existingPrefab.chance = chance;
-                }
-                else
-                {
-                    yield return task;
-                    var gameObject = task.GetResult();
-                    if(gameObject != null)
-                        BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefab = gameObject, chance = chance });
-                }
-            }
-            else
-            {
-                BreakableResource_ChooseRandomResource.prefabs[breakable] = new List<BreakableResource.RandomPrefab>();
-                yield return task;
-                var gameObject = task.GetResult();
-                if(gameObject != null)
-                    BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefab = gameObject, chance = chance });
-            }
-#else
 
             if (!BreakableResource_ChooseRandomResource.prefabs.ContainsKey(breakable))
                 BreakableResource_ChooseRandomResource.prefabs[breakable] = new List<BreakableResource.RandomPrefab>();
@@ -72,7 +45,6 @@
             var gameObject = task.GetResult();
             if (gameObject != null && PrefabDatabase.TryGetPrefabFilename(gameObject.GetComponent<PrefabIdentifier>().ClassId, out var filename))
                 BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefabTechType = techType, prefabReference = new AssetReferenceGameObject(filename), chance = chance });
-#endif
         }
     }
 }

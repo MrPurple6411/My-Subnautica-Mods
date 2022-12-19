@@ -201,12 +201,8 @@
             stringBuilder2.AppendLine("LeftHand: Full Enable/Disable");
             stringBuilder2.AppendLine("Deconstruct Key (Q): Other Connections (Green)");
 
-#if SN1
-            HandReticle.main.SetInteractText(stringBuilder.ToString(), stringBuilder2.ToString(), false, false, HandReticle.Hand.None);
-#elif BZ
                 HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, stringBuilder.ToString());
                 HandReticle.main.SetTextRaw(HandReticle.TextType.HandSubscript, stringBuilder2.ToString());
-#endif
 
             if(!GameInput.GetButtonDown(GameInput.Button.Deconstruct) || Relay.dontConnectToRelays)
                 return;

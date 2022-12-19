@@ -3,19 +3,19 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
-	  <GameDir>$(CommonDir)SubnauticaZeroBranches\Stable</GameDir>
+	  <GameDir>$(CommonDir)SubnauticaZero</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ.EXP'">
     <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaZeroBranches\Exp</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZero</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1'">
     <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
-	  <GameDir>$(CommonDir)SubnauticaBranches\Stable</GameDir>
+	  <GameDir>$(CommonDir)Subnautica</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1.EXP'">
     <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
-    <GameDir>$(CommonDir)SubnauticaBranches\Exp</GameDir>
+    <GameDir>$(CommonDir)Subnautica</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.StartsWith('BZ'))">
     <GameName>BelowZero</GameName>

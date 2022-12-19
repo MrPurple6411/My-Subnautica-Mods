@@ -27,20 +27,6 @@
 
         public override TechCategory CategoryForPDA => TechCategory.MiscHullplates;
 
-#if SUBNAUTICA_STABLE
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.DioramaHullPlate);
-
-            var _GameObject = Object.Instantiate(prefab);
-
-            var meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
-            meshRenderer.material.mainTexture = hullPlateTexture;
-            _GameObject.name = ClassID;
-
-            return _GameObject;
-        }
-#endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.DioramaHullPlate);

@@ -45,24 +45,6 @@ namespace CustomPosters.Poster
             ? new[] {"Posters", "Landscape"}
             : new[] {"Posters", "Portrait"};
 
-#if SUBNAUTICA_STABLE
-        public override GameObject GetGameObject()
-        {
-            var prefab = orientation.ToLower() == "landscape"
-                ? CraftData.GetPrefabForTechType(TechType.PosterAurora)
-                : CraftData.GetPrefabForTechType(TechType.PosterKitty);
-
-
-            var _GameObject = Object.Instantiate(prefab);
-            _GameObject.name = ClassID;
-
-            var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
-            material.SetTexture(MainTex, posterTexture);
-            material.SetTexture(SpecTex, posterTexture);
-
-            return _GameObject;
-        }
-#endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = orientation.ToLower() == "landscape"

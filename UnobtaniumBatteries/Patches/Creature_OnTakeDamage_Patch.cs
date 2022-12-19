@@ -16,11 +16,7 @@ namespace UnobtaniumBatteries.Patches
             if (__instance.liveMixin == null || !Main.typesToMakePickupable.Contains(CraftData.GetTechType(__instance.gameObject))) return;
 
             if(__instance.liveMixin.IsAlive() && __instance.liveMixin.health <= (
-#if SUBNAUTICA_STABLE
-                __instance.liveMixin.initialHealth 
-#else
                 __instance.liveMixin.defaultHealth
-#endif
                 / 5))
             {
                 var pickupable = __instance.gameObject.EnsureComponent<Pickupable>();

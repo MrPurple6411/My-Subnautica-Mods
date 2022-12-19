@@ -86,7 +86,6 @@
             __instance.wpPieceCapacity = Main.Config.WaterParkSize;
         }
     }
-#if !SUBNAUTICA_STABLE
     [HarmonyPatch(typeof(LargeRoomWaterPark), nameof(LargeRoomWaterPark.HasFreeSpace))]
     internal class LargeRoomWaterPark_HasFreeSpace_Postfix
     {
@@ -96,13 +95,8 @@
             __instance.wpPieceCapacity = Main.Config.LargeWaterParkSize;
         }
     }
-#endif
 
-#if SUBNAUTICA_STABLE
-    [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.TryBreed))]
-#else
     [HarmonyPatch(typeof(WaterPark), nameof(WaterPark.GetBreedingPartner))]
-#endif
     internal class WaterParkBreedPostfix
     {
         [HarmonyPostfix]
@@ -172,12 +166,7 @@
             if (container is null)
             {
                 if(waterPark.transform.position.y > 0) yield break;   
-                var @base =
-#if SN1
-                    waterPark.GetComponentInParent<Base>();
-#elif BZ
-                    waterPark.hostBase;
-#endif
+                var @base = waterPark.hostBase;
                 while(Vector3.Distance(@base.GetClosestPoint(spawnPoint), spawnPoint) < 25 || spawnPoint.y >= 0)
                 {
                     yield return null;

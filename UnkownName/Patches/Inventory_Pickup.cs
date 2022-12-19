@@ -45,9 +45,6 @@
                     {
                         gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
                     }
-#if SUBNAUTICA_STABLE
-                    ResourceTracker.UpdateFragments();
-#endif
                 }
             }
 

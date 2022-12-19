@@ -26,11 +26,7 @@
     }
 #endif
 
-#if SUBNAUTICA_STABLE
-    [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Update))]
-#else
     [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]
-#endif
     internal class WaterParkCreatureUpdatePrefix
     {
         private static readonly Dictionary<WaterParkCreature, float> TimeLastGenerated = new();
