@@ -2,16 +2,16 @@
 namespace TechPistol
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using System.IO;
     using System.Reflection;
     using Configuration;
     using Module;
     using UnityEngine;
-
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private const string bundlePath = 
 #if SN1
@@ -26,13 +26,22 @@ namespace TechPistol
         internal static PistolFragmentPrefab PistolFragment { get; } = new();
         internal static PistolPrefab Pistol { get; } = new();
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "TechPistol",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             PistolFragment.Patch();
             Pistol.Patch();
 
-            Harmony.CreateAndPatchAll(assembly, $"MrPurple6411_{assembly.GetName().Name}");
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
         }
     }
 }

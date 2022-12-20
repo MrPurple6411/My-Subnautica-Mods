@@ -1,7 +1,6 @@
 ﻿namespace UnobtaniumBatteries
 {
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Reflection;
     using System.IO;
     using CustomBatteries.API;
@@ -14,9 +13,10 @@
     using SMLHelper.V2.Handlers;
 #endif
 
-
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();
         private static readonly string ModPath = Path.GetDirectoryName(myAssembly.Location);
@@ -25,9 +25,18 @@
 #if SN1
         public static readonly List<TechType> typesToMakePickupable = new() { TechType.ReaperLeviathan, TechType.GhostLeviathan, TechType.Warper };
 #endif
-        
-        [QModPatch]
-        public static void Load()
+
+        #region[Declarations]
+
+        public const string
+            MODNAME = "UnobtaniumBatteries",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             CreateAndPatchPrefabs();
 #if SN1

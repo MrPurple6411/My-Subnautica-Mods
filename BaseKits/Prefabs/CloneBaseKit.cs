@@ -11,6 +11,7 @@
     using SMLHelper.V2.Crafting;
 #endif
     using UnityEngine;
+    using BepInEx.Logging;
 
     internal class CloneBaseKit : Craftable
     {
@@ -41,7 +42,7 @@
                     $"{originalCategoryString} - Kits");
                 if (!TechCategoryHandler.Main.TryRegisterTechCategoryToTechGroup(group, category))
                 {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Error,
+                    Main.logSource.Log(LogLevel.Error,
                         $"Failed to Register {category} to {group}");
                 }
             }

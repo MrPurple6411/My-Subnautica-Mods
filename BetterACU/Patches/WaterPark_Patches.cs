@@ -1,7 +1,6 @@
 ﻿namespace BetterACU.Patches
 {
     using HarmonyLib;
-    using QModManager.API;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -122,7 +121,7 @@
 
                 if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                 {
-                    if(Main.Config.AlterraGenOverflow && !Main.Config.AlterraGenBlackList.Contains(parkCreatureTechType) && QModServices.Main.ModPresent("FCSEnergySolutions"))
+                    if(Main.Config.AlterraGenOverflow && !Main.Config.AlterraGenBlackList.Contains(parkCreatureTechType) && BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions"))
                     {
                         hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                     }

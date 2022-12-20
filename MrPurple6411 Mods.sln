@@ -69,6 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Configurations.targets = Configurations.targets
 		GameDir.targets = GameDir.targets
+		nuget.config = nuget.config
 		PostBuildEvents.targets = PostBuildEvents.targets
 		References.targets = References.targets
 	EndProjectSection
@@ -245,10 +246,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidTerrain", "SolidTerrai
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		SN1|Any CPU = SN1|Any CPU
+		BZ.EXP|Any CPU = BZ.EXP|Any CPU
 		BZ|Any CPU = BZ|Any CPU
 		SN1.EXP|Any CPU = SN1.EXP|Any CPU
-		BZ.EXP|Any CPU = BZ.EXP|Any CPU
+		SN1|Any CPU = SN1|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{633C5177-57F7-4746-81D6-EF920939D3F3}.BZ.EXP|Any CPU.ActiveCfg = BZ.EXP|Any CPU

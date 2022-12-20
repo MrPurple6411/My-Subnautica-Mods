@@ -1,8 +1,8 @@
 ﻿namespace AquariumOverflow
 {
     using CyclopsBioReactor;
-    using QModManager.API;
     using System.Collections;
+    using System.Linq;
     using UnityEngine;
     using UWE;
 
@@ -54,7 +54,7 @@
             {
                 var breedCount = 1;
 
-                if(QModServices.Main.ModPresent("FCSEnergySolutions"))
+                if(BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
 
                 if(breedCount > 0)

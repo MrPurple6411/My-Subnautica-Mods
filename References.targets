@@ -2,17 +2,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ItemGroup>
-	  <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-		  <HintPath>..\packages\HarmonyX.2.9.0\lib\net45\0Harmony.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="HarmonyX" Version="2.10.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Assembly-CSharp-firstpass">
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="QModInstaller">
       <Private>False</Private>
     </Reference>
     <Reference Include="SMLHelper">

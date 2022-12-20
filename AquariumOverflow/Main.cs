@@ -1,18 +1,31 @@
 ﻿namespace AquariumOverflow
 {
     using HarmonyLib;
-    using QModManager.API;
-    using QModManager.API.ModLoading;
     using System.Collections;
     using System.Reflection;
     using UnityEngine;
     using UWE;
+    using BepInEx;
+    using System.Linq;
 
-    [QModCore]
-    public static class Main
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "AquariumOverflow",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        internal readonly Harmony harmony;
+        internal readonly Assembly assembly;
+        public readonly string modFolder;
+
+        #endregion
+
+        private void Awake()
         {
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
@@ -64,10 +77,10 @@
             {
                 var breedCount = 1;
 
-                if(QModServices.Main.ModPresent("FCSEnergySolutions"))
+                if(BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions"))
                     AGCompat.TryOverflowIntoAlterraGens(subRoot, fishType, ref breedCount);
 
-                if(QModServices.Main.ModPresent("CyclopsBioReactor") && breedCount > 0)
+                if(BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "CyclopsBioReactor") && breedCount > 0)
                     CBRCompat.TryOverflowIntoCyclopsBioreactors(subRoot, fishType, ref breedCount);
 
                 if(breedCount > 0)

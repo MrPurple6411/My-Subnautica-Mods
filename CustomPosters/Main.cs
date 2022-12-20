@@ -3,7 +3,6 @@
     using System;
     using System.IO;
     using System.Reflection;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using SMLHelper.V2.Utility;
     using Poster;
@@ -11,15 +10,25 @@
     using System.Collections;
     using UnityEngine;
     using Newtonsoft.Json;
-
-    [QModCore]
-    public class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "CustomPosters",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
 #if SN1
             CreateTabsAndLoadFiles();

@@ -1,11 +1,11 @@
 ﻿namespace BuildingTweaks.Patches
 {
+    using BepInEx.Logging;
     using HarmonyLib;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
-    using Logger = QModManager.Utility.Logger;
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
     internal class Builder_TryPlace_Patch
@@ -42,9 +42,9 @@
             }
 
             if(found is false || found2 is false)
-                Logger.Log(Logger.Level.Error, $"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
+                Main.logSource.Log(LogLevel.Error, $"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
             else
-                Logger.Log(Logger.Level.Info, "Transpiler for Builder.TryPlace completed");
+                Main.logSource.Log(LogLevel.Info, "Transpiler for Builder.TryPlace completed");
 
             return codeInstructions.AsEnumerable();
         }

@@ -1,9 +1,0 @@
-{
-  "Id": "FabricatorNoAutoClose",
-  "DisplayName": "FabricatorNoAutoClose",
-  "Author": "MrPurple6411",
-  "Version": "3.0.1000",
-  "Enable": true,
-  "Game": "Both",
-  "AssemblyName": "FabricatorNoAutoClose.dll"
-}

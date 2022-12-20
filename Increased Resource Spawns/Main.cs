@@ -2,18 +2,27 @@
 {
     using HarmonyLib;
     using Configuration;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using System.Linq;
     using System.Reflection;
-
-    [QModCore]
-    public class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "Increased_Resource_Spawns",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             Config.Blacklist = Config.Blacklist.Distinct().ToList();
             Config.WhiteList = Config.WhiteList.Distinct().ToList();

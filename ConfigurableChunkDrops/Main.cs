@@ -2,33 +2,56 @@
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using Logger = QModManager.Utility.Logger;
 
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    using BepInEx.Logging;
+    using UWE;
+
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         internal static readonly Config config = new();
         internal static readonly string modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly Config defaultValues = new("DefaultValues");
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "ConfigurableChunkDrops",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
+        internal static ManualLogSource logSource;
+
+        #endregion
+
+        private void Awake()
         {
+            logSource = Logger;
             config.Load();
 
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
         }
 
+        [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
+        [HarmonyPrefix]
+        public static void Prefix()
+        {
+            if(!File.Exists(Path.Combine(Main.modPath, "DefaultValues.json")))
+                CoroutineHost.StartCoroutine(GenerateDefaults());
+        }
+
         internal static IEnumerator GenerateDefaults()
         {
-            Logger.Log(Logger.Level.Info, "Generating Default File", showOnScreen: true);
+            logSource.Log(LogLevel.Info, "Generating Default File");
 
             foreach(TechType techType in Enum.GetValues(typeof(TechType)))
             {
@@ -51,10 +74,10 @@
                 }
 
                 prefabs.Add(breakableResource.defaultPrefabTechType, 1f);
-                Logger.Log(Logger.Level.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File", showOnScreen: true);
+                logSource.Log(LogLevel.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File");
                 defaultValues.Save();
             }
-            Logger.Log(Logger.Level.Info, "Default File Complete", showOnScreen: true);
+            logSource.Log(LogLevel.Info, "Default File Complete");
         }
     }
 }

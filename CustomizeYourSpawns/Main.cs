@@ -5,7 +5,6 @@ namespace CustomizeYourSpawns
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Assets;
     using SMLHelper.V2.Handlers;
     using System;
@@ -15,10 +14,12 @@ namespace CustomizeYourSpawns
     using System.Reflection;
     using UWE;
     using static LootDistributionData;
-    using Logger = QModManager.Utility.Logger;
 
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    using BepInEx.Logging;
+
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private static readonly string ModPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly DirectoryInfo ChangesPath = Directory.CreateDirectory(ModPath + "/ChangesToLoad");
@@ -32,8 +33,17 @@ namespace CustomizeYourSpawns
         private static readonly Dictionary<string, List<string>> nameClassIds = new();
         private static readonly Dictionary<string, string> classIdPrefab = new();
 
-        [QModPostPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "CustomizeYourSpawns",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             Setup();
             EnsureDefaultDistributions();
@@ -113,7 +123,7 @@ namespace CustomizeYourSpawns
             writer.Write(JsonConvert.SerializeObject(names, Formatting.Indented));
         }
 
-        private static void EnsureDefaultDistributions()
+        private void EnsureDefaultDistributions()
         {
             if(File.Exists(DefaultDistributions))
                 return;
@@ -128,7 +138,7 @@ namespace CustomizeYourSpawns
                     var classId = srcDist.Key;
                     if(!classIdName.ContainsKey(classId))
                     {
-                        Logger.Log(Logger.Level.Warn, "classIdName has no " + classId);
+                        Logger.Log(LogLevel.Warning, "classIdName has no " + classId);
                     }
                     else
                     {
@@ -174,7 +184,7 @@ namespace CustomizeYourSpawns
                     }
                 }
             }
-            Logger.Log(Logger.Level.Info, "defaultDistributions count  " + defaultDistributions.Count);
+            Logger.Log(LogLevel.Info, "defaultDistributions count  " + defaultDistributions.Count);
 
             var defaultDistributionsL = new SortedDictionary<string, List<BiomeData>>();
 
@@ -259,7 +269,7 @@ namespace CustomizeYourSpawns
             }));
         }
 
-        private static void LoadChangeFiles()
+        private void LoadChangeFiles()
         {
             var modifiedDistributions = new Dictionary<string, List<BiomeData>>();
             foreach(var file in ChangesPath.GetFiles().Where((x) => x.Extension.ToLower() == ".json"))
@@ -268,7 +278,7 @@ namespace CustomizeYourSpawns
                 {
                     if (file.Name.ToLower().Contains("disabled"))
                     {
-                        Logger.Log(Logger.Level.Debug,
+                        Logger.Log(LogLevel.Debug,
                             $"Ignored file: {file.Name} as it contains the keyword 'disabled' in the name.");
                         continue;
                     }
@@ -308,7 +318,7 @@ namespace CustomizeYourSpawns
 
                             if (string.IsNullOrEmpty(name) || !nameClassIds.ContainsKey(name))
                             {
-                                Logger.Log(Logger.Level.Warn, "nameClassIds has no " + name);
+                                Logger.Log(LogLevel.Warning, "nameClassIds has no " + name);
                                 continue;
                             }
                         }
@@ -328,14 +338,14 @@ namespace CustomizeYourSpawns
                         }
                     }
 
-                    Logger.Log(Logger.Level.Debug,
+                    Logger.Log(LogLevel.Debug,
                         succeeded > 0
                             ? $"Successfully loaded file: {file.Name} with {succeeded} TechTypes being altered."
                             : $"Loaded file: {file.Name} But found {succeeded} TechTypes being altered.");
                 }
                 catch(Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, $"Failed to load {file.Name}.", e);
+                    Logger.Log(LogLevel.Error, $"Failed to load {file.Name}.\n"+ e);
                 }
             }
             if(modifiedDistributions.Count > 0)
@@ -365,7 +375,7 @@ namespace CustomizeYourSpawns
             }
         }
 
-        private static void RegisterChanges(Dictionary<string, List<BiomeData>> modifiedDistributions)
+        private void RegisterChanges(Dictionary<string, List<BiomeData>> modifiedDistributions)
         {
             foreach(var modifiedDist in modifiedDistributions)
             {
@@ -387,15 +397,15 @@ namespace CustomizeYourSpawns
                                 techType = nameTechType[name]
                             };
                             WorldEntityDatabaseHandler.AddCustomInfo(classId, info);
-                            Logger.Log(Logger.Level.Debug, $"AddCustomInfo for {name}: {prefabPath}");
+                            Logger.Log(LogLevel.Debug, $"AddCustomInfo for {name}: {prefabPath}");
                         }
                         var data = new SrcData() { prefabPath = prefabPath, distribution = modifiedDist.Value };
-                        Logger.Log(Logger.Level.Debug, $"Altering Spawn Locations for {name}. Adding {data.distribution.Count} values");
+                        Logger.Log(LogLevel.Debug, $"Altering Spawn Locations for {name}. Adding {data.distribution.Count} values");
                         LootDistributionHandler.AddLootDistributionData(classId, data);
                     }
                     else
                     {
-                        Logger.Log(Logger.Level.Warn, $"Failed to get PrefabPath for {name}. Skipped editing distribution for {name}");
+                        Logger.Log(LogLevel.Warning, $"Failed to get PrefabPath for {name}. Skipped editing distribution for {name}");
                     }
                 }
             }

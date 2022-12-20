@@ -25,10 +25,6 @@
     <Reference Include="CustomBatteries">
       <Private>False</Private>
     </Reference>
-    <None Include="mod_BZ.EXP.json" />
-    <None Include="mod_BZ.json" />
-    <None Include="mod_SN1.EXP.json" />
-    <None Include="mod_SN1.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\battery_illum.png">
@@ -76,7 +72,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
-    copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
     </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />

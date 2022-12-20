@@ -2,23 +2,39 @@
 {
     using HarmonyLib;
     using Configuration;
-    using QModManager.API.ModLoading;
-    using QModManager.Utility;
     using SMLHelper.V2.Handlers;
     using System.Reflection;
 
-    [QModCore]
-    public class Main
+    using BepInEx;
+    using BepInEx.Logging;
+
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         internal static Config config = new();
         internal static uGUI_OptionsPanel optionsPanel;
+        internal static ManualLogSource logSource;
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "PowerOrder",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private Main()
+        {
+            logSource = Logger;
+        }
+
+        private void Awake()
         {
             OptionsPanelHandler.RegisterModOptions(new Options());
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "subnautica.powerorder.mod");
-            Logger.Log(Logger.Level.Info, "Patching complete.");
+            logSource.Log(LogLevel.Info, "Patching complete.");
         }
     }
 }

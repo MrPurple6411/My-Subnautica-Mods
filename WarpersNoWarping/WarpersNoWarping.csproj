@@ -21,10 +21,7 @@
     <Compile Include="Patches\Warper_FleeOnDamage_Evaluate.cs" />
     <Compile Include="Patches\Warper_OnKill.cs" />
     <Compile Include="Patches\WarpOut_Evaluate.cs" />
-    <None Include="mod.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\PostBuildEvents.targets"/>
+  <Import Project="..\PostBuildEvents.targets" />
 </Project>

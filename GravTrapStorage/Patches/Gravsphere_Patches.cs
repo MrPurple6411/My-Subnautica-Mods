@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using QModManager.API;
 using Story;
 
 namespace GravTrapStorage.Patches;
@@ -58,7 +57,7 @@ internal class GravspherePatches
 
                 var storageContainers = rootTarget.GetComponentsInChildren<StorageContainer>(true).Where((container) =>
                     {
-                        if (QModServices.Main.ModPresent("FCSAlterraHub"))
+                        if (BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSAlterraHub"))
                         {
                             Type containerType = container.GetType();
                             if (containerType.ToString().StartsWith("FCS"))
@@ -188,7 +187,7 @@ internal class GravspherePatches
                                 var newContainer = (storageContainers.Where(container =>
                                     {
 
-                                        if (QModServices.Main.ModPresent("FCSAlterraHub"))
+                                        if (BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSAlterraHub"))
                                         {
                                             Type containerType = container.GetType();
                                             if (containerType.ToString().StartsWith("FCS"))

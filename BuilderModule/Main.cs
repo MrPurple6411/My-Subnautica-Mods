@@ -2,32 +2,46 @@
 {
     using Module;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using System.Collections.Generic;
     using System.Reflection;
 #if BZ
-    using QModManager.API;
     using SMLHelper.V2.Handlers;
 #endif
 
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    using BepInEx.Logging;
+
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         internal static readonly List<TechType> builderModules = new();
 #if BZ
         internal static FieldInfo AttachToTargetField;
         internal static object btConfig;
 #endif
-        
-        [QModPatch]
-        public static void Load()
+
+        #region[Declarations]
+
+        public const string
+            MODNAME = "BuilderModule",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
+        internal static ManualLogSource logSource;
+
+        #endregion
+
+        private void Awake()
         {
+            logSource = Logger;
             var builderModule = new BuilderModulePrefab("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.", new[] { "Upgrades", "ExosuitUpgrades" }, EquipmentType.VehicleModule);
             builderModule.Patch();
             builderModules.Add(builderModule.TechType);
 
 #if BZ
-            if(QModServices.Main.ModPresent("BuildingTweaks"))
+            if(BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "BuildingTweaks"))
             {
                 var buildingTweaks = QModServices.Main.GetMod("BuildingTweaks").LoadedAssembly;
 

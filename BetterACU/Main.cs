@@ -2,17 +2,30 @@
 {
     using Configuration;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Handlers;
     using System.Reflection;
-
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
+        #region[Declarations]
+
+        public const string
+            MODNAME = "BetterACU",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        internal readonly Harmony harmony;
+        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
+        public readonly string modFolder;
+
+        #endregion
+
         internal static Config Config { get; private set; }
 
-        [QModPatch]
-        public static void Load()
+        private void Awake()
         {
             Config = OptionsPanelHandler.RegisterModOptions<Config>();
             IngameMenuHandler.RegisterOnSaveEvent(Config.Save);

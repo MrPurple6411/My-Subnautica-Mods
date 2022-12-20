@@ -1,14 +1,15 @@
 ﻿namespace BaseKits
 {
     using Prefabs;
-    using QModManager.API.ModLoading;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UWE;
+    using BepInEx;
+    using BepInEx.Logging;
 
-    [QModCore]
-    public static class Main
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private static readonly List<TechType> RoomsToClone = new()
         {
@@ -40,10 +41,20 @@
             ,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor   
 #endif
         };
+        #region[Declarations]
 
-        [QModPostPatch]
-        public static void Load()
+        public const string
+            MODNAME = "BaseKits",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        internal static ManualLogSource logSource;
+        #endregion
+
+        private void Awake()
         {
+            logSource = Logger;
             CoroutineHost.StartCoroutine(RegisterKits());
         }
 

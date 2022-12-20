@@ -32,10 +32,6 @@
     <None Condition="$(Configuration.StartsWith(BZ))" Include="Assets\TechPistolBZ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="mod_BZ.EXP.json" />
-    <None Include="mod_BZ.json" />
-    <None Include="mod_SN1.EXP.json" />
-    <None Include="mod_SN1.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="!$(Configuration.Contains('Editor'))">
@@ -44,4 +40,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <Import Condition="!$(Configuration.Contains('Editor'))" Project="..\PostBuildEvents.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+  </PropertyGroup>
 </Project>

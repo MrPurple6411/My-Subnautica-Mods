@@ -2,8 +2,8 @@
 
 namespace PowerOrder.Patches
 {
+    using BepInEx.Logging;
     using HarmonyLib;
-    using QModManager.Utility;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,13 +20,13 @@ namespace PowerOrder.Patches
                 if (__instance == null || __instance.inboundPowerSources == null ||
                     __instance.inboundPowerSources.Contains(powerInterface))
                     return;
-                Logger.Log(Logger.Level.Debug,
+                Main.logSource.Log(LogLevel.Debug,
                     $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
                 Main.config.doSort = true;
             }
             catch (Exception e)
             {
-                Logger.Log(Logger.Level.Error, ex: e);
+                Main.logSource.Log(LogLevel.Error, e);
             }
         }
 
@@ -52,7 +52,7 @@ namespace PowerOrder.Patches
             }
             catch (Exception e)
             {
-                Logger.Log(Logger.Level.Error, ex: e);
+                Main.logSource.Log(LogLevel.Error, e);
             }
         }
 
@@ -88,10 +88,10 @@ namespace PowerOrder.Patches
                     var order = kvp.Key;
                     if (order > Main.config.Order.Count || order < 1)
                     {
-                        Logger.Log(Logger.Level.Error,
+                        Main.logSource.Log(LogLevel.Error,
                             kvp.Key +
                             " has an invalid order number.  Please fix this and try again.  (Must be within 1-" +
-                            Main.config.Order.Count + ")", showOnScreen: true);
+                            Main.config.Order.Count + ")");
                         throw new Exception();
                     }
 
@@ -100,7 +100,7 @@ namespace PowerOrder.Patches
             }
 
             name = Regex.Replace(name, @"\(.*?\)", "");
-            Logger.Log(Logger.Level.Info, "New power source found: " + name);
+            Main.logSource.Log(LogLevel.Info, "New power source found: " + name);
             Main.config.Order.Add(Main.config.Order.Count + 1, name);
             Main.config.Save();
             return Main.config.Order.Count + 1;

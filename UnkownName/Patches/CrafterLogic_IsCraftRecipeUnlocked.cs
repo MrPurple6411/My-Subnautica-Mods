@@ -1,8 +1,8 @@
 ﻿namespace UnknownName.Patches
 {
     using System.Collections.Generic;
+    using System.Linq;
     using HarmonyLib;
-    using QModManager.API;
     using SMLHelper.V2.Handlers;
 #if SN1
     using RecipeData = SMLHelper.V2.Crafting.TechData;
@@ -19,7 +19,7 @@
         {
             if(Main.Config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
-                if(!QModServices.Main.ModPresent("UITweaks"))
+                if(!BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "UITweaks"))
                 {
                     var data = CraftDataHandler.GetTechData(techType);
                     var ingredientCount = data?.ingredientCount ?? 0;

@@ -6,18 +6,27 @@ namespace CustomHullPlates
     using System.IO;
     using System.Reflection;
     using HullPlate;
-    using QModManager.API.ModLoading;
     using SMLHelper.V2.Utility;
     using Newtonsoft.Json;
-
-    [QModCore]
-    public class Main
+    using BepInEx;
+    
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "HullPlates"));
         private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        [QModPatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "CustomHullPlates",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             foreach(var directory in Directory.GetDirectories(HullPlateFolder.FullName))
             {

@@ -1,7 +1,7 @@
 ﻿namespace AquariumOverflow.Patches
 {
+    using System.Linq;
     using HarmonyLib;
-    using QModManager.API;
     using RALIV.Subnautica.AquariumBreeding;
 
     [HarmonyPatch(typeof(AquariumInfo), nameof(AquariumInfo.Get))]
@@ -22,8 +22,8 @@
 
             var timePassed = DayNightCycle.main.timePassed;
             var bioReactorsFull = false;
-            var cyclopsBioReactorsFull = !QModServices.Main.ModPresent("CyclopsBioReactor");
-            var alterraGensFull = !QModServices.Main.ModPresent("FCSEnergySolutions");
+            var cyclopsBioReactorsFull = !BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "CyclopsBioReactor");
+            var alterraGensFull = !BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions");
 
             //Checks all types of fish in the aquarium and collects data on how many to be put in the BioReactors
             for(var i = 0; i < __result.BreedInfo.Count; i++)

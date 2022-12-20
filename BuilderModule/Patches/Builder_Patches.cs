@@ -1,10 +1,10 @@
 ﻿namespace BuilderModule.Patches
 {
+    using BepInEx.Logging;
     using HarmonyLib;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection.Emit;
-    using Logger = QModManager.Utility.Logger;
 #if BZ
     using Module;
     using UnityEngine;
@@ -38,7 +38,7 @@
             }
 
             if(codepoint > -1)
-                Logger.Log(Logger.Level.Debug, $"Builder Update Transpiler Found and Patched.");
+                Main.logSource.Log(LogLevel.Debug, $"Builder Update Transpiler Found and Patched.");
             else
                 throw new System.Exception("Builder Update Transpiler injection point NOT found!!  Game has most likely updated and broken this mod!");
 

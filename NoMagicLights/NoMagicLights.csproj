@@ -19,16 +19,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Patches\Patch.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="mod_BZ.EXP.json" />
-    <None Include="mod_BZ.json" />
-    <None Include="mod_SN1.EXP.json" />
-    <None Include="mod_SN1.json" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
-      copy "$(ProjectDir)mod_$(ConfigurationName).json" "$(TargetDir)mod.json" /y
     </PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)/PostBuildEvents.targets" />

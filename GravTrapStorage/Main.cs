@@ -1,25 +1,32 @@
-﻿
-using QModInstaller.BepInEx.Plugins;
-
-namespace GravTrapStorage
+﻿namespace GravTrapStorage
 {
     using System.Collections;
     using System.Reflection;
     using UnityEngine;
     using UWE;
-    using Logger = QModManager.Utility.Logger;
     using HarmonyLib;
-    using QModManager.API.ModLoading;
     using Configuration;
     using SMLHelper.V2.Handlers;
 
-    [QModCore]
-    public static class Main
+    using BepInEx;
+    using BepInEx.Logging;
+
+    [BepInPlugin(GUID, MODNAME, VERSION)]
+    public class Main: BaseUnityPlugin
     {
         public static Config ConfigFile { get; private set; }
 
-        [QModPrePatch]
-        public static void Load()
+        #region[Declarations]
+
+        public const string
+            MODNAME = "GravTrapStorage",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
+        #endregion
+
+        private void Awake()
         {
             ConfigFile = OptionsPanelHandler.RegisterModOptions<Config>();
             
@@ -34,32 +41,32 @@ namespace GravTrapStorage
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(Main), nameof(Main.Postfix)))
             );
 #endif
-            Logger.Log(Logger.Level.Info, $" Loaded.");
+            Logger.Log(LogLevel.Info, $" Loaded.");
         }
 
-        private static IEnumerator Postfix(IEnumerator result)
+        private IEnumerator Postfix(IEnumerator result)
         {
             while (result.MoveNext())
             {
                 yield return result;
             }
-            Logger.Log(Logger.Level.Info, $" Starting Coroutine.");
+            Logger.Log(LogLevel.Info, $" Starting Coroutine.");
             CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
         }
         
-        public static IEnumerator ModifyGravspherePrefab()
+        public IEnumerator ModifyGravspherePrefab()
         {
-            Logger.Log(Logger.Level.Info, $" Attempting to Attaching Storage");
+            Logger.Log(LogLevel.Info, $" Attempting to Attaching Storage");
             CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
             yield return request;
 
             var prefab = request.GetResult();
-            Logger.Log(Logger.Level.Info, $" Ensuring COI");
+            Logger.Log(LogLevel.Info, $" Ensuring COI");
             var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
             
             if (coi)
             {
-                Logger.Log(Logger.Level.Info, $"Attaching Storage");
+                Logger.Log(LogLevel.Info, $"Attaching Storage");
                 coi.classId = "GravTrapStorage";
                 var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
                 storageContainer.prefabRoot = prefab;
@@ -71,7 +78,7 @@ namespace GravTrapStorage
             }
             else
             {
-                Logger.Log(Logger.Level.Error, $"Failed to add COI. Unable to attach storage!");
+                Logger.Log(LogLevel.Error, $"Failed to add COI. Unable to attach storage!");
             }
         }
     }
