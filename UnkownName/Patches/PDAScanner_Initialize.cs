@@ -16,7 +16,7 @@
         [HarmonyAfter(new[] { "com.ahk1221.smlhelper" })]
         public static void Postfix()
         {
-            if(Main.Config.Hardcore)
+            if(Main.SMLConfig.Hardcore)
             {
                 var map = PDAScanner.mapping;
                 foreach(TechType techType in Enum.GetValues(typeof(TechType)))

@@ -10,38 +10,30 @@ namespace MoreSeamothDepth
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        internal static Modules.SeamothHullModule4 moduleMK4 = new();
-        internal static Modules.SeamothHullModule5 moduleMK5 = new();
-
         #region[Declarations]
-
         public const string
             MODNAME = "MoreSeamothDepth",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
+        internal static Modules.SeamothHullModule4 moduleMK4 = new();
+        internal static Modules.SeamothHullModule5 moduleMK5 = new();
         #endregion
 
         private void Awake()
         {
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
-                new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-
+                Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
                 LanguageHandler.SetLanguageLine("Tooltip_VehicleHullModule3", "Enhances diving depth. Does not stack"); // To update conflicts about the maximity.
-
                 moduleMK4.Patch();
                 moduleMK5.Patch();
-
-                Console.WriteLine("[MoreSeamothDepth] Succesfully patched!");
+                Logger.LogInfo("Succesfully patched!");
             }
-
             catch(Exception e)
             {
-                Console.WriteLine("[MoreSeamothDepth] Caught exception! " + e.InnerException.Message);
-                Console.WriteLine(e.InnerException.StackTrace);
+                Logger.LogError(e.InnerException.Message);
+                Logger.LogError(e.InnerException.StackTrace);
             }
         }
     }

@@ -8,14 +8,14 @@
         [HarmonyPrefix]
         private static bool Prefix(DayNightCycle __instance)
         {
-            if(Main.Config.freezeTimeChoice == 1)
+            if(Main.SMLConfig.freezeTimeChoice == 1)
             {
                 //always day
                 __instance.sunRiseTime = -1000.0f;
                 __instance.sunSetTime = 1000.0f;
                 return true;
             }
-            else if(Main.Config.freezeTimeChoice == 2)
+            else if(Main.SMLConfig.freezeTimeChoice == 2)
             {
                 //always night
                 __instance.sunRiseTime = 1000.0f;

@@ -8,25 +8,25 @@
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if(Main.Config.NoAggression && !GameModeUtils.IsCheatActive(GameModeOption.NoAggression))
+            if(Main.SMLConfig.NoAggression && !GameModeUtils.IsCheatActive(GameModeOption.NoAggression))
                 GameModeUtils.ActivateCheat(GameModeOption.NoAggression);
 
-            if(Main.Config.NoBlueprints && !GameModeUtils.IsCheatActive(GameModeOption.NoBlueprints))
+            if(Main.SMLConfig.NoBlueprints && !GameModeUtils.IsCheatActive(GameModeOption.NoBlueprints))
                 GameModeUtils.ActivateCheat(GameModeOption.NoBlueprints);
 
-            if(Main.Config.NoCost && !GameModeUtils.IsCheatActive(GameModeOption.NoCost))
+            if(Main.SMLConfig.NoCost && !GameModeUtils.IsCheatActive(GameModeOption.NoCost))
                 GameModeUtils.ActivateCheat(GameModeOption.NoCost);
 
-            if(Main.Config.NoEnergy && !GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
+            if(Main.SMLConfig.NoEnergy && !GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
                 GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
 
-            if(Main.Config.NoOxygen && !GameModeUtils.IsCheatActive(GameModeOption.NoOxygen))
+            if(Main.SMLConfig.NoOxygen && !GameModeUtils.IsCheatActive(GameModeOption.NoOxygen))
                 GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
 
-            if(Main.Config.NoPressure && !GameModeUtils.IsCheatActive(GameModeOption.NoPressure))
+            if(Main.SMLConfig.NoPressure && !GameModeUtils.IsCheatActive(GameModeOption.NoPressure))
                 GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
 
-            if(Main.Config.NoRadiation && !GameModeUtils.IsCheatActive(GameModeOption.NoRadiation))
+            if(Main.SMLConfig.NoRadiation && !GameModeUtils.IsCheatActive(GameModeOption.NoRadiation))
                 GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
 #if BZ
             if (Main.Config.NoCold && !GameModeUtils.IsCheatActive(GameModeOption.NoCold))
@@ -35,16 +35,16 @@
 
             if(NoCostConsoleCommand.main != null)
             {
-                if(Main.Config.FastBuild)
+                if(Main.SMLConfig.FastBuild)
                     NoCostConsoleCommand.main.fastBuildCheat = true;
 
-                if(Main.Config.FastGrow)
+                if(Main.SMLConfig.FastGrow)
                     NoCostConsoleCommand.main.fastGrowCheat = true;
 
-                if(Main.Config.FastHatch)
+                if(Main.SMLConfig.FastHatch)
                     NoCostConsoleCommand.main.fastHatchCheat = true;
 
-                if(Main.Config.FastScan)
+                if(Main.SMLConfig.FastScan)
                     NoCostConsoleCommand.main.fastScanCheat = true;
             }
         }

@@ -16,7 +16,7 @@
         [HarmonyPrefix]
         public static bool CheckSpace_Postfix(ref bool __result)
         {
-            if(Main.Config.FullOverride || Main.Config.AttachToTarget)
+            if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
             {
                 __result = true;
                 return false;
@@ -39,7 +39,7 @@
         [HarmonyPostfix]
         public static void GetObstacles_Postfix(ref List<GameObject> results)
         {
-            if(Main.Config.FullOverride || Main.Config.AttachToTarget)
+            if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
             {
                 results.Clear();
             }

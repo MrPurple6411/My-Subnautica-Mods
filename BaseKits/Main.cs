@@ -11,13 +11,19 @@
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
+        #region[Declarations]
+
+        public const string
+            MODNAME = "BaseKits",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
         private static readonly List<TechType> RoomsToClone = new()
         {
             TechType.BaseFoundation, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseObservatory, TechType.BaseRoom
-#if BZ
             ,TechType.BaseLargeRoom, TechType.BaseControlRoom
-#endif
         };
 
         private static readonly List<TechType> CorridorsToClone = new()
@@ -37,17 +43,8 @@
         {
             TechType.BaseConnector, TechType.BaseBulkhead, TechType.BaseHatch,
             TechType.BaseLadder, TechType.BaseReinforcement, TechType.BaseWindow
-#if BZ
-            ,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor   
-#endif
+            ,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor
         };
-        #region[Declarations]
-
-        public const string
-            MODNAME = "BaseKits",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
 
         internal static ManualLogSource logSource;
         #endregion

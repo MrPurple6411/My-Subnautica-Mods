@@ -8,7 +8,7 @@
         [HarmonyPrefix]
         public static void Prefix()
         {
-            Main.Config.Load();
+            Main.SMLConfig.Load();
         }
     }
 

@@ -3,7 +3,7 @@
     using SMLHelper.V2.Json;
     using System.Collections.Generic;
 
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         internal static Dictionary<int, string> DefaultOrder = new()
         {

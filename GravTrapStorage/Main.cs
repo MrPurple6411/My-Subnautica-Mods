@@ -3,7 +3,6 @@
     using System.Collections;
     using System.Reflection;
     using UnityEngine;
-    using UWE;
     using HarmonyLib;
     using Configuration;
     using SMLHelper.V2.Handlers;
@@ -14,33 +13,26 @@
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        public static Config ConfigFile { get; private set; }
-
         #region[Declarations]
-
         public const string
             MODNAME = "GravTrapStorage",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
+        public static SMLConfig SMLConfig { get; private set; }
         #endregion
 
         private void Awake()
         {
-            ConfigFile = OptionsPanelHandler.RegisterModOptions<Config>();
+            SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
             
-            var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), $"MrPurple6411_GravTrapStorage");
-#if SUBNAUTICA_STABLE
-            CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
-#else
+            var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
             harmony.Patch(
                 AccessTools.Method(
                     typeof(PlatformUtils), nameof(PlatformUtils.PlatformInitAsync)
                 ),
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(Main), nameof(Main.Postfix)))
             );
-#endif
             Logger.Log(LogLevel.Info, $" Loaded.");
         }
 
@@ -51,7 +43,7 @@
                 yield return result;
             }
             Logger.Log(LogLevel.Info, $" Starting Coroutine.");
-            CoroutineHost.StartCoroutine(ModifyGravspherePrefab());
+            StartCoroutine(ModifyGravspherePrefab());
         }
         
         public IEnumerator ModifyGravspherePrefab()
@@ -72,8 +64,8 @@
                 storageContainer.prefabRoot = prefab;
                 storageContainer.storageRoot = coi;
 
-                storageContainer.width = ConfigFile.Width;
-                storageContainer.height = ConfigFile.Height;
+                storageContainer.width = SMLConfig.Width;
+                storageContainer.height = SMLConfig.Height;
                 storageContainer.storageLabel = "Grav trap";
             }
             else

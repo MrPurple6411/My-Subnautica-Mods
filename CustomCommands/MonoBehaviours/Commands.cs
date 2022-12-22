@@ -24,7 +24,7 @@
 
         public void OnDestroy()
         {
-            Placeholder.Awake();
+            Main.Initialize();
             SceneManager.sceneLoaded -= Command;
         }
 

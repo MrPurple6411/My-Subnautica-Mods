@@ -33,10 +33,6 @@
         {
             if(completeSound is null && PrefabDatabase.TryGetPrefabFilename(CraftData.GetClassIdForTechType(TechType.Builder), out var BuilderFilename))
             {
-#if SUBNAUTICA_STABLE
-                var builderPrefab = Resources.Load<GameObject>(BuilderFilename).GetComponent<BuilderTool>();
-                completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
-#else
                 AddressablesUtility.LoadAsync<GameObject>(BuilderFilename).Completed += (x) =>
                 {
                     var gameObject1 = x.Result;
@@ -44,7 +40,6 @@
                     if (builderPrefab is not null)
                         completeSound = Instantiate(builderPrefab.completeSound, gameObject.transform);
                 };
-#endif
             }
         }
 

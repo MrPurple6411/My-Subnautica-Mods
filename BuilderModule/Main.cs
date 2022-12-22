@@ -14,14 +14,7 @@
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        internal static readonly List<TechType> builderModules = new();
-#if BZ
-        internal static FieldInfo AttachToTargetField;
-        internal static object btConfig;
-#endif
-
         #region[Declarations]
-
         public const string
             MODNAME = "BuilderModule",
             AUTHOR = "MrPurple6411",
@@ -30,7 +23,11 @@
 
         internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static ManualLogSource logSource;
-
+        internal static readonly List<TechType> builderModules = new();
+#if BZ
+        internal static FieldInfo AttachToTargetField;
+        internal static object btConfig;
+#endif
         #endregion
 
         private void Awake()
@@ -64,7 +61,7 @@
             builderModules.Add(builderModuleSeaTruck.TechType);
             //builderModules.Add(builderModuleHoverBike.TechType);
 #endif
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "MrPurple6411_BuilderModule");
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
         }
     }
 }

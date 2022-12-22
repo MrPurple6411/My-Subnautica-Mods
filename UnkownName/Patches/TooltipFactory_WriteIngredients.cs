@@ -33,7 +33,7 @@ namespace UnKnownName.Patches
                     if(icons.Contains(icon))
                     {
                         icons.Remove(icon);
-                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
+                        var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.SMLConfig.UnKnownTitle };
                         icons.Add(tooltipIcon);
                     }
                 }

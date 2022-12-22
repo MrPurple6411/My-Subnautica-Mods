@@ -4,7 +4,7 @@
     using SMLHelper.V2.Options.Attributes;
 
     [Menu("Improved Power Network")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Toggle("Line of Sight Required (Blue Beam)", Tooltip = "Makes the main power beam require Line of Sight so it (mostly) wont go through the ground.")]
         public bool LOSBlue = false;

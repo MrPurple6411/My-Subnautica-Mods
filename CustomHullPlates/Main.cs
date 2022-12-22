@@ -13,17 +13,14 @@ namespace CustomHullPlates
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "HullPlates"));
-        private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
-
         #region[Declarations]
-
         public const string
             MODNAME = "CustomHullPlates",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
+        private static readonly DirectoryInfo HullPlateFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "HullPlates"));
+        private static readonly string ModName = Assembly.GetExecutingAssembly().GetName().Name;
         #endregion
 
         private void Awake()

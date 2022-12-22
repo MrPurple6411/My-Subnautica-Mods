@@ -4,7 +4,7 @@
     using SMLHelper.V2.Options.Attributes;
 
     [Menu("Increased Chunk Drop Settings")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Slider("Extra items min", 0, 100, Step = 1)]
         public int ExtraCount = 0;

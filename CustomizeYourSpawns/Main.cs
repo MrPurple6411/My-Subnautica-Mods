@@ -21,6 +21,14 @@ namespace CustomizeYourSpawns
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
+        #region[Declarations]
+
+        public const string
+            MODNAME = "CustomizeYourSpawns",
+            AUTHOR = "MrPurple6411",
+            GUID = AUTHOR + "_" + MODNAME,
+            VERSION = "1.0.0.0";
+
         private static readonly string ModPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly DirectoryInfo ChangesPath = Directory.CreateDirectory(ModPath + "/ChangesToLoad");
         private static readonly string DefaultDistributions = ModPath + "/DefaultDistributions.json";
@@ -32,14 +40,6 @@ namespace CustomizeYourSpawns
         private static readonly Dictionary<TechType, List<string>> techTypeName = new();
         private static readonly Dictionary<string, List<string>> nameClassIds = new();
         private static readonly Dictionary<string, string> classIdPrefab = new();
-
-        #region[Declarations]
-
-        public const string
-            MODNAME = "CustomizeYourSpawns",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
 
         #endregion
 
@@ -199,11 +199,7 @@ namespace CustomizeYourSpawns
             writer.Write(JsonConvert.SerializeObject(defaultDistributionsL, Formatting.Indented, new JsonConverter[] {
 
                 new StringEnumConverter() {
-#if SUBNAUTICA_STABLE
-                    CamelCaseText = true,
-#else
                     NamingStrategy = new CamelCaseNamingStrategy(), 
-#endif
                     AllowIntegerValues = true },
 
                 new TechTypeConverter()
@@ -260,11 +256,7 @@ namespace CustomizeYourSpawns
             using var writer = new StreamWriter(ExampleFile);
             writer.Write(JsonConvert.SerializeObject(example, Formatting.Indented, new StringEnumConverter()
             {
-#if SUBNAUTICA_STABLE
-                CamelCaseText = true,
-#else
                         NamingStrategy = new CamelCaseNamingStrategy(),
-#endif
                 AllowIntegerValues = true
             }));
         }
@@ -291,11 +283,7 @@ namespace CustomizeYourSpawns
                             {
                                 new StringEnumConverter()
                                 {
-#if SUBNAUTICA_STABLE
-                                    CamelCaseText = true,
-#else
                                 NamingStrategy = new CamelCaseNamingStrategy(),
-#endif
                                     AllowIntegerValues = true
                                 },
                                 new TechTypeConverter()

@@ -5,7 +5,7 @@
     using UnityEngine;
 
     [Menu("BuildingTweaks")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         public bool AttachToTarget = false;
         public bool FullOverride = false;

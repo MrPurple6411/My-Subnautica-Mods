@@ -4,7 +4,7 @@
     using SMLHelper.V2.Options.Attributes;
 
     [Menu("ExtraOptions")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Slider("Murkiness", 0, 400, Step = 10, Tooltip = "How clear the water is to allow for distance viewing."), OnChange(nameof(ApplyOptions))]
         public float Murkiness = 200.0f;

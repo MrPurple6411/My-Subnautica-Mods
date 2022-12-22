@@ -79,7 +79,7 @@
                 return false;
             }
 
-            if(Main.Config.LOSBlue && __instance is not OtherConnectionRelay && __instance is not BaseInboundRelay && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
+            if(Main.SMLConfig.LOSBlue && __instance is not OtherConnectionRelay && __instance is not BaseInboundRelay && __instance.gameObject.name.Contains("Transmitter") && Physics.Linecast(__instance.GetConnectPoint(), relay.GetConnectPoint(), Voxeland.GetTerrainLayerMask()))
             {
                 __result = false;
                 return false;

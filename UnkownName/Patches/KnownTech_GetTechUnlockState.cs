@@ -9,7 +9,7 @@
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref TechUnlockState __result)
         {
-            if(Main.Config.Hardcore && (__result != TechUnlockState.Available || !CrafterLogic.IsCraftRecipeUnlocked(techType)))
+            if(Main.SMLConfig.Hardcore && (__result != TechUnlockState.Available || !CrafterLogic.IsCraftRecipeUnlocked(techType)))
             {
                 __result = TechUnlockState.Hidden;
             }

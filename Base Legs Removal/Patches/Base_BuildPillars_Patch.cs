@@ -75,7 +75,7 @@
                 {
                     case BaseFoundationPiece baseFoundationPiece:
                         var maxHeight = 0f;
-                        var config = Main.Config;
+                        var config = Main.SMLConfig;
                         maxHeight = baseFoundationPiece.name switch
                         {
                             "BaseRoomAdjustableSupport(Clone)" => config.RoomLegs ? 0 : 20f,

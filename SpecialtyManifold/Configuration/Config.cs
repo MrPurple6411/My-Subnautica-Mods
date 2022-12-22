@@ -4,7 +4,7 @@
     using SMLHelper.V2.Options.Attributes;
 
     [Menu("Specialty Manifold")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Toggle("Effects of multiple tanks?")]
         public bool multipleTanks;

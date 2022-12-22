@@ -28,11 +28,7 @@
 
                 if(currentInstruction.opcode == OpCodes.Callvirt
                     && secondInstruction.opcode == OpCodes.Call
-#if SUBNAUTICA_STABLE
-                    && thirdInstruction.opcode == OpCodes.Stloc_2)
-#else
                     && thirdInstruction.opcode == OpCodes.Stloc_1)
-#endif
                 {
                     codeInstructions.Insert(i + 2, new CodeInstruction(OpCodes.Ldarg_0));
                     codeInstructions.Insert(i + 3, new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject))));

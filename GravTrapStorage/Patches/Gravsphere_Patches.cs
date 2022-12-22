@@ -22,7 +22,7 @@ internal class GravspherePatches
         StorageContainer storageContainer = __instance.transform.GetChild(0)?.GetComponent<StorageContainer>();
         if (storageContainer != null)
         {
-            storageContainer.container.Resize(Main.ConfigFile.Width, Main.ConfigFile.Height);
+            storageContainer.container.Resize(Main.SMLConfig.Width, Main.SMLConfig.Height);
             StorageContainers[__instance] = storageContainer;
             ResetTriggers[__instance] = false;
         }
@@ -45,7 +45,7 @@ internal class GravspherePatches
         bool targetStorageHasSpace = false;
         if (!storageContainer.GetOpen() && !IngameMenu.main.selected)
         {
-            if (Targeting.GetTarget(Player.main.gameObject, Main.ConfigFile.TransferDistance, out var activeTarget,
+            if (Targeting.GetTarget(Player.main.gameObject, Main.SMLConfig.TransferDistance, out var activeTarget,
                     out _))
             {
                 GameObject rootTarget = UWE.Utils.GetEntityRoot(activeTarget) ?? activeTarget;
@@ -336,7 +336,7 @@ internal class GravspherePatches
 
 
         if (Vector3.Distance(__instance.transform.position, obj.transform.position) >
-            Main.ConfigFile.Distance) return;
+            Main.SMLConfig.Distance) return;
 
         if (obj.TryGetComponent(out BreakableResource resource))
         {

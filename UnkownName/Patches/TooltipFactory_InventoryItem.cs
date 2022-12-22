@@ -16,8 +16,8 @@
             }
 
             sb.Clear();
-            TooltipFactory.WriteTitle(sb, Main.Config.UnKnownTitle);
-            TooltipFactory.WriteDescription(sb, Main.Config.UnKnownDescription);
+            TooltipFactory.WriteTitle(sb, Main.SMLConfig.UnKnownTitle);
+            TooltipFactory.WriteDescription(sb, Main.SMLConfig.UnKnownDescription);
         }
     }
 

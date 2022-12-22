@@ -3,23 +3,18 @@
     using HarmonyLib;
     using Configuration;
     using SMLHelper.V2.Handlers;
-    using System.Reflection;
-    using BepInEx;
+    using System.Reflection;    using BepInEx;
     
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        internal static Assembly assembly = Assembly.GetExecutingAssembly();
-
         #region[Declarations]
-
         public const string
             MODNAME = "PersistentCommands",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
+        internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
         #endregion
 
         private void Awake()

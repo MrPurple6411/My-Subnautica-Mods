@@ -6,7 +6,7 @@
     using System;
 
     [Menu("Persistent Commands")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Button("Reset Achievements", Order = 0)]
         public void ResetAchievements()

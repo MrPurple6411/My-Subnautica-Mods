@@ -5,33 +5,25 @@
     using System;
     using System.Linq;
     using System.Reflection;
-
     using BepInEx;
     using BepInEx.Logging;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        internal static PropertyInfo containers;
-
         #region[Declarations]
-
         public const string
             MODNAME = "ChargeRequired",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
-        internal readonly Harmony harmony;
-        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
-        public readonly string modFolder;
-
+        internal static Harmony harmony;
+        internal static PropertyInfo containers;
         #endregion
 
         private void Awake()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
+            harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
 
             var EasyCraft = AppDomain.CurrentDomain.GetAssemblies()
                                                         .Where((x) => x.FullName.StartsWith("EasyCraft"))

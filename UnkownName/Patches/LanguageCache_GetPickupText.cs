@@ -10,7 +10,7 @@
         {
             if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
-                __result = Main.Config.UnKnownLabel;
+                __result = Main.SMLConfig.UnKnownLabel;
             }
         }
     }

@@ -23,33 +23,33 @@ namespace BuildingTweaks.Patches
             
             if (DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
             {
-                if (Input.GetKeyDown(Main.Config.AttachToTargetToggle))
+                if (Input.GetKeyDown(Main.SMLConfig.AttachToTargetToggle))
                 {
-                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-                    Main.Config.AttachToTarget = !Main.Config.AttachToTarget;
-                    ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", true);
+                    ProcessMSG($"Attach as target override = {Main.SMLConfig.AttachToTarget}", false);
+                    Main.SMLConfig.AttachToTarget = !Main.SMLConfig.AttachToTarget;
+                    ProcessMSG($"Attach as target override = {Main.SMLConfig.AttachToTarget}", true);
                 }
 
-                if (Input.GetKeyDown(Main.Config.FullOverrideToggle))
+                if (Input.GetKeyDown(Main.SMLConfig.FullOverrideToggle))
                 {
-                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
-                    Main.Config.FullOverride = !Main.Config.FullOverride;
+                    ProcessMSG($"Full Override = {Main.SMLConfig.FullOverride}", false);
+                    Main.SMLConfig.FullOverride = !Main.SMLConfig.FullOverride;
                     if (Builder.prefab != null && !Builder.canPlace)
                     {
-                        var value = Main.Config.FullOverride ? Builder.placeColorAllow : Builder.placeColorDeny;
+                        var value = Main.SMLConfig.FullOverride ? Builder.placeColorAllow : Builder.placeColorDeny;
                         var components = Builder.ghostModel.GetComponents<IBuilderGhostModel>();
                         foreach (var builderGhostModel in components)
                             builderGhostModel.UpdateGhostModelColor(true, ref value);
                         Builder.ghostStructureMaterial.SetColor(ShaderPropertyID._Tint, value);
                     }
 
-                    ProcessMSG($"Full Override = {Main.Config.FullOverride}", true);
+                    ProcessMSG($"Full Override = {Main.SMLConfig.FullOverride}", true);
                 }
             }
             else
             {
-                Main.Config.AttachToTarget = false;
-                Main.Config.FullOverride = false;
+                Main.SMLConfig.AttachToTarget = false;
+                Main.SMLConfig.FullOverride = false;
             }
             
 
@@ -122,12 +122,12 @@ namespace BuildingTweaks.Patches
 
         private static void ClearMsgs()
         {
-            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
-            Main.Config.AttachToTarget = false;
-            Main.Config.FullOverride = false;
-            ProcessMSG($"Attach as target override = {Main.Config.AttachToTarget}", false);
-            ProcessMSG($"Full Override = {Main.Config.FullOverride}", false);
+            ProcessMSG($"Attach as target override = {Main.SMLConfig.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.SMLConfig.FullOverride}", false);
+            Main.SMLConfig.AttachToTarget = false;
+            Main.SMLConfig.FullOverride = false;
+            ProcessMSG($"Attach as target override = {Main.SMLConfig.AttachToTarget}", false);
+            ProcessMSG($"Full Override = {Main.SMLConfig.FullOverride}", false);
         }
 
         private static void ProcessMSG(string msg, bool active)

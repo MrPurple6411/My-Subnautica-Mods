@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     [Menu("Grav Trap Storage")]
-    public class Config:ConfigFile
+    public class SMLConfig:ConfigFile
     {
         [Slider("Storage Width", 1, 8, DefaultValue = 4, Step = 1f), OnChange(nameof(ApplyOptions))]
         public int Width = 4;

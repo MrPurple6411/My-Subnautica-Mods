@@ -16,7 +16,7 @@
         {
             var go = __instance.gameObject;
             var position = go.transform.position + go.transform.up * __instance.verticalSpawnOffset;
-            var extraSpawns = Random.Range(Main.Config.ExtraCount, Main.Config.ExtraCountMax + 1);
+            var extraSpawns = Random.Range(Main.SMLConfig.ExtraCount, Main.SMLConfig.ExtraCountMax + 1);
             while(extraSpawns > 0)
             {
                 AssetReferenceGameObject assetReferenceGameObject = null;

@@ -8,7 +8,7 @@
         {
             var additionalRelay = originalRelay.gameObject.AddComponent<OtherConnectionRelay>();
             additionalRelay.dontConnectToRelays = powerControl.OtherConnectionsDisabled;
-            additionalRelay.maxOutboundDistance = Main.Config.GreenBeamRange;
+            additionalRelay.maxOutboundDistance = Main.SMLConfig.GreenBeamRange;
             additionalRelay.constructable = originalRelay.constructable;
 
             if(originalRelay.powerFX?.vfxPrefab is not null)
@@ -28,7 +28,7 @@
 
         public void LateUpdate()
         {
-            maxOutboundDistance = Main.Config.GreenBeamRange;
+            maxOutboundDistance = Main.SMLConfig.GreenBeamRange;
 
             if(outboundRelay is not null)
             {

@@ -7,42 +7,30 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-
     using BepInEx;
     using BepInEx.Logging;
     using UWE;
-    using Newtonsoft.Json;
-    using SMLHelper.V2.Handlers;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
     [HarmonyPatch]
     public class Main: BaseUnityPlugin
     {
-        internal static readonly SMLConfig smlConfig = new();
-        private static readonly SMLConfig defaultValues = new(defaultsFilename);
-
         #region[Declarations]
-
         public const string
             MODNAME = "ConfigurableChunkDrops",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0",
             defaultsFilename = "DefaultValues";
-
-        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static ManualLogSource logSource;
-
+        internal static readonly SMLConfig smlConfig = new();
+        private static readonly SMLConfig defaultValues = new(defaultsFilename);
         #endregion
 
         private void Awake()
         {
             logSource = Logger;
-
-            var assembly = Assembly.GetExecutingAssembly();
-            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
-
-
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
         }
 
         [HarmonyPatch(typeof(Player), nameof(Player.Awake))]

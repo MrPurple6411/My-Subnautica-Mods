@@ -17,7 +17,7 @@
             {
                 return;
             }
-            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true);
+            HandReticle.main.SetText(HandReticle.TextType.Hand, Main.SMLConfig.UnKnownLabel, true);
         }
     }
 

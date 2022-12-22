@@ -2,7 +2,7 @@
 namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
-#if SUBNAUTICA_STABLE
+#if SN1
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
 #else
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.PickupAsync))]

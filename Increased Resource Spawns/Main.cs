@@ -10,27 +10,21 @@
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
-        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-
         #region[Declarations]
-
         public const string
             MODNAME = "Increased_Resource_Spawns",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
-
+        internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
         #endregion
 
         private void Awake()
         {
-            Config.Blacklist = Config.Blacklist.Distinct().ToList();
-            Config.WhiteList = Config.WhiteList.Distinct().ToList();
-            Config.Save();
-
-
-            var assembly = Assembly.GetExecutingAssembly();
-            new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+            SMLConfig.Blacklist = SMLConfig.Blacklist.Distinct().ToList();
+            SMLConfig.WhiteList = SMLConfig.WhiteList.Distinct().ToList();
+            SMLConfig.Save();
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
         }
     }
 }

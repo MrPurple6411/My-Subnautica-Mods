@@ -8,7 +8,7 @@
         [HarmonyPrefix]
         public static void Patch_RenderImage(ref bool cameraInside)
         {
-            if(Main.Config.FogFix)
+            if(Main.SMLConfig.FogFix)
                 cameraInside = false;
         }
     }
@@ -19,7 +19,7 @@
         [HarmonyPrefix]
         public static void Prefix(WaterscapeVolume __instance)
         {
-            __instance.aboveWaterDensityScale = Main.Config.ClearSurface ? 1f : 10f;
+            __instance.aboveWaterDensityScale = Main.SMLConfig.ClearSurface ? 1f : 10f;
 
         }
     }

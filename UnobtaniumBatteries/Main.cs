@@ -8,12 +8,9 @@
     using SMLHelper.V2.Utility;
     using UnityEngine;
     using MonoBehaviours;
-
 #if SN1
     using SMLHelper.V2.Handlers;
-#endif
-
-    using BepInEx;
+#endif    using BepInEx;
     
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin

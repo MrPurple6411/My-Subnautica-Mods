@@ -8,7 +8,7 @@
         [HarmonyPrefix]
         public static bool Prefix(ref bool __result)
         {
-            if(Main.Config.FullOverride)
+            if(Main.SMLConfig.FullOverride)
             {
                 __result = true;
                 return false;
@@ -23,7 +23,7 @@
         [HarmonyPrefix]
         public static bool Prefix(ref bool __result)
         {
-            if(Main.Config.FullOverride)
+            if(Main.SMLConfig.FullOverride)
             {
                 __result = true;
                 return false;

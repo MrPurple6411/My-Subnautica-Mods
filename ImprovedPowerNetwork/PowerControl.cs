@@ -30,7 +30,7 @@
         public void Start()
         {
             powerFXNotNull = Relay.powerFX != null;
-            Relay.maxOutboundDistance = Main.Config.BlueBeamRange;
+            Relay.maxOutboundDistance = Main.SMLConfig.BlueBeamRange;
 
             vehicle = gameObject.GetComponentInParent<Vehicle>();
             subRoot = gameObject.GetComponentInParent<SubRoot>();
@@ -100,7 +100,7 @@
             }
 
 
-            Relay.maxOutboundDistance = Main.Config.BlueBeamRange;
+            Relay.maxOutboundDistance = Main.SMLConfig.BlueBeamRange;
 
             if(Relay.outboundRelay is not null)
             {
@@ -113,7 +113,7 @@
                     return;
                 }
 
-                if(Main.Config.LOSBlue && Physics.Linecast(position1, position2, Voxeland.GetTerrainLayerMask()))
+                if(Main.SMLConfig.LOSBlue && Physics.Linecast(position1, position2, Voxeland.GetTerrainLayerMask()))
                 {
                     Relay.DisconnectFromRelay();
                     return;

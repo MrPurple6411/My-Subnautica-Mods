@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     [Menu("Increased Resource Spawn Settings")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Slider("Resource Multiplier", 1, 10, DefaultValue = 1, Step = 1, Format = "{0:F0}")]
         public int ResourceMultiplier = 1;

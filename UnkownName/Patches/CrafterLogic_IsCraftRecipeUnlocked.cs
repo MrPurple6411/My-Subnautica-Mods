@@ -17,7 +17,7 @@
         [HarmonyPostfix]
         public static void Postfix(TechType techType, ref bool __result)
         {
-            if(Main.Config.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
+            if(Main.SMLConfig.Hardcore && GameModeUtils.RequiresBlueprints() && __result)
             {
                 if(!BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "UITweaks"))
                 {

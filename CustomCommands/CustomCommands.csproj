@@ -19,7 +19,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="MonoBehaviours\Resizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MonoBehaviours\Placeholder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

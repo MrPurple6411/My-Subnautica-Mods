@@ -5,7 +5,7 @@
     using UnityEngine;
 
     [Menu("Base Legs Removal")]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Toggle("Foundation"), OnChange(nameof(RegenLegs))]
         public bool FoundationLegs = false;

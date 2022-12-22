@@ -22,7 +22,7 @@ namespace PowerOrder.Patches
                     return;
                 Main.logSource.Log(LogLevel.Debug,
                     $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
-                Main.config.doSort = true;
+                Main.SMLConfig.doSort = true;
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace PowerOrder.Patches
         {
             try
             {
-                if (!Main.config.doSort)
+                if (!Main.SMLConfig.doSort)
                     return;
                 var info = __instance.inboundPowerSources;
                 var test = new List<IPowerInterface>(info);
@@ -48,7 +48,7 @@ namespace PowerOrder.Patches
                     return Math.Sign(pn - p2n);
                 });
                 __instance.inboundPowerSources = test;
-                Main.config.doSort = false;
+                Main.SMLConfig.doSort = false;
             }
             catch (Exception e)
             {
@@ -80,18 +80,18 @@ namespace PowerOrder.Patches
                 name = Language.main.Get(TechType.PowerCell);
             }
 
-            for (var x = 0; x < Main.config.Order.Count; x++)
+            for (var x = 0; x < Main.SMLConfig.Order.Count; x++)
             {
-                var kvp = Main.config.Order.ElementAt(x);
+                var kvp = Main.SMLConfig.Order.ElementAt(x);
                 if (name.ToLower().Contains(kvp.Value.ToLower()))
                 {
                     var order = kvp.Key;
-                    if (order > Main.config.Order.Count || order < 1)
+                    if (order > Main.SMLConfig.Order.Count || order < 1)
                     {
                         Main.logSource.Log(LogLevel.Error,
                             kvp.Key +
                             " has an invalid order number.  Please fix this and try again.  (Must be within 1-" +
-                            Main.config.Order.Count + ")");
+                            Main.SMLConfig.Order.Count + ")");
                         throw new Exception();
                     }
 
@@ -101,9 +101,9 @@ namespace PowerOrder.Patches
 
             name = Regex.Replace(name, @"\(.*?\)", "");
             Main.logSource.Log(LogLevel.Info, "New power source found: " + name);
-            Main.config.Order.Add(Main.config.Order.Count + 1, name);
-            Main.config.Save();
-            return Main.config.Order.Count + 1;
+            Main.SMLConfig.Order.Add(Main.SMLConfig.Order.Count + 1, name);
+            Main.SMLConfig.Save();
+            return Main.SMLConfig.Order.Count + 1;
         }
     }
 }
