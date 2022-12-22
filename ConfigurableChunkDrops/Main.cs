@@ -11,13 +11,15 @@
     using BepInEx;
     using BepInEx.Logging;
     using UWE;
+    using Newtonsoft.Json;
+    using SMLHelper.V2.Handlers;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
+    [HarmonyPatch]
     public class Main: BaseUnityPlugin
     {
-        internal static readonly Config config = new();
-        internal static readonly string modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        private static readonly Config defaultValues = new("DefaultValues");
+        internal static readonly SMLConfig smlConfig = new();
+        private static readonly SMLConfig defaultValues = new(defaultsFilename);
 
         #region[Declarations]
 
@@ -25,7 +27,8 @@
             MODNAME = "ConfigurableChunkDrops",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
+            VERSION = "1.0.0.0",
+            defaultsFilename = "DefaultValues";
 
         internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
         internal static ManualLogSource logSource;
@@ -35,18 +38,21 @@
         private void Awake()
         {
             logSource = Logger;
-            config.Load();
 
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);
+
+
         }
 
         [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
         [HarmonyPrefix]
         public static void Prefix()
         {
-            if(!File.Exists(Path.Combine(Main.modPath, "DefaultValues.json")))
+            if(!File.Exists(Path.Combine(Paths.ConfigPath, MODNAME, defaultsFilename+".json")))
+            {
                 CoroutineHost.StartCoroutine(GenerateDefaults());
+            }
         }
 
         internal static IEnumerator GenerateDefaults()
@@ -67,13 +73,13 @@
                 if(breakableResource is null)
                     continue;
 
-                var prefabs = defaultValues.Breakables[techType] = new Dictionary<TechType, float>();
+                var prefabs = defaultValues.Breakables[techType.AsString()] = new Dictionary<string, float>();
                 foreach(var randomPrefab in breakableResource.prefabList)
                 {
-                    prefabs[randomPrefab.prefabTechType] = randomPrefab.chance;
+                    prefabs[randomPrefab.prefabTechType.AsString()] = randomPrefab.chance;
                 }
 
-                prefabs.Add(breakableResource.defaultPrefabTechType, 1f);
+                prefabs.Add(breakableResource.defaultPrefabTechType.AsString(), 1f);
                 logSource.Log(LogLevel.Info, $"Added {Language.main.GetOrFallback(techType.AsString(), techType.AsString())} to Defaults File");
                 defaultValues.Save();
             }

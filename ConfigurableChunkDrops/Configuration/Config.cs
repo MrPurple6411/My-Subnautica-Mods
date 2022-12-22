@@ -3,12 +3,12 @@
     using SMLHelper.V2.Json;
     using System.Collections.Generic;
 
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
-        public Config(string fileName = "config", string subfolder = null) : base(fileName, subfolder)
+        public SMLConfig(string fileName = "config", string subfolder = null) : base(fileName, subfolder)
         {
         }
 
-        public Dictionary<TechType, Dictionary<TechType, float>> Breakables = new();
+        public Dictionary<string, Dictionary<string, float>> Breakables = new();
     }
 }

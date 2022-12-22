@@ -2,6 +2,7 @@
 {
     using HarmonyLib;
     using System.Collections.Generic;
+    using System.Linq;
 
     [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_ChooseRandomResource
@@ -15,7 +16,7 @@
 
             if(prefabs.TryGetValue(Breakable, out var randomPrefabs))
             {
-                var Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs);
+                List<BreakableResource.RandomPrefab> Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs).OrderBy(x => x.chance).ToList();
                 var last = randomPrefabs.GetLast();
                 Prefabs.Remove(last);
                 __instance.defaultPrefabTechType = last.prefabTechType;

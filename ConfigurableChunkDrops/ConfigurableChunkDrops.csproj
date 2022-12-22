@@ -16,7 +16,6 @@
   <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Patches\Defaults_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\BreakableResource_Patches.cs" />
     <Compile Include="Patches\Player_Awake_Patch.cs" />

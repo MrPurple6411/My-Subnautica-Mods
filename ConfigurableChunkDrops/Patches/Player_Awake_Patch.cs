@@ -5,6 +5,12 @@
     using System.Collections;
     using System.Collections.Generic;
     using UWE;
+    using ConfigurableChunkDrops.Configuration;
+    using BepInEx;
+    using Newtonsoft.Json;
+    using System.IO;
+    using SMLHelper.V2.Handlers;
+    using System;
 
     [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
     public static class Player_Awake_Patch
@@ -12,17 +18,25 @@
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
-            foreach(var breakable in Main.config.Breakables)
+            Main.smlConfig.Load();
+
+            foreach(var breakable in Main.smlConfig.Breakables)
             {
-                foreach(var pair in breakable.Value)
+                if(TechTypeExtensions.FromString(breakable.Key, out TechType breakableType, true))
                 {
-                    var entropy = __instance.gameObject.GetComponent<PlayerEntropy>();
-                    var techEntropy = entropy.randomizers.Find((x) => x.techType == pair.Key);
+                    foreach(var pair in breakable.Value)
+                    {
+                        if(TechTypeExtensions.FromString(pair.Key, out TechType dropType, true))
+                        {
+                            var entropy = __instance.gameObject.GetComponent<PlayerEntropy>();
+                            var techEntropy = entropy.randomizers.Find((x) => x.techType == dropType);
 
-                    if(techEntropy == default)
-                        entropy.randomizers.Add(new PlayerEntropy.TechEntropy() { entropy = __instance.gameObject.AddComponent<FairRandomizer>(), techType = pair.Key });
+                            if(techEntropy == default)
+                                entropy.randomizers.Add(new PlayerEntropy.TechEntropy() { entropy = __instance.gameObject.AddComponent<FairRandomizer>(), techType = dropType });
 
-                    CoroutineHost.StartCoroutine(GetPrefabForList(breakable.Key, pair.Key, pair.Value));
+                            CoroutineHost.StartCoroutine(GetPrefabForList(breakableType, dropType, pair.Value));
+                        }
+                    }
                 }
             }
         }
