@@ -19,7 +19,8 @@
         {
             TechType.BaseBulkhead, TechType.BaseRoom, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseBioReactor, TechType.BaseNuclearReactor, TechType.BaseObservatory, TechType.BaseUpgradeConsole,
-            TechType.BaseFiltrationMachine, TechType.BaseWaterPark
+            TechType.BaseFiltrationMachine, TechType.BaseWaterPark, TechType.BaseLargeRoom, TechType.BaseLargeGlassDome, 
+            TechType.BaseGlassDome, TechType.BaseControlRoom
         };
 
         private GameObject processedPrefab;
@@ -34,16 +35,22 @@
 
             if (CraftData.GetBuilderIndex(typeToClone, out var originalGroup, out var originalCategory, out _))
             {
-                string originalCategoryString =
-                    Language.main.Get(uGUI_BlueprintsTab.techCategoryStrings.Get(originalCategory));
+                string originalCategoryString = Language.main.Get(uGUI_BlueprintsTab.techCategoryStrings.Get(originalCategory));
+                string tgs = $"{originalGroup}_Kits";
+                if(!TechGroupHandler.Main.TryGetModdedTechGroup(tgs, out group))
+                {
+                    group = TechGroupHandler.Main.AddTechGroup(tgs, $"{originalGroup} - Kits");
+                }
 
-                group = TechGroupHandler.Main.AddTechGroup($"{originalGroup}_Kits", $"{originalGroup} - Kits");
-                category = TechCategoryHandler.Main.AddTechCategory($"{originalCategory}_Kits",
-                    $"{originalCategoryString} - Kits");
+                string tcs = $"{originalCategory}_Kits";
+                if(!TechCategoryHandler.Main.TryGetModdedTechCategory(tcs, out category))
+                {
+                    category = TechCategoryHandler.Main.AddTechCategory(tcs,$"{originalCategoryString} - Kits");
+                }
+
                 if (!TechCategoryHandler.Main.TryRegisterTechCategoryToTechGroup(group, category))
                 {
-                    Main.logSource.Log(LogLevel.Error,
-                        $"Failed to Register {category} to {group}");
+                    Main.logSource.LogError($"Failed to Register {category} to {group}");
                 }
             }
 
@@ -106,7 +113,7 @@
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return CraftDataHandler.GetTechData(TypeToClone);
+            return CraftDataHandler.GetTechData(TypeToClone) ?? new RecipeData() { craftAmount = 0 };
         }
 
         protected override Sprite GetItemSprite()
