@@ -4,8 +4,8 @@
     using HarmonyLib;
     using SMLHelper.V2.Handlers;
     using System.Reflection;
-    using BepInEx;
-    
+    using BepInEx;
+
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
@@ -23,12 +23,12 @@
 
         #endregion
 
-        internal static Config Config { get; private set; }
+        internal static SMLConfig SMLConfig { get; private set; }
 
         private void Awake()
         {
-            Config = OptionsPanelHandler.RegisterModOptions<Config>();
-            IngameMenuHandler.RegisterOnSaveEvent(Config.Save);
+            SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+            IngameMenuHandler.RegisterOnSaveEvent(SMLConfig.Save);
 
             var assembly = Assembly.GetExecutingAssembly();
             new Harmony($"MrPurple6411_{assembly.GetName().Name}").PatchAll(assembly);

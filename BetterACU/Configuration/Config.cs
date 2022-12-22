@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]
-    public class Config: ConfigFile
+    public class SMLConfig: ConfigFile
     {
         [Toggle("Breed Into Ocean")]
         public bool OceanBreeding = false;
