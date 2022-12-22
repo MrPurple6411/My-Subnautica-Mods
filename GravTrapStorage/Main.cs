@@ -20,10 +20,12 @@
             GUID = AUTHOR + "_" + MODNAME,
             VERSION = "1.0.0.0";
         public static SMLConfig SMLConfig { get; private set; }
+        internal static ManualLogSource logSource;
         #endregion
 
         private void Awake()
         {
+            logSource = Logger;
             SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
             
             var harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
@@ -36,29 +38,26 @@
             Logger.Log(LogLevel.Info, $" Loaded.");
         }
 
-        private IEnumerator Postfix(IEnumerator result)
+        public static IEnumerator Postfix(IEnumerator result)
         {
-            while (result.MoveNext())
-            {
-                yield return result;
-            }
-            Logger.Log(LogLevel.Info, $" Starting Coroutine.");
-            StartCoroutine(ModifyGravspherePrefab());
+            yield return result;
+            logSource.Log(LogLevel.Info, $" Starting Coroutine.");
+            yield return ModifyGravspherePrefab();
         }
         
-        public IEnumerator ModifyGravspherePrefab()
+        public static IEnumerator ModifyGravspherePrefab()
         {
-            Logger.Log(LogLevel.Info, $" Attempting to Attaching Storage");
+            logSource.Log(LogLevel.Info, $" Attempting to Attaching Storage");
             CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
             yield return request;
 
             var prefab = request.GetResult();
-            Logger.Log(LogLevel.Info, $" Ensuring COI");
+            logSource.Log(LogLevel.Info, $" Ensuring COI");
             var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
             
             if (coi)
             {
-                Logger.Log(LogLevel.Info, $"Attaching Storage");
+                logSource.Log(LogLevel.Info, $"Attaching Storage");
                 coi.classId = "GravTrapStorage";
                 var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
                 storageContainer.prefabRoot = prefab;
@@ -70,7 +69,7 @@
             }
             else
             {
-                Logger.Log(LogLevel.Error, $"Failed to add COI. Unable to attach storage!");
+                logSource.Log(LogLevel.Error, $"Failed to add COI. Unable to attach storage!");
             }
         }
     }
