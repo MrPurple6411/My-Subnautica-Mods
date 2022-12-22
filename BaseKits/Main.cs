@@ -23,7 +23,10 @@
         {
             TechType.BaseFoundation, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseObservatory, TechType.BaseRoom
-            ,TechType.BaseLargeRoom, TechType.BaseControlRoom
+            ,TechType.BaseLargeRoom
+#if BZ
+            , TechType.BaseControlRoom
+#endif
         };
 
         private static readonly List<TechType> CorridorsToClone = new()
