@@ -28,7 +28,7 @@
     <SMLHelperFolder>Modding Helper</SMLHelperFolder>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath>$(SolutionDir)Qmods\$(Configuration)\$(AssemblyName)</OutputPath>
+    <OutputPath>$(SolutionDir)bin\$(AssemblyName)\$(Configuration)\plugins\$(AssemblyName)</OutputPath>
 	<Dependencies>$(SolutionDir)Dependencies\$(Configuration)</Dependencies>
 	  <ManagedDir>$(GameDir)/$(DataFolder)/Managed</ManagedDir>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
+  <PropertyGroup Condition="!$(Configuration.EndsWith('EXP'))">
     <PostBuildEvent>
-		IF EXIST "$(SolutionDir)plugins\Zips\$(Configuration)\$(TargetName).zip" DEL /F "$(SolutionDir)plugins\Zips\$(Configuration)\$(TargetName).zip"
-		IF NOT EXIST "$(SolutionDir)plugins\Zips" mkdir "$(SolutionDir)plugins\Zips"
-		$(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)plugins\Zips\$(Configuration)\$(TargetName).zip" "$(TargetDir)" > nul
+      IF NOT EXIST "$(SolutionDir)bin\_Zips" mkdir "$(SolutionDir)bin\_Zips"
+      IF EXIST "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip" DEL /F "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip"
+      $(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip" "$(SolutionDir)bin\$(AssemblyName)\$(Configuration)\*" > nul
 
-		
-		IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" rmdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" /q /s > nul
-		mkdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" > nul
-		xcopy "$(TargetDir)" "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)\" /E /H /C /I
-		IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" DEL /F "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" > nul
-		$(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)ThunderStorePackages\Zips\$(ConfigurationName)\$(TargetName).zip" "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\*" > nul
-	</PostBuildEvent>
+      IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" rmdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" /q /s > nul
+      mkdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" > nul
+      xcopy "$(TargetDir)" "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)\" /E /H /C /I
+      IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" DEL /F "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" > nul
+      $(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)ThunderStorePackages\Zips\$(ConfigurationName)\$(TargetName).zip" "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\*" > nul
+      IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins" rmdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins" /q /s > nul
+      IF EXIST "$(SolutionDir)bin\$(AssemblyName)" rmdir "$(SolutionDir)bin\$(AssemblyName)" /q /s > nul
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
