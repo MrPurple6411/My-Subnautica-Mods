@@ -1,10 +1,10 @@
 {
-    "name": "No_Eating_Sounds_BZ",
-    "version_number": "3.0.1001",
+    "name": "Bepinex_No_Eating_Sounds_BZ",
+    "version_number": "1.0.0",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "For sufferers of Misophonia.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager_BZ-4.4.3",
-		"Subnautica_Modding-SMLHelper_BZ-2.13.4"
+		"Subnautica_Modding-BepInExPack-5.4.2101",
+		"Subnautica_Modding-SMLHelper_BZ-2.15.0000"
 		]
 }

@@ -1,10 +1,10 @@
 {
-    "name": "Customize_Your_Spawns",
-    "version_number": "3.0.1001",
+    "name": "Bepinex_Customize_Your_Spawns",
+    "version_number": "1.0.0",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
     "description": "Allows you to change what and where creatures/chunks/deposits/fragments are spawned in the world base on biomes.",
     "dependencies": [ 
-		"Subnautica_Modding-QModManager-4.4.3",
-		"Subnautica_Modding-SMLHelper-2.13.4"
+		"Subnautica_Modding-BepInExPack-5.4.2101",
+		"Subnautica_Modding-SMLHelper-2.15.0000"
 		]
 }
