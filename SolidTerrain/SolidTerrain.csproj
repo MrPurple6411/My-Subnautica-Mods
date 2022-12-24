@@ -17,7 +17,7 @@
   <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\Player_Update_Patch.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
