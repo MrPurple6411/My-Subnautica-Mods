@@ -1,8 +1,8 @@
 {
-    "name": "Bepinex_Configurable_Chunk_Drops",
+    "name": "Bepinex_Tool_Inspection",
     "version_number": "1.0.0",
     "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
-    "description": "This mod allows to configure What drops from the different chunks in the game.",
+    "description": "This mod allows you to press the i key while holding a tool and if the tool has an animation for the first time it is equipped then it will replay that animation for you.",
     "dependencies": [ 
 		"Subnautica_Modding-BepInExPack-5.4.2101",
 		"Subnautica_Modding-SMLHelper-2.15.0000"

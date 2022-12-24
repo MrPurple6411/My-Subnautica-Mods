@@ -1,0 +1,10 @@
+{
+    "name": "Bepinex_Copper_From_Scanning_BZ",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/MrPurple6411/MrPurple6411-Subnautica-Mods",
+    "description": "Makes it so when you scan fragments you already know you now get 1 titanium and 1 copper instead of 2 titanium.",
+    "dependencies": [ 
+		"Subnautica_Modding-BepInExPack-5.4.2101",
+		"Subnautica_Modding-SMLHelper_BZ-2.15.0000"
+		]
+}
