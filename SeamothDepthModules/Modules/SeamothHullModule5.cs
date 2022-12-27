@@ -27,8 +27,6 @@ namespace MoreSeamothDepth.Modules
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
 
-        public override string[] StepsToFabricatorTab => new[] { "EDM" };
-
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)

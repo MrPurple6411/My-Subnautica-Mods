@@ -16,7 +16,6 @@ namespace MoreSeamothDepth.Modules
             friendlyName: "Seamoth depth module MK4",
             description: "Enhances diving depth. Does not stack.")
         {
-            OnStartedPatching += () => CraftTreeHandler.AddTabNode(CraftTree.Type.Workbench, "EDM", "Enhanced Depth Modules", SpriteManager.Get(TechType.VehicleHullModule1));
         }
 
         public override EquipmentType EquipmentType => EquipmentType.SeamothModule;
@@ -28,8 +27,6 @@ namespace MoreSeamothDepth.Modules
         public override TechCategory CategoryForPDA => TechCategory.Workbench;
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
-
-        public override string[] StepsToFabricatorTab => new[] { "EDM" };
 
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 

@@ -15,7 +15,7 @@ namespace MoreSeamothDepth
             MODNAME = "MoreSeamothDepth",
             AUTHOR = "MrPurple6411",
             GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
+            VERSION = "1.0.0.1";
         internal static Modules.SeamothHullModule4 moduleMK4 = new();
         internal static Modules.SeamothHullModule5 moduleMK5 = new();
         #endregion
