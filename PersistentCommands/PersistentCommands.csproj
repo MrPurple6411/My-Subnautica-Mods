@@ -17,9 +17,7 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\DevConsole_Submit_Patch.cs" />
-    <Compile Include="Patches\NoCostConsoleCommand_Awake_Patch.cs" />
-    <Compile Include="Patches\Player_Awake_Patch.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

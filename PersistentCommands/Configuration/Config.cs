@@ -8,11 +8,19 @@
     [Menu("Persistent Commands")]
     public class SMLConfig: ConfigFile
     {
+        private bool confirmed = false;
+
         [Button("Reset Achievements", Order = 0)]
         public void ResetAchievements()
         {
-            ErrorMessage.AddMessage("Achievements have been reset.");
-            PlatformUtils.main.GetServices().ResetAchievements();
+            if (confirmed)
+            {
+                confirmed = false;
+                ErrorMessage.AddMessage("Achievements have been reset.");
+                PlatformUtils.main.GetServices().ResetAchievements();
+            }
+            confirmed= true;
+            ErrorMessage.AddMessage("Press again to reset Achievements.");
         }
 
         [Toggle(Id = "NoCost", Label = "Free Crafting"), OnChange(nameof(ToggleCheat))]
