@@ -1,7 +1,7 @@
 ﻿namespace Time_Eternal.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
     using System.Collections.Generic;
 
     [Menu("Time Eternal", LoadOn = MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened)]

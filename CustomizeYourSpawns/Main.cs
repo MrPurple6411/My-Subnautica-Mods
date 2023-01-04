@@ -5,8 +5,8 @@ namespace CustomizeYourSpawns
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Assets;
+    using SMLHelper.Handlers;
     using System;
     using System.Collections.Generic;
     using System.IO;

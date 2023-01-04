@@ -1,16 +1,16 @@
 ﻿#if !EDITOR
 namespace TechPistol.Module
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Assets;
+    using SMLHelper.Crafting;
+    using SMLHelper.Utility;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UWE;
 #if SN1
     using Sprite = Atlas.Sprite;
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
 #endif
 
     internal class PistolFragmentPrefab: PdaItem
@@ -84,7 +84,7 @@ namespace TechPistol.Module
             if (processedPrefab is not null) return processedPrefab;
             
             var prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-            var gameObject = Object.Instantiate(prefab, default, default, false);
+            var gameObject = EditorModifications.Instantiate(prefab, default, default, false);
             
             var componentsInChildren = gameObject.GetComponentsInChildren<Renderer>();
             Shader marmo = Shader.Find("MarmosetUBER");

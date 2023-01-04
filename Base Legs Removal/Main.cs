@@ -2,7 +2,7 @@
 {
     using Configuration;
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System.Reflection;
     using BepInEx;
     

@@ -2,7 +2,7 @@
 {
     using System.Reflection;
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using Configuration;    using BepInEx;
     
     [BepInPlugin(GUID, MODNAME, VERSION)]

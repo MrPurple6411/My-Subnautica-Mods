@@ -22,14 +22,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
-if not exist "$(Dependencies)" (
-  if exist "$(ManagedDir)" (
-    mkdir "$(Dependencies)"
-    Echo $(SolutionDir)nstrip.exe  -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)"
-    $(SolutionDir)nstrip.exe -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)" &gt; nul
-  )
-)
-		</PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />
 </Project>

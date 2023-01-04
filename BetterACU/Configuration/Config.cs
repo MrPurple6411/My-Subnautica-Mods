@@ -1,7 +1,7 @@
 ﻿namespace BetterACU.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
     using System.Collections.Generic;
 
     [Menu("Better ACU", LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered)]

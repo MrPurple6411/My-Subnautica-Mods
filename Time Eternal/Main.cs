@@ -1,7 +1,7 @@
 ﻿namespace Time_Eternal
 {
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System.Reflection;
     using Configuration;    using BepInEx;
     

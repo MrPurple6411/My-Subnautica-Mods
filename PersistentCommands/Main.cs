@@ -2,7 +2,7 @@
 {
     using HarmonyLib;
     using Configuration;
-    using SMLHelper.V2.Handlers;    using BepInEx;
+    using SMLHelper.Handlers;    using BepInEx;
     
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin

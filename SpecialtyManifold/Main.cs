@@ -1,7 +1,7 @@
 ﻿namespace SpecialtyManifold
 {
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using Configuration;
     using System.Reflection;    using BepInEx;
     

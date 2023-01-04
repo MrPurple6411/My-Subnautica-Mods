@@ -2,7 +2,7 @@
 namespace TechPistol
 {
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System.IO;
     using System.Reflection;
     using Configuration;

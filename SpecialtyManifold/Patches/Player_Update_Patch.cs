@@ -1,7 +1,7 @@
 ﻿namespace SpecialtyManifold.Patches
 {
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using UnityEngine;
 
     [HarmonyPatch(typeof(Player), nameof(Player.Update))]

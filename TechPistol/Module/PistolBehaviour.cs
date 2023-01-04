@@ -274,7 +274,12 @@
                         if (!Main.SMLConfig.LethalResizing || (!(newScale.x >= Main.SMLConfig.ScaleKillSize) &&
                                                             !(newScale.y >= Main.SMLConfig.ScaleKillSize) &&
                                                             !(newScale.z >= Main.SMLConfig.ScaleKillSize))) return;
-                        entityRoot.GetComponentInChildren<LiveMixin>()?.Kill();
+                        var LM = entityRoot.GetComponentInChildren<LiveMixin>();
+                        if(LM != null)
+                        {
+                            LM.invincible = false;
+                            LM.Kill();
+                        }
                         entityRoot.GetComponentInChildren<BreakableResource>()?.HitResource();
                         var drillable = entityRoot.GetComponent<Drillable>();
 

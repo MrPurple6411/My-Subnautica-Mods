@@ -1,7 +1,7 @@
 ﻿namespace ExtraOptions.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
 
     [Menu("ExtraOptions")]
     public class SMLConfig: ConfigFile

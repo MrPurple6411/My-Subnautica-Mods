@@ -9,7 +9,7 @@
     using BepInEx;
     using Newtonsoft.Json;
     using System.IO;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System;
 
     [HarmonyPatch(typeof(Player), nameof(Player.Awake))]

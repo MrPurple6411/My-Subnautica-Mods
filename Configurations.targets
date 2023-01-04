@@ -3,7 +3,7 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'BZ'">
     <DefineConstants>BZ;BELOWZERO</DefineConstants>
-	  <GameDir>$(CommonDir)SubnauticaZero</GameDir>
+    <GameDir>$(CommonDir)SubnauticaZero</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'BZ.EXP'">
     <DefineConstants>BZ;BELOWZERO_EXP</DefineConstants>
@@ -11,7 +11,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1'">
     <DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
-	  <GameDir>$(CommonDir)Subnautica</GameDir>
+    <GameDir>$(CommonDir)Subnautica</GameDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'SN1.EXP'">
     <DefineConstants>SN1;SUBNAUTICA_EXP</DefineConstants>
@@ -28,14 +28,14 @@
     <SMLHelperFolder>Modding Helper</SMLHelperFolder>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath>$(SolutionDir)bin\$(AssemblyName)\$(Configuration)\plugins\$(AssemblyName)</OutputPath>
-	<Dependencies>$(SolutionDir)Dependencies\$(Configuration)</Dependencies>
-	  <ManagedDir>$(GameDir)/$(DataFolder)/Managed</ManagedDir>
+    <OutputPath>$(SolutionDir)..\mods\$(AssemblyName)\$(GameName)\plugins\$(AssemblyName)</OutputPath>
+    <Dependencies>$(SolutionDir)Dependencies\$(Configuration)</Dependencies>
+    <ManagedDir>$(GameDir)/$(DataFolder)/Managed</ManagedDir>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <LangVersion>latest</LangVersion>
     <ReferencePath>
-		$(Dependencies);$(SolutionDir)Libs\$(Configuration)
-	</ReferencePath>
+      $(Dependencies);$(SolutionDir)Libs\$(Configuration)
+    </ReferencePath>
   </PropertyGroup>
 </Project>

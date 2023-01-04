@@ -1,6 +1,6 @@
 ﻿namespace ConfigurableChunkDrops.Configuration
 {
-    using SMLHelper.V2.Json;
+    using SMLHelper.Json;
     using System.Collections.Generic;
 
     public class SMLConfig: ConfigFile

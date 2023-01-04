@@ -6,7 +6,7 @@ using Story;
 namespace GravTrapStorage.Patches;
 
 using System.Collections.Generic;
-using SMLHelper.V2.Utility;
+using SMLHelper.Utility;
 using UnityEngine;
 using HarmonyLib;
 

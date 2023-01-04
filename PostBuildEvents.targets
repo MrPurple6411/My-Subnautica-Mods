@@ -3,9 +3,9 @@
 
   <PropertyGroup Condition="!$(Configuration.EndsWith('EXP'))">
     <PostBuildEvent>
-      IF NOT EXIST "$(SolutionDir)bin\_Zips" mkdir "$(SolutionDir)bin\_Zips"
-      IF EXIST "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip" DEL /F "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip"
-      $(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)bin\_Zips\$(Configuration)\$(TargetName).zip" "$(SolutionDir)bin\$(AssemblyName)\$(Configuration)\*" > nul
+      IF NOT EXIST "$(SolutionDir)..\mods\_Zips" mkdir "$(SolutionDir)..\mods\_Zips"
+      IF EXIST "$(SolutionDir)..\mods\_Zips\$(GameName)\$(TargetName).zip" DEL /F "$(SolutionDir)..\mods\_Zips\$(GameName)\$(TargetName).zip"
+      $(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)..\mods\_Zips\$(GameName)\$(TargetName).zip" "$(SolutionDir)..\mods\$(AssemblyName)\$(GameName)\*" > nul
 
       IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" rmdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" /q /s > nul
       mkdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins\$(TargetName)" > nul
@@ -13,7 +13,6 @@
       IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" DEL /F "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName).zip" > nul
       $(SolutionDir)packages\7-Zip.CommandLine.18.1.0\tools\7za.exe a "$(SolutionDir)ThunderStorePackages\Zips\$(ConfigurationName)\$(TargetName).zip" "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\*" > nul
       IF EXIST "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins" rmdir "$(SolutionDir)ThunderStorePackages\$(ConfigurationName)\$(TargetName)\plugins" /q /s > nul
-      IF EXIST "$(SolutionDir)bin\$(AssemblyName)" rmdir "$(SolutionDir)bin\$(AssemblyName)" /q /s > nul
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

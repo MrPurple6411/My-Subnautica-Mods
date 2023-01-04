@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
 #endif
 
 

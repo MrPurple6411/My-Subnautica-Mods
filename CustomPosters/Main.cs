@@ -3,8 +3,8 @@
     using System;
     using System.IO;
     using System.Reflection;
-    using SMLHelper.V2.Handlers;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Handlers;
+    using SMLHelper.Utility;
     using Poster;
     using UWE;
     using System.Collections;

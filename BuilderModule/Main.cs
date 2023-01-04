@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Reflection;
 #if BZ
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
 #endif
 
     using BepInEx;

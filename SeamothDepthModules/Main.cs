@@ -2,7 +2,7 @@
 namespace MoreSeamothDepth
 {
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using System;
     using System.Reflection;
     using BepInEx;

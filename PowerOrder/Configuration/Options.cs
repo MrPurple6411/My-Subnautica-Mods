@@ -1,7 +1,7 @@
 ﻿namespace PowerOrder.Configuration
 {
     using BepInEx.Logging;
-    using SMLHelper.V2.Options;
+    using SMLHelper.Options;
     using System;
     using System.Linq;
 

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using GravTrapStorage.MonoBehaviours;
 using HarmonyLib;
-using SMLHelper.V2.Utility;
+using SMLHelper.Utility;
 using UnityEngine;
 
 namespace GravTrapStorage.Patches;

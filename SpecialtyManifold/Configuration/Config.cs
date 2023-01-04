@@ -1,7 +1,7 @@
 ﻿namespace SpecialtyManifold.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
 
     [Menu("Specialty Manifold")]
     public class SMLConfig: ConfigFile

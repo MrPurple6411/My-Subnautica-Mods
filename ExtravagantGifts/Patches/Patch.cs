@@ -2,8 +2,8 @@
 namespace ExtravagantGifts.Patches
 {
     using HarmonyLib;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Crafting;
+    using SMLHelper.Handlers;
     using Story;
 
     public static class Patches

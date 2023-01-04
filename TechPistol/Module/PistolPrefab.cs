@@ -1,9 +1,9 @@
 ﻿#if !EDITOR
 namespace TechPistol.Module
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Assets;
+    using SMLHelper.Crafting;
+    using SMLHelper.Utility;
 
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace TechPistol.Module
     using UnityEngine;
 
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 
@@ -66,7 +66,7 @@ namespace TechPistol.Module
             if(processedPrefab is null)
             {
                 var prefab = Main.assetBundle.LoadAsset<GameObject>("TechPistol.prefab");
-                var gameObject = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
+                var gameObject = EditorModifications.Instantiate(prefab, Vector3.zero, Quaternion.identity, false);
 
                 var componentsInChildren = gameObject.GetComponentsInChildren<MeshRenderer>();
                 Shader marmo = Shader.Find("MarmosetUBER");
@@ -94,7 +94,7 @@ namespace TechPistol.Module
                     yield return batteryTask;
 
                     var batteryPrefab = batteryTask.GetResult();
-                    var model = Object.Instantiate(batteryPrefab, gameObject.transform, position, gameObject.transform.rotation, scale, false);
+                    var model = EditorModifications.Instantiate(batteryPrefab, gameObject.transform, position, gameObject.transform.rotation, scale, false);
                     batteryPrefab.SetActive(false);
 
                     Object.DestroyImmediate(model.GetComponentInChildren<WorldForces>());

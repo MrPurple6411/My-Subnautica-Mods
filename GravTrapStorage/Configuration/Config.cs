@@ -1,7 +1,7 @@
 ﻿namespace GravTrapStorage.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
     using System.Collections.Generic;
 
     [Menu("Grav Trap Storage")]

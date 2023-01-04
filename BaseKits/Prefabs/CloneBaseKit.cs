@@ -1,14 +1,14 @@
 ﻿namespace BaseKits.Prefabs
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Assets;
+    using SMLHelper.Handlers;
     using System.Collections;
     using System.Collections.Generic;
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #else
-    using SMLHelper.V2.Crafting;
+    using SMLHelper.Crafting;
 #endif
     using UnityEngine;
     using BepInEx.Logging;
@@ -37,18 +37,18 @@
             {
                 string originalCategoryString = Language.main.Get(uGUI_BlueprintsTab.techCategoryStrings.Get(originalCategory));
                 string tgs = $"{originalGroup}_Kits";
-                if(!TechGroupHandler.Main.TryGetModdedTechGroup(tgs, out group))
+                if(!TechGroupHandler.TryGetModdedTechGroup(tgs, out group))
                 {
-                    group = TechGroupHandler.Main.AddTechGroup(tgs, $"{originalGroup} - Kits");
+                    group = TechGroupHandler.AddTechGroup(tgs, $"{originalGroup} - Kits");
                 }
 
                 string tcs = $"{originalCategory}_Kits";
-                if(!TechCategoryHandler.Main.TryGetModdedTechCategory(tcs, out category))
+                if(!TechCategoryHandler.TryGetModdedTechCategory(tcs, out category))
                 {
-                    category = TechCategoryHandler.Main.AddTechCategory(tcs,$"{originalCategoryString} - Kits");
+                    category = TechCategoryHandler.AddTechCategory(tcs,$"{originalCategoryString} - Kits");
                 }
 
-                if (!TechCategoryHandler.Main.TryRegisterTechCategoryToTechGroup(group, category))
+                if (!TechCategoryHandler.TryRegisterTechCategoryToTechGroup(group, category))
                 {
                     Main.logSource.LogError($"Failed to Register {category} to {group}");
                 }
@@ -74,7 +74,7 @@
             GameObject go = null;
             if (processedPrefab != null)
             {
-                go = Object.Instantiate(processedPrefab, default, default, true);
+                go = EditorModifications.Instantiate(processedPrefab, default, default, true);
                 return go;
             }
 
@@ -84,7 +84,7 @@
             {
                 processedPrefab = prefab;
                 processedPrefab.SetActive(false);
-                go = Object.Instantiate(processedPrefab, default, default, true);
+                go = EditorModifications.Instantiate(processedPrefab, default, default, true);
             }
 
             return go;
@@ -95,7 +95,7 @@
             GameObject go = null;
             if (processedPrefab != null)
             {
-                go = Object.Instantiate(processedPrefab, default, default, true);
+                go = EditorModifications.Instantiate(processedPrefab, default, default, true);
                 gameObject.Set(go);
                 yield break;
             }
@@ -105,7 +105,7 @@
             {
                 processedPrefab = prefab;
                 processedPrefab.SetActive(false);
-                go = Object.Instantiate(processedPrefab, default, default, true);
+                go = EditorModifications.Instantiate(processedPrefab, default, default, true);
             }
 
             gameObject.Set(go);

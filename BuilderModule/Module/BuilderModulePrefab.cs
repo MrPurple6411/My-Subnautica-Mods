@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Assets;
+    using SMLHelper.Crafting;
+    using SMLHelper.Utility;
     using UnityEngine;
 
 #if SN1
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 
@@ -49,7 +49,7 @@
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
 
             yield return task;
-            var prefab = Object.Instantiate(task.GetResult(), default, default, false);
+            var prefab = EditorModifications.Instantiate(task.GetResult(), default, default, false);
             prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = ClassID; else Object.DestroyImmediate(x.gameObject); });
             if(prefab.TryGetComponent(out TechTag tag)) tag.type = TechType;
             Object.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());

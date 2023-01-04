@@ -1,52 +1,47 @@
 ﻿namespace BuildingTweaks.Patches
 {
-    using BepInEx.Logging;
     using HarmonyLib;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.TryPlace))]
     internal class Builder_TryPlace_Patch
     {
+
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var collection = instructions.ToList();
-            var codeInstructions = new List<CodeInstruction>(collection);
-            var found = false;
-            var found2 = false;
-            var opCodes = new List<OpCode>() { OpCodes.Ldloc_2, OpCodes.Ldloc_3 };
+            var matcher = new CodeMatcher(instructions)
+                .MatchForward(false,
+                    new CodeMatch(OpCodes.Ldloc_0),
+                    new CodeMatch(OpCodes.Ldc_I4_0),
+                    new CodeMatch(OpCodes.Ldc_I4_1));
 
-            for(var i = 0; i < collection.Count() - 2; i++)
+            if(matcher.IsInvalid)
             {
-                var currentInstruction = codeInstructions[i];
-                var secondInstruction = codeInstructions[i + 1];
-                var thirdInstruction = codeInstructions[i + 2];
-
-                if(!found && currentInstruction.opcode == OpCodes.Ldloc_0 && secondInstruction.opcode == OpCodes.Ldc_I4_0 && thirdInstruction.opcode == OpCodes.Ldc_I4_1)
-                {
-
-                    codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetBaseParent))));
-                    found = true;
-                    continue;
-                }
-
-                if(opCodes.Contains(currentInstruction.opcode) && secondInstruction.opcode == OpCodes.Callvirt && thirdInstruction.opcode == OpCodes.Dup)
-                {
-                    codeInstructions[i + 1] = new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetParent)));
-                    found2 = true;
-                    break;
-                }
+                Main.logSource.LogError($"Cannot find patch location 1 in Builder.TryPlace");
+                return instructions;
             }
 
-            if(found is false || found2 is false)
-                Main.logSource.Log(LogLevel.Error, $"Cannot find patch locations {found}:{found2} in Builder.TryPlace");
-            else
-                Main.logSource.Log(LogLevel.Info, "Transpiler for Builder.TryPlace completed");
+            matcher.Advance(1);
+            matcher.Insert(new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetBaseParent))));
 
-            return codeInstructions.AsEnumerable();
+            var opCodes = new List<OpCode>() { OpCodes.Ldloc_2, OpCodes.Ldloc_3 };
+            matcher.MatchForward(false,
+                    new CodeMatch((currentInstruction)=> opCodes.Contains(currentInstruction.opcode)),
+                    new CodeMatch(OpCodes.Callvirt),
+                    new CodeMatch(OpCodes.Dup));
+
+            if(matcher.IsInvalid)
+            {
+                Main.logSource.LogError($"Cannot find patch location 2 in Builder.TryPlace");
+                return instructions;
+            }
+
+            matcher.Advance(1);
+            matcher.Insert(new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetParent))));
+            return matcher.InstructionEnumeration();
         }
 
         public static ConstructableBase SetBaseParent(ConstructableBase constructableBase)

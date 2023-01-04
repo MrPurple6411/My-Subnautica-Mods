@@ -4,7 +4,7 @@ namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
     using UnityEngine;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
     using Debug = UnityEngine.Debug;
     using System.Linq;
 

@@ -6,7 +6,7 @@ namespace CustomHullPlates
     using System.IO;
     using System.Reflection;
     using HullPlate;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Utility;
     using Newtonsoft.Json;
     using BepInEx;
     

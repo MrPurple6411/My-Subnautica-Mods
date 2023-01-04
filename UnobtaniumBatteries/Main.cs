@@ -5,11 +5,11 @@
     using System.IO;
     using CustomBatteries.API;
     using System.Collections.Generic;
-    using SMLHelper.V2.Utility;
+    using SMLHelper.Utility;
     using UnityEngine;
     using MonoBehaviours;
 #if SN1
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
 #endif    using BepInEx;
     
     [BepInPlugin(GUID, MODNAME, VERSION)]

@@ -1,48 +1,36 @@
 ﻿namespace BuildingTweaks.Patches
 {
-    using BepInEx.Logging;
     using HarmonyLib;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
 
-    [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
+    [HarmonyPatch]
     internal class BaseGhost_Finish_Patch
     {
         private static GameObject gameObject;
         private static GameObject parentObject;
 
+        [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var collection = instructions.ToList();
-            var codeInstructions = new List<CodeInstruction>(collection);
-            var found = false;
+            var matcher = new CodeMatcher(instructions)
+                .MatchForward(true,
+                    new CodeMatch(OpCodes.Callvirt),
+                    new CodeMatch(OpCodes.Call),
+                    new CodeMatch(OpCodes.Stloc_1));
 
-            for(var i = 0; i < collection.Count() - 2; i++)
+            if(!matcher.IsValid)
             {
-                var currentInstruction = codeInstructions[i];
-                var secondInstruction = codeInstructions[i + 1];
-                var thirdInstruction = codeInstructions[i + 2];
-
-                if(currentInstruction.opcode == OpCodes.Callvirt
-                    && secondInstruction.opcode == OpCodes.Call
-                    && thirdInstruction.opcode == OpCodes.Stloc_1)
-                {
-                    codeInstructions.Insert(i + 2, new CodeInstruction(OpCodes.Ldarg_0));
-                    codeInstructions.Insert(i + 3, new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject))));
-                    found = true;
-                    break;
-                }
+                Main.logSource.LogError("Cannot find patch location in BaseGhost.Finish");
+                return instructions;
             }
 
-            if(found is false)
-                Main.logSource.Log(LogLevel.Error, $"Cannot find patch location in BaseGhost.Finish");
-            else
-                Main.logSource.Log(LogLevel.Info, "Transpiler for BaseGhost.Finish completed");
-
-            return codeInstructions.AsEnumerable();
+            matcher.Insert(
+                new CodeInstruction(OpCodes.Ldarg_0),
+                new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject)))).InstructionEnumeration();
+            return matcher.InstructionEnumeration();
         }
 
         public static GameObject CacheObject(GameObject builtObject, BaseGhost baseGhost)
@@ -54,6 +42,7 @@
             return builtObject;
         }
 
+        [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
         [HarmonyPostfix]
         public static void Postfix()
         {
@@ -66,5 +55,4 @@
             parentObject = null;
         }
     }
-
 }

@@ -5,7 +5,7 @@
     using UnityEngine;
     using HarmonyLib;
     using Configuration;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
 
     using BepInEx;
     using BepInEx.Logging;

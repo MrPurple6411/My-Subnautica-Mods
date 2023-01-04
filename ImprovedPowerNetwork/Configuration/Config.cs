@@ -1,7 +1,7 @@
 ﻿namespace ImprovedPowerNetwork.Configuration
 {
-    using SMLHelper.V2.Json;
-    using SMLHelper.V2.Options.Attributes;
+    using SMLHelper.Json;
+    using SMLHelper.Options.Attributes;
 
     [Menu("Improved Power Network")]
     public class SMLConfig: ConfigFile

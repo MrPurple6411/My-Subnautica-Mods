@@ -1,9 +1,7 @@
 ﻿namespace BuilderModule.Patches
 {
-    using BepInEx.Logging;
     using HarmonyLib;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection.Emit;
 #if BZ
     using Module;
@@ -17,32 +15,19 @@
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var codepoint = -1;
 
-            var codeInstructions = instructions.ToList();
-            var codes = new List<CodeInstruction>(codeInstructions);
-            for(var i = 0; i < codeInstructions.Count(); i++)
+            var matcher = new CodeMatcher(instructions)
+                .MatchForward(true, new CodeMatch((currentCode) =>currentCode.opcode == OpCodes.Ldsfld && currentCode.operand.ToString().Contains("inputHandler")));
+
+            if(!matcher.IsValid)
             {
-                var currentCode = codes[i];
-                if(codepoint == -1)
-                {
-                    if (currentCode.opcode != OpCodes.Ldsfld ||
-                        !currentCode.operand.ToString().Contains("inputHandler")) continue;
-                    codepoint = i;
-                    codes[i] = new CodeInstruction(OpCodes.Call, typeof(Builder_Patches).GetMethod("VehicleCheck"));
-                }
-                else if(i == (codepoint + 1) || i == (codepoint + 2) || i == (codepoint + 3) || i == (codepoint + 4) || i == (codepoint + 5))
-                {
-                    codes[i] = new CodeInstruction(OpCodes.Nop);
-                }
+                Main.logSource.LogError("Builder Update Transpiler injection point NOT found!!  Game has most likely updated and broken this mod!");
+                return instructions;
             }
 
-            if(codepoint > -1)
-                Main.logSource.Log(LogLevel.Debug, $"Builder Update Transpiler Found and Patched.");
-            else
-                throw new System.Exception("Builder Update Transpiler injection point NOT found!!  Game has most likely updated and broken this mod!");
-
-            return codes.AsEnumerable();
+            matcher.SetAndAdvance(OpCodes.Call, typeof(Builder_Patches).GetMethod("VehicleCheck"));
+            matcher.RemoveInstructions(5);
+            return matcher.InstructionEnumeration();
         }
 
         public static void VehicleCheck()
