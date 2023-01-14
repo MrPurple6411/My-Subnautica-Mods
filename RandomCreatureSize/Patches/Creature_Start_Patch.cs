@@ -5,6 +5,7 @@
     using SMLHelper.Handlers;
     using System;
     using System.Linq;
+    using SMLHelper.Utility;
 
     [HarmonyPatch(typeof(Creature), nameof(Creature.Start))]
     public static class Creature_Start_Patch
@@ -16,7 +17,7 @@
             {
                 Main.CreatureConfig = new CreatureConfig();
                 Main.CreatureConfig.Load();
-                IngameMenuHandler.RegisterOnSaveEvent(Main.CreatureConfig.Save);
+                SaveUtils.RegisterOnSaveEvent(Main.CreatureConfig.Save);
             }
 
             if (__instance.gameObject != null && __instance.gameObject.GetComponent<WaterParkCreature>() != null &&

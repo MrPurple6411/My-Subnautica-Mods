@@ -28,38 +28,42 @@
         [Slider("Overall Power Generation Multiplier", 1, 100, DefaultValue = 1, Step = 1)]
         public int PowerGenSpeed = 1;
 
-        public Dictionary<TechType, float> CreaturePowerGeneration = new() {
+        public Dictionary<string, float> CreaturePowerGeneration = new() {
 #if SN1
-            { TechType.Shocker, 2f },
-            { TechType.CrabSquid, 1f },
-            { TechType.GhostLeviathan, 10f },
-            { TechType.GhostLeviathanJuvenile, 3f },
-            { TechType.Warper, 1f }
+            { "Shocker", 2f },
+            { "CrabSquid", 1f },
+            { "GhostLeviathan", 10f },
+            { "GhostLeviathanJuvenile", 3f },
+            { "Warper", 1f }
 #elif BZ
-            { TechType.Jellyfish, 2f },
-            { TechType.SquidShark, 1f }
+            { "Jellyfish", 2f },
+            { "SquidShark", 1f }
 #endif
         };
 
-        public List<TechType> OceanBreedWhiteList =
+        public List<string> OceanBreedWhiteList =
 #if SN1
-            new() { TechType.Peeper, TechType.Bladderfish, TechType.Boomerang, TechType.Cutefish, TechType.Eyeye, TechType.GarryFish, TechType.GhostRayBlue, TechType.GhostRayRed, TechType.HoleFish, TechType.Hoopfish, TechType.Hoverfish, TechType.Jellyray, TechType.LavaBoomerang, TechType.Oculus, TechType.RabbitRay, TechType.LavaEyeye, TechType.Reginald, TechType.Spadefish, TechType.Spinefish };
+            new() { "Peeper", "Bladderfish", "Boomerang", "Cutefish", "Eyeye", "GarryFish", "GhostRayBlue",
+                "GhostRayRed", "HoleFish", "Hoopfish", "Hoverfish", "Jellyray", "LavaBoomerang", "Oculus",
+                "RabbitRay", "LavaEyeye", "Reginald", "Spadefish", "Spinefish" };
 #elif BZ
-            new List<TechType>() { TechType.ArcticPeeper, TechType.ArcticRay, TechType.ArrowRay, TechType.Bladderfish, TechType.Boomerang, TechType.DiscusFish, TechType.FeatherFish, TechType.FeatherFishRed, TechType.Hoopfish, TechType.SeaMonkey, TechType.Spinefish, TechType.SpinnerFish, TechType.TitanHolefish, TechType.Triops, TechType.TrivalveBlue, TechType.TrivalveYellow };
+            new () { "ArcticPeeper", "ArcticRay", "ArrowRay", "Bladderfish", "Boomerang", "DiscusFish", "FeatherFish", 
+                "FeatherFishRed", "Hoopfish", "SeaMonkey", "Spinefish", "SpinnerFish", "TitanHolefish", "Triops", 
+                "TrivalveBlue", "TrivalveYellow" };
 #endif
         
-        public List<TechType> AlterraGenBlackList =
+        public List<string> AlterraGenBlackList =
 #if SN1
-            new() { TechType.Cutefish };
+            new() { "Cutefish" };
 #elif BZ
-            new List<TechType>() { TechType.TrivalveBlue, TechType.TrivalveYellow };
+            new() { "TrivalveBlue", "TrivalveYellow" };
 #endif
 
-        public List<TechType> BioReactorBlackList =
+        public List<string> BioReactorBlackList =
 #if SN1
-            new() { TechType.Cutefish };
+            new() { "Cutefish" };
 #elif BZ
-            new List<TechType>() { TechType.TrivalveBlue, TechType.TrivalveYellow };
+            new() { "TrivalveBlue", "TrivalveYellow" };
 #endif
         public Dictionary<string, float> PowerValues = new();
     }

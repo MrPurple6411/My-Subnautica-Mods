@@ -39,7 +39,8 @@
             if (!__instance.gameObject.TryGetComponent(out LiveMixin liveMixin) || !liveMixin.IsAlive()) return;
 
             var techType = __instance.pickupable?.GetTechType() ?? TechType.None;
-            if (!Main.SMLConfig.CreaturePowerGeneration.TryGetValue(techType, out var powerValue)) return;
+
+            if (!Main.SMLConfig.CreaturePowerGeneration.TryGetValue(techType.ToString(), out var powerValue)) return;
 
             if(!TimeLastGenerated.TryGetValue(__instance, out var time))
             {

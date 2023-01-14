@@ -1,9 +1,9 @@
-﻿using SMLHelper.Handlers;
-
+﻿
 namespace CustomPosters.Poster
 {
     using SMLHelper.Assets;
     using SMLHelper.Crafting;
+    using SMLHelper.Handlers;
     using SMLHelper.Utility;
     using System.Collections;
     using System.Collections.Generic;
@@ -26,9 +26,8 @@ namespace CustomPosters.Poster
             this.posterIcon = posterIcon;
             this.posterTexture = posterTexture;
 
-            group = TechGroupHandler.AddTechGroup($"Custom_Posters", $"Custom Posters");
-            category = TechCategoryHandler.AddTechCategory($"{orientation}_Posters", $"{orientation} Posters");
-            TechCategoryHandler.TryRegisterTechCategoryToTechGroup(group, category);
+            group = EnumHandler.AddEntry<TechGroup>($"Custom_Posters").WithPdaInfo($"Custom Posters");
+            category = EnumHandler.AddEntry<TechCategory>($"{orientation}_Posters").WithPdaInfo($"{orientation} Posters").RegisterToTechGroup(group);
         }
 
         public override TechGroup GroupForPDA => group;

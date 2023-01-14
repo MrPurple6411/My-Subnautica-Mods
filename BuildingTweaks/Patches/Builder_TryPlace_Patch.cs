@@ -1,7 +1,9 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection.Emit;
     using UnityEngine;
 
@@ -40,7 +42,7 @@
             }
 
             matcher.Advance(1);
-            matcher.Insert(new CodeInstruction(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetParent))));
+            matcher.Set(OpCodes.Call, typeof(Builder_TryPlace_Patch).GetMethod(nameof(SetParent)));
             return matcher.InstructionEnumeration();
         }
 

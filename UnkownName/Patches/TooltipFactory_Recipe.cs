@@ -6,9 +6,9 @@
     public class TooltipFactory_Recipe
     {
         [HarmonyPostfix]
-        public static void Postfix(bool locked, ref TooltipData data)
+        public static void Postfix(TechType techType, bool locked, ref TooltipData data)
         {
-            if (locked && GameModeUtils.RequiresBlueprints())
+            if (locked && !CrafterLogic.IsCraftRecipeUnlocked(techType))
             {
                 data.prefix.Clear();
                 TooltipFactory.WriteTitle(data.prefix, Main.SMLConfig.UnKnownTitle);

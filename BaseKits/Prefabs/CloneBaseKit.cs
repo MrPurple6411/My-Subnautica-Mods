@@ -37,20 +37,16 @@
             {
                 string originalCategoryString = Language.main.Get(uGUI_BlueprintsTab.techCategoryStrings.Get(originalCategory));
                 string tgs = $"{originalGroup}_Kits";
-                if(!TechGroupHandler.TryGetModdedTechGroup(tgs, out group))
+
+                if(!EnumHandler.TryGetModAddedEnumValue(tgs, out group))
                 {
-                    group = TechGroupHandler.AddTechGroup(tgs, $"{originalGroup} - Kits");
+                    group = EnumHandler.AddEntry<TechGroup>(tgs).WithPdaInfo($"{originalGroup} - Kits");
                 }
 
                 string tcs = $"{originalCategory}_Kits";
-                if(!TechCategoryHandler.TryGetModdedTechCategory(tcs, out category))
+                if(!EnumHandler.TryGetModAddedEnumValue(tcs, out category))
                 {
-                    category = TechCategoryHandler.AddTechCategory(tcs,$"{originalCategoryString} - Kits");
-                }
-
-                if (!TechCategoryHandler.TryRegisterTechCategoryToTechGroup(group, category))
-                {
-                    Main.logSource.LogError($"Failed to Register {category} to {group}");
+                    category = EnumHandler.AddEntry<TechCategory>(tcs).WithPdaInfo($"{originalCategoryString} - Kits").RegisterToTechGroup(group);
                 }
             }
 

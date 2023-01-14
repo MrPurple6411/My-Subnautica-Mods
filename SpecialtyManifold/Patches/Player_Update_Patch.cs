@@ -18,10 +18,10 @@
         {
             if(modCheck)
             {
-                TechTypeHandler.TryGetModdedTechType("ScubaManifold", out scubaManifold);
-                TechTypeHandler.TryGetModdedTechType("photosynthesissmalltank", out photosynthesisSmall);
-                TechTypeHandler.TryGetModdedTechType("photosynthesistank", out photosynthesisTank);
-                TechTypeHandler.TryGetModdedTechType("chemosynthesistank", out chemosynthesisTank);
+                EnumHandler.TryGetModAddedEnumValue("ScubaManifold", out scubaManifold);
+                EnumHandler.TryGetModAddedEnumValue("photosynthesissmalltank", out photosynthesisSmall);
+                EnumHandler.TryGetModAddedEnumValue("photosynthesistank", out photosynthesisTank);
+                EnumHandler.TryGetModAddedEnumValue("chemosynthesistank", out chemosynthesisTank);
                 modCheck = false;
             }
 

@@ -17,6 +17,8 @@ namespace CustomizeYourSpawns
 
     using BepInEx;
     using BepInEx.Logging;
+    using System.Collections;
+    using UnityEngine;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
@@ -43,8 +45,12 @@ namespace CustomizeYourSpawns
 
         #endregion
 
-        private void Awake()
+        private IEnumerator Start()
         {
+            while(global::PlatformUtils._main?.services == null)
+            {
+                yield return null;
+            }
             Setup();
             EnsureDefaultDistributions();
             EnsureBiomeDictionary();
@@ -300,9 +306,11 @@ namespace CustomizeYourSpawns
                             if (TechTypeExtensions.FromString(name, out var techType, true) &&
                                 techTypeName.TryGetValue(techType, out var techNames))
                                 name = techNames.FirstOrDefault((x) => nameClassIds.ContainsKey(x));
-                            else if (TechTypeHandler.TryGetModdedTechType(name, out techType) &&
-                                     techTypeName.TryGetValue(techType, out techNames))
+                            else if (EnumHandler.TryAddEntry<TechType>(name, out var techTypeBuilder) &&
+                                     techTypeName.TryGetValue(techTypeBuilder.Value, out techNames))
+                            {
                                 name = techNames.FirstOrDefault((x) => nameClassIds.ContainsKey(x));
+                            }
 
                             if (string.IsNullOrEmpty(name) || !nameClassIds.ContainsKey(name))
                             {
@@ -352,7 +360,7 @@ namespace CustomizeYourSpawns
                 var v = (string)serializer.Deserialize(reader, typeof(string));
                 return TechTypeExtensions.FromString(v, out var techType, true)
                     ? techType
-                    : TechTypeHandler.TryGetModdedTechType(v, out techType)
+                    : EnumHandler.TryGetModAddedEnumValue(v, out techType)
                         ? (object)techType
                         : throw new Exception($"Failed to parse {v} into a TechType");
             }

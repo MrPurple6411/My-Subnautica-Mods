@@ -15,6 +15,12 @@
             try
             {
                 SMLConfig.Load();
+                var choices = SMLConfig.Order.Values.ToArray();
+                OnChanged += Options_ChoiceChanged;
+                foreach(var key in SMLConfig.Order.Keys)
+                {
+                    AddItem(ModChoiceOption<string>.Create($"PowerOrder_{key}", key.ToString(), choices, key - 1));
+                }
             }
             catch(Exception e)
             {
@@ -24,13 +30,12 @@
             SMLConfig.Order = SMLConfig.Order.OrderBy(p => p.Key).ThenBy(p => p.Value).ToDictionary(t => t.Key, t => t.Value);
             SMLConfig.Save();
 
-            ChoiceChanged += Options_ChoiceChanged;
         }
 
 
-        private void Options_ChoiceChanged(object sender, ChoiceChangedEventArgs e)
+        private void Options_ChoiceChanged(object sender, OptionEventArgs e)
         {
-            if(!e.Id.Contains("PowerOrder_"))
+            if(!e.Id.Contains("PowerOrder_") || e is not ChoiceChangedEventArgs<string> ea)
             {
                 return;
             }
@@ -39,9 +44,9 @@
 
             SMLConfig.Order.TryGetValue(key, out var oldValue);
 
-            var otherKey = SMLConfig.Order.First((x) => x.Value == e.Value).Key;
+            var otherKey = SMLConfig.Order.First((x) => x.Value == ea.Value).Key;
             SMLConfig.Order[otherKey] = oldValue;
-            SMLConfig.Order[key] = e.Value;
+            SMLConfig.Order[key] = ea.Value;
             SMLConfig.Save();
 
             try
@@ -57,13 +62,5 @@
             }
         }
 
-        public override void BuildModOptions()
-        {
-            var choices = SMLConfig.Order.Values.ToArray();
-            foreach(var key in SMLConfig.Order.Keys)
-            {
-                AddChoiceOption($"PowerOrder_{key}", key.ToString(), choices, key - 1);
-            }
-        }
     }
 }

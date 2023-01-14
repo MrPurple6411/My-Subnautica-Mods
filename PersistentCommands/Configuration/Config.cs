@@ -1,5 +1,6 @@
 ﻿namespace PersistentCommands.Configuration
 {
+    using Microsoft.Win32;
     using SMLHelper.Json;
     using SMLHelper.Options;
     using SMLHelper.Options.Attributes;
@@ -11,7 +12,7 @@
         private bool confirmed = false;
 
         [Button("Reset Achievements", Order = 0)]
-        public void ResetAchievements()
+        public void ResetAchievements(ButtonClickedEventArgs e)
         {
             if (confirmed)
             {

@@ -21,7 +21,7 @@
             {
                 CoroutineHost.StartCoroutine(GiveHardcoreScanner());
                 newGame = false;
-                SMLHelper.Handlers.IngameMenuHandler.RegisterOnQuitEvent(() => newGame = true);
+                SMLHelper.Utility.SaveUtils.RegisterOnQuitEvent(() => newGame = true);
             }
 
             var techType = pickupable.GetTechType();

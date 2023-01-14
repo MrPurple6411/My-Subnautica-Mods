@@ -33,7 +33,7 @@
                 maxPower += Main.SMLConfig.CreaturePowerGeneration
                     .Select(pair => new
                     {
-                        pair, creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key)
+                        pair, creatures = __instance.items.FindAll(item => item.pickupable.GetTechType().ToString() == pair.Key)
                     })
                     .Where(t => t.creatures.Count > 0)
                     .Select(selector: t => 50 * t.pair.Value * t.creatures.Count).Sum();
@@ -44,7 +44,7 @@
             {
                 foreach(var pair in Main.SMLConfig.CreaturePowerGeneration)
                 {
-                    var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType() == pair.Key && item.GetComponent<LiveMixin>() != null && item.GetComponent<LiveMixin>().IsAlive());
+                    var creatures = __instance.items.FindAll(item => item.pickupable.GetTechType().ToString() == pair.Key && item.GetComponent<LiveMixin>() != null && item.GetComponent<LiveMixin>().IsAlive());
                     if (creatures.Count <= 0) continue;
 
                     maxPower += 50 * pair.Value * creatures.Count;
@@ -121,12 +121,12 @@
 
                 if(BaseBioReactor.GetCharge(parkCreatureTechType) > -1)
                 {
-                    if(Main.SMLConfig.AlterraGenOverflow && !Main.SMLConfig.AlterraGenBlackList.Contains(parkCreatureTechType) && BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions"))
+                    if(Main.SMLConfig.AlterraGenOverflow && !Main.SMLConfig.AlterraGenBlackList.Contains(parkCreatureTechType.ToString()) && BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(x => x.Metadata.Name == "FCSEnergySolutions"))
                     {
                         hasBred = AGT.TryBreedIntoAlterraGen(__instance, parkCreatureTechType, parkCreature);
                     }
 
-                    if(Main.SMLConfig.BioReactorOverflow && !Main.SMLConfig.BioReactorBlackList.Contains(parkCreatureTechType) && !hasBred)
+                    if(Main.SMLConfig.BioReactorOverflow && !Main.SMLConfig.BioReactorBlackList.Contains(parkCreatureTechType.ToString()) && !hasBred)
                     {
                         var baseBioReactors =
                             __instance.gameObject.GetComponentInParent<SubRoot>()?.gameObject
@@ -143,7 +143,7 @@
                         }
                     }
 
-                    if(Main.SMLConfig.OceanBreeding && Main.SMLConfig.OceanBreedWhiteList.Contains(parkCreatureTechType) && !hasBred && __instance.transform.position.y < 0)
+                    if(Main.SMLConfig.OceanBreeding && Main.SMLConfig.OceanBreedWhiteList.Contains(parkCreatureTechType.ToString()) && !hasBred && __instance.transform.position.y < 0)
                     {
                         CoroutineHost.StartCoroutine(SpawnCreature(__instance, parkCreatureTechType, null));
                         hasBred = true;

@@ -5,6 +5,7 @@
     using SMLHelper.Handlers;
     using System.Reflection;
     using BepInEx;
+    using SMLHelper.Utility;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
@@ -22,7 +23,7 @@
         private void Awake()
         {
             SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-            IngameMenuHandler.RegisterOnSaveEvent(SMLConfig.Save);
+            SaveUtils.RegisterOnSaveEvent(SMLConfig.Save);
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
         }
     }

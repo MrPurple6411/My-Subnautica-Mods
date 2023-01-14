@@ -19,7 +19,7 @@ namespace BuildingTweaks.Patches
             Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 
             bool builderCheck = heldTool != null && heldTool.pickupable.GetTechType() == TechType.Builder;
-            bool builderModuleCheck = TechTypeHandler.TryGetModdedTechType("BuilderModule", out TechType modTechType) && module != null && module.GetTechType() == modTechType;
+            bool builderModuleCheck = EnumHandler.TryGetModAddedEnumValue("BuilderModule", out TechType modTechType) && module != null && module.GetTechType() == modTechType;
             
             if (DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
             {
