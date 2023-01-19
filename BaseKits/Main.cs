@@ -7,6 +7,7 @@
     using UWE;
     using BepInEx;
     using BepInEx.Logging;
+    using SMLHelper.Handlers;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
@@ -23,7 +24,8 @@
         {
             TechType.BaseFoundation, TechType.BaseMapRoom, TechType.BaseMoonpool,
             TechType.BaseObservatory, TechType.BaseRoom
-            ,TechType.BaseLargeRoom
+            ,TechType.BaseLargeRoom,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor,
+            TechType.BasePartition
 #if BZ
             , TechType.BaseControlRoom
 #endif
@@ -46,50 +48,46 @@
         {
             TechType.BaseConnector, TechType.BaseBulkhead, TechType.BaseHatch,
             TechType.BaseLadder, TechType.BaseReinforcement, TechType.BaseWindow
-            ,TechType.BaseGlassDome,TechType.BaseLargeGlassDome, TechType.BasePartitionDoor
+            
         };
+
+        internal const string LangFormat = "{0}Menu_{1}";
+        internal const string SpriteFormat = "{0}_{1}";
+        internal const string KitFab = "PurpleKitFabricator";
+        internal const string RoomsMenu = "RoomsMenu";
+        internal const string CorridorMenu = "CorridorMenu";
+        internal const string ModuleMenu = "ModuleMenu";
+        internal const string UtilityMenu = "UtilityMenu";
 
         internal static ManualLogSource logSource;
         #endregion
 
-        private void Awake()
+        public void Awake()
         {
             logSource = Logger;
             CoroutineHost.StartCoroutine(RegisterKits());
         }
 
-        private static IEnumerator RegisterKits()
+        public CraftTree.Type PurpleKitFabricator { get; private set; }
+
+        private IEnumerator RegisterKits()
         {
             if(Language.main is null)
                 yield return new WaitWhile(() => Language.main is null);
 
-            var ClonedRoomKits = new List<TechType>();
-            ProcessTypes(RoomsToClone, ref ClonedRoomKits);
+            PurpleKitFabricator = new KitFabricator(KitFab).TreeTypeID;
 
-            var ClonedCorridorKits = new List<TechType>();
-            ProcessTypes(CorridorsToClone, ref ClonedCorridorKits);
-
-            var ClonedModuleKits = new List<TechType>();
-            ProcessTypes(ModulesToClone, ref ClonedModuleKits);
-
-            var ClonedUtilityKits = new List<TechType>();
-            ProcessTypes(UtilitiesToClone, ref ClonedUtilityKits);
-
-
-            new KitFabricator(ClonedRoomKits, ClonedCorridorKits, ClonedModuleKits, ClonedUtilityKits).Patch();
+            ProcessTypes(RoomsToClone, RoomsMenu);
+            ProcessTypes(CorridorsToClone, CorridorMenu);
+            ProcessTypes(ModulesToClone, ModuleMenu);
+            ProcessTypes(UtilitiesToClone, UtilityMenu);
         }
 
-        private static void ProcessTypes(List<TechType> typesToClone, ref List<TechType> clonedKits)
+        private void ProcessTypes(List<TechType> typesToClone, string FabricatorMenu)
         {
             foreach(var techType in typesToClone)
             {
-                var cbk = new CloneBaseKit(techType);
-                cbk.Patch();
-
-                clonedKits.Add(cbk.TechType);
-
-                var cbp = new CloneBasePiece(techType, cbk.TechType);
-                cbp.Patch();
+                new CloneBasePiece(techType, new CloneBaseKit(techType, FabricatorMenu, PurpleKitFabricator).PrefabInfo.TechType);
             }
         }
     }

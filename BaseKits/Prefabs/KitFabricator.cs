@@ -2,119 +2,31 @@
 {
     using SMLHelper.Assets;
     using SMLHelper.Handlers;
-    using System.Collections.Generic;
-    using UnityEngine;
-#if SN1
-    using RecipeData = SMLHelper.Crafting.TechData;
-    using Sprite = Atlas.Sprite;
-#else
+    using SMLHelper.Assets.Interfaces;
     using SMLHelper.Crafting;
-#endif
 
-
-    internal class KitFabricator: CustomFabricator
+    internal class KitFabricator: ICustomFabricator, IBuildable
     {
-        private CraftTree craftTree;
-        private readonly List<TechType> ClonedRoomKits;
-        private readonly List<TechType> ClonedCorridorKits;
-        private readonly List<TechType> ClonedModuleKits;
-        private readonly List<TechType> ClonedUtilityKits;
-        private const string LangFormat = "{0}Menu_{1}";
-        private const string SpriteFormat = "{0}_{1}";
-        private const string KitFab = "PurpleKitFabricator";
+        internal PrefabInfo PrefabInfo { get; private set; }
+        public TechCategory CategoryForPDA => TechCategory.InteriorModule;
+        public TechGroup GroupForPDA => TechGroup.InteriorModules;
+        public FabricatorModel FabricatorModel => FabricatorModel.Fabricator;
+        public CraftTree.Type TreeTypeID { get; private set; }
 
-        internal KitFabricator(List<TechType> clonedRoomKits, List<TechType> clonedCorridorKits, List<TechType> clonedModuleKits, List<TechType> clonedUtilityKits) : base("PurpleKitFabricator", "Base Kit Fabricator", "Used to compress Base construction materials into a Construction Kit")
+        public RecipeData RecipeData { get; }
+
+        internal KitFabricator(string KitFab)
         {
-            ClonedRoomKits = clonedRoomKits;
-            ClonedCorridorKits = clonedCorridorKits;
-            ClonedModuleKits = clonedModuleKits;
-            ClonedUtilityKits = clonedUtilityKits;
-
-            OnFinishedPatching += () =>
-            {
-                Root.CraftTreeCreation += CreateCraftingTree;
-
-                LanguageHandler.SetLanguageLine(string.Format(LangFormat, KitFab, "RoomsMenu"), "Rooms");
-                LanguageHandler.SetLanguageLine(string.Format(LangFormat, KitFab, "CorridorMenu"), "Corridors");
-                LanguageHandler.SetLanguageLine(string.Format(LangFormat, KitFab, "ModuleMenu"), "Modules");
-                LanguageHandler.SetLanguageLine(string.Format(LangFormat, KitFab, "UtilityMenu"), "Utilities");
-                SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "RoomsMenu"), SpriteManager.Get(TechType.BaseRoom));
-                SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "CorridorMenu"), SpriteManager.Get(TechType.BaseCorridorX));
-                SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "ModuleMenu"), SpriteManager.Get(TechType.BaseBioReactor));
-                SpriteHandler.RegisterSprite(SpriteManager.Group.Category, string.Format(SpriteFormat, KitFab, "UtilityMenu"), SpriteManager.Get(TechType.BaseHatch));
-
-                    CraftDataHandler.SetBackgroundType(this.TechType, CraftData.BackgroundType.PlantAir);
-            };
-        }
-
-        private CraftTree CreateCraftingTree()
-        {
-            if(craftTree != null)
-                return craftTree;
-
-            var roomNodes = new List<CraftNode>();
-            var corridorNodes = new List<CraftNode>();
-            var moduleNodes = new List<CraftNode>();
-            var utilityNodes = new List<CraftNode>();
-
-            foreach(var techType in ClonedRoomKits)
-                roomNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
-
-            foreach(var techType in ClonedCorridorKits)
-                corridorNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
-
-            foreach(var techType in ClonedModuleKits)
-                moduleNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
-
-            foreach(var techType in ClonedUtilityKits)
-                utilityNodes.Add(new CraftNode(techType.AsString(), TreeAction.Craft, techType));
-
-            craftTree = new CraftTree("PurpleKitFabricator",
-                new CraftNode("Root").AddNode(new[]
-                    {
-                        new CraftNode("RoomsMenu", TreeAction.Expand).AddNode(roomNodes.ToArray()),
-                        new CraftNode("CorridorMenu", TreeAction.Expand).AddNode(corridorNodes.ToArray()),
-                        new CraftNode("ModuleMenu", TreeAction.Expand).AddNode(moduleNodes.ToArray()),
-                        new CraftNode("UtilityMenu", TreeAction.Expand).AddNode(utilityNodes.ToArray())
-                    })
-                );
-
-            return craftTree;
-        }
-
-        public override Models Model => Models.Fabricator;
-
-        public override bool AllowedInBase => true;
-
-        public override bool AllowedInCyclops => true;
-
-        public override bool AllowedOutside => false;
-
-        public override bool AllowedOnCeiling => false;
-
-        public override bool AllowedOnGround => false;
-
-        public override bool AllowedOnWall => true;
-
-        public override bool RotationEnabled => false;
-
-        public override bool UseCustomTint => true;
-
-        public override Color ColorTint => new(0.33f, 0f, 0.33f, 1f);
-
-        public override TechCategory CategoryForPDA => TechCategory.InteriorModule;
-
-        public override TechGroup GroupForPDA => TechGroup.InteriorModules;
-
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return CraftDataHandler.GetTechData(TechType.Fabricator);
-        }
-
-
-        protected override Sprite GetItemSprite()
-        {
-            return SpriteManager.Get(TechType.Fabricator);
+            PrefabInfo = PrefabInfo.Create(KitFab).CreateTechType().WithIcon(SpriteManager.Get(TechType.Fabricator))
+                .WithLanguageLines("Base Kit Fabricator", "Used to compress Base construction materials into a Construction Kit");
+            CraftDataHandler.SetBackgroundType(PrefabInfo.TechType, CraftData.BackgroundType.PlantAir);
+            RecipeData = CraftDataHandler.GetRecipeData(TechType.Fabricator);
+            TreeTypeID = EnumHandler.AddEntry<CraftTree.Type>(PrefabInfo.ClassID).CreateCraftTreeRoot(out var root).Value;
+            root.AddTabNode(Main.RoomsMenu, "Rooms", SpriteManager.Get(TechType.BaseRoom));
+            root.AddTabNode(Main.CorridorMenu, "Corridors", SpriteManager.Get(TechType.BaseCorridorX));
+            root.AddTabNode(Main.ModuleMenu, "Modules", SpriteManager.Get(TechType.BaseBioReactor));
+            root.AddTabNode(Main.UtilityMenu, "Utilities", SpriteManager.Get(TechType.BaseHatch));
+            PrefabInfo.RegisterPrefab(this);
         }
     }
 }

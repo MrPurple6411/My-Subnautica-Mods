@@ -5,74 +5,71 @@
     using System.IO;
     using System.Reflection;
     using SMLHelper.Assets;
+    using SMLHelper.Assets.Interfaces;
     using SMLHelper.Crafting;
     using SMLHelper.Utility;
     using UnityEngine;
+    using static CraftData;
 
 #if SN1
-    using RecipeData = SMLHelper.Crafting.TechData;
     using Sprite = Atlas.Sprite;
 #endif
 
 
-    internal class BuilderModulePrefab: Equipable
+    internal class BuilderModulePrefab: IEquipable, ICraftable, IModPrefab
     {
-        public BuilderModulePrefab(string classId,string friendlyName,string  description, string[] fabricatorPath, EquipmentType equipmentType) : base(classId, friendlyName, description)
-        {
-            StepsToFabricatorTab = fabricatorPath;
-            EquipmentType = equipmentType;
-        }
-
+        public PrefabInfo PrefabInfo { get; private set; }
         private static Sprite Sprite { get; } = ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
 
-        public override Vector2int SizeInInventory => new(1, 1);
+        public BuilderModulePrefab()
+        {
+            PrefabInfo = PrefabInfo.Create("BuilderModule").CreateTechType()
+                .WithLanguageLines("Builder Module", "Allows you to build bases while in your vehicle."); 
+            if(Sprite != null)
+                PrefabInfo.WithIcon(Sprite);
+            PrefabInfo.RegisterPrefab(this);
+        }
 
-        public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
+        public TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
 
-        public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
+        public TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
 
 #if SN1
-        public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
+        public CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
 #elif BZ
-        public override CraftTree.Type FabricatorType => CraftTree.Type.SeaTruckFabricator;
+        public CraftTree.Type FabricatorType => CraftTree.Type.SeaTruckFabricator;
 #endif
-        public override EquipmentType EquipmentType { get; }
+        public EquipmentType EquipmentType => EquipmentType.VehicleModule;
+        public QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
 
-        public override string[] StepsToFabricatorTab { get; }
+        public string[] StepsToFabricatorTab { get; } = new[] { "ExosuitModules" };
 
-        public override TechType RequiredForUnlock => TechType.Builder;
 
-        public override QuickSlotType QuickSlotType => QuickSlotType.Toggleable;
+        public RecipeData RecipeData { get; } = new()
+        {
+            craftAmount = 1,
+            Ingredients = new List<Ingredient>(new Ingredient[]
+                {
+                    new(TechType.Builder, 1),
+                    new(TechType.AdvancedWiringKit, 1)
+                })
+        };
 
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        public float CraftingTime => 2f;
+
+        System.Func<IOut<GameObject>, IEnumerator> IModPrefab.GetGameObjectAsync => GetGameObjectAsync;
+
+        public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
 
             yield return task;
             var prefab = EditorModifications.Instantiate(task.GetResult(), default, default, false);
-            prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = ClassID; else Object.DestroyImmediate(x.gameObject); });
-            if(prefab.TryGetComponent(out TechTag tag)) tag.type = TechType;
+            prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = PrefabInfo.ClassID; else Object.DestroyImmediate(x.gameObject); });
+            if(prefab.TryGetComponent(out TechTag tag)) tag.type = PrefabInfo.TechType;
             Object.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
 
             gameObject.Set(prefab);
-        }
-
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return new()
-            {
-                craftAmount = 1,
-                Ingredients = new List<Ingredient>(new Ingredient[]
-                {
-                    new(TechType.Builder, 1),
-                    new(TechType.AdvancedWiringKit, 1)
-                })
-            };
-        }
-
-        protected override Sprite GetItemSprite()
-        {
-            return Sprite;
         }
     }
 }

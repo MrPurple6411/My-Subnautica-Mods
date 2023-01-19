@@ -1,6 +1,7 @@
 ﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
+    using System;
     using System.Collections.Generic;
     using System.Reflection.Emit;
     using UnityEngine;
@@ -10,6 +11,7 @@
     {
         private static GameObject gameObject;
         private static GameObject parentObject;
+
 
         [HarmonyPatch(typeof(BaseGhost), nameof(BaseGhost.Finish))]
         [HarmonyTranspiler]
@@ -29,7 +31,7 @@
 
             matcher.Insert(
                 new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject)))).InstructionEnumeration();
+                new CodeInstruction(OpCodes.Call, typeof(BaseGhost_Finish_Patch).GetMethod(nameof(CacheObject))));
             return matcher.InstructionEnumeration();
         }
 

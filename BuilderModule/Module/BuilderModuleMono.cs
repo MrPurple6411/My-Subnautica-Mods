@@ -10,11 +10,6 @@
         public int ModuleSlotID;
 
         public Vehicle vehicle;
-#if BZ
-        public SeaTruckUpgrades seaTruck;
-        public SeaTruckLights lights;
-        public Hoverbike hoverbike;
-#endif
         public EnergyMixin energyMixin;
         public EnergyInterface energyInterface;
         public PowerRelay powerRelay;
@@ -200,12 +195,6 @@
             float num = 9000;
             if(vehicle != null)
                 Targeting.GetTarget(vehicle.gameObject, 60f, out Object, out num);
-#if BZ
-            if(seaTruck != null)
-                Targeting.GetTarget(seaTruck.gameObject, 60f, out Object, out num);
-            if(hoverbike != null)
-                Targeting.GetTarget(hoverbike.gameObject, 60f, out Object, out num);
-#endif
 
             if(Object is null)
                 return;
@@ -295,38 +284,46 @@
 
         private IEnumerator ConstructAsync(Constructable c, bool state)
         {
-            var amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
-            var consumed = energyInterface != null ? energyInterface.ConsumeEnergy(amount) : 0f;
-            var energyMixinConsumed = energyMixin != null && energyMixin.ConsumeEnergy(amount);
-            if(energyMixinConsumed || consumed > 0f || (powerRelay != null && powerRelay.ConsumeEnergy(amount, out consumed)))
+            if(!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
             {
+                if(powerRelay is null)
+                    powerRelay = PowerSource.FindRelay(vehicle.gameObject.transform);
 
-                if(!energyMixinConsumed && consumed < amount)
-                {
-                    if(energyInterface is not null)
-                        energyInterface.AddEnergy(consumed);
-                    else if(powerRelay is not null)
-                        powerRelay.AddEnergy(consumed, out _);
-                    yield break;
-                }
+                var amount = ((!state) ? powerConsumptionDeconstruct : powerConsumptionConstruct) * Time.deltaTime;
+                var consumed = energyInterface != null ? energyInterface.ConsumeEnergy(amount) : 0f;
+                var energyMixinConsumed = energyMixin != null && energyMixin.ConsumeEnergy(amount);
 
-                var wasConstructed = c.constructed;
-                bool flag;
-                if(state)
+                if(energyMixinConsumed || consumed >= amount || (powerRelay != null && powerRelay.ConsumeEnergy(amount, out consumed)))
                 {
-                    flag = c.Construct();
-                }
-                else
-                {
-                    var result = new TaskResult<bool>();
-                    var reason = new TaskResult<string>();
-                    yield return c.DeconstructAsync(result, reason);
-                    flag = result.Get();
-                }
 
-                if(!flag && state && !wasConstructed)
-                    FMODUWE.PlayOneShot(completeSound, c.transform.position, 20f);
+                    if(!energyMixinConsumed && consumed < amount)
+                    {
+                        if(energyInterface is not null)
+                            consumed = energyInterface.AddEnergy(consumed);
+                        if(powerRelay is not null)
+                            powerRelay.AddEnergy(consumed, out _);
+                        yield break;
+                    }
+                }
             }
+
+            var wasConstructed = c.constructed;
+            bool flag;
+            if(state)
+            {
+                flag = c.Construct();
+            }
+            else
+            {
+                var result = new TaskResult<bool>();
+                var reason = new TaskResult<string>();
+                yield return c.DeconstructAsync(result, reason);
+                flag = result.Get();
+            }
+
+            if(!flag && state && !wasConstructed)
+                FMODUWE.PlayOneShot(completeSound, c.transform.position, 20f);
+
         }
 
         private void OnHover(Constructable constructable)

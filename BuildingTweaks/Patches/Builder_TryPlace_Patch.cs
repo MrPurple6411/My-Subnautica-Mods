@@ -102,68 +102,13 @@
             if(Main.SMLConfig.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
             {
                 var placementTarget = Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
-                GameObject finalTarget = null;
-
-                if(placementTarget != null)
-                {
-                    var pickupable = placementTarget.GetComponentInParent<Pickupable>();
-                    if(pickupable != null)
-                    {
-                        finalTarget = pickupable.gameObject;
-                    }
-                    else
-                    {
-                        var creature = placementTarget.GetComponentInParent<Creature>();
-                        if(creature != null)
-                        {
-                            finalTarget = creature.gameObject;
-                        }
-                        else
-                        {
-                            var subRoot = placementTarget.GetComponentInParent<SubRoot>();
-                            if(subRoot != null)
-                            {
-                                finalTarget = subRoot.modulesRoot.gameObject;
-                            }
-                            else
-                            {
-                                var vehicle = placementTarget.GetComponentInParent<Vehicle>();
-                                if(vehicle != null)
-                                {
-                                    finalTarget = vehicle.modulesRoot.gameObject;
-                                }
-                                else
-                                {
-
-                                    Component lifepod =
-#if SN1
-                            placementTarget.GetComponentInParent<EscapePod>();
-#elif BZ
-                            placementTarget.GetComponentInParent<LifepodDrop>();
-#endif
-                                    if(lifepod != null)
-                                    {
-                                        finalTarget = lifepod.gameObject;
-                                    }
-#if BZ
-                                    else
-                                    {
-                                        var seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
-                                        if(seaTruck != null)
-                                            finalTarget = seaTruck.gameObject;
-                                    }
-#endif
-                                }
-                            }
-                        }
-                    }
-                }
+                GameObject finalTarget = GetFinalTarget(placementTarget);
 
                 if(finalTarget != null)
                 {
-                    foreach(var builtCollider in builtObject.GetComponentsInChildren<Collider>()?? new Collider[0])
+                    foreach(var builtCollider in builtObject.GetComponentsInChildren<Collider>(true) ?? Array.Empty<Collider>())
                     {
-                        foreach(var collider in finalTarget.GetComponentsInChildren<Collider>() ?? new Collider[0])
+                        foreach(var collider in finalTarget.GetComponentsInChildren<Collider>(true) ?? Array.Empty<Collider>())
                         {
                             Physics.IgnoreCollision(collider, builtCollider);
                         }
@@ -181,9 +126,71 @@
 
                 Main.SMLConfig.AttachToTarget = false;
             }
-            
+
 
             return builtObject.transform;
+        }
+
+        private static GameObject GetFinalTarget(GameObject placementTarget)
+        {
+            GameObject finalTarget = null;
+
+            if(placementTarget == null)
+                return finalTarget;
+
+            var pickupable = placementTarget.GetComponentInParent<Pickupable>();
+            if(pickupable != null)
+            {
+                finalTarget = pickupable.gameObject;
+            }
+            else
+            {
+                var creature = placementTarget.GetComponentInParent<Creature>();
+                if(creature != null)
+                {
+                    finalTarget = creature.gameObject;
+                }
+                else
+                {
+                    var subRoot = placementTarget.GetComponentInParent<SubRoot>();
+                    if(subRoot != null)
+                    {
+                        finalTarget = subRoot.modulesRoot.gameObject;
+                    }
+                    else
+                    {
+                        var vehicle = placementTarget.GetComponentInParent<Vehicle>();
+                        if(vehicle != null)
+                        {
+                            finalTarget = vehicle.modulesRoot.gameObject;
+                        }
+                        else
+                        {
+
+                            Component lifepod =
+#if SN1
+                            placementTarget.GetComponentInParent<EscapePod>();
+#elif BZ
+                            placementTarget.GetComponentInParent<LifepodDrop>();
+#endif
+                            if(lifepod != null)
+                            {
+                                finalTarget = lifepod.gameObject;
+                            }
+#if BZ
+                            else
+                            {
+                                var seaTruck = placementTarget.GetComponentInParent<SeaTruckSegment>();
+                                if(seaTruck != null)
+                                    finalTarget = seaTruck.gameObject;
+                            }
+#endif
+                        }
+                    }
+                }
+            }
+
+            return finalTarget;
         }
     }
 
