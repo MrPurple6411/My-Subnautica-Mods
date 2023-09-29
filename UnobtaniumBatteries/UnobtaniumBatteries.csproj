@@ -22,9 +22,6 @@
     <Compile Include="Patches\EnergyMixin_NotifyHasBattery_Patch.cs" />
     <Compile Include="Patches\Inventory_Pickup_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Reference Include="CustomBatteries">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\battery_illum.png">

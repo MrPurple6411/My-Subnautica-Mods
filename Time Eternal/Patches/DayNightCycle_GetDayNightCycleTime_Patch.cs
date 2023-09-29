@@ -8,27 +8,30 @@
         [HarmonyPrefix]
         private static bool Prefix(DayNightCycle __instance)
         {
-            if(Main.SMLConfig.freezeTimeChoice == 1)
+            switch(Main.SMLConfig.freezeTimeChoice)
             {
-                //always day
-                __instance.sunRiseTime = -1000.0f;
-                __instance.sunSetTime = 1000.0f;
-                return true;
+                case 1:
+                    //always day
+                    __instance.sunRiseTime = -1000.0f;
+                    __instance.sunSetTime = 1000.0f;
+                    return true;
+                case 2:
+                    //always night
+                    __instance.sunRiseTime = 1000.0f;
+                    __instance.sunSetTime = -1000.0f;
+                    return true;
+                default:
+                    //9pm to 3am game default
+                    __instance.sunRiseTime = 0.125f;
+                    __instance.sunSetTime = 0.875f;
+                    return true;
             }
-            else if(Main.SMLConfig.freezeTimeChoice == 2)
-            {
-                //always night
-                __instance.sunRiseTime = 1000.0f;
-                __instance.sunSetTime = -1000.0f;
-                return true;
-            }
-            else
-            {
-                //9pm to 3am game default
-                __instance.sunRiseTime = 0.125f;
-                __instance.sunSetTime = 0.875f;
-                return true;
-            }
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(DayNightCycle __instance, ref float __result)
+        {
+            Main.logSource.LogDebug($"DayNightCycleTime: {__result}");
         }
     }
 }

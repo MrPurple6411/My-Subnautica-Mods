@@ -3,7 +3,6 @@
     using HarmonyLib;
     using System.Reflection;
     using System.IO;
-    using CustomBatteries.API;
     using System.Collections.Generic;
     using SMLHelper.Utility;
     using UnityEngine;
@@ -11,7 +10,8 @@
 #if SN1
     using SMLHelper.Handlers;
 #endif    using BepInEx;
-    
+    using SMLHelper.Assets;
+
     [BepInPlugin(GUID, MODNAME, VERSION)]
     public class Main: BaseUnityPlugin
     {
@@ -94,14 +94,13 @@
 #endif
 
                 CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "battery_icon.png")),
-                CBModelData = new CBModelData()
+                CBModelData = new CustomModelData()
                 {
                     CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_skin.png")),
                     CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_normal.png")),
                     CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_spec.png")),
                     CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_illum.png")),
                     CustomIllumStrength = 1f,
-                    UseIonModelsAsBase = true
                 },
 
                 EnhanceGameObject = EnhanceGameObject
@@ -119,14 +118,13 @@
                 UnlocksWith = UnobtaniumBattery.TechType,
 
                 CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cell_icon.png")),
-                CBModelData = new CBModelData()
+                CBModelData = new CustomModelData()
                 {
                     CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_skin.png")),
                     CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_normal.png")),
                     CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_spec.png")),
                     CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_illum.png")),
                     CustomIllumStrength = 1f,
-                    UseIonModelsAsBase = true
                 },
 
                 EnhanceGameObject = EnhanceGameObject

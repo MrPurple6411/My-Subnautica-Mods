@@ -1,5 +1,4 @@
-﻿#if BZ
-namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches
 {
     using HarmonyLib;
 
@@ -17,4 +16,3 @@ namespace BuildingTweaks.Patches
         }
     }
 }
-#endif
