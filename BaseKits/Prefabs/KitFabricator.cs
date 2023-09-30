@@ -7,6 +7,7 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
 using static UWE.TUXOIL;
 using Nautilus.Utility;
+using Nautilus.Crafting;
 
 internal class KitFabricator: CustomPrefab
 {
@@ -18,9 +19,10 @@ internal class KitFabricator: CustomPrefab
 		CraftDataHandler.SetBackgroundType(Info.TechType, CraftData.BackgroundType.PlantAir);
 
 		if(CraftData.GetBuilderIndex(TechType.Workbench, out var group, out var category, out _))
-			this.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench);
+			this.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench).SetBuildable();
 
-		this.SetRecipe(CraftDataHandler.GetRecipeData(TechType.Fabricator));
+
+		CraftDataHandler.SetRecipeData(Info.TechType, CraftDataHandler.GetRecipeData(TechType.Fabricator));
 
 		var gadget = this.CreateFabricator(out treeType);
 		gadget.AddTabNode(Main.RoomsMenu, "Rooms", SpriteManager.Get(TechType.BaseRoom));

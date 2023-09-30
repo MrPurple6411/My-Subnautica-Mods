@@ -16,7 +16,8 @@ internal class CloneBasePiece : CustomPrefab
 	{
 		if (CraftData.GetBuilderIndex(typeToClone, out var group, out var category, out _))
 			this.SetUnlock(kitTechType).WithPdaGroupCategoryAfter(group, category, typeToClone).SetBuildable();
-		this.SetRecipe(new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(kitTechType, 1) } });
+
+		CraftDataHandler.SetRecipeData(Info.TechType, new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(kitTechType, 1) } });
 		CraftDataHandler.SetBackgroundType(Info.TechType, CraftData.BackgroundType.PlantAir);
 
 		SetGameObject(new CloneTemplate(Info, typeToClone));

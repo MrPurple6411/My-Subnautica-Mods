@@ -34,9 +34,8 @@ public class CloneBaseKit : CustomPrefab
 		if (CraftData.GetBuilderIndex(typeToClone, out var originalGroup, out var originalCategory, out _))
         {
 			var originalCategoryString = Language.main.Get(uGUI_BlueprintsTab.techCategoryStrings.Get(originalCategory));
+			
 			var tgs = $"{originalGroup}_Kits"; 
-
-
 			if (!EnumHandler.TryGetValue(tgs, out TechGroup group))
             {
                 group = EnumHandler.AddEntry<TechGroup>(tgs).WithPdaInfo($"{originalGroup} - Kits");
