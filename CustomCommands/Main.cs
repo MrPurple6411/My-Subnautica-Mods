@@ -1,34 +1,27 @@
-﻿namespace CustomCommands
+namespace CustomCommands;
+
+using MonoBehaviours;
+using BepInEx;
+using UnityEngine;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
 {
-    using MonoBehaviours;
-    using BepInEx;
-    using UnityEngine;
+    private static GameObject DummyObject;
 
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
+    public void Awake()
     {
-        #region[Declarations]
-        public const string
-            MODNAME = "CustomCommands",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        private static GameObject DummyObject;
-        #endregion
+        Initialize();
+    }
 
-        public void Awake()
-        {
-            Initialize();
-        }
-
-        internal static void Initialize()
-        {
-            if(DummyObject != null)
-                Object.DestroyImmediate(DummyObject);
-            DummyObject = new GameObject("DummyObject");
-            DummyObject.AddComponent<SceneCleanerPreserve>();
-            Object.DontDestroyOnLoad(DummyObject);
-            DummyObject.AddComponent<Commands>();
-        }
+    internal static void Initialize()
+    {
+        if(DummyObject != null)
+            Object.DestroyImmediate(DummyObject);
+        DummyObject = new GameObject("DummyObject");
+        DummyObject.AddComponent<SceneCleanerPreserve>();
+        Object.DontDestroyOnLoad(DummyObject);
+        DummyObject.AddComponent<Commands>();
     }
 }

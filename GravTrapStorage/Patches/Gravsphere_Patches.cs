@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using Story;
@@ -6,7 +6,7 @@ using Story;
 namespace GravTrapStorage.Patches;
 
 using System.Collections.Generic;
-using SMLHelper.Utility;
+using Nautilus.Utility;
 using UnityEngine;
 using HarmonyLib;
 
@@ -124,7 +124,7 @@ internal class GravspherePatches
 
                             break;
                         }
-#if SN1
+#if SUBNAUTICA
                         case SeaMoth seaMoth:
                         {
                             for (var i = 0; i < 12; i++)
@@ -150,7 +150,7 @@ internal class GravspherePatches
 #endif
                     }
                 }
-#if SN1
+#if SUBNAUTICA
                 else
                 {
                     EscapePod escapePod = activeTarget.GetComponentInParent<EscapePod>();
@@ -350,7 +350,8 @@ internal class GravspherePatches
         if (!obj.TryGetComponent(out Pickupable pickupable)) return;
 
         TechType techType = pickupable.overrideTechUsed ? pickupable.overrideTechType : pickupable.GetTechType();
-        container.container.allowedTech.AddIfNotPresent(techType);
+		if(!container.container.allowedTech.Contains(techType))
+			container.container.allowedTech.Add(techType);
         if (container.container.AddItem(pickupable) == null) return;
         if (tracker != null)
             tracker.OnPickedUp(pickupable);
@@ -366,7 +367,8 @@ internal class GravspherePatches
             if (entry != null)
             {
                 PDAScanner.partial.Remove(entry);
-                PDAScanner.complete.AddIfNotPresent(entry.techType);
+				if(!PDAScanner.complete.Contains(techType)) 
+					PDAScanner.complete.Add(entry.techType);
                 PDAScanner.NotifyRemove(entry);
                 PDAScanner.Unlock(entryData, true, true);
                 obj.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);

@@ -1,14 +1,13 @@
-﻿namespace NoMask.Patches
-{
-    using HarmonyLib;
+﻿namespace NoMask.Patches;
 
-    [HarmonyPatch(typeof(Player), nameof(Player.SetScubaMaskActive))]
-    public static class Player_SetScubaMaskActive_Patch
+using HarmonyLib;
+
+[HarmonyPatch(typeof(Player), nameof(Player.SetScubaMaskActive))]
+public static class Player_SetScubaMaskActive_Patch
+{
+    [HarmonyPrefix]
+    public static void Prefix(ref bool state)
     {
-        [HarmonyPrefix]
-        public static void Prefix(ref bool state)
-        {
-            state = false;
-        }
+        state = false;
     }
 }

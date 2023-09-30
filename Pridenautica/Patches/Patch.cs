@@ -1,29 +1,28 @@
-﻿namespace Pridenautica.Patches
+﻿namespace Pridenautica.Patches;
+
+using System.IO;
+using System.Reflection;
+using Nautilus.Utility;
+using UnityEngine;
+using HarmonyLib;
+
+[HarmonyPatch]
+public static class Patch
 {
-    using System.IO;
-    using System.Reflection;
-    using SMLHelper.Utility;
-    using UnityEngine;
-    using HarmonyLib;
+    private static Texture2D rainbowTexture;
 
-    [HarmonyPatch]
-    public static class Patch
+    private static Texture2D RainbowTexture => rainbowTexture ??= ImageUtils.LoadTextureFromFile(
+        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "", "Rainbow.png"))?? throw new FileNotFoundException(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "", "Rainbow.png"));
+
+    [HarmonyPatch(typeof(Creature), nameof(Creature.Start))]
+    [HarmonyPostfix]
+    public static void Postfix(Creature __instance)
     {
-        private static Texture2D rainbowTexture;
-
-        private static Texture2D RainbowTexture => rainbowTexture ??= ImageUtils.LoadTextureFromFile(
-            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "", "Rainbow.png"))?? throw new FileNotFoundException(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "", "Rainbow.png"));
-
-        [HarmonyPatch(typeof(Creature), nameof(Creature.Start))]
-        [HarmonyPostfix]
-        public static void Postfix(Creature __instance)
+        foreach (var renderer in __instance.GetComponentsInChildren<Renderer>())
         {
-            foreach (var renderer in __instance.GetComponentsInChildren<Renderer>())
+            foreach (var material in renderer.materials)
             {
-                foreach (var material in renderer.materials)
-                {
-                    material.SetTexture(ShaderPropertyID._SpecTex, RainbowTexture);
-                }
+                material.SetTexture(ShaderPropertyID._SpecTex, RainbowTexture);
             }
         }
     }

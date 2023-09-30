@@ -1,30 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="$(SolutionDir)\GameDir.targets" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">SN1</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BD784AF4-B1AA-48A6-B868-E395CA3A0B10}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SeamothThermal</RootNamespace>
-    <AssemblyName>SeamothThermal</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-  </PropertyGroup>
-  <Import Project="..\Configurations.targets" />
-  <Import Project="..\References.targets" />
-  <ItemGroup>
-    <Compile Include="Main.cs" />
-    <Compile Include="Patches\Seamoth_Update_Patch.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Modules\SeamothThermalModule.cs" />
-    <Compile Include="Patches\Seamoth_Start_Patch.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\PostBuildEvents.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>SeamothThermal</AssemblyName>
+		<Product>Seamoth Thermal</Product>
+		<Version>2.0.0.0</Version>
+        <OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
+	</PropertyGroup>
 </Project>

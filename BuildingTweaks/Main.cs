@@ -1,28 +1,21 @@
-﻿namespace BuildingTweaks
+namespace BuildingTweaks;
+
+using Configuration;
+using HarmonyLib;
+using Nautilus.Handlers;
+using System.Reflection;using BepInEx;
+using BepInEx.Logging;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
 {
-    using Configuration;
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using System.Reflection;    using BepInEx;
-    using BepInEx.Logging;
+    public static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+    internal static ManualLogSource logSource;
 
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
+    private void Awake()
     {
-        #region[Declarations]
-        public const string
-            MODNAME = "BuildingTweaks",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        public static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-        internal static ManualLogSource logSource;
-        #endregion
-
-        private void Awake()
-        {
-            logSource = Logger;
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+        logSource = Logger;
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

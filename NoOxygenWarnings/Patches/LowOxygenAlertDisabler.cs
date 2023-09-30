@@ -1,14 +1,13 @@
-﻿namespace NoOxygenWarnings.Patches
-{
-    using HarmonyLib;
+﻿namespace NoOxygenWarnings.Patches;
 
-    [HarmonyPatch(typeof(LowOxygenAlert), nameof(LowOxygenAlert.Update))]
-    internal class LowOxygenAlertDisabler
+using HarmonyLib;
+
+[HarmonyPatch(typeof(LowOxygenAlert), nameof(LowOxygenAlert.Update))]
+internal class LowOxygenAlertDisabler
+{
+    [HarmonyPrefix]
+    public static bool Prefix()
     {
-        [HarmonyPrefix]
-        public static bool Prefix()
-        {
-            return false;
-        }
+        return false;
     }
 }

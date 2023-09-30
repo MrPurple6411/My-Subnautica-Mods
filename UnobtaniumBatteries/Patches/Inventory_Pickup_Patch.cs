@@ -1,8 +1,8 @@
-﻿#if SN1
+#if SUBNAUTICA
 namespace UnobtaniumBatteries.Patches
 {
     using HarmonyLib;
-#if SN1
+#if SUBNAUTICA
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
 #else
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.PickupAsync))]

@@ -1,25 +1,19 @@
-﻿namespace SeamothThermal
-{
-    using HarmonyLib;
-    using System.Reflection;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "SeamothThermal",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        internal static Modules.SeamothThermalModule thermalModule = new();
-        #endregion
+namespace SeamothThermal;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-            thermalModule.Patch();
-            Logger.LogInfo("Succesfully patched!");
-        }
+using HarmonyLib;
+using System.Reflection;using BepInEx;
+using SeamothThermal.Modules;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
+{
+    internal static TechType thermalModule;
+
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+        thermalModule = new SeamothThermalModule().Info.TechType;
+        Logger.LogInfo("Succesfully patched!");
     }
 }

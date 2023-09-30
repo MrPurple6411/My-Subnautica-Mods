@@ -1,45 +1,39 @@
-﻿#if !EDITOR
-namespace TechPistol
+#if !EDITOR
+namespace TechPistol;
+
+using HarmonyLib;
+using Nautilus.Handlers;
+using System.IO;
+using System.Reflection;
+using Configuration;
+using Module;
+using UnityEngine;using BepInEx;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
 {
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using System.IO;
-    using System.Reflection;
-    using Configuration;
-    using Module;
-    using UnityEngine;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "TechPistol",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0",
-            bundlePath =
-#if SN1
-            "Assets/TechPistol";
-#elif BZ
-            "Assets/TechPistolBZ";
+    public const string
+        bundlePath =
+#if SUBNAUTICA
+        "Assets/TechPistol";
+#elif BELOWZERO
+        "Assets/TechPistolBZ";
 #endif
 
-        private static Assembly assembly = Assembly.GetExecutingAssembly();
-        private static string modPath = Path.GetDirectoryName(assembly.Location);
-        internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
-        internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-        internal static PistolFragmentPrefab PistolFragment { get; } = new();
-        internal static PistolPrefab Pistol { get; } = new();
-        #endregion
+    private static Assembly assembly = Assembly.GetExecutingAssembly();
+    private static string modPath = Path.GetDirectoryName(assembly.Location);
+    internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
+    internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+    internal static PistolFragmentPrefab PistolFragment { get; } = new();
+    internal static PistolPrefab Pistol { get; } = new();
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
 
-            PistolFragment.Patch();
-            Pistol.Patch();
-        }
+        PistolFragment.Patch();
+        Pistol.Patch();
     }
 }
 #endif

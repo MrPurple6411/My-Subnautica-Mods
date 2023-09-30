@@ -1,22 +1,14 @@
-﻿namespace NoMask
-{
-    using HarmonyLib;
-    using System.Reflection;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "NoMask",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        #endregion
+namespace NoMask;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+using HarmonyLib;
+using System.Reflection;using BepInEx;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
+{
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

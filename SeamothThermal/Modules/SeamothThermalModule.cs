@@ -1,67 +1,57 @@
-﻿using System.Collections;
+namespace SeamothThermal.Modules;
 
-namespace SeamothThermal.Modules
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
+using static CraftData;
+
+public class SeamothThermalModule: CustomPrefab
 {
-    using SMLHelper.Assets;
-    using SMLHelper.Crafting;
-    using System.Collections.Generic;
-    using UnityEngine;
-
-    public class SeamothThermalModule: Equipable
+	[SetsRequiredMembers]
+    public SeamothThermalModule() : base(
+        "SeamothThermalModule",
+        "Seamoth thermal reactor",
+        "Recharges power cells in hot areas. Doesn't stack.",
+		SpriteManager.Get(TechType.ExosuitThermalReactorModule))
     {
-        public SeamothThermalModule() : base(
-            "SeamothThermalModule",
-            "Seamoth thermal reactor",
-            "Recharges power cells in hot areas. Doesn't stack.")
-        {
-        }
 
-        public override EquipmentType EquipmentType => EquipmentType.SeamothModule;
+		this.SetRecipe(new()
+		{
+			craftAmount = 1,
+			Ingredients = new List<Ingredient>()
+			{
+				new(TechType.Kyanite, 1),
+				new(TechType.Polyaniline, 2),
+				new(TechType.WiringKit, 1)
+			}
+		}).WithFabricatorType(CraftTree.Type.SeamothUpgrades).WithStepsToFabricatorTab("SeamothModules");
 
-        public override TechType RequiredForUnlock => TechType.BaseUpgradeConsole;
+		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 
-        public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
+		if (GetBuilderIndex(TechType.SeamothSolarCharge, out var group, out var category, out _))
+			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.SeamothSolarCharge);
 
-        public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
+		SetGameObject(GetGameObjectAsync);
 
-        public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
+		Register();
+	}
 
-        public override string[] StepsToFabricatorTab => new[] { "SeamothModules" };
+    public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+    {
+        var taskResult = new TaskResult<GameObject>();
+        yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
+        var obj = taskResult.Get();
+        
+        // Get the TechTags and PrefabIdentifiers
+        var techTag = obj.GetComponent<TechTag>();
+        var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var taskResult = new TaskResult<GameObject>();
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
-            var obj = taskResult.Get();
-            
-            // Get the TechTags and PrefabIdentifiers
-            var techTag = obj.GetComponent<TechTag>();
-            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
-
-            // Change them so they fit to our requirements.
-            techTag.type = TechType;
-            prefabIdentifier.ClassId = ClassID;
-            gameObject.Set(obj);
-        }
-
-        protected override TechData GetBlueprintRecipe()
-        {
-            return new()
-            {
-                craftAmount = 1,
-                Ingredients = new List<Ingredient>()
-                {
-                    new(TechType.Kyanite, 1),
-                    new(TechType.Polyaniline, 2),
-                    new(TechType.WiringKit, 1)
-                }
-            };
-        }
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return SpriteManager.Get(TechType.ExosuitThermalReactorModule);
-        }
+        // Change them so they fit to our requirements.
+        techTag.type = Info.TechType;
+        prefabIdentifier.ClassId = Info.ClassID;
+        gameObject.Set(obj);
     }
 }

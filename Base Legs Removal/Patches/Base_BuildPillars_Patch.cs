@@ -1,7 +1,7 @@
-﻿namespace Base_Legs_Removal.Patches
-{
-    using HarmonyLib;
-    using UnityEngine;
+﻿namespace BaseLegsRemoval.Patches;
+
+using HarmonyLib;
+using UnityEngine;
 
 
 	[HarmonyPatch(typeof(Base), nameof(Base.BuildAccessoryGeometry))]
@@ -10,92 +10,92 @@
 		[HarmonyPrefix]
 		public static void Prefix(Base __instance)
 		{
-            var target = __instance.gameObject;
-            GameObject finalTarget = null;
+        var target = __instance.gameObject;
+        GameObject finalTarget = null;
 
-            if(target != null)
+        if(target != null)
+        {
+            var pickupable = target.GetComponentInParent<Pickupable>();
+            if(pickupable != null)
             {
-                var pickupable = target.GetComponentInParent<Pickupable>();
-                if(pickupable != null)
+                finalTarget = pickupable.gameObject;
+            }
+            else
+            {
+                var creature = target.GetComponentInParent<Creature>();
+                if(creature != null)
                 {
-                    finalTarget = pickupable.gameObject;
+                    finalTarget = creature.gameObject;
                 }
                 else
                 {
-                    var creature = target.GetComponentInParent<Creature>();
-                    if(creature != null)
+	                    var parent = target.transform.parent;
+	                    var subRoot = parent != null ? parent.GetComponentInParent<SubRoot>() : null;
+                    if(subRoot != null)
                     {
-                        finalTarget = creature.gameObject;
+                        finalTarget = subRoot.modulesRoot.gameObject;
                     }
                     else
                     {
-	                    var parent = target.transform.parent;
-	                    var subRoot = parent != null ? parent.GetComponentInParent<SubRoot>() : null;
-                        if(subRoot != null)
+                        var vehicle = target.GetComponentInParent<Vehicle>();
+                        if(vehicle != null)
                         {
-                            finalTarget = subRoot.modulesRoot.gameObject;
+                            finalTarget = vehicle.modulesRoot.gameObject;
                         }
+#if BELOWZERO
                         else
                         {
-                            var vehicle = target.GetComponentInParent<Vehicle>();
-                            if(vehicle != null)
+
+                            var lifePod = target.GetComponentInParent<LifepodDrop>();
+                            if(lifePod != null)
                             {
-                                finalTarget = vehicle.modulesRoot.gameObject;
+                                finalTarget = lifePod.gameObject;
                             }
-#if BZ
                             else
                             {
-
-                                var lifePod = target.GetComponentInParent<LifepodDrop>();
-                                if(lifePod != null)
-                                {
-                                    finalTarget = lifePod.gameObject;
-                                }
-                                else
-                                {
-                                    var seaTruck = target.GetComponentInParent<SeaTruckSegment>();
-                                    if(seaTruck != null)
-                                        finalTarget = seaTruck.gameObject;
-                                }
+                                var seaTruck = target.GetComponentInParent<SeaTruckSegment>();
+                                if(seaTruck != null)
+                                    finalTarget = seaTruck.gameObject;
                             }
-#endif
                         }
+#endif
                     }
                 }
             }
+        }
 
-            if (finalTarget != null)
-            {
-                return;
-            }
+        if (finalTarget != null)
+        {
+            return;
+        }
 			var componentsInChildren = __instance.gameObject.GetComponentsInChildren<IBaseAccessoryGeometry>();
 			foreach (var baseAccessoryGeometry in componentsInChildren)
+        {
+            switch (baseAccessoryGeometry)
             {
-                switch (baseAccessoryGeometry)
-                {
-                    case BaseFoundationPiece baseFoundationPiece:
-                        var maxHeight = 0f;
-                        var config = Main.SMLConfig;
-                        maxHeight = baseFoundationPiece.name switch
-                        {
-                            "BaseRoomAdjustableSupport(Clone)" => config.RoomLegs ? 0 : 20f,
-#if BZ
-                            "BaseLargeRoomAdjustableSupport(Clone)" => config.LargeRoomLegs ? 0 : 20f,
+                case BaseFoundationPiece baseFoundationPiece:
+                    var maxHeight = 0f;
+                    var config = Main.SMLConfig;
+                    maxHeight = baseFoundationPiece.name switch
+                    {
+                        "BaseRoomAdjustableSupport(Clone)" => config.RoomLegs ? 0 : 20f,
+#if BELOWZERO
+                        "BaseLargeRoomAdjustableSupport(Clone)" => config.LargeRoomLegs ? 0 : 20f,
 #endif
-                            "BaseMoonpool(Clone)" => config.MoonPoolLegs ? 0 : 20f,
-                            "BaseFoundationPiece(Clone)" => config.FoundationLegs ? 0 : 20f,
-                            "BaseCorridorXShapeAdjustableSupport(Clone)" => config.XCorridor ? 0 : 20f,
-                            "BaseCorridorTShapeAdjustableSupport(Clone)" => config.TCorridor ? 0 : 20f,
-                            "BaseCorridorLShapeAdjustableSupport(Clone)" => config.LCorridor ? 0 : 20f,
-                            "BaseCorridorIShapeAdjustableSupport(Clone)" => config.ICorridor ? 0 : 20f,
-                            _ => maxHeight
-                        };
+                        "BaseMoonpool(Clone)" => config.MoonPoolLegs ? 0 : 20f,
+                        "BaseFoundationPiece(Clone)" => config.FoundationLegs ? 0 : 20f,
+                        "BaseCorridorXShapeAdjustableSupport(Clone)" => config.XCorridor ? 0 : 20f,
+                        "BaseCorridorTShapeAdjustableSupport(Clone)" => config.TCorridor ? 0 : 20f,
+                        "BaseCorridorLShapeAdjustableSupport(Clone)" => config.LCorridor ? 0 : 20f,
+                        "BaseCorridorIShapeAdjustableSupport(Clone)" => config.ICorridor ? 0 : 20f,
+                        _ => maxHeight
+                    };
 
-                        baseFoundationPiece.maxPillarHeight = maxHeight;
-                        break;
-                }
+                    baseFoundationPiece.maxPillarHeight = maxHeight;
+                    break;
             }
+        }
 		}
 	}
 
-                        }
+                    

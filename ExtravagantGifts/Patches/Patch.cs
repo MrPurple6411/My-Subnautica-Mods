@@ -1,9 +1,9 @@
-﻿#if BZ
+﻿#if BELOWZERO
 namespace ExtravagantGifts.Patches
 {
     using HarmonyLib;
-    using SMLHelper.Crafting;
-    using SMLHelper.Handlers;
+    using Nautilus.Crafting;
+    using Nautilus.Handlers;
     using Story;
 
     public static class Patches

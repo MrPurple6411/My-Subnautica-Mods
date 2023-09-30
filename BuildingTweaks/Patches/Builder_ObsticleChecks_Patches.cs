@@ -1,48 +1,47 @@
-﻿namespace BuildingTweaks.Patches
+namespace BuildingTweaks.Patches;
+
+using System.Collections.Generic;
+using HarmonyLib;
+using UnityEngine;
+#if BELOWZERO
+using System;
+#endif
+
+[HarmonyPatch]
+public static class Builder_ObsticleChecks_Patches
 {
-    using System.Collections.Generic;
-    using HarmonyLib;
-    using UnityEngine;
-#if BZ
-    using System;
-#endif
 
-    [HarmonyPatch]
-    public static class Builder_ObsticleChecks_Patches
+#if SUBNAUTICA
+    [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider) })]
+    [HarmonyPrefix]
+    public static bool CheckSpace_Postfix(ref bool __result)
     {
-
-#if SN1
-        [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider) })]
-        [HarmonyPrefix]
-        public static bool CheckSpace_Postfix(ref bool __result)
+        if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
         {
-            if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
-            {
-                __result = true;
-                return false;
-            }
-            return true;
+            __result = true;
+            return false;
         }
-#elif BZ
-        [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new Type[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider), typeof(List<GameObject>) })]
-        [HarmonyPostfix]
-        public static void CheckSpace_Postfix(ref List<GameObject> obstacles)
+        return true;
+    }
+#elif BELOWZERO
+    [HarmonyPatch(typeof(Builder), nameof(Builder.CheckSpace), new Type[] { typeof(Vector3), typeof(Quaternion), typeof(List<OrientedBounds>), typeof(int), typeof(Collider), typeof(List<GameObject>) })]
+    [HarmonyPostfix]
+    public static void CheckSpace_Postfix(ref List<GameObject> obstacles)
+    {
+        if(Main.Config.FullOverride || Main.Config.AttachToTarget)
         {
-            if(Main.Config.FullOverride || Main.Config.AttachToTarget)
-            {
-                obstacles.Clear();
-            }
+            obstacles.Clear();
         }
+    }
 #endif
 
-        [HarmonyPatch(typeof(Builder), nameof(Builder.GetObstacles))]
-        [HarmonyPostfix]
-        public static void GetObstacles_Postfix(ref List<GameObject> results)
+    [HarmonyPatch(typeof(Builder), nameof(Builder.GetObstacles))]
+    [HarmonyPostfix]
+    public static void GetObstacles_Postfix(ref List<GameObject> results)
+    {
+        if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
         {
-            if(Main.SMLConfig.FullOverride || Main.SMLConfig.AttachToTarget)
-            {
-                results.Clear();
-            }
+            results.Clear();
         }
     }
 }

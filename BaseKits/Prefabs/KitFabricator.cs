@@ -1,32 +1,42 @@
-﻿namespace BaseKits.Prefabs
+namespace BaseKits.Prefabs;
+
+using Nautilus.Assets;
+using System.Diagnostics.CodeAnalysis;
+using Nautilus.Handlers;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Assets.PrefabTemplates;
+using static UWE.TUXOIL;
+using Nautilus.Utility;
+
+internal class KitFabricator: CustomPrefab
 {
-    using SMLHelper.Assets;
-    using SMLHelper.Handlers;
-    using SMLHelper.Assets.Interfaces;
-    using SMLHelper.Crafting;
+	public CraftTree.Type treeType;
 
-    internal class KitFabricator: ICustomFabricator, IBuildable
-    {
-        internal PrefabInfo PrefabInfo { get; private set; }
-        public TechCategory CategoryForPDA => TechCategory.InteriorModule;
-        public TechGroup GroupForPDA => TechGroup.InteriorModules;
-        public FabricatorModel FabricatorModel => FabricatorModel.Fabricator;
-        public CraftTree.Type TreeTypeID { get; private set; }
+	[SetsRequiredMembers]
+    internal KitFabricator(string KitFab): base(KitFab, "Base Kit Fabricator", "Used to compress Base construction materials into a Construction Kit", SpriteManager.Get(TechType.Fabricator))
+	{
+		CraftDataHandler.SetBackgroundType(Info.TechType, CraftData.BackgroundType.PlantAir);
 
-        public RecipeData RecipeData { get; }
+		if(CraftData.GetBuilderIndex(TechType.Workbench, out var group, out var category, out _))
+			this.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench);
 
-        internal KitFabricator(string KitFab)
-        {
-            PrefabInfo = PrefabInfo.Create(KitFab).CreateTechType().WithIcon(SpriteManager.Get(TechType.Fabricator))
-                .WithLanguageLines("Base Kit Fabricator", "Used to compress Base construction materials into a Construction Kit");
-            CraftDataHandler.SetBackgroundType(PrefabInfo.TechType, CraftData.BackgroundType.PlantAir);
-            RecipeData = CraftDataHandler.GetRecipeData(TechType.Fabricator);
-            TreeTypeID = EnumHandler.AddEntry<CraftTree.Type>(PrefabInfo.ClassID).CreateCraftTreeRoot(out var root).Value;
-            root.AddTabNode(Main.RoomsMenu, "Rooms", SpriteManager.Get(TechType.BaseRoom));
-            root.AddTabNode(Main.CorridorMenu, "Corridors", SpriteManager.Get(TechType.BaseCorridorX));
-            root.AddTabNode(Main.ModuleMenu, "Modules", SpriteManager.Get(TechType.BaseBioReactor));
-            root.AddTabNode(Main.UtilityMenu, "Utilities", SpriteManager.Get(TechType.BaseHatch));
-            PrefabInfo.RegisterPrefab(this);
-        }
+		this.SetRecipe(CraftDataHandler.GetRecipeData(TechType.Fabricator));
+
+		var gadget = this.CreateFabricator(out treeType);
+		gadget.AddTabNode(Main.RoomsMenu, "Rooms", SpriteManager.Get(TechType.BaseRoom));
+		gadget.AddTabNode(Main.CorridorMenu, "Corridors", SpriteManager.Get(TechType.BaseCorridorX));
+		gadget.AddTabNode(Main.ModuleMenu, "Modules", SpriteManager.Get(TechType.BaseBioReactor));
+		gadget.AddTabNode(Main.UtilityMenu, "Utilities", SpriteManager.Get(TechType.BaseHatch));
+
+		FabricatorTemplate fabPrefab = new FabricatorTemplate(Info, treeType)
+		{
+			FabricatorModel = FabricatorTemplate.Model.Fabricator,
+			ColorTint = UnityEngine.Color.magenta,
+			ConstructableFlags = ConstructableFlags.Wall|ConstructableFlags.Base|ConstructableFlags.Submarine|ConstructableFlags.Inside
+		};
+
+		SetGameObject(fabPrefab);
+
+		Register();
     }
 }

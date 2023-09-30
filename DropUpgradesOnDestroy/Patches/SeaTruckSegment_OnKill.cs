@@ -1,10 +1,10 @@
-﻿#if BZ
+﻿#if BELOWZERO
 namespace DropUpgradesOnDestroy.Patches
 {
     using HarmonyLib;
     using System.Collections.Generic;
     using System.Linq;
-#if SN1
+#if SUBNAUTICA
     using UnityEngine;
 #endif
 

@@ -1,38 +1,30 @@
-﻿namespace BuilderModule
-{
-    using Module;
-    using HarmonyLib;
-    using System.Collections.Generic;
-    using System.Reflection;
-#if BZ
-    using SMLHelper.Handlers;
+namespace BuilderModule;
+
+using Module;
+using HarmonyLib;
+using System.Collections.Generic;
+using System.Reflection;
+#if BELOWZERO
+using Nautilus.Handlers;
 #endif
 
-    using BepInEx;
-    using BepInEx.Logging;
+using BepInEx;
+using BepInEx.Logging;
 
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
+{
+    internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
+    internal static ManualLogSource logSource;
+    internal static readonly List<TechType> BuilderModules = new();
+
+    private void Awake()
     {
-        #region[Declarations]
-        public const string
-            MODNAME = "BuilderModule",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
+        logSource = Logger;
+        var builderModule = new BuilderModulePrefab();
+        BuilderModules.Add(builderModule.Info.TechType);
 
-        internal readonly Assembly assembly = Assembly.GetExecutingAssembly();
-        internal static ManualLogSource logSource;
-        internal static readonly List<TechType> builderModules = new();
-        #endregion
-
-        private void Awake()
-        {
-            logSource = Logger;
-            var builderModule = new BuilderModulePrefab();
-            builderModules.Add(builderModule.PrefabInfo.TechType);
-
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

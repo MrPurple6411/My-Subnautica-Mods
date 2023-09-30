@@ -1,19 +1,17 @@
-﻿namespace UnknownName.Patches
-{
-    using HarmonyLib;
+﻿namespace UnknownName.Patches;
 
-    [HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
-    public class Builder_UpdateAllowed
+using HarmonyLib;
+
+[HarmonyPatch(typeof(Builder), nameof(Builder.UpdateAllowed))]
+public class Builder_UpdateAllowed
+{
+    [HarmonyPostfix]
+    public static void Postfix(ref bool __result)
     {
-        [HarmonyPostfix]
-        public static void Postfix(ref bool __result)
+        if(Main.SMLConfig.Hardcore && __result && Builder.prefab != null)
         {
-            if(Main.SMLConfig.Hardcore && __result && Builder.prefab != null)
-            {
-                var techType = CraftData.GetTechType(Builder.prefab);
-                __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
-            }
+            var techType = CraftData.GetTechType(Builder.prefab);
+            __result = CrafterLogic.IsCraftRecipeUnlocked(techType);
         }
     }
-
 }

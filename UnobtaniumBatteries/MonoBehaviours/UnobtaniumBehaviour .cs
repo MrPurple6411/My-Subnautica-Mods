@@ -1,55 +1,54 @@
-﻿namespace UnobtaniumBatteries.MonoBehaviours
+﻿namespace UnobtaniumBatteries.MonoBehaviours;
+
+using UnityEngine;
+
+internal class UnobtaniumBehaviour: MonoBehaviour
 {
-    using UnityEngine;
+    private Battery battery;
+    private Renderer renderer;
+    private EnergyMixin energyMixin;
 
-    internal class UnobtaniumBehaviour: MonoBehaviour
+    private int currentStrength;
+    private int nextStrength = 2;
+    private const float changeTime = 2f;
+    private float timer;
+
+    public void Awake()
     {
-        private Battery battery;
-        private Renderer renderer;
-        private EnergyMixin energyMixin;
+        renderer = gameObject.GetComponentInChildren<Renderer>();
+        battery = gameObject.GetComponent<Battery>();
+        energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
+    }
 
-        private int currentStrength;
-        private int nextStrength = 2;
-        private const float changeTime = 2f;
-        private float timer;
-
-        public void Awake()
+    public void Update()
+    {
+        if(battery != null)
         {
-            renderer = gameObject.GetComponentInChildren<Renderer>();
-            battery = gameObject.GetComponent<Battery>();
-            energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
+            battery.charge = battery.capacity;
         }
 
-        public void Update()
+        if(energyMixin != null)
         {
-            if(battery != null)
-            {
-                battery.charge = battery.capacity;
-            }
-
-            if(energyMixin != null)
-            {
-                energyMixin.AddEnergy(energyMixin.capacity - energyMixin.charge);
-            }
-
-            timer += Time.deltaTime;
-
-            if(timer > changeTime)
-            {
-                currentStrength = nextStrength;
-                nextStrength = currentStrength == 2 ? 0 : 2;
-
-                timer = 0.0f;
-            }
-
-            if (renderer == null) return;
-            renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
-            renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
+            energyMixin.AddEnergy(energyMixin.capacity - energyMixin.charge);
         }
-        public void OnDestroy()
+
+        timer += Time.deltaTime;
+
+        if(timer > changeTime)
         {
-            renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
-            renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
+            currentStrength = nextStrength;
+            nextStrength = currentStrength == 2 ? 0 : 2;
+
+            timer = 0.0f;
         }
+
+        if (renderer == null) return;
+        renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
+        renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(currentStrength, nextStrength, timer / changeTime));
+    }
+    public void OnDestroy()
+    {
+        renderer.material.SetFloat(ShaderPropertyID._GlowStrength, 1f);
+        renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, 1f);
     }
 }

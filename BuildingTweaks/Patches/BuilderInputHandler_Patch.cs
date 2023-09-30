@@ -1,20 +1,19 @@
-﻿namespace BuildingTweaks.Patches
+﻿namespace BuildingTweaks.Patches;
+
+using HarmonyLib;
+
+[HarmonyPatch(typeof(BuildModeInputHandler), "IInputHandler.HandleLateInput")]
+public static class BuilderInputHandler_Patch
 {
-    using HarmonyLib;
-
-    [HarmonyPatch(typeof(BuildModeInputHandler), "IInputHandler.HandleLateInput")]
-    public static class BuilderInputHandler_Patch
+    [HarmonyPostfix]
+    public static void Postfix(ref bool __result)
     {
-        [HarmonyPostfix]
-        public static void Postfix(ref bool __result)
-        {
-            if(!__result)
-                return;
+        if(!__result)
+            return;
 
-            if(Main.SMLConfig.AttachToTarget && Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.LeftHand) && GameInput.GetButtonHeldTime(GameInput.Button.LeftHand) > 1)
-            {
-                Builder_Update_Patches.Freeze = true;
-            }
+        if(Main.SMLConfig.AttachToTarget && Builder.placementTarget != null && Builder.canPlace && GameInput.GetButtonHeld(GameInput.Button.LeftHand) && GameInput.GetButtonHeldTime(GameInput.Button.LeftHand) > 1)
+        {
+            Builder_Update_Patches.Freeze = true;
         }
     }
 }

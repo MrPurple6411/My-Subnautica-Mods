@@ -1,18 +1,16 @@
-﻿namespace UnknownName.Patches
-{
-    using HarmonyLib;
+﻿namespace UnknownName.Patches;
 
-    [HarmonyPatch(typeof(LanguageCache), nameof(LanguageCache.GetPickupText))]
-    public class LanguageCache_GetPickupText
+using HarmonyLib;
+
+[HarmonyPatch(typeof(LanguageCache), nameof(LanguageCache.GetPickupText))]
+public class LanguageCache_GetPickupText
+{
+    [HarmonyPostfix]
+    public static void Postfix(ref string __result, TechType techType)
     {
-        [HarmonyPostfix]
-        public static void Postfix(ref string __result, TechType techType)
+        if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
         {
-            if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
-            {
-                __result = Main.SMLConfig.UnKnownLabel;
-            }
+            __result = Main.SMLConfig.UnKnownLabel;
         }
     }
-
 }

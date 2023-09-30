@@ -1,31 +1,24 @@
-﻿namespace PowerOrder
+namespace PowerOrder;
+
+using HarmonyLib;
+using Configuration;
+using Nautilus.Handlers;
+using System.Reflection;
+using BepInEx;
+using BepInEx.Logging;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
 {
-    using HarmonyLib;
-    using Configuration;
-    using SMLHelper.Handlers;
-    using System.Reflection;
-    using BepInEx;
-    using BepInEx.Logging;
+    internal static SMLConfig SMLConfig = new();
+    internal static ManualLogSource logSource;
 
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
+    private void Awake()
     {
-        #region[Declarations]
-        public const string
-            MODNAME = "PowerOrder",
-            AUTHOR = "MrPurple6411",
-            GUID = "subnautica.powerorder.mod",
-            VERSION = "1.0.0.0";
-        internal static SMLConfig SMLConfig = new();
-        internal static ManualLogSource logSource;
-        #endregion
-
-        private void Awake()
-        {
-            logSource = Logger;
-            OptionsPanelHandler.RegisterModOptions(new Options());
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-            logSource.LogInfo("Patching complete.");
-        }
+        logSource = Logger;
+        OptionsPanelHandler.RegisterModOptions(new Options());
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+        logSource.LogInfo("Patching complete.");
     }
 }

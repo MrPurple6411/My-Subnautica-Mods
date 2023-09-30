@@ -1,12 +1,11 @@
-﻿namespace SpecialtyManifold.Configuration
-{
-    using SMLHelper.Json;
-    using SMLHelper.Options.Attributes;
+﻿namespace SpecialtyManifold.Configuration;
 
-    [Menu("Specialty Manifold")]
-    public class SMLConfig: ConfigFile
-    {
-        [Toggle("Effects of multiple tanks?")]
-        public bool multipleTanks;
-    }
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+
+[Menu("Specialty Manifold")]
+public class SMLConfig: ConfigFile
+{
+    [Toggle("Effects of multiple tanks?")]
+    public bool multipleTanks;
 }

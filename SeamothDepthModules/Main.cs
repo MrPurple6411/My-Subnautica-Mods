@@ -1,41 +1,37 @@
-﻿#if SN1
-namespace MoreSeamothDepth
-{
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using System;
-    using System.Reflection;
-    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "MoreSeamothDepth",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.1";
-        internal static Modules.SeamothHullModule4 moduleMK4 = new();
-        internal static Modules.SeamothHullModule5 moduleMK5 = new();
-        #endregion
+#if SUBNAUTICA
+namespace MoreSeamothDepth;
 
-        private void Awake()
-        {
-            try
-            {
-                Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-                LanguageHandler.SetLanguageLine("Tooltip_VehicleHullModule3", "Enhances diving depth. Does not stack"); // To update conflicts about the maximity.
-                moduleMK4.Patch();
-                moduleMK5.Patch();
-                Logger.LogInfo("Succesfully patched!");
-            }
-            catch(Exception e)
-            {
-                Logger.LogError(e.InnerException.Message);
-                Logger.LogError(e.InnerException.StackTrace);
-            }
-        }
-    }
+using HarmonyLib;
+using Nautilus.Handlers;
+using System;
+using System.Reflection;
+
+using BepInEx;
+using MoreSeamothDepth.Modules;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+public class Main : BaseUnityPlugin
+{
+	internal static TechType moduleMK4;
+	internal static TechType moduleMK5;
+
+	private void Awake()
+	{
+		try
+		{
+			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+			LanguageHandler.SetLanguageLine("Tooltip_VehicleHullModule3", "Enhances diving depth. Does not stack"); // To update conflicts about the maximity.
+
+			moduleMK4 = new SeamothHullModule4().Info.TechType;
+			moduleMK5 = new SeamothHullModule5().Info.TechType;
+			Logger.LogInfo("Succesfully patched!");
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.InnerException.Message);
+			Logger.LogError(e.InnerException.StackTrace);
+		}
+	}
 }
 #endif
