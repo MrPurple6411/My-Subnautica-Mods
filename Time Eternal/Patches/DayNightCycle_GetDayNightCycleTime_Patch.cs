@@ -1,4 +1,4 @@
-﻿namespace Time_Eternal.Patches;
+namespace Time_Eternal.Patches;
 
 using HarmonyLib;
 
@@ -28,9 +28,9 @@ internal class DayNightCycle_GetDayNightCycleTime_Patch
         }
     }
 
-    [HarmonyPostfix]
-    private static void Postfix(DayNightCycle __instance, ref float __result)
-    {
-        Main.logSource.LogDebug($"DayNightCycleTime: {__result}");
-    }
+    //[HarmonyPostfix]
+    //private static void Postfix(DayNightCycle __instance, ref float __result)
+    //{
+    //    Main.logSource.LogDebug($"DayNightCycleTime: {__result}");
+    //}
 }
