@@ -25,14 +25,16 @@ public class BasicPostersPrefab : CustomPrefab
 		_orientation = orientation;
 		_posterTexture = posterTexture;
 
-		var name = "Custom_Posters";
-		if (!EnumHandler.TryGetValue(name, out TechGroup group))
+		var groupName = "Custom_Posters";
+		if (!EnumHandler.TryGetValue(groupName, out TechGroup group))
 		{
-			group = EnumHandler.AddEntry<TechGroup>(name).WithPdaInfo($"Custom Posters");
+			group = EnumHandler.AddEntry<TechGroup>(groupName).WithPdaInfo($"Custom Posters");
 		}
-		if (!EnumHandler.TryGetValue(name, out TechCategory category))
+
+		var catagoryName = $"{orientation}_Posters";
+		if (!EnumHandler.TryGetValue<TechCategory>(catagoryName, out var category))
 		{
-			category = EnumHandler.AddEntry<TechCategory>($"{orientation}_Posters").WithPdaInfo($"{orientation} Posters").RegisterToTechGroup(group);
+			category = EnumHandler.AddEntry<TechCategory>(catagoryName).WithPdaInfo($"{orientation} Posters").RegisterToTechGroup(group);
 		}
 
 		this.SetRecipe(new()
