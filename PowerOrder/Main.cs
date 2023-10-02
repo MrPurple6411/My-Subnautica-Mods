@@ -12,13 +12,13 @@ using BepInEx.Logging;
 public class Main: BaseUnityPlugin
 {
     internal static SMLConfig SMLConfig = new();
-    internal static ManualLogSource logSource;
+    internal static new ManualLogSource Logger;
 
     private void Awake()
     {
-        logSource = Logger;
+		Logger = base.Logger;
         OptionsPanelHandler.RegisterModOptions(new Options());
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
-        logSource.LogInfo("Patching complete.");
+        Logger.LogInfo("Patching complete.");
     }
 }

@@ -17,9 +17,9 @@ using BepInEx;
 [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
 public class Main: BaseUnityPlugin
 {
-    private static readonly DirectoryInfo PosterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
+    private static readonly DirectoryInfo _posterFolder = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "Posters"));
 
-    private void Awake()
+    internal void Awake()
     {
 #if SUBNAUTICA
         CreateTabsAndLoadFiles();
@@ -44,7 +44,7 @@ public class Main: BaseUnityPlugin
         CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Landscape", "Landscape", SpriteManager.Get(TechType.PosterAurora), "Posters");
         CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Portrait", "Portrait", SpriteManager.Get(TechType.PosterExoSuit1), "Posters");
 
-        foreach(var directory in Directory.GetDirectories(PosterFolder.FullName))
+        foreach(var directory in Directory.GetDirectories(_posterFolder.FullName))
         {
             var info = Path.Combine(directory, "info.json");
             var icon = Path.Combine(directory, "icon.png");
@@ -71,7 +71,6 @@ public class Main: BaseUnityPlugin
                     {
                         Console.WriteLine($"[{MyPluginInfo.PLUGIN_NAME}] Unable to load Custom Poster from {Path.GetDirectoryName(directory)}!");
                     }
-
                 }
                 catch(Exception)
                 {

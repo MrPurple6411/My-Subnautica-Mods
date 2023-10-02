@@ -24,7 +24,7 @@ internal class Options: ModOptions
         }
         catch(Exception e)
         {
-            Main.logSource.Log(LogLevel.Error, $"Failed to load Config file. Generating fresh file.\n"+ e);
+            Main.Logger.Log(LogLevel.Error, $"Failed to load Config file. Generating fresh file.\n"+ e);
         }
 
         SMLConfig.Order = SMLConfig.Order.OrderBy(p => p.Key).ThenBy(p => p.Value).ToDictionary(t => t.Key, t => t.Value);
@@ -58,7 +58,7 @@ internal class Options: ModOptions
         }
         catch(Exception er)
         {
-            Main.logSource.Log(LogLevel.Error, er);
+            Main.Logger.Log(LogLevel.Error, er);
         }
     }
 

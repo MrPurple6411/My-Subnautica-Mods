@@ -19,7 +19,7 @@ public class Main: BaseUnityPlugin
     internal static ManualLogSource logSource;
     internal static readonly List<TechType> BuilderModules = new();
 
-    private void Awake()
+    internal void Awake()
     {
         logSource = Logger;
         var builderModule = new BuilderModulePrefab();

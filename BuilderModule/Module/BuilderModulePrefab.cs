@@ -11,19 +11,15 @@ using Nautilus.Utility;
 using UnityEngine;
 using static CraftData;
 
-#if SUBNAUTICA
-using Sprite = Atlas.Sprite;
-#endif
-
 internal class BuilderModulePrefab: CustomPrefab
 {
-    private static Sprite Sprite { get; } = ImageUtils.LoadSpriteFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
+    private static Texture2D SpriteTexture { get; } = ImageUtils.LoadTextureFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
 
 	[SetsRequiredMembers]
     public BuilderModulePrefab(): base("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.")
     {
-        if(Sprite != null)
-            Info.WithIcon(Sprite);
+        if(SpriteTexture != null)
+            Info.WithIcon(ImageUtils.LoadSpriteFromTexture(SpriteTexture));
 
 		this.SetUnlock(TechType.BaseUpgradeConsole)
 			.WithPdaGroupCategory(TechGroup.VehicleUpgrades, TechCategory.VehicleUpgrades);

@@ -1,7 +1,6 @@
-﻿using System;
-
 namespace BuildingTweaks.Patches;
 
+using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +42,7 @@ internal class Builder_GetSurfaceType_Patch
 
     [HarmonyPatch(typeof(Builder), nameof(Builder.SetPlaceOnSurface))]
     [HarmonyPrefix]
-    public static void Prefix(RaycastHit hit, ref List<SurfaceType> ___allowedSurfaceTypes, ref Vector3 position, ref Quaternion rotation)
+    public static void Prefix(ref RaycastHit hit, ref List<SurfaceType> ___allowedSurfaceTypes, ref Vector3 position, ref Quaternion rotation)
     {
         var realSurfaceType = hit.normal.y < -0.33f ? SurfaceType.Ceiling : hit.normal.y < 0.33f ? SurfaceType.Wall : SurfaceType.Ground;
         var localScale = Builder.prefab.transform.localScale;
@@ -112,7 +111,7 @@ internal class Builder_GetSurfaceType_Patch
         
         if(__instance.passYbounds != null)
             __instance.passYbounds.UpdateWavingScale(tr.localScale);
-        else if(__instance.wavingScaler != null)
+		else if (__instance.wavingScaler != null)
             __instance.wavingScaler.UpdateWavingScale(tr.localScale);
     }
 }

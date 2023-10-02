@@ -20,13 +20,13 @@ internal class PowerRelay_AddInboundPower
             if (__instance == null || __instance.inboundPowerSources == null ||
                 __instance.inboundPowerSources.Contains(powerInterface))
                 return;
-            Main.logSource.Log(LogLevel.Debug,
+            Main.Logger.Log(LogLevel.Debug,
                 $"{Regex.Replace(__instance.gameObject.name, @"\(.*?\)", "")} AddInboundPower: {Regex.Replace(powerInterface.GetType().Name, @"\(.*?\)", "")}");
             Main.SMLConfig.doSort = true;
         }
         catch (Exception e)
         {
-            Main.logSource.Log(LogLevel.Error, e);
+            Main.Logger.Log(LogLevel.Error, e);
         }
     }
 
@@ -52,7 +52,7 @@ internal class PowerRelay_AddInboundPower
         }
         catch (Exception e)
         {
-            Main.logSource.Log(LogLevel.Error, e);
+            Main.Logger.Log(LogLevel.Error, e);
         }
     }
 
@@ -88,7 +88,7 @@ internal class PowerRelay_AddInboundPower
                 var order = kvp.Key;
                 if (order > Main.SMLConfig.Order.Count || order < 1)
                 {
-                    Main.logSource.Log(LogLevel.Error,
+                    Main.Logger.Log(LogLevel.Error,
                         kvp.Key +
                         " has an invalid order number.  Please fix this and try again.  (Must be within 1-" +
                         Main.SMLConfig.Order.Count + ")");
@@ -100,7 +100,7 @@ internal class PowerRelay_AddInboundPower
         }
 
         name = Regex.Replace(name, @"\(.*?\)", "");
-        Main.logSource.Log(LogLevel.Info, "New power source found: " + name);
+        Main.Logger.Log(LogLevel.Info, "New power source found: " + name);
         Main.SMLConfig.Order.Add(Main.SMLConfig.Order.Count + 1, name);
         Main.SMLConfig.Save();
         return Main.SMLConfig.Order.Count + 1;

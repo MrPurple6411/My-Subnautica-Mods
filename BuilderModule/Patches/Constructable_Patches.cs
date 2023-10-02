@@ -1,4 +1,3 @@
-#pragma warning disable 618
 namespace BuilderModule.Patches;
 
 using HarmonyLib;
@@ -227,7 +226,8 @@ internal class Deconstruct_Patch
         pickupable.Initialize();
         var item = new InventoryItem(pickupable);
         itemsContainer.UnsafeAdd(item);
-        var name = Language.main.GetOrFallback(techType.AsString(), techType.AsString());
+		var key = techType.AsString();
+		var name = Language.main.GetOrFallback(key, key);
         ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
         uGUI_IconNotifier.main.Play(techType, uGUI_IconNotifier.AnimationType.From);
         pickupable.PlayPickupSound();
