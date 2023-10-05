@@ -31,7 +31,7 @@ public class SeamothHullModule4 : CustomPrefab
 		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 
 		if (GetBuilderIndex(TechType.VehicleHullModule3, out var group, out var category, out _))
-			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.VehicleHullModule3);
+			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.VehicleHullModule3).WithAnalysisTech(null);
 
 		SetGameObject(GetGameObjectAsync);
 

@@ -2,6 +2,7 @@ namespace CustomHullPlates.HullPlate;
 
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
@@ -16,6 +17,8 @@ public class BasicHullPlatePrefab: CustomPrefab
     public BasicHullPlatePrefab(string classId, string friendlyName, string description, Texture2D hullPlateIcon, Texture2D hullPlateTexture) : 
 		base(classId, friendlyName, description, ImageUtils.LoadSpriteFromTexture(hullPlateIcon))
     {
+		
+		KnownTechHandler.UnlockOnStart(Info.TechType);
 		_hullPlateTexture = hullPlateTexture;
 		this.SetPdaGroupCategory(TechGroup.Miscellaneous, TechCategory.MiscHullplates).SetBuildable();
 		this.SetRecipe(new(new Ingredient(TechType.Titanium, 1), new Ingredient(TechType.Glass, 1)));

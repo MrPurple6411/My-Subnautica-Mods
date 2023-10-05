@@ -25,6 +25,7 @@ public class BasicPostersPrefab : CustomPrefab
 		_orientation = orientation;
 		_posterTexture = posterTexture;
 
+		KnownTechHandler.UnlockOnStart(Info.TechType);
 		var groupName = "Custom_Posters";
 		if (!EnumHandler.TryGetValue(groupName, out TechGroup group))
 		{

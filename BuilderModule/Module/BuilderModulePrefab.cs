@@ -21,7 +21,7 @@ internal class BuilderModulePrefab: CustomPrefab
         if(SpriteTexture != null)
             Info.WithIcon(ImageUtils.LoadSpriteFromTexture(SpriteTexture));
 
-		this.SetUnlock(TechType.BaseUpgradeConsole)
+		this.SetUnlock(TechType.BaseUpgradeConsole).WithAnalysisTech(null)
 			.WithPdaGroupCategory(TechGroup.VehicleUpgrades, TechCategory.VehicleUpgrades);
 
 		this.SetRecipe(new()
