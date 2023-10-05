@@ -88,7 +88,7 @@ public class Main: BaseUnityPlugin
 		CraftDataHandler.SetBackgroundType(fabricatorPrefab.Info.TechType, CraftData.BackgroundType.PlantAir);
 
 		if (CraftData.GetBuilderIndex(TechType.Workbench, out var group, out var category, out _))
-			fabricatorPrefab.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench).SetBuildable();
+			fabricatorPrefab.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench).SetBuildable().WithAnalysisTech(null);
 
 		CraftDataHandler.SetRecipeData(fabricatorPrefab.Info.TechType, CraftDataHandler.GetRecipeData(TechType.Fabricator));
 
@@ -121,10 +121,14 @@ public class Main: BaseUnityPlugin
 
 	private static void CreatePeicePrefab(TechType techType, TechType kitTechType)
 	{
-		var cloneBasePiece = new CustomPrefab($"CBP_{techType}", $"{Language.main.Get(techType)}", "Built from a Kit!", SpriteManager.Get(techType));
 
+
+		var icon = SpriteManager.Get(techType);
+		var cloneBasePiece = new CustomPrefab($"CBP_{techType}", $"{Language.main.Get(techType)}", "Built from a Kit!", icon);
+
+		KnownTechHandler.SetAnalysisTechEntry(techType, new[] { cloneBasePiece.Info.TechType });
 		if (GetBuilderIndex(techType, out var group, out var category, out _))
-			cloneBasePiece.SetUnlock(kitTechType).WithPdaGroupCategoryAfter(group, category, techType).SetBuildable();
+			cloneBasePiece.SetUnlock(kitTechType).WithPdaGroupCategoryAfter(group, category, techType).SetBuildable().WithAnalysisTech(null);
 
 		CraftDataHandler.SetRecipeData(cloneBasePiece.Info.TechType, new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(kitTechType, 1) } });
 		CraftDataHandler.SetBackgroundType(cloneBasePiece.Info.TechType, CraftData.BackgroundType.PlantAir);
@@ -136,13 +140,14 @@ public class Main: BaseUnityPlugin
 	private void CreateKitPrefab(string FabricatorMenu, TechType techType, out TechType kitTechType)
 	{
 		var kitPrefab = new CustomPrefab($"Kit_{techType}", $"{Language.main.Get(techType)} Kit", "Super Compressed Base in a Kit", SpriteManager.Get(techType));
-		kitPrefab.SetGameObject(() => global::Utils.CreateGenericLoot(kitPrefab.Info.TechType));
+		kitPrefab.SetGameObject(() => { var obj = global::Utils.CreateGenericLoot(kitPrefab.Info.TechType); obj.SetActive(false); return obj; });
 		kitPrefab.SetRecipe(CraftDataHandler.GetRecipeData(techType) ?? new RecipeData() { craftAmount = 0 })
 			.WithFabricatorType(purpleKitFabricator)
 			.WithStepsToFabricatorTab(new[] { FabricatorMenu })
 			.WithCraftingTime(10f);
 
-		var scanningGadget = kitPrefab.SetUnlock(techType);
+		KnownTechHandler.SetAnalysisTechEntry(techType, new[] { kitPrefab.Info.TechType });
+		var scanningGadget = kitPrefab.SetUnlock(techType).WithAnalysisTech(null);
 
 		if (GetBuilderIndex(techType, out var originalGroup, out var originalCategory, out _))
 		{
