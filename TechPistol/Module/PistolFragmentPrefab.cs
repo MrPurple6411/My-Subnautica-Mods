@@ -5,46 +5,46 @@ using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UWE;
 using static CraftData;
-#if SUBNAUTICA
-using Sprite = Atlas.Sprite;
-#endif
 
-internal class PistolFragmentPrefab: CustomPrefab
+internal class PistolFragmentPrefab
 {
-
     private static GameObject processedPrefab;
     private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
     private static readonly int MetallicGlossMap = Shader.PropertyToID("_MetallicGlossMap");
     private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
     public bool AddScannerEntry => true;
-    public int FragmentsToScan => 1;
+    public int FragmentsToScan => 3;
     public float TimeToScanFragment => 5f;
     public bool DestroyFragmentOnScan => true;
     public TechType RequiredForUnlock => Info.TechType;
     public bool UnlockedAtStart => false;
 
-	//TODO: Finish setting up the fragments. [SetsRequiredMembers]
-    public PistolFragmentPrefab() : base(
-        "TechPistolFragment",
-        "Tech Pistol",
-        "Incomplete or Broken fragment of an advanced pistol of unknown origins.",
-		ImageUtils.LoadSpriteFromTexture(Main.assetBundle.LoadAsset<Texture2D>("Icon"))
-	)
+	public PrefabInfo Info { get; init; }
+
+	public CustomPrefab Prefab { get; init; }
+
+    public PistolFragmentPrefab()
     {
+		Info = PrefabInfo.WithTechType("TechPistolFragment", "Tech Pistol", 
+			"Incomplete or Broken fragment of an advanced pistol of unknown origins.")
+			.WithIcon(ImageUtils.LoadSpriteFromTexture(Main.assetBundle.LoadAsset<Texture2D>("Icon")));
+		Prefab = new CustomPrefab(Info);
+		Prefab.SetGameObject(GetGameObject);
+		Prefab.SetUnlock(RequiredForUnlock, FragmentsToScan)
+			.WithAnalysisTech(null)
+			.WithScannerEntry(TimeToScanFragment, true, null, true);
+		Prefab.SetSpawns(entityInfo: EntityInfo, BiomesToSpawnIn);
+	}
 
-    }
+    public LootDistributionData.BiomeData[] BiomesToSpawnIn => GetBiomeDistribution();
 
-    public  List<LootDistributionData.BiomeData> BiomesToSpawnIn => GetBiomeDistribution();
-
-    private static List<LootDistributionData.BiomeData> GetBiomeDistribution()
+    private static LootDistributionData.BiomeData[] GetBiomeDistribution()
     {
-        var biomeDatas = new List<LootDistributionData.BiomeData>()
+        var biomeDatas = new LootDistributionData.BiomeData[]
 		{
 #if SUBNAUTICA
             new(){ biome = BiomeType.DeepGrandReef_AbandonedBase_Interior, count = 1, probability = 0.2f },

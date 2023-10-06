@@ -1,7 +1,8 @@
-﻿#if !EDITOR
+#if !EDITOR
 namespace TechPistol.Module;
 
 using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using Nautilus.Utility;
 
@@ -9,18 +10,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static CraftData;
 
-#if SUBNAUTICA
-using RecipeData = Nautilus.Crafting.TechData;
-using Sprite = Atlas.Sprite;
-#endif
-
-internal class PistolPrefab: Equipable
+internal class PistolPrefab
 {
-    private static readonly List<TechType> modelsToMake = new() { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
+	private const string FriendlyName = "Tech Pistol";
+	private static readonly List<TechType> modelsToMake = new() { TechType.Battery, TechType.PrecursorIonBattery, TechType.PrecursorIonPowerCell, TechType.PowerCell };
 
-    public PistolPrefab() : base("TechPistol", "Tech Pistol", "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
+	public PrefabInfo Info { get; init; }
+	public CustomPrefab Prefab { get; init; }
+
+    public PistolPrefab() 
     {
+		Info = PrefabInfo.WithTechType("TechPistol", FriendlyName, "The Tech Pistol comes with a wide array of functionality including: Explosive Cannon, Laser Pistol, Target Health Detection and the Incredible Resizing Ray")
+			.WithIcon(ImageUtils.LoadSpriteFromTexture(Main.assetBundle.LoadAsset<Texture2D>("Icon"))).WithSizeInInventory(SizeInInventory);
+
+		Prefab = new CustomPrefab(Info);
+		Prefab.SetUnlock(RequiredForUnlock)
+			.WithAnalysisTech(null, unlockMessage: DiscoverMessage)
+			.WithPdaGroupCategory(GroupForPDA, CategoryForPDA);
+		Prefab.SetEquipment(EquipmentType)
+			.WithQuickSlotType(QuickSlotType);
+		Prefab.SetRecipe(GetBlueprintRecipe())
+			.WithCraftingTime(CraftingTime)
+			.WithFabricatorType(FabricatorType)
+			.WithStepsToFabricatorTab(StepsToFabricatorTab);
+
+		Prefab.SetGameObject(GetGameObjectAsync);
+
     }
 
     private static GameObject processedPrefab;
@@ -32,20 +49,18 @@ internal class PistolPrefab: Equipable
     private static HashSet<TechType> PowerCellChargerCompatibleTech => PowerCellCharger.compatibleTech;
     private static List<TechType> CompatibleTech => BatteryChargerCompatibleTech.Concat(PowerCellChargerCompatibleTech).ToList();
 
-    public override EquipmentType EquipmentType => EquipmentType.Hand;
-    public override Vector2int SizeInInventory => new(2, 2);
-    public override TechGroup GroupForPDA => TechGroup.Personal;
-    public override TechCategory CategoryForPDA => TechCategory.Tools;
-    public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-    public override string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
-    public override float CraftingTime => 5f;
-    public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
+    public EquipmentType EquipmentType => EquipmentType.Hand;
+    public Vector2int SizeInInventory => new(2, 2);
+    public TechGroup GroupForPDA => TechGroup.Personal;
+    public TechCategory CategoryForPDA => TechCategory.Tools;
+    public CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
+    public string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
+    public float CraftingTime => 5f;
+    public QuickSlotType QuickSlotType => QuickSlotType.Selectable;
 
-    public override TechType RequiredForUnlock => Main.PistolFragment.TechType;
+    public TechType RequiredForUnlock => Main.PistolFragment.Info.TechType;
 
-    public override bool UnlockedAtStart => false;
-
-    public override List<TechType> CompoundTechsForUnlock => GetUnlocks();
+    public List<TechType> CompoundTechsForUnlock => GetUnlocks();
 
     private List<TechType> GetUnlocks()
     {
@@ -59,9 +74,9 @@ internal class PistolPrefab: Equipable
         return list;
     }
 
-    public override string DiscoverMessage => $"{FriendlyName} Unlocked!";
+    public string DiscoverMessage => $"{FriendlyName} Unlocked!";
 
-    public override IEnumerator GetGameObjectAsync(IOut<GameObject> pistol)
+    public IEnumerator GetGameObjectAsync(IOut<GameObject> pistol)
     {
         if(processedPrefab is null)
         {
@@ -122,8 +137,8 @@ internal class PistolPrefab: Equipable
 
             gameObject.GetComponent<Rigidbody>().detectCollisions = false;
             foreach(var uniqueIdentifier in gameObject.GetComponentsInChildren<UniqueIdentifier>())
-                uniqueIdentifier.classId = ClassID;
-            gameObject.GetComponent<TechTag>().type = TechType;
+                uniqueIdentifier.classId = Info.ClassID;
+            gameObject.GetComponent<TechTag>().type = Info.TechType;
             gameObject.GetComponent<SkyApplier>().renderers = gameObject.GetComponentsInChildren<Renderer>(true);
 
             processedPrefab = gameObject;
@@ -136,7 +151,7 @@ internal class PistolPrefab: Equipable
         pistol.Set(copy);
     }
 
-    protected override RecipeData GetBlueprintRecipe()
+    protected RecipeData GetBlueprintRecipe()
     {
         return new()
         {
@@ -149,11 +164,6 @@ internal class PistolPrefab: Equipable
                 new(TechType.EnameledGlass, 1)
             }
         };
-    }
-
-    protected override Sprite GetItemSprite()
-    {
-        return ImageUtils.LoadSpriteFromTexture(Main.assetBundle.LoadAsset<Texture2D>("Icon"));
     }
 }
 #endif

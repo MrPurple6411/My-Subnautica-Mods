@@ -21,19 +21,23 @@ public class Main: BaseUnityPlugin
         "Assets/TechPistolBZ";
 #endif
 
-    private static Assembly assembly = Assembly.GetExecutingAssembly();
-    private static string modPath = Path.GetDirectoryName(assembly.Location);
-    internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
+    private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+    private static readonly string _modPath = Path.GetDirectoryName(_assembly.Location);
+    internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(_modPath, bundlePath));
     internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-    internal static PistolFragmentPrefab PistolFragment { get; } = new();
-    internal static PistolPrefab Pistol { get; } = new();
+    internal static PistolFragmentPrefab PistolFragment { get; private set; }
+    internal static PistolPrefab Pistol { get; private set; }
 
     private void Awake()
     {
-        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+		PistolFragment = new();
+		PistolFragment.Prefab.Register();
 
-        PistolFragment.Patch();
-        Pistol.Patch();
-    }
+		Pistol = new();
+        Pistol.Prefab.Register();
+
+		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+		Logger.LogInfo($"TechPistol loaded");
+	}
 }
 #endif
