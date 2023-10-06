@@ -16,46 +16,52 @@ public class Inventory_Pickup
 
     [HarmonyPostfix]
     public static void Postfix(Pickupable pickupable)
-    {
-        if(newGame && Main.SMLConfig.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
-        {
-            CoroutineHost.StartCoroutine(GiveHardcoreScanner());
-            newGame = false;
-            Nautilus.Utility.SaveUtils.RegisterOnQuitEvent(() => newGame = true);
-        }
+	{
+		if (newGame && Main.SMLConfig.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
+		{
+			CoroutineHost.StartCoroutine(GiveHardcoreScanner(pickupable));
+			newGame = false;
+			Nautilus.Utility.SaveUtils.RegisterOnQuitEvent(() => newGame = true);
+			return;
+		}
+		
+		ProcessPickupable(pickupable);
+	}
 
-        var techType = pickupable.GetTechType();
-        var entryData = PDAScanner.GetEntryData(techType);
-        var gameObject = pickupable.gameObject;
-        if(Main.SMLConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
-        {
-            if(!PDAScanner.GetPartialEntryByKey(techType, out var entry))
-            {
-                entry = PDAScanner.Add(techType, 1);
-            }
-            if(entry != null)
-            {
-                PDAScanner.partial.Remove(entry);
-				if(!PDAScanner.complete.Contains(techType)) 
+	private static void ProcessPickupable(Pickupable pickupable)
+	{
+		var techType = pickupable.GetTechType();
+		var entryData = PDAScanner.GetEntryData(techType);
+		var gameObject = pickupable.gameObject;
+		if (Main.SMLConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+		{
+			if (!PDAScanner.GetPartialEntryByKey(techType, out var entry))
+			{
+				entry = PDAScanner.Add(techType, 1);
+			}
+			if (entry != null)
+			{
+				PDAScanner.partial.Remove(entry);
+				if (!PDAScanner.complete.Contains(techType))
 					PDAScanner.complete.Add(entry.techType);
-                PDAScanner.NotifyRemove(entry);
-                PDAScanner.Unlock(entryData, true, true);
-                if(!Main.SMLConfig.Hardcore)
-                    KnownTech.Add(techType, true);
-                if(gameObject != null)
-                {
-                    gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
-                }
-            }
-        }
+				PDAScanner.NotifyRemove(entry);
+				PDAScanner.Unlock(entryData, true, true);
+				if (!Main.SMLConfig.Hardcore)
+					KnownTech.Add(techType, true);
+				if (gameObject != null)
+				{
+					gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+		}
 
-        if(!Main.SMLConfig.Hardcore && entryData == null)
-        {
-            KnownTech.Add(techType, true);
-        }
-    }
+		if (!Main.SMLConfig.Hardcore && entryData == null)
+		{
+			KnownTech.Add(techType, true);
+		}
+	}
 
-    private static IEnumerator GiveHardcoreScanner()
+	private static IEnumerator GiveHardcoreScanner(Pickupable pickupable)
     {
         var task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
         yield return task1;
@@ -90,5 +96,7 @@ public class Inventory_Pickup
         scannerTool?.energyMixin?.batterySlot?.AddItem(pickupable2);
 
         Inventory.main.container.AddItem(pickupable1);
-    }
+
+		ProcessPickupable(pickupable);
+	}
 }
