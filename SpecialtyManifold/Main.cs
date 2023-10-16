@@ -1,17 +1,14 @@
 namespace SpecialtyManifold;
 
-using HarmonyLib;
-using Nautilus.Handlers;
-using Configuration;
-using System.Reflection;using BepInEx;
+using HarmonyLib;using BepInEx;
+using SpecialtyManifold.Patches;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
 public class Main: BaseUnityPlugin
 {
-    internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
     private void Awake()
     {
-        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+        Harmony.CreateAndPatchAll(typeof(Player_Update_Patch), MyPluginInfo.PLUGIN_GUID);
     }
 }
