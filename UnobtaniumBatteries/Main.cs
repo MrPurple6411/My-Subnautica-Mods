@@ -11,6 +11,7 @@ using MonoBehaviours;
 using Nautilus.Handlers;
 #endifusing BepInEx;
 using Nautilus.Assets;
+using CustomBatteries.API;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
@@ -33,14 +34,14 @@ public class Main: BaseUnityPlugin
 
     private static void SetupIngredientsInventorySettings()
     {
-        //TODO: Fix waterpark params
-        /*
+		//TODO: Fix waterpark params
+		/*
         WaterParkCreature.waterParkCreatureParameters[TechType.ReaperLeviathan] = new WaterParkCreatureParameters(0.01f, 0.06f, 1f, 3f, false);
         WaterParkCreature.waterParkCreatureParameters[TechType.GhostLeviathan] = new WaterParkCreatureParameters(0.01f, 0.06f, 1f, 3f, false);
         WaterParkCreature.waterParkCreatureParameters[TechType.Warper] = new WaterParkCreatureParameters(0.05f, 0.2f, 1f, 3f, false);
         */
 
-        LanguageHandler.SetTechTypeName(TechType.ReaperLeviathan, "Reaper Leviathan");
+		LanguageHandler.SetTechTypeName(TechType.ReaperLeviathan, "Reaper Leviathan");
         LanguageHandler.SetTechTypeTooltip(TechType.ReaperLeviathan, "The Reaper Leviathan is an aggressive leviathan class species usually found swimming in large open areas.");
 
         LanguageHandler.SetTechTypeName(TechType.Warper, "Warper");
@@ -85,7 +86,7 @@ public class Main: BaseUnityPlugin
 #endif
 
             CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "battery_icon.png")),
-            CBModelData = new CustomModelData()
+            CBModelData = new CBModelData()
             {
                 CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_skin.png")),
                 CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_normal.png")),
@@ -109,7 +110,7 @@ public class Main: BaseUnityPlugin
             UnlocksWith = UnobtaniumBattery.TechType,
 
             CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cell_icon.png")),
-            CBModelData = new CustomModelData()
+            CBModelData = new CBModelData()
             {
                 CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_skin.png")),
                 CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_normal.png")),
