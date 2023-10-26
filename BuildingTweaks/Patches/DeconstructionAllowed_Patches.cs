@@ -8,7 +8,7 @@ public static class Constructable_DeconstructionAllowed_Patch
     [HarmonyPrefix]
     public static bool Prefix(ref bool __result)
     {
-        if(Main.SMLConfig.FullOverride)
+        if(Main.Config.FullOverride)
         {
             __result = true;
             return false;
@@ -23,7 +23,7 @@ public static class BaseDeconstructable_DeconstructionAllowed_Patch
     [HarmonyPrefix]
     public static bool Prefix(ref bool __result)
     {
-        if(Main.SMLConfig.FullOverride)
+        if(Main.Config.FullOverride)
         {
             __result = true;
             return false;

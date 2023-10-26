@@ -22,7 +22,7 @@ internal class Builder_TryPlace_Patch
 
         if(matcher.IsInvalid)
         {
-            Main.logSource.LogError($"Cannot find patch location 1 in Builder.TryPlace");
+            Main.Logger.LogError($"Cannot find patch location 1 in Builder.TryPlace");
             return instructions;
         }
 
@@ -37,7 +37,7 @@ internal class Builder_TryPlace_Patch
 
         if(matcher.IsInvalid)
         {
-            Main.logSource.LogError($"Cannot find patch location 2 in Builder.TryPlace");
+            Main.Logger.LogError($"Cannot find patch location 2 in Builder.TryPlace");
             return instructions;
         }
 
@@ -50,7 +50,7 @@ internal class Builder_TryPlace_Patch
     {
         var baseGhost = constructableBase.gameObject.GetComponentInChildren<BaseGhost>();
 
-        if(Main.SMLConfig.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
+        if(Main.Config.AttachToTarget && baseGhost != null && baseGhost.TargetBase == null && Builder.placementTarget != null)
         {
             var placementTarget = UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget;
             if(placementTarget.TryGetComponent(out LargeWorldEntity largeWorldEntity))
@@ -89,7 +89,7 @@ internal class Builder_TryPlace_Patch
             largeWorldEntity.initialCellLevel = LargeWorldEntity.CellLevel.Global;
         }
 
-        if(Main.SMLConfig.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
+        if(Main.Config.AttachToTarget && Builder_Update_Patches.Freeze && Builder.ghostModel.transform.parent is null)
         {
             var aimTransform = Builder.GetAimTransform();
             if(Physics.Raycast(aimTransform.position, aimTransform.forward, out var hit, Builder.placeMaxDistance, Builder.placeLayerMask.value, QueryTriggerInteraction.Ignore))
@@ -99,7 +99,7 @@ internal class Builder_TryPlace_Patch
             }
         }
 
-        if(Main.SMLConfig.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
+        if(Main.Config.AttachToTarget || (Builder.placementTarget is not null && builtObject.GetComponent<ConstructableBase>() is null))
         {
             var placementTarget = Builder.placementTarget is not null ? UWE.Utils.GetEntityRoot(Builder.placementTarget) ?? Builder.placementTarget : null;
             GameObject finalTarget = GetFinalTarget(placementTarget);
@@ -124,7 +124,7 @@ internal class Builder_TryPlace_Patch
                 builtObject.transform.SetParent(finalTarget.transform);
             }
 
-            Main.SMLConfig.AttachToTarget = false;
+            Main.Config.AttachToTarget = false;
         }
 
 

@@ -10,12 +10,12 @@ using BepInEx.Logging;
 [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
 public class Main: BaseUnityPlugin
 {
-    public static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-    internal static ManualLogSource logSource;
+    public static new SMLConfig Config { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+    internal static new ManualLogSource Logger { get; private set; }
 
     private void Awake()
     {
-        logSource = Logger;
+		Logger = base.Logger;
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

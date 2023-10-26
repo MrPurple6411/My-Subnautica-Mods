@@ -25,7 +25,7 @@ internal class BaseGhost_Finish_Patch
 
         if(!matcher.IsValid)
         {
-            Main.logSource.LogError("Cannot find patch location in BaseGhost.Finish");
+            Main.Logger.LogError("Cannot find patch location in BaseGhost.Finish");
             return instructions;
         }
 

@@ -32,12 +32,12 @@ internal class Builder_UpdateAllowed_Patch
         if (blacklist.Any(techType => Builder.constructableTechType.AsString().EndsWith(techType.AsString())))
             return;
 
-        if(Builder_Update_Patches.UpdatePlacement && (Main.SMLConfig.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
+        if(Builder_Update_Patches.UpdatePlacement && (Main.Config.AttachToTarget || (Builder.placementTarget != null && Builder.prefab != null && Builder.prefab.GetComponentInChildren<ConstructableBase>() is null)))
         {
             __result = Builder.CheckAsSubModule(out _);
         }
 
-        if(Main.SMLConfig.FullOverride)
+        if(Main.Config.FullOverride)
         {
             __result = true;
         }
