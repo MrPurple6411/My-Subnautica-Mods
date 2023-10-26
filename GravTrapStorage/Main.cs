@@ -35,23 +35,23 @@ public class Main: BaseUnityPlugin
     public static IEnumerator Postfix(IEnumerator result)
     {
         yield return result;
-        logSource.Log(LogLevel.Info, $" Starting Coroutine.");
+        logSource.Log(LogLevel.Debug, $" Starting Coroutine.");
         yield return ModifyGravspherePrefab();
     }
     
     public static IEnumerator ModifyGravspherePrefab()
     {
-        logSource.Log(LogLevel.Info, $" Attempting to Attaching Storage");
+        logSource.Log(LogLevel.Debug, $" Attempting to Attaching Storage");
         CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(TechType.Gravsphere, false);
         yield return request;
 
         var prefab = request.GetResult();
-        logSource.Log(LogLevel.Info, $" Ensuring COI");
+        logSource.Log(LogLevel.Debug, $" Ensuring COI");
         var coi = prefab.transform.GetChild(0)?.gameObject.EnsureComponent<ChildObjectIdentifier>();
         
         if (coi)
         {
-            logSource.Log(LogLevel.Info, $"Attaching Storage");
+            logSource.Log(LogLevel.Debug, $"Attaching Storage");
             coi.classId = "GravTrapStorage";
             var storageContainer = coi.gameObject.EnsureComponent<StorageContainer>();
             storageContainer.prefabRoot = prefab;
