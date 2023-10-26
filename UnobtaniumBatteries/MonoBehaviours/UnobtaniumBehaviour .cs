@@ -18,8 +18,27 @@ internal class UnobtaniumBehaviour : MonoBehaviour
 
 	public void Awake()
 	{
-		_renderer = gameObject.GetComponentInChildren<Renderer>();
 		_battery = gameObject.GetComponent<Battery>();
+		if(_battery != null)
+		{
+			_renderer = gameObject.GetComponentInChildren<Renderer>(true);
+		}
+		else if (gameObject.GetComponentInParent<Charger>() != null)
+		{
+			_renderer = gameObject.GetComponent<Renderer>();
+		}
+		else
+		{
+			foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>(true))
+			{
+				if (renderer.gameObject.name == "UnobtaniumCell_model" || renderer.gameObject.name == "UnobtaniumBattery_model")
+				{
+					_renderer = renderer;
+					break;
+				}
+			}
+		}
+
 		_playerTool = gameObject.GetComponentInParent<PlayerTool>();
 		_vehicle = gameObject.GetComponentInParent<Vehicle>();
 		_energyMixin = gameObject.GetComponentInParent<EnergyMixin>();
@@ -47,7 +66,13 @@ internal class UnobtaniumBehaviour : MonoBehaviour
 			_timer = 0.0f;
 		}
 
-		if(_playerTool != null)
+		if (_renderer != null)
+		{
+			_renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(_currentStrength, _nextStrength, _timer / ChangeTime));
+			_renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(_currentStrength, _nextStrength, _timer / ChangeTime));
+		}
+
+		if (_playerTool != null)
 		{
 			switch (_playerTool)
 			{
@@ -96,12 +121,6 @@ internal class UnobtaniumBehaviour : MonoBehaviour
 
 			return;
 		}
-
-		if (_renderer == null) return;
-
-		_renderer.material.SetFloat(ShaderPropertyID._GlowStrength, Mathf.Lerp(_currentStrength, _nextStrength, _timer / ChangeTime));
-		_renderer.material.SetFloat(ShaderPropertyID._GlowStrengthNight, Mathf.Lerp(_currentStrength, _nextStrength, _timer / ChangeTime));
-
 	}
 
 	public void OnDestroy()

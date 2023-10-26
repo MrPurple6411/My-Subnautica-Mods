@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using Nautilus.Utility;
 using UnityEngine;
 using MonoBehaviours;
-#if SUBNAUTICA
-using Nautilus.Handlers;
-#endifusing BepInEx;
-using Nautilus.Assets;
+using Nautilus.Handlers;using BepInEx;
 using CustomBatteries.API;
+using BepInEx.Logging;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
+[BepInDependency("com.mrpurple6411.CustomBatteries", BepInDependency.DependencyFlags.HardDependency)]
 public class Main: BaseUnityPlugin
 {
     private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();
@@ -93,14 +92,25 @@ public class Main: BaseUnityPlugin
                 CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_spec.png")),
                 CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "battery_illum.png")),
                 CustomIllumStrength = 1f,
-            },
+				UseIonModelsAsBase = true,
+			},
 
             EnhanceGameObject = EnhanceGameObject
         };
         UnobtaniumBattery.Patch();
         unobtaniumBatteries.Add(UnobtaniumBattery.TechType);
 
-        var UnobtaniumCell = new CbPowerCell()
+		var skinPath = Path.Combine(AssetsFolder, "cell_skin.png");
+		var normalPath = Path.Combine(AssetsFolder, "cell_normal.png");
+		var specPath = Path.Combine(AssetsFolder, "cell_spec.png");
+		var illumPath = Path.Combine(AssetsFolder, "cell_illum.png");
+
+		var skin = ImageUtils.LoadTextureFromFile(skinPath);
+		var normal = ImageUtils.LoadTextureFromFile(normalPath);
+		var spec = ImageUtils.LoadTextureFromFile(specPath);
+		var illum = ImageUtils.LoadTextureFromFile(illumPath);
+
+		var UnobtaniumCell = new CbPowerCell()
         {
             EnergyCapacity = 1000000,
             ID = "UnobtaniumCell",
@@ -112,15 +122,17 @@ public class Main: BaseUnityPlugin
             CustomIcon = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cell_icon.png")),
             CBModelData = new CBModelData()
             {
-                CustomTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_skin.png")),
-                CustomNormalMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_normal.png")),
-                CustomSpecMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_spec.png")),
-                CustomIllumMap = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "cell_illum.png")),
+                CustomTexture = skin,
+                CustomNormalMap = normal,
+                CustomSpecMap = spec,
+				CustomIllumMap = illum,
                 CustomIllumStrength = 1f,
+				UseIonModelsAsBase = true,
             },
 
             EnhanceGameObject = EnhanceGameObject
-        };
+		};
+
         UnobtaniumCell.Patch();
         unobtaniumBatteries.Add(UnobtaniumCell.TechType);
     }
