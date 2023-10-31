@@ -56,18 +56,14 @@ public class TooltipFactory_WriteIngredients
             var techType = ingredients[i].techType;
             if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
             {
-#if SUBNAUTICA
-                KnownTech.Add(techType);
-#elif BELOWZERO
                 KnownTech.Add(techType, true);
-#endif
             }
 
-            if (KnownTech.Contains(techType) || !GameModeUtils.RequiresBlueprints()) continue;
+            if (KnownTech.Contains(techType) || !GameModeManager.GetOption<bool>(GameOption.TechRequiresUnlocking)) continue;
             var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
             if (!icons.Contains(icon)) continue;
             icons.Remove(icon);
-            var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.SMLConfig.UnKnownTitle };
+            var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
             icons.Add(tooltipIcon);
         }
     }

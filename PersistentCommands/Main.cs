@@ -8,7 +8,7 @@ using Nautilus.Handlers;using BepInEx;
 [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
 public class Main: BaseUnityPlugin
 {
-    internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+    internal static SMLConfig Config { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
 
     private void Awake()
     {

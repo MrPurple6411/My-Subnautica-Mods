@@ -12,7 +12,7 @@ public class PDAScanner_Initialize
     [HarmonyAfter(new[] { "com.snmodding.nautilus" })]
     public static void Postfix()
     {
-        if(Main.SMLConfig.Hardcore)
+        if(Main.Config.Hardcore)
         {
             var map = PDAScanner.mapping;
             foreach(TechType techType in Enum.GetValues(typeof(TechType)))

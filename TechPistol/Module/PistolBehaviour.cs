@@ -1,4 +1,4 @@
-﻿namespace TechPistol.Module;
+namespace TechPistol.Module;
 
 using System.Linq;
 using UnityEngine;
@@ -44,9 +44,15 @@ internal class PistolBehaviour: PlayerTool, IProtoEventListener
     internal static float lastShotDamage;
 
 
-    private bool PowerCheck => energyMixin.charge > 0f || !GameModeUtils.RequiresPower();
+    private bool PowerCheck => energyMixin.charge > 0f ||
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			;
 
-    public const string GunMain = "HandGun/GunMain";
+	public const string GunMain = "HandGun/GunMain";
     public const string Point = GunMain + "/GunCylinder/Point";
     public const string CannonMode = Point + "/CannonMode";
     public const string LaserMode = Point + "/LaserMode";
@@ -262,7 +268,13 @@ internal class PistolBehaviour: PlayerTool, IProtoEventListener
                 {
                     entityRoot.transform.localScale = Vector3.one;
                 }
-                else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(1f * Main.SMLConfig.ScaleUpspeed) || !GameModeUtils.RequiresPower()))
+                else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && ScaleBig && (energyMixin.ConsumeEnergy(1f * Main.SMLConfig.ScaleUpspeed) ||
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			))
                 {
                     par[5].gameObject.transform.Rotate(Vector3.forward * 5f);
                     var changeSpeed = Main.SMLConfig.ScaleUpspeed;
@@ -292,7 +304,12 @@ internal class PistolBehaviour: PlayerTool, IProtoEventListener
                 else if (GameInput.GetButtonHeld(GameInput.Button.RightHand) &&
                          ScaleSmall &&
                          (energyMixin.ConsumeEnergy(1f * Main.SMLConfig.ScaleDownspeed) ||
-                          !GameModeUtils.RequiresPower()))
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			))
                 {
                     par[6].gameObject.transform.Rotate(-Vector3.forward * 5f);
 
@@ -364,7 +381,13 @@ internal class PistolBehaviour: PlayerTool, IProtoEventListener
         {
             OnRightHandUp();
         }
-        else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.SMLConfig.LaserDamage * Time.deltaTime) || !GameModeUtils.RequiresPower()))
+        else if(GameInput.GetButtonHeld(GameInput.Button.RightHand) && LaserFiring && (energyMixin.ConsumeEnergy(Main.SMLConfig.LaserDamage * Time.deltaTime) ||
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			))
         {
             par[4].gameObject.transform.Rotate(Vector3.forward * 5f);
             if (!Targeting.GetTarget(Player.main.gameObject, Main.SMLConfig.TargetingRange, out var go,
@@ -383,7 +406,13 @@ internal class PistolBehaviour: PlayerTool, IProtoEventListener
             lastShotDamage = (int)currentDamage;
             currentDamage = 0;
 
-            if((System.Math.Round(Charge * 10, 2) >= 20f && energyMixin.ConsumeEnergy(Charge * 10)) || !GameModeUtils.RequiresPower())
+            if((System.Math.Round(Charge * 10, 2) >= 20f && energyMixin.ConsumeEnergy(Charge * 10)) || 
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			)
             {
                 Charge = 0;
                 var position = transform.position;

@@ -8,7 +8,7 @@ public class KnownTech_Analyze
     [HarmonyPrefix]
     public static bool Prefix(TechType techType, bool verbose)
     {
-        if(Main.SMLConfig.Hardcore)
+        if(Main.Config.Hardcore)
         {
             var entryData = PDAScanner.GetEntryData(techType);
             return !verbose || entryData == null || (entryData != null && PDAScanner.ContainsCompleteEntry(techType));

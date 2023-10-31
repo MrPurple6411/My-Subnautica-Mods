@@ -10,7 +10,7 @@ public class LanguageCache_GetPickupText
     {
         if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
         {
-            __result = Main.SMLConfig.UnKnownLabel;
+            __result = Main.Config.UnKnownLabel;
         }
     }
 }

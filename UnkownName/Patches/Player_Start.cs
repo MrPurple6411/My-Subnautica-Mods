@@ -8,6 +8,6 @@ public class Player_Start
     [HarmonyPrefix]
     public static void Prefix()
     {
-        Main.SMLConfig.Load();
+        Main.Config.Load();
     }
 }

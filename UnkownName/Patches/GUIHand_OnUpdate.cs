@@ -1,4 +1,4 @@
-﻿namespace UnknownName.Patches;
+namespace UnknownName.Patches;
 
 using HarmonyLib;
 
@@ -13,10 +13,16 @@ public class GUIHand_OnUpdate
         var key = entryData?.key ?? TechType.None;
         var blueprint = entryData?.blueprint ?? TechType.None;
 
-        if(scanTarget.techType != TechType.None && (CrafterLogic.IsCraftRecipeUnlocked(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint)) || (key != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.key)))) || !scanTarget.isValid || !GameModeUtils.RequiresBlueprints()))
+        if(scanTarget.techType != TechType.None && (CrafterLogic.IsCraftRecipeUnlocked(scanTarget.techType) || (entryData != null && ((blueprint != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint)) || (key != TechType.None && CrafterLogic.IsCraftRecipeUnlocked(entryData.key)))) || !scanTarget.isValid ||
+#if SUBNAUTICA
+			!GameModeUtils.RequiresBlueprints()
+#else
+			!GameModeManager.GetOption<bool>(GameOption.TechRequiresUnlocking)
+#endif
+			))
         {
             return;
         }
-        HandReticle.main.SetText(HandReticle.TextType.Hand, Main.SMLConfig.UnKnownLabel, true);
+        HandReticle.main.SetText(HandReticle.TextType.Hand, Main.Config.UnKnownLabel, true);
     }
 }

@@ -290,7 +290,13 @@ public class BuilderModuleMono: MonoBehaviour
 
     private IEnumerator ConstructAsync(Constructable c, bool state)
     {
-        if(!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
+        if(
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			)
         {
             if(powerRelay is null)
                 powerRelay = PowerSource.FindRelay(vehicle.gameObject.transform);

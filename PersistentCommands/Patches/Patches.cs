@@ -1,4 +1,4 @@
-﻿namespace PersistentCommands.Patches;
+namespace PersistentCommands.Patches;
 
 using HarmonyLib;
 
@@ -9,43 +9,48 @@ public static class Patches
     [HarmonyPostfix]
     public static void SubmitPostfix()
     {
-        if(Main.SMLConfig.NoAggression && !GameModeUtils.IsCheatActive(GameModeOption.NoAggression))
+#if SUBNAUTICA
+		if(Main.Config.NoAggression && !GameModeUtils.IsCheatActive(GameModeOption.NoAggression))
             GameModeUtils.ActivateCheat(GameModeOption.NoAggression);
 
-        if(Main.SMLConfig.NoBlueprints && !GameModeUtils.IsCheatActive(GameModeOption.NoBlueprints))
+        if(Main.Config.NoBlueprints && !GameModeUtils.IsCheatActive(GameModeOption.NoBlueprints))
             GameModeUtils.ActivateCheat(GameModeOption.NoBlueprints);
 
-        if(Main.SMLConfig.NoCost && !GameModeUtils.IsCheatActive(GameModeOption.NoCost))
+        if(Main.Config.NoCost && !GameModeUtils.IsCheatActive(GameModeOption.NoCost))
             GameModeUtils.ActivateCheat(GameModeOption.NoCost);
 
-        if(Main.SMLConfig.NoEnergy && !GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
+        if(Main.Config.NoEnergy && !GameModeUtils.IsCheatActive(GameModeOption.NoEnergy))
             GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
 
-        if(Main.SMLConfig.NoOxygen && !GameModeUtils.IsCheatActive(GameModeOption.NoOxygen))
+        if(Main.Config.NoOxygen && !GameModeUtils.IsCheatActive(GameModeOption.NoOxygen))
             GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
 
-        if(Main.SMLConfig.NoPressure && !GameModeUtils.IsCheatActive(GameModeOption.NoPressure))
+        if(Main.Config.NoPressure && !GameModeUtils.IsCheatActive(GameModeOption.NoPressure))
             GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
 
-        if(Main.SMLConfig.NoRadiation && !GameModeUtils.IsCheatActive(GameModeOption.NoRadiation))
+        if(Main.Config.NoRadiation && !GameModeUtils.IsCheatActive(GameModeOption.NoRadiation))
             GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
-#if BELOWZERO
-        if (Main.Config.NoCold && !GameModeUtils.IsCheatActive(GameModeOption.NoCold))
-            GameModeUtils.ActivateCheat(GameModeOption.NoCold);
+#elif BELOWZERO
+		if (Player.main != null && Main.Config.NoAggression && GameModeManager.GetOption<float>(GameOption.CreatureAggressionModifier) > 0f )
+		{
+			Player.main.OnConsoleCommand_invisible(null);
+		}
+
+			GameModeManager.SetOption<bool>(GameOption.BodyTemperatureDecreases, Main.Config.NoCold);
 #endif
 
         if(NoCostConsoleCommand.main != null)
         {
-            if(Main.SMLConfig.FastBuild)
+            if(Main.Config.FastBuild)
                 NoCostConsoleCommand.main.fastBuildCheat = true;
 
-            if(Main.SMLConfig.FastGrow)
+            if(Main.Config.FastGrow)
                 NoCostConsoleCommand.main.fastGrowCheat = true;
 
-            if(Main.SMLConfig.FastHatch)
+            if(Main.Config.FastHatch)
                 NoCostConsoleCommand.main.fastHatchCheat = true;
 
-            if(Main.SMLConfig.FastScan)
+            if(Main.Config.FastScan)
                 NoCostConsoleCommand.main.fastScanCheat = true;
         }
     }
@@ -58,28 +63,38 @@ public static class Patches
         __result = false;
     }
 
-    [HarmonyPatch(typeof(GameModeUtils), nameof(GameModeUtils.AllowsAchievements))]
+#if SUBNAUTICA
+	[HarmonyPatch(typeof(GameModeUtils), nameof(GameModeUtils.AllowsAchievements))]
     [HarmonyPostfix]
     [HarmonyPriority(Priority.Last)]
     public static void AllowsAchievementsPostfix(ref bool __result)
     {
         __result = true;
     }
+#else
+	[HarmonyPatch(typeof(GameAchievements), nameof(GameAchievements.Unlock))]
+	[HarmonyPrefix]
+	public static bool GetOptionPostfix(GameAchievements.Id id)
+	{
+		PlatformUtils.main.GetServices().UnlockAchievement(id);
+		return false;
+	}
+#endif
 
-    [HarmonyPatch(typeof(NoCostConsoleCommand), nameof(NoCostConsoleCommand.Awake))]
+	[HarmonyPatch(typeof(NoCostConsoleCommand), nameof(NoCostConsoleCommand.Awake))]
     [HarmonyPostfix]
     public static void Postfix(NoCostConsoleCommand __instance)
     {
-        if(Main.SMLConfig.FastBuild)
+        if(Main.Config.FastBuild)
             __instance.fastBuildCheat = true;
 
-        if(Main.SMLConfig.FastGrow)
+        if(Main.Config.FastGrow)
             __instance.fastGrowCheat = true;
 
-        if(Main.SMLConfig.FastHatch)
+        if(Main.Config.FastHatch)
             __instance.fastHatchCheat = true;
 
-        if(Main.SMLConfig.FastScan)
+        if(Main.Config.FastScan)
             __instance.fastScanCheat = true;
     }
 
@@ -87,28 +102,50 @@ public static class Patches
     [HarmonyPostfix]
     public static void Postfix(Player __instance)
     {
-        if(Main.SMLConfig.NoAggression)
+#if SUBNAUTICA
+		if(Main.Config.NoAggression)
             GameModeUtils.ActivateCheat(GameModeOption.NoAggression);
 
-        if(Main.SMLConfig.NoBlueprints)
+        if(Main.Config.NoBlueprints)
             GameModeUtils.ActivateCheat(GameModeOption.NoBlueprints);
 
-        if(Main.SMLConfig.NoCost)
+        if(Main.Config.NoCost)
             GameModeUtils.ActivateCheat(GameModeOption.NoCost);
 
-        if(Main.SMLConfig.NoEnergy)
+        if(Main.Config.NoEnergy)
             GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
 
-        if(Main.SMLConfig.NoOxygen)
+        if(Main.Config.NoOxygen)
             GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
 
-        if(Main.SMLConfig.NoPressure)
+        if(Main.Config.NoPressure)
             GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
 
-        if(Main.SMLConfig.NoRadiation)
+        if(Main.Config.NoRadiation)
             GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
-#if BELOWZERO
-        if (Main.Config.NoCold)
+#elif BELOWZERO
+		if (Player.main != null && Main.Config.NoAggression && GameModeManager.GetOption<float>(GameOption.CreatureAggressionModifier) > 0f)
+		{
+			Player.main.OnConsoleCommand_invisible(null);
+		}
+
+		GameModeManager.SetOption<bool>(GameOption.TechRequiresUnlocking, Main.Config.NoBlueprints);
+
+		if (Main.Config.NoCost)
+			GameModeUtils.ActivateCheat(GameModeOption.NoCost);
+
+		if (Main.Config.NoEnergy)
+			GameModeUtils.ActivateCheat(GameModeOption.NoEnergy);
+
+		if (Main.Config.NoOxygen)
+			GameModeUtils.ActivateCheat(GameModeOption.NoOxygen);
+
+		if (Main.Config.NoPressure)
+			GameModeUtils.ActivateCheat(GameModeOption.NoPressure);
+
+		if (Main.Config.NoRadiation)
+			GameModeUtils.ActivateCheat(GameModeOption.NoRadiation);
+		if (Main.Config.NoCold)
             GameModeUtils.ActivateCheat(GameModeOption.NoCold);
 #endif
 

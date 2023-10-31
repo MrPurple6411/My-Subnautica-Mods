@@ -14,7 +14,13 @@ internal class CrafterLogic_IsCraftRecipeFulfilled
     [HarmonyPostfix]
     public static void CrafterLogic_IsCraftRecipeFulfilled_Postfix(TechType techType, ref bool __result)
     {
-        if (!__result || !GameModeUtils.RequiresIngredients()) return;
+        if (!__result ||
+#if SUBNAUTICA
+			!GameModeUtils.RequiresIngredients()
+#else
+			GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources)
+#endif
+			) return;
         var main = Inventory.main;
 #if SUBNAUTICA
         var techData = CraftData.Get(techType, true);

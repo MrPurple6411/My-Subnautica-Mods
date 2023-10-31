@@ -4,9 +4,6 @@ using Module;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection;
-#if BELOWZERO
-using Nautilus.Handlers;
-#endif
 
 using BepInEx;
 using BepInEx.Logging;

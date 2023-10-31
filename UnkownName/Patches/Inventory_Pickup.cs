@@ -17,7 +17,7 @@ public class Inventory_Pickup
     [HarmonyPostfix]
     public static void Postfix(Pickupable pickupable)
 	{
-		if (newGame && Main.SMLConfig.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
+		if (newGame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
 		{
 			CoroutineHost.StartCoroutine(GiveHardcoreScanner(pickupable));
 			newGame = false;
@@ -33,7 +33,7 @@ public class Inventory_Pickup
 		var techType = pickupable.GetTechType();
 		var entryData = PDAScanner.GetEntryData(techType);
 		var gameObject = pickupable.gameObject;
-		if (Main.SMLConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+		if (Main.Config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
 		{
 			if (!PDAScanner.GetPartialEntryByKey(techType, out var entry))
 			{
@@ -46,7 +46,7 @@ public class Inventory_Pickup
 					PDAScanner.complete.Add(entry.techType);
 				PDAScanner.NotifyRemove(entry);
 				PDAScanner.Unlock(entryData, true, true);
-				if (!Main.SMLConfig.Hardcore)
+				if (!Main.Config.Hardcore)
 					KnownTech.Add(techType, true);
 				if (gameObject != null)
 				{
@@ -55,7 +55,7 @@ public class Inventory_Pickup
 			}
 		}
 
-		if (!Main.SMLConfig.Hardcore && entryData == null)
+		if (!Main.Config.Hardcore && entryData == null)
 		{
 			KnownTech.Add(techType, true);
 		}

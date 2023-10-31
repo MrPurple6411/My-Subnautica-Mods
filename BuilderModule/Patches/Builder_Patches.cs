@@ -1,4 +1,4 @@
-﻿namespace BuilderModule.Patches;
+namespace BuilderModule.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -51,12 +51,6 @@ internal class Builder_Patches
     [HarmonyPostfix]
     public static void Postfix(ref Transform __result)
     {
-        if(Main.btConfig != null)
-        {
-            var attach = (bool)Main.AttachToTargetField.GetValue(Main.btConfig);
-            if(!attach)
-                return;
-        }
         var builderModule = Player.main.GetComponentInParent<BuilderModuleMono>();
         if (builderModule == null || !builderModule.isToggle) return;
         var lights = builderModule.gameObject.GetComponentsInChildren<Light>()?? new Light[0];

@@ -1,4 +1,4 @@
-﻿namespace ImprovedPowerNetwork;
+namespace ImprovedPowerNetwork;
 
 using System.Collections.Generic;
 using System.Text;
@@ -78,7 +78,13 @@ internal class PowerControl: MonoBehaviour, IHandTarget
         }
 
 #elif BELOWZERO
-        if(truckSegment?.relay != null && GameModeUtils.RequiresPower())
+        if(truckSegment?.relay != null && 
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			)
         {
             var chargeNeeded = truckSegment.relay.GetMaxPower() - truckSegment.relay.GetPower();
             truckSegment.relay.AddEnergy(chargeNeeded, out var amountStored);
@@ -88,8 +94,14 @@ internal class PowerControl: MonoBehaviour, IHandTarget
                 truckSegment.relay.ConsumeEnergy(amountStored - amountConsumed, out _);
         }
 #endif
-        if(_vehicleAndEnergyInterfaceNotNull && GameModeUtils.RequiresPower())
-        {
+        if(_vehicleAndEnergyInterfaceNotNull &&
+#if SUBNAUTICA
+			!GameModeUtils.IsCheatActive(GameModeOption.NoEnergy)
+#else
+			GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+			)
+		{
             vehicle.energyInterface.GetValues(out var charge, out var capacity);
             var chargeNeeded = capacity - charge;
             var amountStored = vehicle.energyInterface.AddEnergy(chargeNeeded);

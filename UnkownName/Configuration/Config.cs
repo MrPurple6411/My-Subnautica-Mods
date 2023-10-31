@@ -4,7 +4,7 @@ using Nautilus.Json;
 using Nautilus.Options.Attributes;
 
 [Menu("Unknown Name Config", LoadOn = MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened)]
-public class SMLConfig: ConfigFile
+public class Config: ConfigFile
 {
     public string UnKnownLabel = "";
     public string UnKnownTitle = "Unknown Item";

@@ -10,9 +10,20 @@ internal class Construct_Patch
 {
     [HarmonyPrefix]
     public static bool Prefix(Constructable __instance)
-    {
-        var player = Player.main;
-        if(player.isPiloting && GameModeUtils.RequiresIngredients())
+	{
+#if SUBNAUTICA
+		if (!GameModeUtils.RequiresIngredients())
+		{
+			return true;
+		}
+#else
+		if (!GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources))
+		{
+			return true;
+		}
+#endif
+		var player = Player.main;
+        if(player.isPiloting)
         {
             if(__instance._constructed)
                 return false;
@@ -110,9 +121,21 @@ internal class Deconstruct_Patch
 {
     [HarmonyPrefix]
     public static bool Prefix(Constructable __instance, IOut<bool> result)
-    {
-        var player = Player.main;
-        if(player.isPiloting && GameModeUtils.RequiresIngredients())
+	{
+#if SUBNAUTICA
+		if (!GameModeUtils.RequiresIngredients())
+		{
+			return true;
+		}
+#else
+		if (!GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources))
+		{
+			return true;
+		}
+#endif
+
+		var player = Player.main;
+        if(player.isPiloting)
         {
             if(__instance._constructed)
                 return true;
