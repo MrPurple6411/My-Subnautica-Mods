@@ -4,6 +4,7 @@ namespace UnKnownName.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
+using static CraftData;
 
 [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
 public class TooltipFactory_WriteIngredients
@@ -33,7 +34,7 @@ public class TooltipFactory_WriteIngredients
                 if(icons.Contains(icon))
                 {
                     icons.Remove(icon);
-                    var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.SMLConfig.UnKnownTitle };
+                    var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
                     icons.Add(tooltipIcon);
                 }
             }
