@@ -79,8 +79,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannableTimeCapsules", "Sc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseLegsRemoval", "Base Legs Removal\BaseLegsRemoval.csproj", "{E5518231-00F5-473A-A545-47FDEF9BF604}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseDeconstructFix", "Base Deconstruct Fix\BaseDeconstructFix.csproj", "{DCD591D8-8E05-4970-BF42-C5CFF13460F3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseKits", "BaseKits\BaseKits.csproj", "{0E41A954-92FC-4F7C-8BF3-BF915E99B65F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keep Inventory On Death", "Keep_Inventory_On_Death\Keep Inventory On Death.csproj", "{622345CD-6789-4A2F-9072-6AEE9FF6776F}"
@@ -251,10 +249,6 @@ Global
 		{E5518231-00F5-473A-A545-47FDEF9BF604}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{E5518231-00F5-473A-A545-47FDEF9BF604}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{E5518231-00F5-473A-A545-47FDEF9BF604}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
-		{DCD591D8-8E05-4970-BF42-C5CFF13460F3}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
-		{DCD591D8-8E05-4970-BF42-C5CFF13460F3}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
-		{DCD591D8-8E05-4970-BF42-C5CFF13460F3}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
-		{DCD591D8-8E05-4970-BF42-C5CFF13460F3}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 		{0E41A954-92FC-4F7C-8BF3-BF915E99B65F}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
 		{0E41A954-92FC-4F7C-8BF3-BF915E99B65F}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{0E41A954-92FC-4F7C-8BF3-BF915E99B65F}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
