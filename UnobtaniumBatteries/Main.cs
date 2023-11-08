@@ -12,6 +12,7 @@ using Nautilus.Handlers;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
 [BepInDependency(CustomBatteries.MyPluginInfo.PLUGIN_GUID, CustomBatteries.MyPluginInfo.PLUGIN_VERSION)]
 #if SUBNAUTICA
 [BepInDependency(WarpersNoWarping.MyPluginInfo.PLUGIN_GUID, WarpersNoWarping.MyPluginInfo.PLUGIN_VERSION)]
