@@ -1,4 +1,4 @@
-﻿namespace ImprovedPowerNetwork.Patches;
+namespace ImprovedPowerNetwork.Patches;
 
 using HarmonyLib;
 using UnityEngine;
@@ -9,7 +9,6 @@ public static class PowerRelay_Start_Patch
     [HarmonyPostfix]
     public static void Postfix(PowerRelay __instance)
     {
-
         if(__instance.transform.position == Vector3.zero && __instance.gameObject.name.Contains("Transmitter"))
         {
             Object.Destroy(__instance.gameObject);

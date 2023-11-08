@@ -37,6 +37,7 @@ public class BasicHullPlatePrefab: CustomPrefab
         var meshRenderer = _GameObject.FindChild("Icon").GetComponent<MeshRenderer>();
         meshRenderer.material.mainTexture = _hullPlateTexture;
         _GameObject.name = Info.ClassID;
+		_GameObject.SetActive(false);
 
         gameObject.Set(_GameObject);
     }

@@ -11,12 +11,12 @@ using Nautilus.Crafting;
 using Nautilus.Handlers;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
-using static CraftData;
 using System;
 using Nautilus.Utility;
+using static CraftData;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
 public class Main: BaseUnityPlugin
 {
 
@@ -88,7 +88,7 @@ public class Main: BaseUnityPlugin
 		CraftDataHandler.SetBackgroundType(fabricatorPrefab.Info.TechType, CraftData.BackgroundType.PlantAir);
 
 		if (CraftData.GetBuilderIndex(TechType.Workbench, out var group, out var category, out _))
-			fabricatorPrefab.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench).SetBuildable().WithAnalysisTech(null);
+			fabricatorPrefab.SetUnlock(TechType.Workbench).WithPdaGroupCategoryAfter(group, category, TechType.Workbench).SetBuildable().WithAnalysisTech(null, null, null);
 
 		CraftDataHandler.SetRecipeData(fabricatorPrefab.Info.TechType, CraftDataHandler.GetRecipeData(TechType.Fabricator));
 
@@ -102,7 +102,8 @@ public class Main: BaseUnityPlugin
 		{
 			FabricatorModel = FabricatorTemplate.Model.Fabricator,
 			ColorTint = UnityEngine.Color.magenta,
-			ConstructableFlags = ConstructableFlags.Wall | ConstructableFlags.Base | ConstructableFlags.Submarine | ConstructableFlags.Inside
+			ConstructableFlags = ConstructableFlags.Wall | ConstructableFlags.Base | ConstructableFlags.Submarine | ConstructableFlags.Inside,
+			ModifyPrefab = (go) => go.SetActive(false)
 		};
 
 		fabricatorPrefab.SetGameObject(fabPrefab);
@@ -128,12 +129,12 @@ public class Main: BaseUnityPlugin
 
 		KnownTechHandler.SetAnalysisTechEntry(techType, new[] { cloneBasePiece.Info.TechType });
 		if (GetBuilderIndex(techType, out var group, out var category, out _))
-			cloneBasePiece.SetUnlock(kitTechType).WithPdaGroupCategoryAfter(group, category, techType).SetBuildable().WithAnalysisTech(null);
+			cloneBasePiece.SetUnlock(kitTechType).WithPdaGroupCategoryAfter(group, category, techType).SetBuildable().WithAnalysisTech(null, null, null);
 
 		CraftDataHandler.SetRecipeData(cloneBasePiece.Info.TechType, new() { craftAmount = 1, Ingredients = new List<Ingredient>() { new(kitTechType, 1) } });
 		CraftDataHandler.SetBackgroundType(cloneBasePiece.Info.TechType, CraftData.BackgroundType.PlantAir);
 
-		cloneBasePiece.SetGameObject(new CloneTemplate(cloneBasePiece.Info, techType));
+		cloneBasePiece.SetGameObject(new CloneTemplate(cloneBasePiece.Info, techType) { ModifyPrefab = (go) => go.SetActive(false) });
 		cloneBasePiece.Register();
 	}
 
@@ -147,7 +148,7 @@ public class Main: BaseUnityPlugin
 			.WithCraftingTime(10f);
 
 		KnownTechHandler.SetAnalysisTechEntry(techType, new[] { kitPrefab.Info.TechType });
-		var scanningGadget = kitPrefab.SetUnlock(techType).WithAnalysisTech(null);
+		var scanningGadget = kitPrefab.SetUnlock(techType).WithAnalysisTech(null, null, null);
 
 		if (GetBuilderIndex(techType, out var originalGroup, out var originalCategory, out _))
 		{

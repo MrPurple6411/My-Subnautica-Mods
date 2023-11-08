@@ -27,7 +27,7 @@ internal class PistolPrefab
 
 		Prefab = new CustomPrefab(Info);
 		Prefab.SetUnlock(RequiredForUnlock)
-			.WithAnalysisTech(null, unlockMessage: DiscoverMessage)
+			.WithAnalysisTech(null, null, null)
 			.WithPdaGroupCategory(GroupForPDA, CategoryForPDA);
 		Prefab.SetEquipment(EquipmentType)
 			.WithQuickSlotType(QuickSlotType);
@@ -73,8 +73,6 @@ internal class PistolPrefab
 
         return list;
     }
-
-    public string DiscoverMessage => $"{FriendlyName} Unlocked!";
 
     public IEnumerator GetGameObjectAsync(IOut<GameObject> pistol)
     {
@@ -144,10 +142,12 @@ internal class PistolPrefab
             processedPrefab = gameObject;
             Object.DontDestroyOnLoad(processedPrefab);
             processedPrefab.EnsureComponent<SceneCleanerPreserve>();
+			processedPrefab.SetActive(false);
         }
 
         var copy = Object.Instantiate(processedPrefab);
         Object.DestroyImmediate(copy.GetComponent<SceneCleanerPreserve>());
+		copy.SetActive(false);
         pistol.Set(copy);
     }
 

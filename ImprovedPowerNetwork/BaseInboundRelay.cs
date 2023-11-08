@@ -1,4 +1,4 @@
-﻿namespace ImprovedPowerNetwork;
+namespace ImprovedPowerNetwork;
 
 using UnityEngine;
 
@@ -10,6 +10,7 @@ public class BaseInboundRelay: PowerRelay
         additionalRelay.dontConnectToRelays = powerControl.BaseConnectionsDisabled;
         additionalRelay.maxOutboundDistance = 10000;
         additionalRelay.constructable = originalRelay.constructable;
+		additionalRelay.powerSystemPreviewPrefab = originalRelay.powerSystemPreviewPrefab;
 
         if(originalRelay.powerFX != null && originalRelay.powerFX.vfxPrefab != null)
         {

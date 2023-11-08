@@ -70,6 +70,7 @@ public class BasicPostersPrefab : CustomPrefab
         var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
         material.SetTexture(_mainTex, _posterTexture);
         material.SetTexture(_specTex, _posterTexture);
+		_GameObject.SetActive(false);
 
         gameObject.Set(_GameObject);
     }

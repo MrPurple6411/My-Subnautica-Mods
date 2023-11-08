@@ -49,6 +49,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarpersNoWarping\WarpersNoWarping.csproj">
+      <Private>False</Private>
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="CustomBatteries">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\CustomBatteries\CustomBatteries.dll</HintPath>
       <Private>False</Private>

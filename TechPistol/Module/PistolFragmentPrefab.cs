@@ -35,7 +35,7 @@ internal class PistolFragmentPrefab
 		Prefab = new CustomPrefab(Info);
 		Prefab.SetGameObject(GetGameObject);
 		Prefab.SetUnlock(RequiredForUnlock, FragmentsToScan)
-			.WithAnalysisTech(null)
+			.WithAnalysisTech(null, null, null)
 			.WithScannerEntry(TimeToScanFragment, true, null, true);
 		Prefab.SetSpawns(entityInfo: EntityInfo, BiomesToSpawnIn);
 	}
@@ -125,6 +125,7 @@ internal class PistolFragmentPrefab
         resourceTracker.pickupable = pickupable;
 
         processedPrefab = gameObject;
+		processedPrefab.SetActive(false);
         return processedPrefab;
     }
 }

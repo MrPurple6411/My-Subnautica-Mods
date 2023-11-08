@@ -32,7 +32,7 @@ public class SeamothThermalModule: CustomPrefab
 		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 
 		if (GetBuilderIndex(TechType.SeamothSolarCharge, out var group, out var category, out _))
-			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.SeamothSolarCharge).WithAnalysisTech(null);
+			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.SeamothSolarCharge).WithAnalysisTech(null, null, null);
 
 		SetGameObject(GetGameObjectAsync);
 
@@ -52,6 +52,7 @@ public class SeamothThermalModule: CustomPrefab
         // Change them so they fit to our requirements.
         techTag.type = Info.TechType;
         prefabIdentifier.ClassId = Info.ClassID;
+		obj.SetActive(false);
         gameObject.Set(obj);
     }
 }

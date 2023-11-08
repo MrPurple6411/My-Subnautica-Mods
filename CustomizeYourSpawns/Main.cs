@@ -1,11 +1,8 @@
 namespace CustomizeYourSpawns;
 
-//techType = TechType.Seamoth
-using HarmonyLib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Nautilus.Assets;
 using Nautilus.Handlers;
 using System;
 using System.Collections.Generic;
@@ -21,7 +18,7 @@ using System.Collections;
 using UnityEngine;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
 public class Main: BaseUnityPlugin
 {
     private static readonly string ModPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

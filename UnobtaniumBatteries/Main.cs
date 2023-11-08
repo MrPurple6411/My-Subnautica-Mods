@@ -6,14 +6,16 @@ using System.IO;
 using System.Collections.Generic;
 using Nautilus.Utility;
 using UnityEngine;
-using MonoBehaviours;
-using Nautilus.Handlers;using BepInEx;
+using MonoBehaviours;using BepInEx;
 using CustomBatteries.API;
-using BepInEx.Logging;
+using Nautilus.Handlers;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
-[BepInDependency("com.mrpurple6411.CustomBatteries", BepInDependency.DependencyFlags.HardDependency)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInDependency(CustomBatteries.MyPluginInfo.PLUGIN_GUID, CustomBatteries.MyPluginInfo.PLUGIN_VERSION)]
+#if SUBNAUTICA
+[BepInDependency(WarpersNoWarping.MyPluginInfo.PLUGIN_GUID, WarpersNoWarping.MyPluginInfo.PLUGIN_VERSION)]
+#endif
 public class Main: BaseUnityPlugin
 {
     private static readonly Assembly myAssembly = Assembly.GetExecutingAssembly();

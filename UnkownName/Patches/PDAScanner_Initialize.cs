@@ -9,7 +9,7 @@ using Nautilus.Handlers;
 public class PDAScanner_Initialize
 {
     [HarmonyPostfix]
-    [HarmonyAfter(new[] { "com.snmodding.nautilus" })]
+    [HarmonyAfter(new[] { Nautilus.PluginInfo.PLUGIN_GUID })]
     public static void Postfix()
     {
         if(Main.Config.Hardcore)

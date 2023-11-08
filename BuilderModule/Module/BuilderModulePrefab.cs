@@ -11,17 +11,17 @@ using Nautilus.Utility;
 using UnityEngine;
 using static CraftData;
 
-internal class BuilderModulePrefab: CustomPrefab
+internal class BuilderModulePrefab : CustomPrefab
 {
-    private static Texture2D SpriteTexture { get; } = ImageUtils.LoadTextureFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
+	private static Texture2D SpriteTexture { get; } = ImageUtils.LoadTextureFromFile($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Assets/BuilderModule.png");
 
 	[SetsRequiredMembers]
-    public BuilderModulePrefab(): base("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.")
-    {
-        if(SpriteTexture != null)
-            Info.WithIcon(ImageUtils.LoadSpriteFromTexture(SpriteTexture));
+	public BuilderModulePrefab() : base("BuilderModule", "Builder Module", "Allows you to build bases while in your vehicle.")
+	{
+		if (SpriteTexture != null)
+			Info.WithIcon(ImageUtils.LoadSpriteFromTexture(SpriteTexture));
 
-		this.SetUnlock(TechType.BaseUpgradeConsole).WithAnalysisTech(null)
+		this.SetUnlock(TechType.BaseUpgradeConsole).WithAnalysisTech(null, null, null)
 			.WithPdaGroupCategory(TechGroup.VehicleUpgrades, TechCategory.VehicleUpgrades);
 
 		this.SetRecipe(new()
@@ -35,29 +35,30 @@ internal class BuilderModulePrefab: CustomPrefab
 		})
 #if SUBNAUTICA
 			.WithFabricatorType(CraftTree.Type.SeamothUpgrades)
+		.WithStepsToFabricatorTab(new[] { "CommonModules" })
 #elif BELOWZERO
 			.WithFabricatorType(CraftTree.Type.SeaTruckFabricator)
-#endif
 		.WithStepsToFabricatorTab(new[] { "ExosuitModules" })
+#endif
 		.WithCraftingTime(2f);
 
 		this.SetEquipment(EquipmentType.VehicleModule).WithQuickSlotType(QuickSlotType.Toggleable);
 
 		SetGameObject(GetGameObjectAsync);
 
-        Register();
-    }
+		Register();
+	}
 
-    public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-    {
-        var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
+	public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+	{
+		var task = CraftData.GetPrefabForTechTypeAsync(TechType.VehicleStorageModule, false);
 
-        yield return task;
-        var prefab = EditorModifications.Instantiate(task.GetResult(), default, default, false);
-        prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x)=> { if(x is PrefabIdentifier) x.classId = Info.ClassID; else Object.DestroyImmediate(x.gameObject); });
-        if(prefab.TryGetComponent(out TechTag tag)) tag.type = Info.TechType;
-        Object.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
+		yield return task;
+		var prefab = EditorModifications.Instantiate(task.GetResult(), default, default, false);
+		prefab.GetComponentsInChildren<UniqueIdentifier>().ForEach((x) => { if (x is PrefabIdentifier) x.classId = Info.ClassID; else Object.DestroyImmediate(x.gameObject); });
+		if (prefab.TryGetComponent(out TechTag tag)) tag.type = Info.TechType;
+		Object.DestroyImmediate(prefab.GetComponent<SeamothStorageContainer>());
 
-        gameObject.Set(prefab);
-    }
+		gameObject.Set(prefab);
+	}
 }
