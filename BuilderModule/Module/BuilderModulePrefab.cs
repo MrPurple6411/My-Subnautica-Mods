@@ -37,8 +37,8 @@ internal class BuilderModulePrefab : CustomPrefab
 			.WithFabricatorType(CraftTree.Type.SeamothUpgrades)
 		.WithStepsToFabricatorTab(new[] { "CommonModules" })
 #elif BELOWZERO
-			.WithFabricatorType(CraftTree.Type.SeaTruckFabricator)
-		.WithStepsToFabricatorTab(new[] { "ExosuitModules" })
+			.WithFabricatorType(CraftTree.Type.Fabricator)
+		.WithStepsToFabricatorTab(new[] { "Upgrades", "ExosuitUpgrades" })
 #endif
 		.WithCraftingTime(2f);
 
