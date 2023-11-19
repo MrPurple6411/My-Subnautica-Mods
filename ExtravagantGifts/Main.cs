@@ -1,23 +1,18 @@
-﻿#if BZ
-namespace ExtravagantGifts
-{
-    using HarmonyLib;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "ExtravagantGifts",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        #endregion
+#if BELOWZERO
+namespace ExtravagantGifts;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
-    }
+using HarmonyLib;
+using BepInEx;
+using System.Reflection;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
+public class Main : BaseUnityPlugin
+{
+	private void Awake()
+	{
+		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+	}
 }
 #endif

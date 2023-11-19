@@ -1,32 +1,25 @@
-﻿#if SN1
-namespace ScannableTimeCapsules
+#if SUBNAUTICA
+namespace ScannableTimeCapsules;
+
+using HarmonyLib;
+using System.Reflection;
+using UWE;
+using BepInEx;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
+public class Main : BaseUnityPlugin
 {
-    using HarmonyLib;
-    using System.Reflection;
-    using UWE;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "ScannableTimeCapsules",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        #endregion
+	private void Awake()
+	{
+		Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
+		var classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
+		if (WorldEntityDatabase.TryGetInfo(classid, out var worldEntityInfo))
+		{
+			worldEntityInfo.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-            var classid = CraftData.GetClassIdForTechType(TechType.TimeCapsule);
-            if(WorldEntityDatabase.TryGetInfo(classid, out var worldEntityInfo))
-            {
-                worldEntityInfo.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
-
-                WorldEntityDatabase.main.infos[classid] = worldEntityInfo;
-            }
-        }
-    }
+			WorldEntityDatabase.main.infos[classid] = worldEntityInfo;
+		}
+	}
 }
 #endif

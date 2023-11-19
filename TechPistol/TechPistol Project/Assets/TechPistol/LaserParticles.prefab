@@ -2734,11 +2734,11 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 672309b516077a64ea524b90344490ff, type: 2}
-  - {fileID: 2100000, guid: 672309b516077a64ea524b90344490ff, type: 2}
+  - {fileID: 2100000, guid: 0a07e0097bdc57c49b05018a229cf4aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5548,11 +5548,11 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 67d65e3c0896471418716df11073d3c1, type: 2}
-  - {fileID: 2100000, guid: 67d65e3c0896471418716df11073d3c1, type: 2}
+  - {fileID: 2100000, guid: 17dac3839834c0b45a74dc2b129a10d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8330,11 +8330,11 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6ea542b5421fd21458478a1be860fb26, type: 2}
-  - {fileID: 2100000, guid: 6ea542b5421fd21458478a1be860fb26, type: 2}
+  - {fileID: 2100000, guid: 09a1ae39d6803e141a676fe120389a05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11103,11 +11103,11 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 193b22ef7516df244898cf4679c64f07, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 605fc85b6075fa74ea251f1e4fcea484, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13888,11 +13888,11 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6ea542b5421fd21458478a1be860fb26, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 09a1ae39d6803e141a676fe120389a05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

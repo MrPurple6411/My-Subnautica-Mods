@@ -1,72 +1,59 @@
-﻿using System.Collections;
+#if SUBNAUTICA
+namespace MoreSeamothDepth.Modules;
+using System.Collections;
 
-#if SN1
-namespace MoreSeamothDepth.Modules
+using Nautilus.Assets;
+using Nautilus.Crafting;
+using Nautilus.Handlers;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Diagnostics.CodeAnalysis;
+using Nautilus.Assets.Gadgets;
+using static CraftData;
+
+public class SeamothHullModule4 : CustomPrefab
 {
-    using SMLHelper.Assets;
-    using SMLHelper.Crafting;
-    using SMLHelper.Handlers;
-    using System.Collections.Generic;
-    using UnityEngine;
+	[SetsRequiredMembers]
+	public SeamothHullModule4() : base("SeamothHullModule4", "Seamoth depth module MK4", "Enhances diving depth. Does not stack.", SpriteManager.Get(TechType.VehicleHullModule3))
+	{
+		this.SetRecipe(new()
+		{
+			Ingredients = new List<Ingredient>()
+				{
+					new(TechType.VehicleHullModule3, 1),
+					new(TechType.PlasteelIngot, 1),
+					new(TechType.Nickel, 2),
+					new(TechType.AluminumOxide, 3)
+				},
+			craftAmount = 1
+		}).WithFabricatorType(CraftTree.Type.Workbench).WithStepsToFabricatorTab("SeamothModules");
 
-    public class SeamothHullModule4: Equipable
-    {
-        public SeamothHullModule4() : base(
-            classId: "SeamothHullModule4",
-            friendlyName: "Seamoth depth module MK4",
-            description: "Enhances diving depth. Does not stack.")
-        {
-        }
+		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 
-        public override EquipmentType EquipmentType => EquipmentType.SeamothModule;
+		if (GetBuilderIndex(TechType.VehicleHullModule3, out var group, out var category, out _))
+			this.SetUnlock(TechType.BaseUpgradeConsole).WithPdaGroupCategoryAfter(group, category, TechType.VehicleHullModule3).WithAnalysisTech(null, null, null);
 
-        public override TechType RequiredForUnlock => TechType.BaseUpgradeConsole;
+		SetGameObject(GetGameObjectAsync);
 
-        public override TechGroup GroupForPDA => TechGroup.Workbench;
+		Register();
+	}
 
-        public override TechCategory CategoryForPDA => TechCategory.Workbench;
+	public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+	{
+		var taskResult = new TaskResult<GameObject>();
+		yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
+		var obj = taskResult.Get();
 
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
+		// Get the TechTags and PrefabIdentifiers
+		var techTag = obj.GetComponent<TechTag>();
+		var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
 
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
+		// Change them so they fit to our requirements.
+		techTag.type = Info.TechType;
+		prefabIdentifier.ClassId = Info.ClassID;
 
-
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var taskResult = new TaskResult<GameObject>();
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.SeamothElectricalDefense, taskResult);
-            var obj = taskResult.Get();
-            
-            // Get the TechTags and PrefabIdentifiers
-            var techTag = obj.GetComponent<TechTag>();
-            var prefabIdentifier = obj.GetComponent<PrefabIdentifier>();
-
-            // Change them so they fit to our requirements.
-            techTag.type = TechType;
-            prefabIdentifier.ClassId = ClassID;
-            gameObject.Set(obj);
-        }
-
-
-        protected override TechData GetBlueprintRecipe()
-        {
-            return new()
-            {
-                Ingredients = new List<Ingredient>()
-                {
-                    new(TechType.VehicleHullModule3, 1),
-                    new(TechType.PlasteelIngot, 1),
-                    new(TechType.Nickel, 2),
-                    new(TechType.AluminumOxide, 3)
-                },
-                craftAmount = 1
-            };
-        }
-
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return SpriteManager.Get(TechType.VehicleHullModule3);
-        }
-    }
+		obj.SetActive(false);
+		gameObject.Set(obj);
+	}
 }
 #endif

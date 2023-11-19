@@ -1,30 +1,23 @@
-﻿namespace BetterACU
+namespace BetterACU;
+
+using Configuration;
+using HarmonyLib;
+using Nautilus.Handlers;
+using System.Reflection;
+using BepInEx;
+using Nautilus.Utility;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
+public class Main: BaseUnityPlugin
 {
-    using Configuration;
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using System.Reflection;
-    using BepInEx;
-    using SMLHelper.Utility;
+    internal static SMLConfig SMLConfig { get; private set; }
 
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
+    private void Awake()
     {
-        #region[Declarations]
-        public const string
-            MODNAME = "BetterACU",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        internal static SMLConfig SMLConfig { get; private set; }
-        #endregion
-
-
-        private void Awake()
-        {
-            SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-            SaveUtils.RegisterOnSaveEvent(SMLConfig.Save);
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+        SMLConfig = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
+        SaveUtils.RegisterOnSaveEvent(SMLConfig.Save);
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

@@ -1,26 +1,25 @@
-﻿namespace ExtraOptions.Patches
+﻿namespace ExtraOptions.Patches;
+
+using HarmonyLib;
+
+[HarmonyPatch(typeof(WaterscapeVolume), nameof(WaterscapeVolume.RenderImage))]
+public static class WaterscapeVolume_Patches
 {
-    using HarmonyLib;
-
-    [HarmonyPatch(typeof(WaterscapeVolume), nameof(WaterscapeVolume.RenderImage))]
-    public static class WaterscapeVolume_Patches
+    [HarmonyPrefix]
+    public static void Patch_RenderImage(ref bool cameraInside)
     {
-        [HarmonyPrefix]
-        public static void Patch_RenderImage(ref bool cameraInside)
-        {
-            if(Main.SMLConfig.FogFix)
-                cameraInside = false;
-        }
+        if(Main.SMLConfig.FogFix)
+            cameraInside = false;
     }
+}
 
-    [HarmonyPatch(typeof(WaterscapeVolume), nameof(WaterscapeVolume.PreRender))]
-    internal class WaterscapeVolume_PreRender_Patch
+[HarmonyPatch(typeof(WaterscapeVolume), nameof(WaterscapeVolume.PreRender))]
+internal class WaterscapeVolume_PreRender_Patch
+{
+    [HarmonyPrefix]
+    public static void Prefix(WaterscapeVolume __instance)
     {
-        [HarmonyPrefix]
-        public static void Prefix(WaterscapeVolume __instance)
-        {
-            __instance.aboveWaterDensityScale = Main.SMLConfig.ClearSurface ? 1f : 10f;
+        __instance.aboveWaterDensityScale = Main.SMLConfig.ClearSurface ? 1f : 10f;
 
-        }
     }
 }

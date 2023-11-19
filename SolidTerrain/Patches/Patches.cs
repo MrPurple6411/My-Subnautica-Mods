@@ -1,4 +1,4 @@
-﻿namespace SolidTerrain.Patches;
+namespace SolidTerrain.Patches;
 
 using WorldStreaming;
 using HarmonyLib;

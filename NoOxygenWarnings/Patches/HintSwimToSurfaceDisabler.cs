@@ -1,14 +1,13 @@
-﻿namespace NoOxygenWarnings.Patches
-{
-    using HarmonyLib;
+﻿namespace NoOxygenWarnings.Patches;
 
-    [HarmonyPatch(typeof(HintSwimToSurface), nameof(HintSwimToSurface.ShouldShowWarning))]
-    internal class HintSwimToSurfaceDisabler
+using HarmonyLib;
+
+[HarmonyPatch(typeof(HintSwimToSurface), nameof(HintSwimToSurface.ShouldShowWarning))]
+internal class HintSwimToSurfaceDisabler
+{
+    [HarmonyPrefix]
+    public static bool Prefix()
     {
-        [HarmonyPrefix]
-        public static bool Prefix()
-        {
-            return false;
-        }
+        return false;
     }
 }

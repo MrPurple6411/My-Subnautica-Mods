@@ -1,21 +1,13 @@
-﻿namespace NoCrosshair
-{
-    using HarmonyLib;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "NoCrosshair",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        #endregion
+namespace NoCrosshair;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(typeof(Patches.Patches), GUID);
-        }
+using HarmonyLib;using BepInEx;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
+public class Main: BaseUnityPlugin
+{
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(typeof(Patches.Patches), MyPluginInfo.PLUGIN_GUID);
     }
 }

@@ -1,0 +1,36 @@
+<Project>
+	<Target Name="ZipPlugins" AfterTargets="Build" Condition="$(AssemblyName.EndsWith('Tests')) == 'false'">
+		<PropertyGroup>
+			<StagingDir>$(OutDir)\staging</StagingDir>
+			<PluginsDir>$(StagingDir)\plugins</PluginsDir>
+			<BuildDir>$([System.IO.Path]::Combine('$(PluginsDir)', '$(AssemblyName)'))</BuildDir>
+			<BuildZipDir>$([System.IO.Path]::Combine('$(SolutionDir)/..', 'Zips_$(ConfigurationName)'))</BuildZipDir>
+			<BuildZipPath>$([System.IO.Path]::Combine('$(BuildZipDir)', '$(AssemblyName)_v$(Version).zip'))</BuildZipPath>
+		</PropertyGroup>
+
+		<!--Remove StagingDir if already exists -->
+		<RemoveDir Directories="$(StagingDir)" />
+
+		<!--Get List of output files before maing new staging dir-->
+		<ItemGroup>
+			<PluginsFiles Include="$(OutDir)\**\*.*" />
+		</ItemGroup>
+
+		<!--Ensure Output directories exist.-->
+		<MakeDir Directories="$(StagingDir)" />
+		<MakeDir Directories="$(PluginsDir)" />
+		<MakeDir Directories="$(BuildDir)" />
+		<MakeDir Directories="$(BuildZipDir)" />
+
+		<!--Copy output files to staging dir-->
+		<Copy SourceFiles="@(PluginsFiles)" DestinationFiles="@(PluginsFiles->'$(BuildDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+
+		<!-- Main build zip file -->
+		<ZipDirectory SourceDirectory="$(StagingDir)"
+                      DestinationFile="$(BuildZipPath)"
+                      Overwrite="true"/>
+
+		<!-- Remove staging dir -->
+		<RemoveDir Directories="$(StagingDir)" />
+	</Target>
+</Project>

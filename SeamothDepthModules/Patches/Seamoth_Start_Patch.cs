@@ -1,4 +1,4 @@
-﻿#if SN1
+﻿#if SUBNAUTICA
 namespace MoreSeamothDepth.Patches
 {
     using HarmonyLib;

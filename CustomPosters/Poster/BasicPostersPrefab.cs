@@ -1,107 +1,77 @@
-﻿
-namespace CustomPosters.Poster
+
+namespace CustomPosters.Poster;
+
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Handlers;
+using Nautilus.Utility;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
+using static CraftData;
+
+public class BasicPostersPrefab : CustomPrefab
 {
-    using SMLHelper.Assets;
-    using SMLHelper.Crafting;
-    using SMLHelper.Handlers;
-    using SMLHelper.Utility;
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
+    private readonly Texture2D _posterTexture;
+    private readonly string _orientation;
+    private static readonly int _mainTex = Shader.PropertyToID("_MainTex");
+    private static readonly int _specTex = Shader.PropertyToID("_SpecTex");
 
-    public class BasicPostersPrefab : Equipable
+	[SetsRequiredMembers]
+    public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation,
+        Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description, ImageUtils.LoadSpriteFromTexture(posterIcon))
     {
-        private readonly Texture2D posterIcon;
-        private readonly Texture2D posterTexture;
-        private readonly string orientation;
-        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
-        private static readonly int SpecTex = Shader.PropertyToID("_SpecTex");
-        private readonly TechGroup group;
-        private readonly TechCategory category;
+		_orientation = orientation;
+		_posterTexture = posterTexture;
 
-        public BasicPostersPrefab(string classId, string friendlyName, string description, string orientation,
-            Texture2D posterIcon, Texture2D posterTexture) : base(classId, friendlyName, description)
-        {
-            this.orientation = orientation;
-            this.posterIcon = posterIcon;
-            this.posterTexture = posterTexture;
+		KnownTechHandler.UnlockOnStart(Info.TechType);
+		var groupName = "Custom_Posters";
+		if (!EnumHandler.TryGetValue(groupName, out TechGroup group))
+		{
+			group = EnumHandler.AddEntry<TechGroup>(groupName).WithPdaInfo($"Custom Posters");
+		}
 
-            group = EnumHandler.AddEntry<TechGroup>($"Custom_Posters").WithPdaInfo($"Custom Posters");
-            category = EnumHandler.AddEntry<TechCategory>($"{orientation}_Posters").WithPdaInfo($"{orientation} Posters").RegisterToTechGroup(group);
-        }
+		var catagoryName = $"{orientation}_Posters";
+		if (!EnumHandler.TryGetValue<TechCategory>(catagoryName, out var category))
+		{
+			category = EnumHandler.AddEntry<TechCategory>(catagoryName).WithPdaInfo($"{orientation} Posters").RegisterToTechGroup(group);
+		}
 
-        public override TechGroup GroupForPDA => group;
+		this.SetRecipe(new()
+		{
+			craftAmount = 1,
+			Ingredients = new List<Ingredient>()
+			{
+				new(TechType.Titanium, 1),
+				new(TechType.FiberMesh, 1)
+			}
+		}).WithFabricatorType(CraftTree.Type.Fabricator)
+		.WithStepsToFabricatorTab(orientation.ToLower() == "landscape" ? new[] { "Posters", "Landscape" } : new[] { "Posters", "Portrait" });
 
-        public override TechCategory CategoryForPDA => category;
+		this.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
 
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
+		SetGameObject(GetGameObjectAsync);
 
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
+		Register();
+    }
 
-        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
+    public IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+    {
+        var task = _orientation.ToLower() == "landscape"
+            ? CraftData.GetPrefabForTechTypeAsync(TechType.PosterAurora)
+            : CraftData.GetPrefabForTechTypeAsync(TechType.PosterKitty);
 
-        public override string[] StepsToFabricatorTab => orientation.ToLower() == "landscape"
-            ? new[] {"Posters", "Landscape"}
-            : new[] {"Posters", "Portrait"};
+        yield return task;
 
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = orientation.ToLower() == "landscape"
-                ? CraftData.GetPrefabForTechTypeAsync(TechType.PosterAurora)
-                : CraftData.GetPrefabForTechTypeAsync(TechType.PosterKitty);
+        var _GameObject = Object.Instantiate(task.GetResult());
+        _GameObject.name = Info.ClassID;
 
-            yield return task;
+        var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
+        material.SetTexture(_mainTex, _posterTexture);
+        material.SetTexture(_specTex, _posterTexture);
+		_GameObject.SetActive(false);
 
-            var _GameObject = Object.Instantiate(task.GetResult());
-            _GameObject.name = ClassID;
-
-            var material = _GameObject.GetComponentInChildren<MeshRenderer>().materials[1];
-            material.SetTexture(MainTex, posterTexture);
-            material.SetTexture(SpecTex, posterTexture);
-
-            gameObject.Set(_GameObject);
-        }
-
-#if SN1
-        /// <summary>
-        /// This provides the <see cref="TechData"/> instance used to designate how this item is crafted or constructed.
-        /// </summary>
-        protected override TechData GetBlueprintRecipe()
-        {
-            return new()
-            {
-                craftAmount = 1,
-                Ingredients = new List<Ingredient>()
-                {
-                    new(TechType.Titanium, 1),
-                    new(TechType.FiberMesh, 1)
-                }
-            };
-        }
-
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return ImageUtils.LoadSpriteFromTexture(posterIcon);
-        }
-#elif BZ
-        /// <summary>
-        /// This provides the <see cref="RecipeData"/> instance used to designate how this item is crafted or constructed.
-        /// </summary>
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return new RecipeData(){ 
-                craftAmount = 1, 
-                Ingredients = new List<Ingredient>(){ 
-                    new Ingredient(TechType.Titanium, 1), 
-                    new Ingredient(TechType.FiberMesh, 1) 
-                }
-            };
-        }
-        
-        protected override Sprite GetItemSprite()
-        {
-            return ImageUtils.LoadSpriteFromTexture(posterIcon);
-        }
-#endif
+        gameObject.Set(_GameObject);
     }
 }

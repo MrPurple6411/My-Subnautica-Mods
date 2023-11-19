@@ -1,28 +1,27 @@
-﻿namespace ConfigurableChunkDrops.Patches
+﻿namespace ConfigurableChunkDrops.Patches;
+
+using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
+
+[HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
+public static class BreakableResource_ChooseRandomResource
 {
-    using HarmonyLib;
-    using System.Collections.Generic;
-    using System.Linq;
+    public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new();
 
-    [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
-    public static class BreakableResource_ChooseRandomResource
+    [HarmonyPrefix]
+    public static void Prefix(BreakableResource __instance)
     {
-        public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new();
+        var Breakable = CraftData.GetTechType(__instance.gameObject);
 
-        [HarmonyPrefix]
-        public static void Prefix(BreakableResource __instance)
+        if(prefabs.TryGetValue(Breakable, out var randomPrefabs))
         {
-            var Breakable = CraftData.GetTechType(__instance.gameObject);
-
-            if(prefabs.TryGetValue(Breakable, out var randomPrefabs))
-            {
-                List<BreakableResource.RandomPrefab> Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs).OrderBy(x => x.chance).ToList();
-                var last = randomPrefabs.GetLast();
-                Prefabs.Remove(last);
-                __instance.defaultPrefabTechType = last.prefabTechType;
-                __instance.defaultPrefabReference = last.prefabReference;
-                __instance.prefabList = Prefabs;
-            }
+            List<BreakableResource.RandomPrefab> Prefabs = new List<BreakableResource.RandomPrefab>(randomPrefabs).OrderBy(x => x.chance).ToList();
+            var last = randomPrefabs.GetLast();
+            Prefabs.Remove(last);
+            __instance.defaultPrefabTechType = last.prefabTechType;
+            __instance.defaultPrefabReference = last.prefabReference;
+            __instance.prefabList = Prefabs;
         }
     }
 }

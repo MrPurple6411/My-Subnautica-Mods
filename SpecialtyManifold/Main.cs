@@ -1,25 +1,15 @@
-﻿namespace SpecialtyManifold
-{
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using Configuration;
-    using System.Reflection;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "SpecialtyManifold",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-        #endregion
+namespace SpecialtyManifold;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+using HarmonyLib;using BepInEx;
+using SpecialtyManifold.Patches;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
+public class Main: BaseUnityPlugin
+{
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(typeof(Player_Update_Patch), MyPluginInfo.PLUGIN_GUID);
     }
 }

@@ -1,6 +1,6 @@
-﻿#if SN1
-namespace SeamothThermal.Patches
-{
+#if SUBNAUTICA
+namespace SeamothThermal.Patches;
+
     using HarmonyLib;
     using System.Collections;
     using UnityEngine;
@@ -8,8 +8,8 @@ namespace SeamothThermal.Patches
     [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update))]
     public class Seamoth_Update_Patch
     {
-        private static TaskResult<GameObject> m_TaskResult = new TaskResult<GameObject>();
-        private static IEnumerator exosuitPrefabCoroutine;
+        private static readonly TaskResult<GameObject> _taskResult = new();
+        private static IEnumerator _exosuitPrefabCoroutine;
 
         private static AnimationCurve ExosuitThermalReactorCharge { get; set; }
 
@@ -18,7 +18,7 @@ namespace SeamothThermal.Patches
             if (ExosuitThermalReactorCharge != null)
             {
                 // If we have the SeamothThermalModule equipped.
-                var count = __instance.modules.GetCount(Main.thermalModule.TechType);
+                var count = __instance.modules.GetCount(Main.thermalModule);
                 if (count > 0)
                 {
                     // Evaluate the energy to add based on temperature
@@ -29,18 +29,18 @@ namespace SeamothThermal.Patches
                     __instance.AddEnergy(energyToAdd * Time.deltaTime);
                 }
             }
-            else if (exosuitPrefabCoroutine == null)
+            else if (_exosuitPrefabCoroutine == null)
             {
-                exosuitPrefabCoroutine = CraftData.GetPrefabForTechTypeAsync(TechType.Exosuit, false, m_TaskResult);
+                _exosuitPrefabCoroutine = CraftData.GetPrefabForTechTypeAsync(TechType.Exosuit, false, _taskResult);
                 __instance.StartCoroutine(GetPrefab());
             }
         }
 
         private static IEnumerator GetPrefab()
         {
-            yield return exosuitPrefabCoroutine;
+            yield return _exosuitPrefabCoroutine;
 
-            var go = m_TaskResult.Get();
+            var go = _taskResult.Get();
 
             if (go != null && go.TryGetComponent(out Exosuit exosuit))
             {
@@ -49,5 +49,4 @@ namespace SeamothThermal.Patches
 
         }
     }
-}
 #endif

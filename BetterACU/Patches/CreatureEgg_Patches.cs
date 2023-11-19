@@ -1,14 +1,13 @@
-﻿namespace BetterACU.Patches
-{
-    using HarmonyLib;
+﻿namespace BetterACU.Patches;
 
-    [HarmonyPatch(typeof(CreatureEgg), nameof(CreatureEgg.Hatch))]
-    internal class CreatureEggHatchPrefix
+using HarmonyLib;
+
+[HarmonyPatch(typeof(CreatureEgg), nameof(CreatureEgg.Hatch))]
+internal class CreatureEggHatchPrefix
+{
+    [HarmonyPostfix]
+    public static void Postfix(CreatureEgg __instance)
     {
-        [HarmonyPostfix]
-        public static void Postfix(CreatureEgg __instance)
-        {
-            UnityEngine.Object.Destroy(__instance.gameObject);
-        }
+        UnityEngine.Object.Destroy(__instance.gameObject);
     }
 }

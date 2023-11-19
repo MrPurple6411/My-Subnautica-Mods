@@ -1,15 +1,14 @@
-﻿namespace WarpersNoWarping.Patches
-{
-    using HarmonyLib;
+﻿namespace WarpersNoWarping.Patches;
 
-    [HarmonyPatch(typeof(WarpOut), nameof(WarpOut.Evaluate))]
-    public class WarpOut_Evaluate
+using HarmonyLib;
+
+[HarmonyPatch(typeof(WarpOut), nameof(WarpOut.Evaluate))]
+public class WarpOut_Evaluate
+{
+    [HarmonyPrefix]
+    public static bool Prefix(ref float __result)
     {
-        [HarmonyPrefix]
-        public static bool Prefix(ref float __result)
-        {
-            __result = 0f;
-            return false;
-        }
+        __result = 0f;
+        return false;
     }
 }

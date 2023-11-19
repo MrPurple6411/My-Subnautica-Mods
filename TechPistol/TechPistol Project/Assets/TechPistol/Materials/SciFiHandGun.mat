@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SciFiHandGun
-  m_Shader: {fileID: 4800000, guid: 66d66d8c0ecf3784f8fb7d6b48517f9d, type: 3}
+  m_Shader: {fileID: 4800000, guid: 94a8e2c73ad36984b87fc9f9694c108f, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP _ZWRITE_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 6cf660a5121023d429a74b029e07b274, type: 3}
+        m_Texture: {fileID: 2800000, guid: 52089a1ae58cfe7478f335260bcc023b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -36,15 +36,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 41ff02b71a55b5041b13401d8f62d51e, type: 3}
+        m_Texture: {fileID: 2800000, guid: e01275e14b468074483620738826b824, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Illum:
-        m_Texture: {fileID: 2800000, guid: 41ff02b71a55b5041b13401d8f62d51e, type: 3}
+        m_Texture: {fileID: 2800000, guid: e01275e14b468074483620738826b824, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bc904aef57ee23d4e883fa0cd4d6f766, type: 3}
+        m_Texture: {fileID: 2800000, guid: 360b060f898beb7439c15457f18a6466, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 4c84f9540b9be06469d4e89075cdb58b, type: 3}
+        m_Texture: {fileID: 2800000, guid: d5cc7dc8f60acd646a800b9f4f231af4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SIGMap:
-        m_Texture: {fileID: 2800000, guid: 223045c7ca1277c42bef6e5cb8291451, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46beb357a7130b24ab50bc91fcb2ff48, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecTex:
-        m_Texture: {fileID: 2800000, guid: 223045c7ca1277c42bef6e5cb8291451, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46beb357a7130b24ab50bc91fcb2ff48, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -100,6 +100,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0.66988945, b: 1, a: 1}
-    - _GlowColor: {r: 0, g: 0.67058825, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 1, b: 0.9803922, a: 1}
+    - _GlowColor: {r: 0, g: 1, b: 0.98223853, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

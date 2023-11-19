@@ -1,95 +1,102 @@
-﻿namespace UnknownName.Patches
+namespace UnknownName.Patches;
+
+using HarmonyLib;
+using System.Collections;
+using UnityEngine;
+using UWE;
+
+#if SUBNAUTICA_EXP
+[HarmonyPatch(typeof(Inventory), nameof(Inventory.PickupAsync))]
+#else
+[HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
+#endif
+public class Inventory_Pickup
 {
-    using HarmonyLib;
-    using System.Collections;
-    using UnityEngine;
-    using UWE;
+    private static bool newGame = true;
 
-#if SUBNAUTICA_EXP
-    [HarmonyPatch(typeof(Inventory), nameof(Inventory.PickupAsync))]
-#else
-    [HarmonyPatch(typeof(Inventory), nameof(Inventory.Pickup))]
-#endif
-    public class Inventory_Pickup
+    [HarmonyPostfix]
+    public static void Postfix(Pickupable pickupable)
+	{
+		if (newGame && Main.Config.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
+		{
+			CoroutineHost.StartCoroutine(GiveHardcoreScanner(pickupable));
+			newGame = false;
+			Nautilus.Utility.SaveUtils.RegisterOnQuitEvent(() => newGame = true);
+			return;
+		}
+		
+		ProcessPickupable(pickupable);
+	}
+
+	private static void ProcessPickupable(Pickupable pickupable)
+	{
+		var techType = pickupable.GetTechType();
+		var entryData = PDAScanner.GetEntryData(techType);
+		var gameObject = pickupable.gameObject;
+		if (Main.Config.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
+		{
+			if (!PDAScanner.GetPartialEntryByKey(techType, out var entry))
+			{
+				entry = PDAScanner.Add(techType, 1);
+			}
+			if (entry != null)
+			{
+				PDAScanner.partial.Remove(entry);
+				if (!PDAScanner.complete.Contains(techType))
+					PDAScanner.complete.Add(entry.techType);
+				PDAScanner.NotifyRemove(entry);
+				PDAScanner.Unlock(entryData, true, true);
+				if (!Main.Config.Hardcore)
+					KnownTech.Add(techType, true);
+				if (gameObject != null)
+				{
+					gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+		}
+
+		if (!Main.Config.Hardcore && entryData == null)
+		{
+			KnownTech.Add(techType, true);
+		}
+	}
+
+	private static IEnumerator GiveHardcoreScanner(Pickupable pickupable)
     {
-        private static bool newGame = true;
+        var task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
+        yield return task1;
+        var scannerPrefab = task1.GetResult();
+        var gameObject1 = Object.Instantiate(scannerPrefab);
+        var pickupable1 = gameObject1.GetComponent<Pickupable>();
+        scannerPrefab.SetActive(false);
 
-        [HarmonyPostfix]
-        public static void Postfix(Pickupable pickupable)
-        {
-            if(newGame && Main.SMLConfig.Hardcore && !global::Utils.GetContinueMode() && !Player.main.IsInside())
-            {
-                CoroutineHost.StartCoroutine(GiveHardcoreScanner());
-                newGame = false;
-                SMLHelper.Utility.SaveUtils.RegisterOnQuitEvent(() => newGame = true);
-            }
-
-            var techType = pickupable.GetTechType();
-            var entryData = PDAScanner.GetEntryData(techType);
-            var gameObject = pickupable.gameObject;
-            if(Main.SMLConfig.ScanOnPickup && Inventory.main.container.Contains(TechType.Scanner) && entryData != null)
-            {
-                if(!PDAScanner.GetPartialEntryByKey(techType, out var entry))
-                {
-                    entry = PDAScanner.Add(techType, 1);
-                }
-                if(entry != null)
-                {
-                    PDAScanner.partial.Remove(entry);
-                    PDAScanner.complete.AddIfNotPresent(entry.techType);
-                    PDAScanner.NotifyRemove(entry);
-                    PDAScanner.Unlock(entryData, true, true);
-                    if(!Main.SMLConfig.Hardcore)
-                        KnownTech.Add(techType, true);
-                    if(gameObject != null)
-                    {
-                        gameObject.SendMessage("OnScanned", null, SendMessageOptions.DontRequireReceiver);
-                    }
-                }
-            }
-
-            if(!Main.SMLConfig.Hardcore && entryData == null)
-            {
-                KnownTech.Add(techType, true);
-            }
-        }
-
-        private static IEnumerator GiveHardcoreScanner()
-        {
-            var task1 = CraftData.GetPrefabForTechTypeAsync(TechType.Scanner);
-            yield return task1;
-            var scannerPrefab = task1.GetResult();
-            var gameObject1 = Object.Instantiate(scannerPrefab);
-            var pickupable1 = gameObject1.GetComponent<Pickupable>();
-            scannerPrefab.SetActive(false);
-
-            var task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
-            yield return task2;
-            var batteryPrefab = task2.GetResult();
-            var gameObject2 = Object.Instantiate(batteryPrefab);
-            var pickupable2 = gameObject2.GetComponent<Pickupable>();
-            batteryPrefab.SetActive(false);
+        var task2 = CraftData.GetPrefabForTechTypeAsync(TechType.Battery);
+        yield return task2;
+        var batteryPrefab = task2.GetResult();
+        var gameObject2 = Object.Instantiate(batteryPrefab);
+        var pickupable2 = gameObject2.GetComponent<Pickupable>();
+        batteryPrefab.SetActive(false);
 
 #if SUBNAUTICA_EXP
 
-            TaskResult<Pickupable> task3 = new TaskResult<Pickupable>();
-            yield return pickupable1.PickupAsync(task3, false);
-            yield return task3;
-            pickupable1 = task3.Get();
+        TaskResult<Pickupable> task3 = new TaskResult<Pickupable>();
+        yield return pickupable1.PickupAsync(task3, false);
+        yield return task3;
+        pickupable1 = task3.Get();
 
-            TaskResult<Pickupable> task4 = new TaskResult<Pickupable>();
-            yield return pickupable2.PickupAsync(task4, false);
-            yield return task4;
-            pickupable2 = task4.Get();
+        TaskResult<Pickupable> task4 = new TaskResult<Pickupable>();
+        yield return pickupable2.PickupAsync(task4, false);
+        yield return task4;
+        pickupable2 = task4.Get();
 #else
-            pickupable1.Pickup(false);
-            pickupable2.Pickup(false);
+        pickupable1.Pickup(false);
+        pickupable2.Pickup(false);
 #endif
-            var scannerTool = pickupable1.GetComponent<ScannerTool>();
-            scannerTool?.energyMixin?.batterySlot?.AddItem(pickupable2);
+        var scannerTool = pickupable1.GetComponent<ScannerTool>();
+        scannerTool?.energyMixin?.batterySlot?.AddItem(pickupable2);
 
-            Inventory.main.container.AddItem(pickupable1);
-        }
-    }
+        Inventory.main.container.AddItem(pickupable1);
 
+		ProcessPickupable(pickupable);
+	}
 }

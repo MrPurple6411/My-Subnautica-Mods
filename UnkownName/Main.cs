@@ -1,25 +1,19 @@
-﻿namespace UnknownName
-{
-    using System.Reflection;
-    using HarmonyLib;
-    using SMLHelper.Handlers;
-    using Configuration;    using BepInEx;
-    
-    [BepInPlugin(GUID, MODNAME, VERSION)]
-    public class Main: BaseUnityPlugin
-    {
-        #region[Declarations]
-        public const string
-            MODNAME = "UnknownName",
-            AUTHOR = "MrPurple6411",
-            GUID = AUTHOR + "_" + MODNAME,
-            VERSION = "1.0.0.0";
-        internal static SMLConfig SMLConfig { get; } = OptionsPanelHandler.RegisterModOptions<SMLConfig>();
-        #endregion
+namespace UnknownName;
 
-        private void Awake()
-        {
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
-        }
+using System.Reflection;
+using HarmonyLib;
+using Nautilus.Handlers;
+using Configuration;using BepInEx;
+
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
+public class Main: BaseUnityPlugin
+{
+    internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+    private void Awake()
+    {
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
     }
 }

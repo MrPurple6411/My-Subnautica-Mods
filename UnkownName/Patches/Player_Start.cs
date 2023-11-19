@@ -1,15 +1,13 @@
-﻿namespace UnknownName.Patches
+﻿namespace UnknownName.Patches;
+
+using HarmonyLib;
+
+[HarmonyPatch(typeof(Player), nameof(Player.Start))]
+public class Player_Start
 {
-    using HarmonyLib;
-
-    [HarmonyPatch(typeof(Player), nameof(Player.Start))]
-    public class Player_Start
+    [HarmonyPrefix]
+    public static void Prefix()
     {
-        [HarmonyPrefix]
-        public static void Prefix()
-        {
-            Main.SMLConfig.Load();
-        }
+        Main.Config.Load();
     }
-
 }
