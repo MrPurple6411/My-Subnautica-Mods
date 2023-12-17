@@ -101,6 +101,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllowEatingWhenFull", "AllowEatingWhenFull\AllowEatingWhenFull.csproj", "{AAE1D4A8-F5F0-4021-9CB5-6260FA910906}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BelowZero|Any CPU = BelowZero|Any CPU
@@ -276,6 +278,10 @@ Global
 		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
 		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
 		{34841C5B-3C3C-48EF-B6EF-5575B60C52E5}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{AAE1D4A8-F5F0-4021-9CB5-6260FA910906}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{AAE1D4A8-F5F0-4021-9CB5-6260FA910906}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{AAE1D4A8-F5F0-4021-9CB5-6260FA910906}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{AAE1D4A8-F5F0-4021-9CB5-6260FA910906}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
