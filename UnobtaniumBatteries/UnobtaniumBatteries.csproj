@@ -49,6 +49,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomCommands\CustomCommands.csproj">
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\WarpersNoWarping\WarpersNoWarping.csproj">
       <Private>False</Private>
       <PrivateAssets>all</PrivateAssets>

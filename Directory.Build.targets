@@ -5,7 +5,7 @@
 			<PluginsDir>$(StagingDir)\plugins</PluginsDir>
 			<BuildDir>$([System.IO.Path]::Combine('$(PluginsDir)', '$(AssemblyName)'))</BuildDir>
 			<BuildZipDir>$([System.IO.Path]::Combine('$(SolutionDir)/..', 'Zips_$(ConfigurationName)'))</BuildZipDir>
-			<BuildZipPath>$([System.IO.Path]::Combine('$(BuildZipDir)', '$(AssemblyName)_v$(Version).zip'))</BuildZipPath>
+			<BuildZipPath>$([System.IO.Path]::Combine('$(BuildZipDir)', '$(AssemblyName)_$(ConfigurationName)_v$(Version).zip'))</BuildZipPath>
 		</PropertyGroup>
 
 		<!--Remove StagingDir if already exists -->
