@@ -35,7 +35,11 @@ public class Player_Update_Patch
 			return;
 
 		var tankSlot = Inventory.main.equipment.GetTechTypeInSlot("Tank");
-		if (!GameModeUtils.RequiresOxygen() || !Player.main.IsSwimming() || tankSlot != scubaManifold)
+		if (
+#if SUBNAUTICA
+			!GameModeUtils.RequiresOxygen() || 
+#endif
+			!Player.main.IsSwimming() || tankSlot != scubaManifold)
 			return;
 
 		var photosynthesisTanks = Inventory.main.container.GetCount(photosynthesisSmall) + Inventory.main.container.GetCount(photosynthesisTank);
