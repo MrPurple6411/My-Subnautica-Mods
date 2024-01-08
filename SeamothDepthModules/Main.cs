@@ -23,7 +23,11 @@ public class Main : BaseUnityPlugin
 		{
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
 			LanguageHandler.SetLanguageLine("Tooltip_VehicleHullModule3", "Enhances diving depth. Does not stack"); // To update conflicts about the maximity.
-
+			CraftTreeHandler.AddTabNode(CraftTree.Type.Workbench, "SeamothDepthModules", "Seamoth Depth Upgrades", SpriteManager.Get(TechType.VehicleHullModule1));
+			CraftTreeHandler.RemoveNode(CraftTree.Type.Workbench, "VanillaWorkbench", "VehicleHullModule2");
+			CraftTreeHandler.AddCraftingNode(CraftTree.Type.Workbench, TechType.VehicleHullModule2, "SeamothDepthModules");
+			CraftTreeHandler.RemoveNode(CraftTree.Type.Workbench, "VanillaWorkbench", "VehicleHullModule3");
+			CraftTreeHandler.AddCraftingNode(CraftTree.Type.Workbench, TechType.VehicleHullModule3, "SeamothDepthModules");
 			moduleMK4 = new SeamothHullModule4().Info.TechType;
 			moduleMK5 = new SeamothHullModule5().Info.TechType;
 			Logger.LogInfo("Succesfully patched!");

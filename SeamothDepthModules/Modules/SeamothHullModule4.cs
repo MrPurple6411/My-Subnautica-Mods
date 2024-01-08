@@ -26,7 +26,7 @@ public class SeamothHullModule4 : CustomPrefab
 					new(TechType.AluminumOxide, 3)
 				},
 			craftAmount = 1
-		}).WithFabricatorType(CraftTree.Type.Workbench).WithStepsToFabricatorTab("SeamothModules");
+		}).WithFabricatorType(CraftTree.Type.Workbench).WithStepsToFabricatorTab("SeamothDepthModules");
 
 		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 

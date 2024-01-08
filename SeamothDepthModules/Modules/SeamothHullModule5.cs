@@ -25,7 +25,7 @@ public class SeamothHullModule5 : CustomPrefab
 					new(TechType.Aerogel, 2)
 				},
 			craftAmount = 1
-		}).WithFabricatorType(CraftTree.Type.Workbench).WithStepsToFabricatorTab("SeamothModules");
+		}).WithFabricatorType(CraftTree.Type.Workbench).WithStepsToFabricatorTab("SeamothDepthModules");
 
 		this.SetEquipment(EquipmentType.SeamothModule).WithQuickSlotType(QuickSlotType.Passive);
 
