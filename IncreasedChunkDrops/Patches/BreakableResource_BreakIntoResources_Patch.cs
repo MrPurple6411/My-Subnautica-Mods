@@ -1,4 +1,4 @@
-﻿namespace IncreasedChunkDrops.Patches;
+namespace IncreasedChunkDrops.Patches;
 
 using HarmonyLib;
 using UnityEngine;
@@ -11,9 +11,12 @@ using System.Collections;
 [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
 internal class BreakableResource_BreakIntoResources_Patch
 {
-    [HarmonyPostfix]
-    public static void Postfix(BreakableResource __instance)
+    [HarmonyPostfix, HarmonyPriority(Priority.Last)]
+    public static void Postfix(BreakableResource __instance, bool __runOriginal)
     {
+		if(!__runOriginal)
+			return;
+
         var go = __instance.gameObject;
         var position = go.transform.position + go.transform.up * __instance.verticalSpawnOffset;
         var extraSpawns = Random.Range(Main.SMLConfig.ExtraCount, Main.SMLConfig.ExtraCountMax + 1);

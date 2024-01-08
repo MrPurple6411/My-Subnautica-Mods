@@ -1,4 +1,4 @@
-﻿namespace ConfigurableChunkDrops.Patches;
+namespace ConfigurableChunkDrops.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -9,9 +9,12 @@ public static class BreakableResource_ChooseRandomResource
 {
     public static Dictionary<TechType, List<BreakableResource.RandomPrefab>> prefabs = new();
 
-    [HarmonyPrefix]
-    public static void Prefix(BreakableResource __instance)
+    [HarmonyPrefix, HarmonyPriority(Priority.Last)]
+    public static void Prefix(BreakableResource __instance, bool __runOriginal)
     {
+		if(!__runOriginal)
+			return;
+
         var Breakable = CraftData.GetTechType(__instance.gameObject);
 
         if(prefabs.TryGetValue(Breakable, out var randomPrefabs))

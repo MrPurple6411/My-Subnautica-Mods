@@ -1,4 +1,4 @@
-﻿namespace ConfigurableChunkDrops.Patches;
+namespace ConfigurableChunkDrops.Patches;
 
 using UnityEngine.AddressableAssets;
 using HarmonyLib;
@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.IO;
 using Nautilus.Handlers;
 using System;
+using Nautilus.Extensions;
 
 [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
 public static class Player_Awake_Patch
@@ -41,7 +42,7 @@ public static class Player_Awake_Patch
         }
     }
 
-    private static IEnumerator GetPrefabForList(TechType breakable, TechType techType, float chance)
+    private static IEnumerator GetPrefabForList(TechType breakable, TechType techType, float newChance)
     {
         var task = CraftData.GetPrefabForTechTypeAsync(techType, false);
 
@@ -51,13 +52,13 @@ public static class Player_Awake_Patch
         var existingPrefab = BreakableResource_ChooseRandomResource.prefabs[breakable].Find((x) => x.prefabTechType == techType);
         if (existingPrefab != null)
         {
-            existingPrefab.chance = chance;
+            existingPrefab.chance = newChance;
             yield break;
         }
 
         yield return task;
         var gameObject = task.GetResult();
         if (gameObject != null && PrefabDatabase.TryGetPrefabFilename(gameObject.GetComponent<PrefabIdentifier>().ClassId, out var filename))
-            BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefabTechType = techType, prefabReference = new AssetReferenceGameObject(filename), chance = chance });
+            BreakableResource_ChooseRandomResource.prefabs[breakable].Add(new BreakableResource.RandomPrefab() { prefabTechType = techType, prefabReference = new AssetReferenceGameObject(filename).ForceValid(), chance = newChance });
     }
 }
