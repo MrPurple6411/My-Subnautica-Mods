@@ -4,83 +4,69 @@ using HarmonyLib;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AddressableAssets;
-using BepInEx.Logging;
-using UWE;
-using System.Collections;
+using Nautilus.Extensions;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.BreakIntoResources))]
 internal class BreakableResource_BreakIntoResources_Patch
 {
-    [HarmonyPostfix, HarmonyPriority(Priority.Last)]
-    public static void Postfix(BreakableResource __instance, bool __runOriginal)
-    {
-		if(!__runOriginal)
+	[HarmonyPostfix, HarmonyPriority(Priority.Last)]
+	public static void Postfix(BreakableResource __instance, bool __runOriginal)
+	{
+		if (!__runOriginal)
 			return;
 
-        var go = __instance.gameObject;
-        var position = go.transform.position + go.transform.up * __instance.verticalSpawnOffset;
-        var extraSpawns = Random.Range(Main.SMLConfig.ExtraCount, Main.SMLConfig.ExtraCountMax + 1);
-        while(extraSpawns > 0)
-        {
-            AssetReferenceGameObject assetReferenceGameObject = null;
-            var flag = false;
-            for(var i = 0; i < __instance.numChances; i++)
-            {
-                assetReferenceGameObject = __instance.ChooseRandomResource();
-                if(assetReferenceGameObject != null)
-                {
-                    extraSpawns--;
-                    flag = true;
-                    break;
-                }
-            }
-            if(!flag)
-            {
-                assetReferenceGameObject = __instance.defaultPrefabReference;
-                extraSpawns--;
-            }
+		var go = __instance.gameObject;
+		var position = go.transform.position + go.transform.up * __instance.verticalSpawnOffset;
+		var extraSpawns = Random.Range(Main.SMLConfig.ExtraCount, Main.SMLConfig.ExtraCountMax + 1);
 
-            if(assetReferenceGameObject == null)
-                continue;
+		while (extraSpawns > 0)
+		{
+			AssetReferenceGameObject assetReferenceGameObject = null;
+			var flag = false;
+			for (var i = 0; i < __instance.numChances; i++)
+			{
+				assetReferenceGameObject = __instance.ChooseRandomResource();
+				if (assetReferenceGameObject != null)
+				{
+					extraSpawns--;
+					flag = true;
+					break;
+				}
+			}
 
-            CoroutineHost.StartCoroutine(SpawnObject(assetReferenceGameObject, position));
-        }
-    }
+			if (!flag)
+			{
+				assetReferenceGameObject = __instance.defaultPrefabReference;
+				extraSpawns--;
+			}
 
-    private static IEnumerator SpawnObject(AssetReferenceGameObject assetReferenceGameObject, Vector3 position)
-    {
-        var log = assetReferenceGameObject.RuntimeKey is string key && !key.EndsWith("prefab");
-        var task = AddressablesUtility.InstantiateAsync(assetReferenceGameObject.RuntimeKey as string, null, position, Quaternion.identity);
-        yield return task;
-        var go = task.GetResult();
+			if (assetReferenceGameObject == null)
+				continue;
 
-        if(log)
-        {
-            Main.logSource.LogMessage($"key: {assetReferenceGameObject.RuntimeKey}");
-            Main.logSource.LogMessage($"go: {go != null}");
-        }
+			AsyncOperationHandle<GameObject> spawnTask = assetReferenceGameObject.ForceValid().InstantiateAsync(position, Quaternion.identity);
+			spawnTask.Completed += (task) =>
+			{
+				if (task.Status != AsyncOperationStatus.Succeeded)
+					return;
 
-        if(go is null)
-            yield break;
+				var go = task.Result;
+				if (go is null)
+					return;
 
-        var rigidbody = go.GetComponent<Rigidbody>();
-        if(log)
-        {
-            Main.logSource.LogMessage($"rigidbody: {rigidbody != null}");
-        }
+				go.SetActive(true);
 
-        if(rigidbody == null)
-            yield break;
+				var rigidbody = go.GetComponent<Rigidbody>();
 
-        if(log)
-        {
-            Main.logSource.LogMessage($"Distance: {Vector3.Distance(Player.main.transform.position, go.transform.position)}");
-        }
+				if (rigidbody == null)
+					return;
 
-        rigidbody.isKinematic = false;
-        rigidbody.maxDepenetrationVelocity = 0.5f;
-        rigidbody.maxAngularVelocity = 1f;
-        rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
-        rigidbody.AddForce(position * 0.2f);
-    }
+				rigidbody.isKinematic = false;
+				rigidbody.maxDepenetrationVelocity = 0.5f;
+				rigidbody.maxAngularVelocity = 1f;
+				rigidbody.AddTorque(Vector3.right * Random.Range(6f, 12f));
+				rigidbody.AddForce(position * 0.2f);
+			};
+		}
+	}
 }
