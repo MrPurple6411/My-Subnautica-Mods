@@ -1,4 +1,3 @@
-#if SUBNAUTICA
 namespace MoreSeamothDepth.Modules;
 using System.Collections;
 
@@ -56,4 +55,3 @@ public class SeamothHullModule4 : CustomPrefab
 		gameObject.Set(obj);
 	}
 }
-#endif

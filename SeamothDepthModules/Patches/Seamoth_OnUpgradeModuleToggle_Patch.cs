@@ -1,4 +1,3 @@
-#if SUBNAUTICA
 namespace MoreSeamothDepth.Patches;
 
 using HarmonyLib;
@@ -63,4 +62,3 @@ public class Seamoth_OnUpgradeModuleChange_Patch
 		__instance.crushDamage.SetExtraCrushDepth(depthUpgrade);
 	}
 }
-#endif

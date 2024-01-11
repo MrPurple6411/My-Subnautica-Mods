@@ -1,6 +1,5 @@
-﻿#if SUBNAUTICA
-namespace MoreSeamothDepth.Patches
-{
+namespace MoreSeamothDepth.Patches;
+
     using HarmonyLib;
 
     [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Start))]
@@ -19,5 +18,3 @@ namespace MoreSeamothDepth.Patches
             tempDamage.minDamageTemperature = 50;
         }
     }
-}
-#endif

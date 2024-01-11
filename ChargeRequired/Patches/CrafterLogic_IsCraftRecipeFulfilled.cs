@@ -18,7 +18,7 @@ internal class CrafterLogic_IsCraftRecipeFulfilled
 #if SUBNAUTICA
 			!GameModeUtils.RequiresIngredients()
 #else
-			GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources)
+			!GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources)
 #endif
 			) return;
         var main = Inventory.main;
