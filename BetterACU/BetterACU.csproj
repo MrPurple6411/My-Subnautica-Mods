@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<AssemblyName>BetterACU</AssemblyName>
 		<Product>Better Alien Containment Unit</Product>
-		<Version>2.0.0.1</Version>
+		<Version>2.0.1</Version>
         <OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
 	</PropertyGroup>
 </Project>
