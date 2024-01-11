@@ -12,6 +12,7 @@ using System.IO;
 using Nautilus.Handlers;
 using System;
 using Nautilus.Extensions;
+using UnityEngine;
 
 [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
 public static class Player_Awake_Patch
@@ -21,7 +22,9 @@ public static class Player_Awake_Patch
     {
         Main.smlConfig.Load();
 
-        foreach(var breakable in Main.smlConfig.Breakables)
+		var entropy = __instance.gameObject.GetComponent<PlayerEntropy>();
+
+		foreach (var breakable in Main.smlConfig.Breakables)
         {
             if(TechTypeExtensions.FromString(breakable.Key, out TechType breakableType, true))
             {
@@ -29,7 +32,11 @@ public static class Player_Awake_Patch
                 {
                     if(TechTypeExtensions.FromString(pair.Key, out TechType dropType, true))
                     {
-                        var entropy = __instance.gameObject.GetComponent<PlayerEntropy>();
+						if (dropType == TechType.Cyclops)
+						{
+							Main.logSource.LogError("Cyclops is not a valid drop type. Skipping.");
+							continue;
+						}
                         var techEntropy = entropy.randomizers.Find((x) => x.techType == dropType);
 
                         if(techEntropy == default)
