@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<AssemblyName>SpecialtyManifold</AssemblyName>
 		<Product>Specialty Manifold</Product>
-		<Version>2.0.0.0</Version>
+		<Version>2.0.2</Version>
         <OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
 	</PropertyGroup>
 </Project>
