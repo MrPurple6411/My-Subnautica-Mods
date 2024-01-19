@@ -143,7 +143,7 @@ internal class WaterParkBreedPostfix
 		foreach (var waterParkItem in items)
 		{
 			var parkCreature = waterParkItem as WaterParkCreature;
-			var parkCreatureTechType = parkCreature is not null && parkCreature.pickupable != null ? parkCreature.pickupable.GetTechType() : TechType.None;
+			var parkCreatureTechType = waterParkItem.GetTechType();
 			var creatureTechString = parkCreatureTechType.AsString();
 			if (parkCreature == null || parkCreature == creature || !parkCreature.GetCanBreed() ||
 				parkCreatureTechType != techType || creatureTechString.Contains("Egg"))
@@ -175,13 +175,19 @@ internal class WaterParkBreedPostfix
 			{
 				if (!Config.OceanBreedWhiteList.TryGetValue(creatureTechString, out int limit))
 				{
-					limit = 0;
-					var option = ModSliderOption.Create(creatureTechString, creatureTechString, 0, 100, limit, limit);
-					option.OnChanged += (sender, args) => Config.OceanBreedWhiteList[creatureTechString] = Mathf.CeilToInt(args.Value);
-					Config.OptionsMenu.AddItem(option);
-
-					if (Config.OceanBreedWhiteList.Count == 0)
+					if (Config.OptionsMenu.Options.Count == 0)
 						OptionsPanelHandler.RegisterModOptions(Config.OptionsMenu);
+
+					if (!Config.OptionsMenu.Options.Any(option => option.Id == creatureTechString))
+					{
+						limit = 0;
+						var option = ModSliderOption.Create(creatureTechString, creatureTechString, 0, 100, limit, limit);
+						option.OnChanged += (sender, args) => Config.OceanBreedWhiteList[creatureTechString] = Mathf.CeilToInt(args.Value);
+						Config.OceanBreedWhiteList[creatureTechString] = limit;
+						Config.Instance.oceanBreedWhiteList = Config.OceanBreedWhiteList.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+						Config.Instance.Save();
+						Config.OptionsMenu.AddItem(option);
+					}
 				}
 
 				Dictionary<string, int> breedCounts;

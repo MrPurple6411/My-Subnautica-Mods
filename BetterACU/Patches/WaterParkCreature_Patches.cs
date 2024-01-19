@@ -2,7 +2,10 @@ namespace BetterACU.Patches;
 
 using BetterACU.Configuration;
 using HarmonyLib;
+using Nautilus.Handlers;
+using Nautilus.Options;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.BornAsync))]
@@ -13,6 +16,35 @@ internal class WaterParkCreature_Born_Prefix
     {
         return waterPark.IsPointInside(position);
     }
+}
+
+[HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.Start))]
+internal class WaterParkCreature_Start_Prefix
+{
+	[HarmonyPrefix]
+	public static void Prefix(WaterParkCreature __instance)
+	{
+		var parkCreatureTechType = __instance.GetTechType();
+		if (parkCreatureTechType == TechType.None) return;
+
+		var creatureTechString = parkCreatureTechType.AsString();
+		if (!Config.OceanBreedWhiteList.TryGetValue(creatureTechString, out int limit))
+		{
+			if (Config.OptionsMenu.Options.Count == 0)
+				OptionsPanelHandler.RegisterModOptions(Config.OptionsMenu);
+
+			if (!Config.OptionsMenu.Options.Any(option => option.Id == creatureTechString))
+			{
+				limit = 0;
+				var option = ModSliderOption.Create(creatureTechString, creatureTechString, 0, 100, limit, limit);
+				option.OnChanged += (sender, args) => Config.OceanBreedWhiteList[creatureTechString] = Mathf.CeilToInt(args.Value);
+				Config.OceanBreedWhiteList[creatureTechString] = limit;
+				Config.Instance.oceanBreedWhiteList = Config.OceanBreedWhiteList.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+				Config.Instance.Save();
+				Config.OptionsMenu.AddItem(option);
+			}
+		}
+	}
 }
 
 [HarmonyPatch(typeof(WaterParkCreature), nameof(WaterParkCreature.ManagedUpdate))]

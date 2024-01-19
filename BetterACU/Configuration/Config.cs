@@ -5,7 +5,9 @@ using Nautilus.Json;
 using Nautilus.Options;
 using Nautilus.Options.Attributes;
 using Nautilus.Utility;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Menu(MyPluginInfo.PLUGIN_NAME, LoadOn = MenuAttribute.LoadEvents.MenuOpened | MenuAttribute.LoadEvents.MenuRegistered,
@@ -61,6 +63,7 @@ public class Config : ConfigFile
 		if (Instance != null) return;
 
 		Instance = OptionsPanelHandler.RegisterModOptions<Config>();
+		Instance.Load();
 		OptionsMenu = new OceanBreedingOptionsMenu();
 		if (OceanBreedWhiteList.Count > 0)
 		{
@@ -95,6 +98,8 @@ public class Config : ConfigFile
 	{
 		public OceanBreedingOptionsMenu() : base("Better ACU: Ocean Breeding Limits")
 		{
+			Config.Instance.oceanBreedWhiteList = Config.OceanBreedWhiteList.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+			Config.Instance.Save();
 			foreach (var creature in Config.OceanBreedWhiteList)
 			{
 				var option = ModSliderOption.Create(creature.Key, creature.Key, 0, 100, creature.Value, creature.Value);
@@ -105,6 +110,11 @@ public class Config : ConfigFile
 				};
 				AddItem(option);
 			}
+		}
+
+		public override void BuildModOptions(uGUI_TabbedControlsPanel panel, int modsTabIndex, IReadOnlyCollection<OptionItem> options)
+		{
+			base.BuildModOptions(panel, modsTabIndex, options.OrderBy(o => o.Label).ToArray());
 		}
 	}
 }
