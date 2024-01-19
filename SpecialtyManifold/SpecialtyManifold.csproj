@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<AssemblyName>SpecialtyManifold</AssemblyName>
 		<Product>Specialty Manifold</Product>
-		<Version>2.0.2</Version>
+		<Version>2.0.3</Version>
         <OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
 	</PropertyGroup>
 </Project>

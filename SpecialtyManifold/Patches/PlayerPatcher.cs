@@ -101,7 +101,7 @@ internal static class PlayerPatcher
 		{
 			foreach (var tank in _foundPhotosynthesisTanks)
 			{
-				photosynthesisTanks += Inventory.main.container.GetCount(tank);
+				photosynthesisTanks += GetCount(tank, "lwuhcptank");
 			}
 		}
 
@@ -112,13 +112,33 @@ internal static class PlayerPatcher
 		{
 			foreach (var tank in _foundChemosynthesisTanks)
 			{
-				chemosynthesisTanks += Inventory.main.container.GetCount(tank);
+				chemosynthesisTanks += GetCount(tank, "lwuhcctank");
 			}
 		}
 		UpdateChemosynthesisTanks(chemosynthesisTanks);
 	}
 
+	private static int GetCount(TechType tank, string classId)
+	{
+		var count = 0;
 
+		if (Inventory.main.container._items.TryGetValue(tank, out var items))
+		{
+			foreach (var item in items.items)
+			{
+				PrefabIdentifier prefabIdentifier = item.item?.GetComponent<PrefabIdentifier>();
+				if (prefabIdentifier != null && prefabIdentifier.ClassId == classId)
+				{
+					count += 4;
+					continue;
+				}
+
+				count++;
+			}
+		}
+
+		return count;
+	}
 
 	private static void UpdateChemosynthesisTanks(int chemosynthesisTanks)
 	{
