@@ -23,9 +23,9 @@ public static class Player_Update_Patch
 			_line = 23;
 			Pickupable module = vehicle?.GetSlotItem(vehicle.GetActiveSlotID())?.item;
 			_line = 25;
-			bool builderCheck = heldTool != null && heldTool.pickupable.GetTechType() == TechType.Builder;
+			bool builderCheck = heldTool != null && heldTool.pickupable != null && heldTool.pickupable.GetTechType() == TechType.Builder;
 			_line = 27;
-			bool builderModuleCheck = EnumHandler.TryGetValue("BuilderModule", out TechType modTechType) && module != null && module.GetTechType() == modTechType;
+			bool builderModuleCheck = TechTypeExtensions.FromString("BuilderModule", out TechType modTechType, true) && module != null && module.GetTechType() == modTechType;
 			_line = 29;
 			if (DevConsole.instance != null && !DevConsole.instance.state && (builderCheck || builderModuleCheck))
 			{
