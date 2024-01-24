@@ -1,63 +1,65 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<AssemblyName>UnobtaniumBatteries</AssemblyName>
-		<Product>Unobtanium Batteries</Product>
-		<Version>2.0.0.0</Version>
+    <PropertyGroup>
+        <AssemblyName>UnobtaniumBatteries</AssemblyName>
+        <Product>Unobtanium Batteries</Product>
+        <Version>2.0.0.0</Version>
         <OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
-	</PropertyGroup>
-  <ItemGroup>
-    <Content Include="Assets\battery_illum.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\battery_normal.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\battery_spec.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\cell_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\cell_illum.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\cell_normal.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\cell_skin.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\battery_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\battery_skin.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\cell_spec.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'Subnautica'">
-    <Content Include="Assets\ghost_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\reaper_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\warper_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\PrimeSonicSubnauticaMods\CustomBatteries\CustomBatteries.csproj">
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\CustomCommands\CustomCommands.csproj">
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\WarpersNoWarping\WarpersNoWarping.csproj">
-      <Private>False</Private>
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-  </ItemGroup>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="Assets\battery_illum.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\battery_normal.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\battery_spec.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\cell_icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\cell_illum.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\cell_normal.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\cell_skin.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\battery_icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\battery_skin.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\cell_spec.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Configuration)' == 'Subnautica'">
+        <Content Include="Assets\ghost_icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\reaper_icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\warper_icon.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\PrimeSonicSubnauticaMods\CustomBatteries\CustomBatteries.csproj">
+            <Private>False</Private>
+        </ProjectReference>
+        <ProjectReference Include="..\CustomCommands\CustomCommands.csproj">
+            <Private>False</Private>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Configuration)' == 'Subnautica'">
+        <ProjectReference Include="..\WarpersNoWarping\WarpersNoWarping.csproj">
+            <Private>False</Private>
+            <PrivateAssets>all</PrivateAssets>
+        </ProjectReference>
+    </ItemGroup>
 </Project>
