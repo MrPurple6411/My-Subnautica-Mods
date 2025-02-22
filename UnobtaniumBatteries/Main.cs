@@ -17,6 +17,9 @@ using Nautilus.Handlers;
 [BepInDependency(CustomCommands.MyPluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
 #if SUBNAUTICA
 [BepInDependency(WarpersNoWarping.MyPluginInfo.PLUGIN_GUID, WarpersNoWarping.MyPluginInfo.PLUGIN_VERSION)]
+[BepInProcess("Subnautica.exe")]
+#elif BELOWZERO
+[BepInProcess("SubnauticaZero.exe")]
 #endif
 public class Main : BaseUnityPlugin
 {
