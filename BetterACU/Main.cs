@@ -1,11 +1,8 @@
 namespace BetterACU;
 
-using Configuration;
 using HarmonyLib;
-using Nautilus.Handlers;
 using System.Reflection;
 using BepInEx;
-using Nautilus.Utility;
 using BepInEx.Logging;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
@@ -18,12 +15,13 @@ using BepInEx.Logging;
 #endif
 public class Main: BaseUnityPlugin
 {
-	internal static ManualLogSource Logger;
+	internal new static ManualLogSource Logger;
 
     private void Awake()
     {
 		Logger = base.Logger;
 		Configuration.Config.Register();
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
-    }
+		Logger.LogInfo($"Loaded {MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}");
+	}
 }
