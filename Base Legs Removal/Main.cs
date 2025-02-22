@@ -20,5 +20,6 @@ public class Main: BaseUnityPlugin
     private void Awake()
     {
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
-    }
+		Logger.LogInfo("Loaded " + MyPluginInfo.PLUGIN_NAME);
+	}
 }

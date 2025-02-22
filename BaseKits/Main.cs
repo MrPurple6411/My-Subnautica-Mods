@@ -67,7 +67,7 @@ public class Main: BaseUnityPlugin
 
     internal static ManualLogSource logSource;
 
-    public void Awake()
+    private void Awake()
     {
         logSource = Logger;
         CoroutineHost.StartCoroutine(RegisterKits());

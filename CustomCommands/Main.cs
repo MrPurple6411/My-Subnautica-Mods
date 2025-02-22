@@ -41,7 +41,7 @@ public class Main : BaseUnityPlugin
 #endif
 	};
 
-	public void Awake()
+	private void Awake()
 	{
 		Logger = base.Logger;
 		Initialize();

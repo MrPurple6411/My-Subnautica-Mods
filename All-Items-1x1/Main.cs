@@ -13,8 +13,9 @@ using BepInEx;
 #endif
 public class Main: BaseUnityPlugin
 {
-    public void Awake()
+    private void Awake()
     {
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
-    }
+		Logger.LogInfo("Loaded " + MyPluginInfo.PLUGIN_NAME);
+	}
 }
