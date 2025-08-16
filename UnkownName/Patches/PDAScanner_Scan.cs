@@ -55,11 +55,7 @@ public class PDAScanner_Scan
 #endif
                 }
             }
-#if SUBNAUTICA
-            var techType2 = CraftData.GetHarvestOutputData(techType);
-#elif BELOWZERO
             var techType2 = TechData.GetHarvestOutput(techType);
-#endif
             if(techType2 != TechType.None)
             {
                 if(!KnownTech.Contains(techType2))

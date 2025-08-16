@@ -106,12 +106,7 @@ internal class UnobtaniumBehaviour : MonoBehaviour
 			if (techType == TechType.None) return;
 
 			var currentCharge = _vehicle.quickSlotCharge[_vehicle.activeSlot];
-			var maxCharge =
-#if SUBNAUTICA
-				CraftData.GetQuickSlotMaxCharge(techType);
-#else
-				TechData.GetMaxCharge(techType);
-#endif
+			var maxCharge = TechData.GetMaxCharge(techType);
 
 			if (currentCharge < maxCharge)
 			{

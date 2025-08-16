@@ -154,12 +154,7 @@ internal class Deconstruct_Patch
             {
                 var techType = __instance.resourceMap[resourceID2];
 
-                var size =
-#if SUBNAUTICA
-                    CraftData.GetItemSize(techType);
-#elif BELOWZERO
-                    TechData.GetItemSize(techType);
-#endif
+                    var size = TechData.GetItemSize(techType);
 
                 var storageCheck = false;
                 var thisVehicle = Player.main.GetVehicle();

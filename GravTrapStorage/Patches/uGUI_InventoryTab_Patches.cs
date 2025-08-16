@@ -30,7 +30,13 @@ internal class UGUIInventoryTabPatches
 	{
 		PDA pda = Player.main.GetPDA();
 		if (!pda.isInUse) return;
-		bool usingController = GameInput.GetPrimaryDevice() == GameInput.Device.Controller;
+	// Determine controller state with API differences across games
+#if BELOWZERO
+	var device = GameInput.GetPrimaryDevice();
+#else
+	var device = GameInput.PrimaryDevice;
+#endif
+	bool usingController = device == GameInput.Device.Controller;
 		if (!GameInput.GetButtonDown(usingController ? GameInput.Button.Sprint : GameInput.Button.AltTool)) return;
 		Pickupable pickupable;
 		if (CurrentItem != null)
@@ -78,8 +84,14 @@ internal class UGUIInventoryTabPatches
 		if (storageContainer == null) return;
 
 		string msg = storageContainer.GetOpen() ? "Close Storage" : "Open Storage";
-		bool usingController = GameInput.GetPrimaryDevice() == GameInput.Device.Controller;
-		TooltipFactory.WriteAction(sb,
-			uGUI.FormatButton(usingController ? GameInput.Button.Sprint : GameInput.Button.AltTool), msg);
+	// Determine bindings using current device
+#if BELOWZERO
+	var device = GameInput.GetPrimaryDevice();
+#else
+	var device = GameInput.PrimaryDevice;
+#endif
+	bool usingController = device == GameInput.Device.Controller;
+	var bind = GameInput.GetBinding(device, usingController ? GameInput.Button.Sprint : GameInput.Button.AltTool, GameInput.BindingSet.Primary);
+	TooltipFactory.WriteAction(sb, bind, msg);
 	}
 }

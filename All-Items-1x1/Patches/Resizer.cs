@@ -1,9 +1,6 @@
 namespace AllItems1x1.Patches;
 
 using HarmonyLib;
-#if SUBNAUTICA
-using TechData = CraftData;
-#endif
 
 [HarmonyPatch(typeof(TechData), nameof(TechData.GetItemSize))]
 public class Resizer

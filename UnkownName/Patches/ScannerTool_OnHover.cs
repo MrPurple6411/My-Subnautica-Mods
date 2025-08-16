@@ -9,11 +9,7 @@ public class ScannerTool_OnHover
     public static void Postfix(ScannerTool __instance)
     {
         var scanTarget = PDAScanner.scanTarget;
-#if SUBNAUTICA
-        var result = PDAScanner.CanScan();
-#elif BELOWZERO
         var result = PDAScanner.CanScan(scanTarget);
-#endif
         var entryData = PDAScanner.GetEntryData(PDAScanner.scanTarget.techType);
 
         if((entryData != null && (CrafterLogic.IsCraftRecipeUnlocked(entryData.blueprint) || CrafterLogic.IsCraftRecipeUnlocked(entryData.key))) || PDAScanner.ContainsCompleteEntry(scanTarget.techType) || __instance.energyMixin.charge <= 0f || !scanTarget.isValid || result != PDAScanner.Result.Scan ||

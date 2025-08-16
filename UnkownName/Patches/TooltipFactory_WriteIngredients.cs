@@ -9,39 +9,6 @@ using static CraftData;
 [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.WriteIngredients))]
 public class TooltipFactory_WriteIngredients
 {
-#if SUBNAUTICA
-
-    [HarmonyPostfix]
-    public static void Postfix(ITechData data, ref List<TooltipIcon> icons)
-    {
-        if(data == null)
-        {
-            return;
-        }
-        var ingredientCount = data.ingredientCount;
-        for(var i = 0; i < ingredientCount; i++)
-        {
-            var ingredient = data.GetIngredient(i);
-            var techType = ingredient.techType;
-            if(!KnownTech.Contains(techType) && PDAScanner.ContainsCompleteEntry(techType))
-            {
-                KnownTech.Add(techType);
-                continue;
-            }
-            if(!CrafterLogic.IsCraftRecipeUnlocked(techType))
-            {
-                var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
-                if(icons.Contains(icon))
-                {
-                    icons.Remove(icon);
-                    var tooltipIcon = new TooltipIcon() { sprite = SpriteManager.Get(TechType.None), text = Main.Config.UnKnownTitle };
-                    icons.Add(tooltipIcon);
-                }
-            }
-        }
-    }
-
-#elif BELOWZERO
 
     [HarmonyPostfix]
     public static void Postfix(IList<Ingredient> ingredients, ref List<TooltipIcon> icons)
@@ -60,7 +27,13 @@ public class TooltipFactory_WriteIngredients
                 KnownTech.Add(techType, true);
             }
 
-            if (KnownTech.Contains(techType) || !GameModeManager.GetOption<bool>(GameOption.TechRequiresUnlocking)) continue;
+            bool requiresUnlocking =
+#if BELOWZERO
+                GameModeManager.GetOption<bool>(GameOption.TechRequiresUnlocking);
+#else
+                GameModeUtils.RequiresBlueprints();
+#endif
+            if (KnownTech.Contains(techType) || !requiresUnlocking) continue;
             var icon = icons.Find((TooltipIcon) => TooltipIcon.sprite == SpriteManager.Get(techType) && TooltipIcon.text.Contains(Language.main.GetOrFallback(TooltipFactory.techTypeIngredientStrings.Get(techType), techType)));
             if (!icons.Contains(icon)) continue;
             icons.Remove(icon);
@@ -68,6 +41,4 @@ public class TooltipFactory_WriteIngredients
             icons.Add(tooltipIcon);
         }
     }
-
-#endif
 }

@@ -83,7 +83,13 @@ public static class Player_Update_Patch
 				_line = 83;
 				__instance.SetPosition(vector3);
 				_line = 85;
-				var msg3 = $"Press {GameInput.GetBinding(GameInput.GetPrimaryDevice(), GameInput.Button.Exit, GameInput.BindingSet.Primary)} to exit waterpark if you cant reach the exit.";
+				// Use device getter per game
+#if BELOWZERO
+				var device = GameInput.GetPrimaryDevice();
+#else
+				var device = GameInput.PrimaryDevice;
+#endif
+				var msg3 = $"Press {GameInput.GetBinding(device, GameInput.Button.Exit, GameInput.BindingSet.Primary)} to exit waterpark if you cant reach the exit.";
 				_line = 87;
 				if (!GameInput.GetButtonDown(GameInput.Button.Exit))
 				{

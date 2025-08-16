@@ -270,8 +270,16 @@ internal class GravspherePatches
 
             if (Player.main.IsInside())
             {
-                secondaryString =
-                    $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Open Storage", uGUI.FormatButton(GameInput.Button.AltTool))}";
+                {
+#if BELOWZERO
+                    var device = GameInput.GetPrimaryDevice();
+#else
+                    var device = GameInput.PrimaryDevice;
+#endif
+                    var altBind = GameInput.GetBinding(device, GameInput.Button.AltTool, GameInput.BindingSet.Primary);
+                    secondaryString =
+                        $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Open Storage", altBind)}";
+                }
             }
             else
             {
@@ -280,10 +288,20 @@ internal class GravspherePatches
                     !__instance.trigger.enabled && !ResetTriggers[__instance] ? "Activate Gravtrap" :
                     "Deactivate Gravtrap";
 
-                primaryString =
-                    $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Deploy Gravtrap", uGUI.FormatButton(GameInput.Button.RightHand))}";
-                secondaryString =
-                    $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", gravtrapactivate, uGUI.FormatButton(GameInput.Button.LeftHand))}\n{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Open Storage", uGUI.FormatButton(GameInput.Button.AltTool))}";
+                {
+#if BELOWZERO
+                    var device = GameInput.GetPrimaryDevice();
+#else
+                    var device = GameInput.PrimaryDevice;
+#endif
+                    var rightBind = GameInput.GetBinding(device, GameInput.Button.RightHand, GameInput.BindingSet.Primary);
+                    var leftBind = GameInput.GetBinding(device, GameInput.Button.LeftHand, GameInput.BindingSet.Primary);
+                    var altBind = GameInput.GetBinding(device, GameInput.Button.AltTool, GameInput.BindingSet.Primary);
+                    primaryString =
+                        $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Deploy Gravtrap", rightBind)}";
+                    secondaryString =
+                        $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", gravtrapactivate, leftBind)}\n{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Open Storage", altBind)}";
+                }
             }
 
             if (targetingStorage)
@@ -292,8 +310,16 @@ internal class GravspherePatches
                     ? $"Cannot transfer as {targetName} is full."
                     : $"Transfer Gravtrap contents to {targetName}";
 
-                secondaryString =
-                    $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", transferString, uGUI.FormatButton(GameInput.Button.AltTool))}";
+                {
+#if BELOWZERO
+                    var device = GameInput.GetPrimaryDevice();
+#else
+                    var device = GameInput.PrimaryDevice;
+#endif
+                    var altBind = GameInput.GetBinding(device, GameInput.Button.AltTool, GameInput.BindingSet.Primary);
+                    secondaryString =
+                        $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", transferString, altBind)}";
+                }
             }
 
             if(!targetingStorage)

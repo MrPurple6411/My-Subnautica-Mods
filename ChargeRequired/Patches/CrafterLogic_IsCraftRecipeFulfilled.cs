@@ -4,9 +4,7 @@ namespace ChargeRequired.Patches;
 
 using HarmonyLib;
 using System.Linq;
-#if BELOWZERO
 using System.Collections.Generic;
-#endif
 
 [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.IsCraftRecipeFulfilled))]
 internal class CrafterLogic_IsCraftRecipeFulfilled
@@ -22,16 +20,6 @@ internal class CrafterLogic_IsCraftRecipeFulfilled
 #endif
 			) return;
         var main = Inventory.main;
-#if SUBNAUTICA
-        var techData = CraftData.Get(techType, true);
-        if(techData != null)
-        {
-            var i = 0;
-            var ingredientCount = techData.ingredientCount;
-            while(i < ingredientCount)
-            {
-                var ingredient = techData.GetIngredient(i);
-#elif BELOWZERO
             IList<Ingredient> ingredients = TechData.GetIngredients(techType);
             if(ingredients != null)
             {
@@ -40,7 +28,6 @@ internal class CrafterLogic_IsCraftRecipeFulfilled
                 while(i < ingredientCount)
                 {
                     var ingredient = ingredients[i];
-#endif
                 var count = 0;
                 var inventoryItems = main.container.GetItems(ingredient.techType);
                 if(inventoryItems != null)
@@ -58,6 +45,5 @@ internal class CrafterLogic_IsCraftRecipeFulfilled
             return;
         }
         __result = false;
-    
-}
+    }
 }
