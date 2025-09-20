@@ -22,8 +22,7 @@ using UWE;
 [HarmonyPatch]
 public class Main: BaseUnityPlugin
 {
-    public const string
-        defaultsFilename = "DefaultValues";
+    public const string defaultsFilename = "DefaultValues";
     internal static ManualLogSource logSource;
     internal static readonly SMLConfig smlConfig = new();
     private static readonly SMLConfig defaultValues = new(defaultsFilename);

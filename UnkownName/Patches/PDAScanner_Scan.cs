@@ -2,26 +2,30 @@
 
 using HarmonyLib;
 using System;
+using UnityEngine;
 
 [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Scan), new Type[] { })]
 public class PDAScanner_Scan
 {
     public static TechType techType;
+    public static BreakableResource scanTarget;
+
     [HarmonyPrefix]
     public static void Prefix()
     {
-        if(PDAScanner.scanTarget.techType != TechType.None)
+        if (PDAScanner.scanTarget.techType != TechType.None)
         {
             techType = PDAScanner.scanTarget.techType;
+            scanTarget = PDAScanner.scanTarget.gameObject.GetComponent<BreakableResource>();
         }
     }
 
     [HarmonyPostfix]
     public static void Postfix()
     {
-        if(PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
+        if (PDAScanner.ContainsCompleteEntry(techType) || KnownTech.Contains(techType))
         {
-            if(techType == TechType.ScrapMetal && !KnownTech.Contains(TechType.Titanium))
+            if (techType == TechType.ScrapMetal && !KnownTech.Contains(TechType.Titanium))
             {
                 PDAScanner.AddByUnlockable(TechType.Titanium, 1);
 #if SUBNAUTICA
@@ -31,7 +35,33 @@ public class PDAScanner_Scan
 #endif
             }
 
-            if(!KnownTech.Contains(techType))
+            if (scanTarget != null)
+            {
+                if (scanTarget.defaultPrefabTechType != TechType.None && !KnownTech.Contains(scanTarget.defaultPrefabTechType))
+                {
+#if SUBNAUTICA
+                    KnownTech.Add(scanTarget.defaultPrefabTechType);
+#elif BELOWZERO
+                    KnownTech.Add(scanTarget.defaultPrefabTechType, true);
+#endif
+                }
+
+                foreach (BreakableResource.RandomPrefab randomPrefab in scanTarget.prefabList)
+                {
+                    if (randomPrefab.prefabTechType != TechType.None && !KnownTech.Contains(randomPrefab.prefabTechType))
+                    {
+#if SUBNAUTICA
+                        KnownTech.Add(randomPrefab.prefabTechType);
+#elif BELOWZERO
+                        KnownTech.Add(randomPrefab.prefabTechType, true);
+#endif
+                    }
+                }
+
+                scanTarget = null;
+            }
+
+            if (!KnownTech.Contains(techType))
             {
 #if SUBNAUTICA
                 KnownTech.Add(techType);
@@ -42,23 +72,23 @@ public class PDAScanner_Scan
 
             var entryData = PDAScanner.GetEntryData(techType);
 
-            if(entryData != null && entryData.locked)
+            if (entryData != null && entryData.locked)
             {
                 PDAScanner.Unlock(entryData, true, true);
 
-                if(!KnownTech.Contains(entryData.blueprint))
+                if (!KnownTech.Contains(entryData.blueprint))
                 {
 #if SUBNAUTICA
                     KnownTech.Add(entryData.blueprint);
 #elif BELOWZERO
-                    KnownTech.Add(entryData.blueprint,true);
+                    KnownTech.Add(entryData.blueprint, true);
 #endif
                 }
             }
             var techType2 = TechData.GetHarvestOutput(techType);
-            if(techType2 != TechType.None)
+            if (techType2 != TechType.None)
             {
-                if(!KnownTech.Contains(techType2))
+                if (!KnownTech.Contains(techType2))
                 {
 #if SUBNAUTICA
                     KnownTech.Add(techType2);
@@ -68,11 +98,11 @@ public class PDAScanner_Scan
                 }
 
                 var entryData2 = PDAScanner.GetEntryData(techType2);
-                if(entryData2 != null && entryData2.locked)
+                if (entryData2 != null && entryData2.locked)
                 {
                     PDAScanner.Unlock(entryData, true, true);
 
-                    if(!KnownTech.Contains(entryData2.blueprint))
+                    if (!KnownTech.Contains(entryData2.blueprint))
                     {
 #if SUBNAUTICA
                         KnownTech.Add(entryData2.blueprint);

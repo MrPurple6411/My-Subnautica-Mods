@@ -42,7 +42,7 @@ internal class BuilderModulePrefab : CustomPrefab
 #endif
 		.WithCraftingTime(2f);
 
-		this.SetEquipment(EquipmentType.VehicleModule).WithQuickSlotType(QuickSlotType.Toggleable);
+		this.SetEquipment(EquipmentType.VehicleModule).WithQuickSlotType(QuickSlotType.Selectable);
 
 		SetGameObject(GetGameObjectAsync);
 

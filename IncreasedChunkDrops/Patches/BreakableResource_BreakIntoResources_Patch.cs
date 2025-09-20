@@ -54,6 +54,7 @@ internal class BreakableResource_BreakIntoResources_Patch
 				if (go is null)
 					return;
 
+				LargeWorldEntity.Register(go);
 				go.SetActive(true);
 
 				var rigidbody = go.GetComponent<Rigidbody>();
